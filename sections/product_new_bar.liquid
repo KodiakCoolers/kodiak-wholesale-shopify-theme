@@ -1,0 +1,123 @@
+<div class="product_new_bar" style="background:{{ section.settings.colors }}; padding-top:{{ section.settings.topbar }}px; padding-bottom:{{ section.settings.bottombar }}px">
+  <div class="product-bar-icns-txt">
+  {% for block in section.blocks %}
+    <div class="new_bar" style="margin-top:{{ block.settings.margintop }}px; margin-bottom:{{ block.settings.marginbottom }}px;">
+      <div class="bar-text-heading-2">
+    {% if block.settings.icon %}
+      <img src="{{ block.settings.icon | img_url:'' }}">
+      {% endif %}
+       <span style="color:{{ block.settings.textcolor }}; font-size:{{ block.settings.textsize }}px; font-weight:{{ block.settings.fontweigth }}">{{ block.settings.content }}</span>
+      </div>
+    </div>
+  {% endfor %}
+  </div>
+</div>
+{% schema %}
+  {
+    "name":"product new bar",
+    "class":"product_new_bar",
+    "settings": [
+      {
+        "type":"color",
+        "id":"colors",
+        "label":"Add background color"
+      },
+       {
+        "type":"range",
+        "id":"topbar",
+        "label":"Add padding top",
+        "step": 1,
+        "min": 0,
+        "max": 50,
+        "default":0,
+        "unit": "px"
+      },
+      {
+        "type":"range",
+        "id":"bottombar",
+        "label":"Add padding bottom",
+        "step": 1,
+        "min": 0,
+        "max": 50,
+        "default":0,
+        "unit": "px"
+      }     
+     
+    ],
+    "blocks":[
+      {
+        "type":"bartext",
+        "name":"baricon with text",
+        "settings":[
+          {
+        "type":"range",
+        "id":"margintop",
+        "label":"Add margin top",
+        "step": 1,
+        "min": 10,
+        "max": 50,
+        "default":10,
+        "unit": "px"
+      },
+      {
+        "type":"range",
+        "id":"marginbottom",
+        "label":"Add margin bottom",
+        "step": 1,
+        "min": 10,
+        "max": 50,
+        "default":10,
+        "unit": "px"
+      },     
+          {
+            "type":"image_picker",
+            "id":"icon",
+            "label":"Add icon"
+          },
+           {
+            "type":"text",
+            "id":"content",
+            "label":"Add content"
+          },
+           {
+          "type":"color",
+          "id":"textcolor",
+          "label":"Text color"
+          },
+          {
+          "type":"range",
+          "id":"textsize",
+          "label":"Font size",
+          "step": 1,
+          "min": 16,
+          "max": 50,
+          "default":16,
+          "unit": "px"
+          },
+           {
+          "type":"text",
+          "id":"fontweigth",
+          "label":"Font weight"
+          }
+        ]
+      }
+    ],
+    "presets":[
+      {
+        "name":"product new Bar"
+      }
+    ]
+  }
+{% endschema %}
+
+<style>
+  .product-bar-icns-txt {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+  .product-bar-icns-txt img {
+    width: 28px;
+    margin-right: 5px;
+}
+</style>

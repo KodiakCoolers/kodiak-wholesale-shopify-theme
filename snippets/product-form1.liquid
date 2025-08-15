@@ -1,0 +1,465 @@
+<style>
+  .swatch-heading-title{
+     padding-top:{{section.settings.padding-top}}px;
+     padding-bottom:{{section.settings.padding-bottom}}px;
+     margin-top:0px;
+  }
+  @media only screen and (max-width:767px){
+  .swatch-heading-title{
+     padding-top:{{section.settings.padding-top2}}px;
+     padding-bottom:{{section.settings.padding-bottom2}}px;
+  }
+  }
+</style>
+
+{% if show_payment_button == false or product.selling_plan_groups.size > 0 %}
+  {% assign show_payment_button = false %}
+{% else %}
+  {% assign show_payment_button = true %}
+{% endif %}
+
+{% assign variant = product.selected_or_first_available_variant %}
+
+{%- assign checkout_url = '/checkout' -%}
+{% for locale in shop.enabled_locales %}
+  {% if locale.primary == true %}
+    {%- assign defaultLocale = locale.iso_code -%}
+    {% if defaultLocale != request.locale.iso_code %}
+      {%- assign checkout_url = request.locale.iso_code | append: '/checkout' -%}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+
+<div
+  class="
+    product_form
+    init
+    smart-payment-button--{{ show_payment_button }}
+    {% if product.variants.size > 1 or product.options.size > 1 %}product_form_options{% endif %}
+  "
+  id="product-form1-{{ product.id }}"
+  data-product-form1
+  data-money-format="{{ shop.money_format | strip_html }}"
+  data-shop-currency="{{ shop.currency }}"
+  data-options-size="{{ product.options.size }}"
+  data-select-id="product-select-{{ product.id }}{{ product-form1 }}{{ section.id }}{{ block.id }}"
+  data-enable-state="{% if template contains 'product' %}true{% else %}false{% endif %}"
+  data-product="{{ product | json | escape }}"
+  data-product-title="{{ product.title | escape }}"
+  {% if settings.limit_quantity or settings.display_inventory_left %}
+    data-variant-inventory="[{%- for v in product.variants -%}{"id":{{v.id}},"inventory_quantity":{{v.inventory_quantity}},"inventory_management":"{{v.inventory_management}}","inventory_policy":"{{v.inventory_policy}}"}{% if forloop.last == false %},{% endif %}{%- endfor -%}]"
+  {% endif %}
+  data-product-id="{{ product.id }}"
+>
+  {% form 'product', product  %}
+    <div class="select
+        {% if product.has_only_default_variant %}default_select{% endif %}
+      ">
+      {% if product.options.size == 1 and settings.product_form_style == 'select' %}
+        <label>{{ product.options[0] }}</label>
+      {% endif %}
+
+      <select
+        id="product-select-{{ product.id }}{{ product-form1 }}{{ section.id }}{{ block.id }}"
+        name="id"
+        class="{% if product.options.size > 1 %}multi_select {% else %}single_select{% endif %} select_dropdown"
+        data-variants
+      >
+        {% for v in product.variants %}
+          <option
+            {% if v == variant %}
+              selected="selected"
+            {% endif %}
+            value="{{ v.id }}"
+            data-featured-image="{{ v.featured_media }}"
+            data-image="{{ v.featured_media | product_img_url: '600x' }}"
+            data-sku="{{ v.sku }}"
+            data-option1="{{ v.option1 | escape }}"
+            data-option2="{{ v.option2 }}"
+          >
+            {{ v.title }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+    
+    <div class="manage_two_div">
+      {% if settings.product_form_style == 'radio'
+        and product.variants.size > 1
+        or settings.product_form_style == 'radio'
+        and product.options[0] != 'Title'
+      %}
+        <div class="swatch_options">
+        {% if block.settings.show_swatch_heading %}
+        <div class="options_name">
+           <div class="option_title swatch-heading-title">{{ block.settings.swatch_heading }}</div>
+        </div> 
+        {% endif %}
+        {% for option in product.options %}
+            {% render 'product-swatch', option: option, product: product %}
+        {% endfor %}
+        </div>
+     {% endif %}
+
+<div class="volume-pricing1 custom_section_content_table"></div>
+
+{% unless product.handle=="custom-logo-20-oz-tumbler-free-sample" %}
+     {% if block.settings.show_artwork %}
+ 
+     <div class="mobile-upload-content1">
+      {% assign swatch_artwork_heading = block.settings.swatch_artwork_heading %}
+      {% assign swatch_artwork_top_margin = block.settings.swatch_artwork_top_margin %}
+      {% assign swatch_artwork_bottom_margin = block.settings.swatch_artwork_bottom_margin %}
+      {% render 'upload-image-new', swatch_artwork_heading : swatch_artwork_heading, swatch_artwork_top_margin: swatch_artwork_top_margin, swatch_artwork_bottom_margin: swatch_artwork_bottom_margin %}
+     </div>     
+  {% endif %}  
+{% endunless %}
+
+    {% if block.settings.show_total_in_product %}
+      <div class="show_total late-show mobile-hide">
+         <h4>Total</h4>
+         <div class="show_total"><div class="price-form {% unless template.suffix=="Leather Patch Hats" %}all_price_form{% endunless %}" style="display:none;">
+              {% for variant in product.variants %}
+                {% if template.suffix=="Leather Patch Hats" %}
+                 <div data-title="{{ variant.option1 }}" data-com="{{ variant.compare_at_price | money_without_currency }}" data-price="{{ variant.price  | money | remove:"$" }}" data-symbol="{{ cart.currency.symbol }}">{{ variant.price | money }}</div>
+                {% else %}
+                 <div data-title="{{ variant.title }}" data-com="{{ variant.compare_at_price | money_without_currency }}" data-price="{{ variant.price  | money | remove:"$" }}" data-symbol="{{ cart.currency.symbol }}">{{ variant.price | money }}</div>
+                 {% endif %}
+              {% endfor %}
+            </div><div class="total_price {% unless template.suffix=="Leather Patch Hats" %}total_price1{% endunless %}"></div><div class="compare-price-var"></div>{% if template.suffix=="Leather Patch Hats" %}<div class="discount-perc"><b><span></span>% Off</b> vs The Competition</div>{% endif %}</div>
+      </div>
+    {% endif %}
+    {% if product.available %}
+        {% if settings.display_inventory_left %}
+          <div class="items_left">
+            {% if variant.inventory_management != blank and variant.inventory_quantity > 0 %}
+              {% capture items_left_text %}
+            {% if variant.inventory_quantity == 1 %}
+              {{ 'products.product.items_left_count.one' | t }}
+            {% else %}
+              {{ 'products.product.items_left_count.other' | t }}
+            {% endif %}
+          {% endcapture %}
+              {% if variant.inventory_quantity <= settings.inventory_threshold %}
+                {{ variant.inventory_quantity }}
+                {{ items_left_text }}
+              {% endif %}
+            {% endif %}
+          </div>
+        {% endif %}
+      {% endif %}
+
+      <div style="margin-top:{{ settings.topquantitymargin }}px;" class="purchase-details">
+      {% if block.settings.display_price_form %}
+       <div class="price-form-1">
+        {% if settings.display_product_quantity %}
+          <div class="purchase-details__quantity product-quantity-box {% unless template.suffix=="Leather Patch Hats" %}default_details_product{% endunless %}">
+            <!-- <label for="quantity">{{ 'products.product.quantity' | t }}</label> -->
+            <span class="ss-icon product-minus js-change-quantity" data-func="minus"
+              ><span class="icon-minus"></span
+            ></span>
+            <input
+              type="number"
+              min="1"
+              size="2"
+              class="quantity"
+              name="quantity"
+              id="quantity"
+              value="1"
+              {% if settings.limit_quantity
+                and variant.inventory_management != blank
+                and variant.inventory_policy == 'deny'
+              %}
+                max="{{ variant.inventory_quantity }}"
+              {% endif %}
+            >
+            <span class="ss-icon product-plus js-change-quantity" data-func="plus"
+              ><span class="icon-plus"></span
+            ></span>
+          </div>
+        {% endif %}
+  {% if block.settings.show_total_in_product %}
+<div class="show_total late-show hide-mob {% unless template.suffix=="Leather Patch Hats" %}mobile-hide{% endunless %} ">
+   <div class="show_total"><div class="price-form" style="display:none;">
+        {% for variant in product.variants %}
+           <div data-title="{{ variant.title }}" data-com="{{ variant.compare_at_price | money_without_currency }}" data-price="{{ variant.price  | money | remove:"$" }}" data-symbol="{{ cart.currency.symbol }}">{{ variant.price | money }}</div>
+        {% endfor %}
+      </div><div class="total_price"></div><div class="compare-price-var"></div><div class="discount-perc"><b><span>57</span>% Off</b></div></div>
+</div>
+{% endif %}
+      <div class="price-form {% if template.suffix=="Leather Patch Hats" %}mobile-hide{% endif %} {% unless template.suffix=="Leather Patch Hats" %}default_product_price_form{% endunless %}">
+         {% if template.suffix == "Leather Patch Hats" %}<p class="price-form-title">Price Each</p>{% else %}
+        <div class="price-dis"><p class="price-form-title">Price Each</p><div class="discount-perc"><b><span></span>% Off</div></div>
+       {% endif %}
+        {% for variant in product.variants %}        
+               <div data-title="{{ variant.title  }}" data-price="{{ variant.price | money }}"><span class="pricing_variant" data-prices="{{ variant.price | money }}">{{ variant.price | money }}</span> <span data-com="{{ variant.compare_at_price | money_without_currency | remove:'.00' }}">{{ variant.compare_at_price | money }}</span></div>            
+        {% endfor %}
+
+  
+                      <div class="volume_pricing">Volume Price will be Adjusted in Cart</div>
+             
+
+      </div>
+
+<!-- </div> -->
+{% else %}
+        <div class="product-price-11">{% if settings.display_product_quantity %}
+          <div class="purchase-details__quantity product-quantity-box test123">
+            <!-- <label for="quantity">{{ 'products.product.quantity' | t }}</label> -->
+            <span class="ss-icon product-minus js-change-quantity" data-func="minus"
+              ><span class="icon-minus"></span
+            ></span>
+            <input
+              type="number"
+              min="1"
+              size="2"
+              class="quantity"
+              name="quantity"
+              id="quantity"
+              value="1"
+              {% if settings.limit_quantity
+                and variant.inventory_management != blank
+                and variant.inventory_policy == 'deny'
+              %}
+                max="{{ variant.inventory_quantity }}"
+              {% endif %}
+            >
+            <span class="ss-icon product-plus js-change-quantity" data-func="plus"
+              ><span class="icon-plus"></span
+            ></span>
+          </div>
+        {% endif %}
+     {% endif %}</div>
+
+
+
+        <div
+          class="test purchase-details__buttons purchase-details__spb--{{ show_payment_button }} {% if product.available == false %}product-is-unavailable{% endif %}"
+          style="margin-top:{{ settings.btntop }}px; margin-bottom:{{ settings.btnbottom }}px; margin-left:{{ settings.btnleft }}px; margin-right:{{ settings.btnright }}px;"
+        >
+          {% if settings.cart_action == 'reload_page' %}
+            <input type="hidden" name="return_to" value="back">
+          {% elsif settings.cart_action == 'redirect_checkout' %}
+            <input type="hidden" name="return_to" value="{{ checkout_url }}">
+          {% endif %}
+          {% unless template.suffix == "Leather Patch Hats" %}
+                 {% if product.tags contains 'Bulk Drinkware Discount' or product.tags contains 'Volume Pricing Drinkware' or product.tags contains 'Black Friday'%}
+                      <div class="volume_pricing">Volume Price will be Adjusted in Cart</div>
+                 {% endif %}
+          {% endunless %}
+          {% capture add_to_cart_label %}{% if collection_handles contains 'pre-order' %}{{ 'collections.general.pre_order' | t }}{% else %}{{ settings.add_cart_text }}{% comment %}👉{% endcomment %}👉🏻{% endif %}{% endcapture %}
+          <button 
+            style=" color:{{ settings.btncolor }}; border-radius:{{ settings.btn_radius }}px; height:{{ settings.btnheight }}px;"
+            type="{% if settings.cart_action == 'ajax' %}button{% else %}submit{% endif %}"
+            name="add"
+            class="
+              add_to_cart
+              global-button
+              {% if show_payment_button %}
+                global-button--secondary
+              {% else %}
+                global-button--primary
+              {% endif %}
+              {% if settings.cart_action == 'ajax' %}
+                ajax-submit
+              {% endif %}
+              {% if product.available == false %}
+                disabled
+              {% endif %}
+            "
+             data-add="{% if product.handle == 'copy-upload-logo' %}Add logo to order {% else %}{{ add_to_cart_label | json | remove:'"'}} {% endif %}" data-sold="{{- 'products.product.sold_out' | t -}}"  
+          >
+          <span style="font-size:{{ settings.cartbtnsize }}px;" >
+              {% if product.available -%}
+             {% if product.handle == 'copy-upload-logo' %}Add logo to order {% else %}{{ add_to_cart_label | json | remove:'"'}} {% endif %}
+              {%- else -%}
+                {{- 'products.product.sold_out' | t -}}
+              {%- endif %}
+            </span>
+            <svg x="0px" y="0px" width="32px" height="32px" viewBox="0 0 32 32" class="checkmark">
+              <path fill="none" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M9,17l3.9,3.9c0.1,0.1,0.2,0.1,0.3,0L23,11"/>
+            </svg>
+          </button>
+          <div class="afterpay_icons for_mobile">
+            <img src="//cdn.shopify.com/s/files/1/0082/8237/4203/files/AfterPay_Mint_Badge_SML.jpg?v=1672338433"
+            ><span>Order Now Pay Later in Installments</span>
+          </div>
+          {% if show_payment_button %}
+            {{ form | payment_button }}
+          {% endif %}
+          <div data-payment-terms-reference style="display: none;">
+            {{ form | payment_terms }}
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    {% if section.settings.paymntimg %}
+      <div
+        class="payment_methods"
+        style="width:{{ settings.trusticon_width }}%; margin-top:{{ settings.trusticontop }}px; margin-bottom:{{ settings.trusticonbottom }}px; margin-left:{{ settings.trusticonleft }}px; margin-right:{{ settings.trusticonright }}px;"
+      >
+        <img src="{{ section.settings.paymntimg | img_url:'master' }}">
+      </div>
+    {% endif %}
+
+ {% unless template.suffix=="Leather Patch Hats" or template.suffix=="new1" %}    
+      <div class="icons_text {% unless template.suffix=="Leather Patch Hats" or template.suffix=="new1"  %}custom_section_content_table_default1{% endunless %}">
+        <div class="icons_text-1 icons-content">
+          <div class="icons_image">
+            <img src="{{ block.settings.stock_image | img_url:'master' }}">
+          </div>
+          <div class="icons_inner_content">
+            <h5>{{ block.settings.stock_heading }}</h5>
+             <p>{{ block.settings.stock_subheading}}</p>
+          </div>
+        </div>
+        <div class="icons_text-2 icons-content">
+          <div class="icons_image">
+             <img src="{{ block.settings.shipping_image_2 | img_url:'master' }}">
+          </div>
+          <div class="icons_inner_content">
+             <h5>{{ block.settings.shipping_heading_2}}</h5>
+            <p>{{ block.settings.shipping_subheading_2}}</p>
+          </div>
+        </div>
+      </div>   
+  {% endunless %}
+
+ {% unless template.suffix =="Leather Patch Hats" %}
+              {% if block.settings.show_estimated_shipping_dates1 %}
+              {% if template.suffix=="new1" %}
+                <div class="option_title swatch-heading-title" style="margin-top:0px; margin-bottom:0px;padding:0px;font-size:13px;">
+                   SHIPPING OPTIONS
+                </div>   
+             {% endif %} 
+              <div class="estimated_shipping1 desktop-hide">
+              <div class="icons_text">
+                <div class="icons_text-1 icons-content">
+                 
+                  <div class="icons_inner_content">
+                    <p>{% if block.settings.first_image1 %}<img src="{{ block.settings.first_image1 | img_url:'master' }}"> {% endif %}<span> {{ block.settings.first_heading1 }} {{ block.settings.first_subheading1 }} <span style="font-weight: 700;"><span class="min_date_standard" data-min="{{ block.settings.standard_min_date1 }}">{{ block.settings.standard_min_date1 }}</span> - <span class="max_date_standard" data-max="{{ block.settings.standard_max_date1 }}">{{ block.settings.standard_max_date1 }}</span> Business Days</span></span></p>
+                  </div>
+                </div>
+                <div class="icons_text-2 icons-content">
+                  <div class="icons_inner_content">
+                    <p>{% if block.settings.second_image_21  %}<img src="{{ block.settings.second_image_21 | img_url:'master' }}"> {% endif %} <span>{{ block.settings.second_heading_21 }} {{ block.settings.second_subheading_21 }} <span style="font-weight: 700;"><span class="min_date_rush"  data-min="{{ block.settings.rush_min_date1 }}">{{ block.settings.rush_min_date1 }}</span> - <span class="max_date_rush"  data-max="{{ block.settings.rush_max_date1 }}">{{ block.settings.rush_max_date1 }}</span> Business Days</span></span></p>
+                  </div>
+                </div>
+              </div>
+              </div>
+              {% endif %}
+              {% endunless %}
+
+{% if template.suffix=="new1" %}
+    <div class="personalize_content_inner_block">
+        <div class="option_title"><div style="display:flex;align-items: center;"><div class="option_head"></div><div>Personalize</div></div>
+          <p class="personalize_content" style="text-transform:none;">Upload your Design to See a Live Preview of what your logo will look like on the product.</p>
+       </div>
+        <div class="upload_personalizer_inner"><h4 class="personalize_content_head">Upload Logo or Design</h4>
+  
+        <div class="upload_personalize_image"><div class="upload-inner-content" id="uploadContainer"> 
+              <label class="file-input-label1" for="fileInput" >
+                          <img src="https://cdn.shopify.com/s/files/1/0082/8237/4203/files/div.swyd-icon.png?v=1701504166" style="display:none;" >
+              </label>
+              <input value="" class="imageUpload-1" type="file" accept=".png, .jpg, .jpeg" id="fileInput" style="height:0px;opacity:0"> 
+              <div class="imagePreview-name-1"><span class="imag-pre"></span><span class="remove-close fa fa-close close_upload01">X</span></div>
+              <p class="error_while_upload" style="display:none;color: #d52424;font-weight: 400;font-style: italic;margin-bottom: 0px;">Please Try Again</p>
+              <h4>Got a Logo Or Design?</h4>
+            <p>Upload it to see it on our products</p>
+            <div class="upload-control"> 
+            <div class="button_upload_1"><button class="button_upload" >Upload Now {% comment %}<span class="spinner-product" style="display: none;"></span>{% endcomment %}</button></div>
+             <div class="size_div">
+                <h5>Max Size: 20MB</h5>
+                <p>Upload any High-Res file type Listed Below: </p>
+                <div class="images_ext"><div>.JPG</div><div>.JPEG</div><div>.PNG</div></div>
+             </div>
+        </div>
+        </div>
+        <div class="spinner-product-outer" style="display: none;">
+         <div class="spinner-product"></div>
+         <div class="spinner-product-content">
+             <p>Processing your Logo, give us a few seconds…</p>
+        </div>
+        </div>
+       <div class="remove_upload_image_1" style="display:none;">
+            <div class="imagePreview-name-1"><span class="imag-pre imag-pr" id="image-p"></span><span class="remove-close fa fa-close close_upload01">X</span></div>
+            <div class="remove_upload_1"><button class="remove_upload" >X Clear Design</button></div>
+       </div>
+      </div>
+        <div class="icons_text-1 icons-content"> 
+           <input type="checkbox" id="remove" name="remove" value="Remove Background from Design" checked>
+           <label for="remove"> Remove Background from Design</label>          
+        </div>
+        <div class="personalize_content_button_section">
+            <div><button class="active-1 standard-design" data-button="Standard Design">Standard Design <span style="display:none;"><img src="https://cdn.shopify.com/s/files/1/0082/8237/4203/files/Symbol.png?v=1701499557"></span></button></div>
+            <div><button class="inverted-design" data-button="Inverted Design">Inverted Design<span style="display:none;"><img src="https://cdn.shopify.com/s/files/1/0082/8237/4203/files/Symbol.png?v=1701499557"></span></button></div>
+        </div>
+        <div class="upload_content new_upload_content">
+            <div class="upload_content_image"><img src={{ section.settings.logoicon_1 | img_url:'master'}}></div>
+            <div class="upload_content_text">{{ section.settings.logo_upload_text_1 }}</div>
+        </div>
+        <div class="upload_content">
+            <div class="upload_content_image"><img src={{ section.settings.logoicon | img_url:'master'}}></div>
+            <div class="upload_content_text">{{ section.settings.logo_upload_text }}</div>
+        </div>
+</div>
+
+
+    </div>
+ {% endif %}  
+ 
+    {% if product.handle=="custom-logo-20-oz-tumbler-free-sample" %}         
+            {% assign swatch_artwork_heading = block.settings.swatch_artwork_heading %}
+            {% assign swatch_artwork_top_margin = block.settings.swatch_artwork_top_margin %}
+            {% assign swatch_artwork_bottom_margin = block.settings.swatch_artwork_bottom_margin %}
+            {% render 'upload-image-new', swatch_artwork_heading : swatch_artwork_heading, swatch_artwork_top_margin: swatch_artwork_top_margin, swatch_artwork_bottom_margin: swatch_artwork_bottom_margin %}
+        {% else %}
+          {% unless template.suffix=="Leather Patch Hats" %}
+                  {% assign swatch_artwork_heading = block.settings.swatch_artwork_heading %}
+                  {% assign swatch_artwork_top_margin = block.settings.swatch_artwork_top_margin %}
+                  {% assign swatch_artwork_bottom_margin = block.settings.swatch_artwork_bottom_margin %}
+                  {% render 'upload-image-new', swatch_artwork_heading : swatch_artwork_heading, swatch_artwork_top_margin: swatch_artwork_top_margin, swatch_artwork_bottom_margin: swatch_artwork_bottom_margin %}
+          {% endunless %}
+         {% if section.settings.show_upload_artwork_section %}
+           {% if section.settings.logoicon %}
+            <div class="product_details_upload_logo">   
+                <div class="upload_logo"><img src="{{ section.settings.logoicon | img_url:'master' }}"></div>     
+                <div class="upload_load_text">
+                  <div class="upload1 mobile-hide">
+                  <div class="upload_artwork_content">
+                   <div class="option_title swatch-heading-title"  style="margin-top:{{ block.settings.swatch_artwork_top_margin }}px; margin-bottom:{{ block.settings.swatch_artwork_bottom_margin }}px;">{{ block.settings.swatch_artwork_heading }}</div>
+                  </div>
+                  {{ section.settings.logo_upload_text }}
+                 </div>
+                 </div>
+             </div>
+             {% endif %}
+           {% endif %}
+        {% endif %}    
+        
+        <div class="under_thumb_review for_mobile">
+          {% if section.settings.reviewimg %}
+            <div class="review_img">
+              <img src="{{ section.settings.reviewimg | img_url:'master' }}">
+            </div>
+          {% endif %}
+          <div class="review_text">
+            <div class="review_desc">
+              {{ section.settings.review_desc }}
+            </div>
+            <div class="review_heading">
+              {{ section.settings.review_heading }}
+            </div>
+            {% if section.settings.reviewicon %}
+              <div class="review_icon">
+                <img src="{{ section.settings.reviewicon | img_url:'master' }}">
+              </div>
+            {% endif %}
+          </div>
+        </div>
+          
+{% endform %}
+  <div class="surface-pick-up surface-pick-up--loading" data-surface-pick-up></div>
+  <div class="surface-pick-up__modal" data-surface-pick-up-modal></div>
+</div>

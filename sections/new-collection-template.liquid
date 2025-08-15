@@ -1,0 +1,190 @@
+<div class="breadcrumb-collection">
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "item": {
+            "@id": "{{ shop.url }}",
+            "name": "{{ 'general.breadcrumbs.home' | t }}"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "item": {
+            "@id": "{{ routes.collections_url }}/{% if collection.handle != blank %}{{ collection.handle }}{% else %}all{% endif %}",
+            "name": "{{ collection.title }}"
+          }
+        }
+        {% if current_tags %}
+          {% for tag in current_tags %}
+            {% unless tag contains 'meta-' %}
+              ,
+              {
+                "@type": "ListItem",
+                "position": {{ forloop.index | plus: 2 }},
+                "item": {
+                  "@id": "{{ routes.collections_url }}/{% if collection.handle != blank %}{{ collection.handle }}{% else %}all{% endif %}/{{ tag | handleize }}",
+                  "name": "{{ tag }}"
+                }
+              }
+            {% endunless %}
+          {% endfor %}
+        {% endif %}
+      ]
+    }
+  </script>
+
+  <div class="breadcrumb_text">
+    <a href="{{ routes.root_url }}" title="{{ shop.name | escape }}">
+      <span>{{ 'general.breadcrumbs.home' | t }}</span>
+    </a>
+
+    <span class="breadcrumb-divider">/</span>
+
+    <a href="{{ collection.url }}" title="{{ collection.title | escape }}" class="breadcrumb_link">
+      <span>{{ collection.title }}</span>
+    </a>
+
+    {% if current_tags %}
+      {% for tag in current_tags %}
+        {% unless tag contains 'meta-' %}
+          <span class="breadcrumb-divider">/</span>
+
+          <a href="{{ collection.url }}/{{ tag | handleize }}" title="{{ tag | escape }}">
+            <span>{{ tag }}</span>
+          </a>
+        {% endunless %}
+      {% endfor %}
+    {% endif %}
+    {% if paginate.pages != 0
+      and settings.pagination_type != 'load_more'
+      and settings.pagination_type != 'infinite_scroll'
+    %}
+      <span class="breadcrumb-divider">/</span>
+      {{ 'general.breadcrumbs.page' | t: current_page: paginate.current_page, pages: paginate.pages }}
+    {% endif %}
+  </div>
+</div>
+<div class="new_collection_template">
+  <div class="{% if collection.all_products_count > 0 %}collection_pro_template{% endif %}">
+  <div class="main_heading">Custom Logo Apparel & Drinkware</div>
+  <div class="main_subheading">Customize t-shirts and favorite tumblers with your business logo or design.</div>
+  <div class="sidebar_collection_subcatgories">
+    <div class="all_collections">
+      {% if collection.all_products_count > 0 %}
+        <div class="col_swatches"></div>
+      {% else %}
+      <div class="all_products">All products</div>
+      <div class="left_sidebar_collection">
+        {% for block in section.blocks %}
+          {% assign collection1 = collections[block.settings.coll] %}
+           {% assign coll1 = collection1.metafields.custom.subcategories.value %}
+          <div class="collection_heading_subheading">
+          <div class="dropdown_collection">
+            <div class="collection_heading">{{ block.settings.colheading }}</div>            
+          </div>
+          <div class="collection_lists">
+            {% for collname in coll1 %}
+                   <div class="collection_names"><a href="{{ collname.url }}">{{ collname.title }}</a></div>
+                {% endfor %}
+          </div>
+          </div>
+         {% endfor %}
+       </div>
+        {% endif %}
+    </div>
+    <div class="right_subcategories">
+      {% assign coll = collection.metafields.custom.subcategories.value %}
+      {% if collection.metafields.custom.subcategories.value %}
+      <div class="all_collection_subcategories">
+        {% for customcollection in coll %}
+          <a href="{{ customcollection.url }}">
+            <div class="collection_img">
+              <div class="collection_name">{{ customcollection.title }}</div>
+              <div class="collection_images"><img src="{{ customcollection.image | img_url:'' }}"></div>
+            </div>
+          </a>
+        {% endfor %}
+      </div>
+      {% else %}
+         <div class="all_collection_subcategories">
+         {% for product in collection.products %}
+             <a href="{{ product.url }}">
+              <div class="collection_img">               
+                <div class="collection_images"><img src="{{ product.featured_image | img_url:'' }}"></div>
+                <div class="pro_name">{{ product.title }}</div>
+                  <div class="collection_Swatches">
+                       {% for option in product.options %}
+                             {%- assign downcased_option = option | downcase -%}
+                            {% if downcased_option contains 'color' or downcased_option contains 'colour' %}
+                            {%- assign option_index = forloop.index0 -%}
+                            {%- assign values = '' -%}
+                              <div class="collection_swatches">
+                                {% for variant in product.variants %}
+                                  {%- assign value = variant.options[option_index] -%}
+                        
+                                  {% unless values contains value %}
+                                    {%- assign values = values | join: ',' -%}
+                                    {%- assign values = values | append: ',' | append: value -%}
+                                    {%- assign values = values | split: ',' -%}
+                        
+                                    <div href="{{ variant.url | within: collection }}" class="swatch" data-color="{{ value }}" data-swatch-name="meta-{{ downcased_option }}_{{ value | replace: ' ', '_' | downcase }}">
+                                      <span data-image="{{ variant.featured_image | product_img_url: '600x' }}" style="background-image: url({{ variant.featured_image | product_img_url: '600x' }}); background-color: {{ value | split: ' ' | last | handle }};">
+                                      </span>
+                                    </div>
+                                  {% endunless %}
+                                {% endfor %}
+                              </div>
+                              {% endif %}
+                       {% endfor %}
+                  </div>
+              </div>
+             </a>
+           {% endfor %}
+         </div>
+        {% endif %}
+    </div>
+  </div>
+</div>
+</div>
+
+{% schema %}
+{
+  "name": "Collection",
+  "settings": [],
+  "blocks":[
+    {
+      "type":"collections",
+      "name":"Collections",
+      "settings":[
+        {
+          "type":"text",
+          "id":"colheading",
+          "label":"Add heading"
+        },
+        {
+          "type":"collection",
+          "id":"coll",
+          "label":"Add collection"
+        }
+      ]
+    }
+  ],
+  "presets":[
+    {
+      "name":"New collection"
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

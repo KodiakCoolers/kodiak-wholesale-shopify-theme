@@ -1,0 +1,337 @@
+{%- comment -%}
+  Membership Calculator – updated for scrollable product selection and slider styling.
+{%- endcomment -%}
+<div id="membership-calculator" class="membership-calculator">
+  <div class="membership-calculator__title" style="text-align: center; margin-bottom: 36px;">
+    <h2 style="font-size: 2rem; font-weight: bold; margin-bottom: 8px;">Kodiak Growth Membership</h2>
+    <p>Become a member today and earn more on every sale 👇</p>
+  </div>
+  <div class="membership-calculator__card" style="display: flex; flex-wrap: wrap; border: 1px solid #ccc; border-radius: 8px; overflow: hidden;">
+    <!-- Left Section: Membership Info -->
+    <div class="membership-calculator__left" style="flex: 1 1 30%; background: #101822; color: #fff; padding: 24px;">
+      <h3 style="text-transform: uppercase; font-size: 1.5rem; font-weight: bold; margin-bottom: 16px;">Kodiak Growth</h3>
+      <p style="font-size: 1.125rem; margin-bottom: 16px;">Only $29.99/month</p>
+      <div style="height: 1px; background: rgba(255,255,255,0.8); margin-bottom: 16px;"></div>
+      <div class="membership-calculator__feature" style="display: flex; align-items: center; margin-bottom: 12px;">
+        <svg viewBox="0 0 20 20" style="width: 20px; height: 20px; fill: #fff; margin-right: 8px;">
+          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L9 14.414l-3.707-3.707a1 1 0 00-1.414 1.414l4.414 4.414a1 1 0 001.414 0l8-8a1 1 0 00-1.414-1.414L9 12.586 6.707 10.293a1 1 0 00-1.414 0z" clip-rule="evenodd" />
+        </svg>
+        <span>Save 20% on All Products</span>
+      </div>
+      <div class="membership-calculator__feature" style="display: flex; align-items: center; margin-bottom: 12px;">
+        <svg viewBox="0 0 20 20" style="width: 20px; height: 20px; fill: #fff; margin-right: 8px;">
+          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L9 14.414l-3.707-3.707a1 1 0 00-1.414 1.414l4.414 4.414a1 1 0 001.414 0l8-8a1 1 0 00-1.414-1.414L9 12.586 6.707 10.293a1 1 0 00-1.414 0z" clip-rule="evenodd" />
+        </svg>
+        <span>Save 10% on All Products</span>
+      </div>
+      <div class="membership-calculator__feature" style="display: flex; align-items: center; margin-bottom: 12px;">
+        <svg viewBox="0 0 20 20" style="width: 20px; height: 20px; fill: #fff; margin-right: 8px;">
+          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L9 14.414l-3.707-3.707a1 1 0 00-1.414 1.414l4.414 4.414a1 1 0 001.414 0l8-8a1 1 0 00-1.414-1.414L9 12.586 6.707 10.293a1 1 0 00-1.414 0z" clip-rule="evenodd" />
+        </svg>
+        <span>Sample order discounts increased by 25%</span>
+      </div>
+      <div class="membership-calculator__feature" style="display: flex; align-items: center; margin-bottom: 12px;">
+        <svg viewBox="0 0 20 20" style="width: 20px; height: 20px; fill: #fff; margin-right: 8px;">
+          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L9 14.414l-3.707-3.707a1 1 0 00-1.414 1.414l4.414 4.414a1 1 0 001.414 0l8-8a1 1 0 00-1.414-1.414L9 12.586 6.707 10.293a1 1 0 00-1.414 0z" clip-rule="evenodd" />
+        </svg>
+        <span>Priority support</span>
+      </div>
+    </div>
+    <!-- Right Section: Calculator Controls -->
+    <div class="membership-calculator__right" style="flex: 1 1 70%; background: #fff; padding: 24px;">
+      <div style="margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between;">
+        <h3 style="font-size: 1.5rem; font-weight: bold; margin: 0;">Calculate your earnings</h3>
+        <p style="font-size: 0.875rem; color: #777; text-align: right; margin: 0;">
+          Fulfillment cost: $<span id="current-cost">17.95</span><br>
+          <span style="color: #4CC66E;">With Growth: $<span id="current-discounted-cost">14.36</span></span>
+        </p>
+      </div>
+      
+      <!-- Product Selector -->
+      <div class="membership-calculator__control-group" style="margin-bottom: 24px;">
+        <h4 class="section-title">Choose a product</h4>
+        <div class="product-selector">
+          <button id="prev-product" class="arrow" style="width: 40px; height: 40px; border: 1px solid #ccc; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M15 18l-6-6 6-6"></path>
+            </svg>
+          </button>
+          <div id="product-buttons" class="product-buttons">
+            <!-- Product buttons will be dynamically generated. Example static buttons below: -->
+            <button class="selected" style="padding: 8px 16px; border-radius: 20px; border: 1px solid #101822; background: #101822; color: #fff; cursor: pointer;">20 oz Tumbler</button>
+            <button style="padding: 8px 16px; border-radius: 20px; border: 1px solid #101822; background: #fff; color: #101822; cursor: pointer;">30 oz Tumbler</button>
+            <button style="padding: 8px 16px; border-radius: 20px; border: 1px solid #101822; background: #fff; color: #101822; cursor: pointer;">22 oz Skinny</button>
+            <!-- ... other buttons ... -->
+          </div>
+          <button id="next-product" class="arrow" style="width: 40px; height: 40px; border: 1px solid #ccc; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 18l6-6-6-6"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+      
+      <!-- Quantity and Price -->
+      <div class="membership-calculator__control-group" style="margin-bottom: 24px;">
+        <h4 class="section-title">Quantity and price</h4>
+        <div class="quantity-price" style="margin-bottom: 16px;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <label style="font-weight: 500;">Sell it for:</label>
+            <div class="input-container" style="width: 96px;">
+              <input id="price-input" type="number" min="17.95" step="0.01" value="25.01" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; text-align: right; font-size: 0.875rem;">
+            </div>
+          </div>
+          <div class="slider-container" style="position: relative; width: 100%; height: 32px; margin-top: 8px;">
+            <input id="price-slider" type="range" class="slider" min="17.95" max="50" step="0.01" value="25.01">
+          </div>
+        </div>
+        <div class="quantity-price">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <label style="font-weight: 500;">Daily sales:</label>
+            <div class="input-container" style="width: 96px;">
+              <input id="daily-sales-input" type="number" min="1" max="100" value="5" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; text-align: right; font-size: 0.875rem;">
+            </div>
+          </div>
+          <div class="slider-container" style="position: relative; width: 100%; height: 32px; margin-top: 8px;">
+            <input id="daily-sales-slider" type="range" class="slider" min="1" max="100" step="1" value="5">
+          </div>
+        </div>
+      </div>
+      
+      <!-- Profit Section & Button -->
+      <div class="membership-calculator__control-group">
+        <div class="profit-section" style="background: #101822; color: #fff; padding: 24px; border-radius: 8px; text-align: center; margin-bottom: 24px;">
+          <h3 style="font-size: 1.25rem; margin-bottom: 12px;">Your Month Profit:</h3>
+          <div class="profit-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 12px;">
+            <div>
+              <p style="font-weight:600; font-size: 0.875rem; margin: 0 0 4px;">With Kodiak Growth:</p>
+              <p style="font-size: 2.25rem; font-weight: 900; margin: 0;">$<span id="profit-growth">1597.50</span></p>
+            </div>
+            <div>
+              <p style="font-weight:600; font-size: 0.875rem; margin: 0 0 4px;">Without Kodiak Growth:</p>
+              <p style="font-size: 2.25rem; font-weight: 900; margin: 0;">$<span id="profit-regular">1059.00</span></p>
+            </div>
+          </div>
+          <p class="extra" style="font-size: 1rem; font-weight: 600; color: #4cc762; margin: 0;">Extra profit: $<span id="extra-profit">538.50</span></p>
+        </div>
+        <div style="text-align: center; margin-top: 16px;">
+          <a href="/early-access" class="btn btn--primary start-designing-btn" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-size: 0.875rem; font-weight: 500; height: 44px; padding: 0 32px; width: 100%; border-radius: 9999px; text-decoration: none;">
+            Start designing
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- (Your JavaScript remains the same.) -->
+
+
+<!-- <script>
+  (function(){
+    // Data and configuration
+    var products = [
+      { name: "20 oz Tumbler", price: 34.95, cost: 17.95 },
+      { name: "30 oz Tumbler", price: 37.95, cost: 19.49 },
+      { name: "22 oz Skinny", price: 34.95, cost: 17.95 },
+      { name: "20 oz Travel Mug", price: 39.95, cost: 20.45 },
+      { name: "40 oz Travel Mug", price: 49.95, cost: 24.49 },
+      { name: "Coffee Mug", price: 34.95, cost: 19.95 },
+      { name: "Pint Glass", price: 34.95, cost: 17.95 },
+      { name: "Pilsner Glass", price: 34.95, cost: 17.95 },
+      { name: "Wine Tumbler", price: 29.95, cost: 16.49 },
+      { name: "20 oz Water Bottle", price: 37.95, cost: 19.49 },
+      { name: "32 oz Water Bottle", price: 39.95, cost: 19.75 },
+      { name: "40 oz Water Bottle", price: 42.95, cost: 22.95 },
+      { name: "Can Cooler", price: 29.95, cost: 16.49 },
+      { name: "Slim Can Cooler", price: 29.95, cost: 16.49 }
+    ];
+    var KODIAK_GROWTH_DISCOUNT = 0.2;
+    var currentProduct = 0;
+    var price = products[currentProduct].price;
+    var dailySales = 5;
+    
+    // DOM element references
+    var currentCostElem = document.getElementById('current-cost');
+    var currentDiscountedCostElem = document.getElementById('current-discounted-cost');
+    var priceInput = document.getElementById('price-input');
+    var priceSlider = document.getElementById('price-slider');
+    var dailySalesInput = document.getElementById('daily-sales-input');
+    var dailySalesSlider = document.getElementById('daily-sales-slider');
+    var profitGrowthElem = document.getElementById('profit-growth');
+    var profitRegularElem = document.getElementById('profit-regular');
+    var extraProfitElem = document.getElementById('extra-profit');
+    var productButtonsContainer = document.getElementById('product-buttons');
+    var prevProductBtn = document.getElementById('prev-product');
+    var nextProductBtn = document.getElementById('next-product');
+    
+    function updateCalculator(){
+      var currentData = products[currentProduct];
+      currentCostElem.textContent = currentData.cost.toFixed(2);
+      currentDiscountedCostElem.textContent = (currentData.cost * (1 - KODIAK_GROWTH_DISCOUNT)).toFixed(2);
+      priceInput.min = currentData.cost;
+      priceSlider.min = currentData.cost;
+      if(price < currentData.cost){
+        price = currentData.cost;
+      }
+      priceInput.value = price.toFixed(2);
+      priceSlider.value = price;
+      dailySalesInput.value = dailySales;
+      dailySalesSlider.value = dailySales;
+      var profitRegular = ((price - currentData.cost) * dailySales * 30);
+      var profitGrowth = ((price - currentData.cost * (1 - KODIAK_GROWTH_DISCOUNT)) * dailySales * 30);
+      profitRegularElem.textContent = profitRegular.toFixed(2);
+      profitGrowthElem.textContent = profitGrowth.toFixed(2);
+      extraProfitElem.textContent = (profitGrowth - profitRegular).toFixed(2);
+    }
+    
+    function renderProductButtons(){
+      productButtonsContainer.innerHTML = "";
+      products.forEach(function(product, index){
+        var btn = document.createElement('button');
+        btn.textContent = product.name;
+        btn.style.padding = "8px 16px";
+        btn.style.borderRadius = "20px";
+        btn.style.marginRight = "8px";
+        btn.style.border = "1px solid #101822";
+        btn.style.background = (index === currentProduct) ? "#101822" : "#fff";
+        btn.style.color = (index === currentProduct) ? "#fff" : "#101822";
+        btn.style.cursor = "pointer";
+        btn.addEventListener('click', function(){
+          currentProduct = index;
+          price = products[currentProduct].price;
+          renderProductButtons();
+          updateCalculator();
+        });
+        productButtonsContainer.appendChild(btn);
+      });
+    }
+    
+    prevProductBtn.addEventListener('click', function(){
+      currentProduct = (currentProduct - 1 + products.length) % products.length;
+      price = products[currentProduct].price;
+      renderProductButtons();
+      updateCalculator();
+    });
+    
+    nextProductBtn.addEventListener('click', function(){
+      currentProduct = (currentProduct + 1) % products.length;
+      price = products[currentProduct].price;
+      renderProductButtons();
+      updateCalculator();
+    });
+    
+    priceInput.addEventListener('input', function(){
+      price = parseFloat(this.value);
+      priceSlider.value = price;
+      updateCalculator();
+    });
+    
+    priceSlider.addEventListener('input', function(){
+      price = parseFloat(this.value);
+      priceInput.value = price.toFixed(2);
+      updateCalculator();
+    });
+    
+    dailySalesInput.addEventListener('input', function(){
+      dailySales = parseInt(this.value);
+      dailySalesSlider.value = dailySales;
+      updateCalculator();
+    });
+    
+    dailySalesSlider.addEventListener('input', function(){
+      dailySales = parseInt(this.value);
+      dailySalesInput.value = dailySales;
+      updateCalculator();
+    });
+    
+    // Initial render
+    renderProductButtons();
+    updateCalculator();
+  })();
+</script>
+ -->
+<script>            
+            (function () {
+  // Data and configuration
+  var products = [
+    { name: "20 oz Tumbler", price: 34.95, cost: 17.95 },
+    { name: "30 oz Tumbler", price: 37.95, cost: 19.49 },
+    { name: "22 oz Skinny", price: 34.95, cost: 17.95 },
+    { name: "20 oz Travel Mug", price: 39.95, cost: 20.45 },
+    { name: "40 oz Travel Mug", price: 49.95, cost: 24.49 },
+    { name: "Coffee Mug", price: 34.95, cost: 19.95 },
+    { name: "Pint Glass", price: 34.95, cost: 17.95 },
+    { name: "Pilsner Glass", price: 34.95, cost: 17.95 },
+    { name: "Wine Tumbler", price: 29.95, cost: 16.49 },
+    { name: "20 oz Water Bottle", price: 37.95, cost: 19.49 },
+    { name: "32 oz Water Bottle", price: 39.95, cost: 19.75 },
+    { name: "40 oz Water Bottle", price: 42.95, cost: 22.95 },
+    { name: "Can Cooler", price: 29.95, cost: 16.49 },
+    { name: "Slim Can Cooler", price: 29.95, cost: 16.49 }
+  ];
+  var KODIAK_GROWTH_DISCOUNT = 0.2;
+  var currentProduct = 0;
+  var price = products[currentProduct].price;
+  var dailySales = 5;
+
+  // DOM element references
+  var priceInput = document.getElementById("price-input");
+  var priceSlider = document.getElementById("price-slider");
+  var dailySalesInput = document.getElementById("daily-sales-input");
+  var dailySalesSlider = document.getElementById("daily-sales-slider");
+
+  function updateCalculator() {
+    var currentData = products[currentProduct];
+    var profitRegular = (price - currentData.cost) * dailySales * 30;
+    var profitGrowth = (price - currentData.cost * (1 - KODIAK_GROWTH_DISCOUNT)) * dailySales * 30;
+    document.getElementById("profit-regular").textContent = profitRegular.toFixed(2);
+    document.getElementById("profit-growth").textContent = profitGrowth.toFixed(2);
+    document.getElementById("extra-profit").textContent = (profitGrowth - profitRegular).toFixed(2);
+  }
+
+  priceInput.addEventListener("input", function () {
+    price = parseFloat(this.value);
+    priceSlider.value = price;
+    updateCalculator();
+  });
+
+  priceSlider.addEventListener("input", function () {
+    price = parseFloat(this.value);
+    priceInput.value = price.toFixed(2);
+    updateCalculator();
+  });
+
+  dailySalesInput.addEventListener("input", function () {
+    dailySales = parseInt(this.value);
+    dailySalesSlider.value = dailySales;
+    updateCalculator();
+  });
+
+  dailySalesSlider.addEventListener("input", function () {
+    dailySales = parseInt(this.value);
+    dailySalesInput.value = dailySales;
+    updateCalculator();
+  });
+
+  // Function to update slider fill effect
+  function updateSliderFill(slider) {
+    const percentage = ((slider.value - slider.min) / (slider.max - slider.min)) * 100;
+    slider.style.background = `linear-gradient(to right, #e44e4e ${percentage}%, #e5e7eb ${percentage}%)`;
+  }
+
+  // Apply the effect to both sliders
+  function initializeSliders() {
+    const sliders = document.querySelectorAll('input[type="range"]');
+    sliders.forEach((slider) => {
+      updateSliderFill(slider); // Initialize the fill effect
+      slider.addEventListener("input", function () {
+        updateSliderFill(slider);
+      });
+    });
+  }
+
+  // Run the function after the calculator initializes
+  initializeSliders();
+})();
+</script>

@@ -1,0 +1,452 @@
+
+
+    
+  
+    
+        jQuery(function() {
+            var $module = jQuery('#m-1674674983091').children('.module');
+            $module.gfV3Product();
+        }); 
+    
+    
+  
+    
+    
+    (function(jQuery) {
+  var $module = jQuery('#m-1674674983053').children('.module');
+  var swatchText = $module.attr('data-swatch-text') != undefined ? $module.attr('data-swatch-text') : '1';
+  $module.gfV3ProductSwatches({
+    swatchText: swatchText,
+    onSwatchSelected: function(variant, $swatch) {}
+  });
+})(window.GemQuery || jQuery);
+    
+    
+    
+            
+          
+    
+    (function( jQuery ){
+  // var $module = jQuery('#m-1674674983121').children('.module');
+  // You can add custom Javascript code right here.
+})( window.GemQuery || jQuery );(function( jQuery ){
+  // var $module = jQuery('#m-1674674983049').children('.module');
+  // You can add custom Javascript code right here.
+})( window.GemQuery || jQuery );
+    
+    (function( jQuery ){
+  // var $module = jQuery('#m-1674674983045').children('.module');
+  // You can add custom Javascript code right here.
+})( window.GemQuery || jQuery );
+(function( jQuery ){
+  // var $module = jQuery('#m-1674674983158').children('.module');
+  // You can add custom Javascript code right here.
+})( window.GemQuery || jQuery );
+    
+    
+    (function( jQuery ){
+  // var $module = jQuery('#m-1674674983087').children('.module');
+  // You can add custom Javascript code right here.
+})( window.GemQuery || jQuery );
+(function( jQuery ){
+  // var $module = jQuery('#m-1674674983063').children('.module');
+  // You can add custom Javascript code right here.
+})( window.GemQuery || jQuery );
+    
+    
+    
+(function( jQuery ){
+  // var $module = jQuery('#m-1674674983036').children('.module');
+  // You can add custom Javascript code right here.
+})( window.GemQuery || jQuery );
+    
+    
+    
+    (function(jQuery) {
+  var $module = jQuery('#m-1674674983131').children('.module');
+  var effect = $module.attr('data-effect');
+  var magnify = $module.attr('data-zoom-level');
+  var displayType = $module.attr('data-displaytype');
+  $module.gfV3ProductImage({
+    'effect': effect,
+    'displayType': displayType,
+    'magnify': magnify
+  });
+})(window.GemQuery || jQuery);(function( jQuery ){
+  // var $module = jQuery('#m-1674674983138').children('.module');
+  // You can add custom Javascript code right here.
+  // $("#hide").click(function(){
+  // $("#e-1665193905737").hide();
+  // });
+  // $("#show").click(function(){
+  // $("#e-1665193905737").hide();
+  // });
+  $("#design").click(function(){
+    $("#e-1670964202024").toggle();
+  });
+})( window.GemQuery || jQuery );
+(function(jQuery) {
+  var $module = jQuery('#m-1674674983118').children('.module');
+  $module.gfV4ProductImageList({
+    onImageClicked: function(imageUrl, imageZoomUrl) {}
+  });
+
+  var style = $module.attr('data-style');
+  switch(style) {
+    case 'slider':
+    var navspeed = $module.data('navspeed'),
+      navlg = $module.data('navlg'),
+      navmd = $module.data('navmd'),
+      navsm = $module.data('navsm'),
+      navxs = $module.data('navxs'),
+      collg = $module.data('collg'),
+      colmd = $module.data('colmd'),
+      colsm = $module.data('colsm'),
+      colxs = $module.data('colxs'),
+      dotslg = $module.data('dotslg'),
+      dotsmd = $module.data('dotsmd'),
+      dotssm = $module.data('dotssm'),
+      dotsxs = $module.data('dotsxs'),
+
+      marginlg = parseInt($module.data('mlg')),
+      marginmd = parseInt($module.data('mmd')),
+      marginsm = parseInt($module.data('msm')),
+      marginxs = parseInt($module.data('mxs'));
+
+    var mode = jQuery('.gryffeditor').hasClass('editing') ? 'dev' : 'production';
+    if(mode == 'production') {
+      var loop = $module.data('loop'),
+        autoRefresh = true;
+    } else {
+      var loop = 0,
+        autoRefresh = false;
+    }
+    $module.find('.gf_product-images-list').children().each( function( index ) {
+      jQuery(this).attr( 'data-position', index );
+    });
+    $module.find('.gf_product-images-list').owlCarousel({
+      mouseDrag: false,
+      navSpeed: navspeed,
+      autoRefresh: autoRefresh,
+      autoWidth: !1,
+      loop: loop,
+      responsiveClass:true,
+      responsive:{
+        0:{
+          items:colxs,
+          nav: navxs,
+          dots:dotsxs,
+          margin: marginxs
+        },
+        768:{
+          items:colsm,
+          nav: navsm,
+          dots:dotssm,
+          margin: marginsm
+        },
+        992:{
+          items:colmd,
+          nav: navmd,
+          dots:dotsmd,
+          margin: marginmd
+        },
+        1200:{
+          items:collg,
+          nav: navlg,
+          dots:dotslg,
+          margin: marginlg
+        }
+      },
+      onInitialized: function(){
+        $module.closest('.module-wrap[data-label="(P) Image List"]').addClass('gf-carousel-loaded');
+      }
+    }); 
+    break;
+  }
+})(window.GemQuery || jQuery); 
+    
+    
+    (function(jQuery) {
+  var $module = jQuery('#m-1674674983120').children('.module');
+  var swatchText = $module.attr('data-swatch-text') != undefined ? $module.attr('data-swatch-text') : '1';
+  $module.gfV3ProductSwatches({
+    swatchText: swatchText,
+    onSwatchSelected: function(variant, $swatch) {}
+  });
+})(window.GemQuery || jQuery);
+    
+    
+    
+    
+    (function( jQuery ){
+  // var $module = jQuery('#m-1674674983043').children('.module');
+  // You can add custom Javascript code right here.
+})( window.GemQuery || jQuery );
+(function( jQuery ){
+  // var $module = jQuery('#m-1674674983101').children('.module');
+  // You can add custom Javascript code right here.
+})( window.GemQuery || jQuery );
+    
+    
+    (function( jQuery ){
+  // var $module = jQuery('#m-1674674983166').children('.module');
+  // You can add custom Javascript code right here.
+})( window.GemQuery || jQuery );
+(function( jQuery ){
+  // var $module = jQuery('#m-1674674983066').children('.module');
+  // You can add custom Javascript code right here.
+})( window.GemQuery || jQuery );
+    
+    
+    (function( jQuery ){
+  // var $module = jQuery('#m-1674674983099').children('.module');
+  // You can add custom Javascript code right here.
+})( window.GemQuery || jQuery );
+(function( jQuery ){
+  // var $module = jQuery('#m-1674674983156').children('.module');
+  // You can add custom Javascript code right here.
+})( window.GemQuery || jQuery );
+    
+    
+    
+(function( jQuery ){
+  // var $module = jQuery('#m-1674674983102').children('.module');
+  // You can add custom Javascript code right here.
+})( window.GemQuery || jQuery );
+    
+    
+    
+    
+    /* add your custom script here */
+            
+          
+            
+          
+            
+          
+    
+    
+            
+          
+    
+    
+            
+          
+    
+    
+    
+            
+          
+    
+    
+    
+            
+          
+    
+    
+    
+            
+          
+    
+    
+    
+            
+          
+    (function( jQuery ){
+  // var $module = jQuery('#m-1674674983160').children('.module');
+  // You can add custom Javascript code right here.
+})( window.GemQuery || jQuery );(function( jQuery ){
+  var $module = jQuery('#m-1674674983111').children('.module');
+  $module.gfV3ProductDesc();
+})( window.GemQuery || jQuery );
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+            
+          
+    
+    
+            
+          
+    
+            
+          
+    
+    
+            
+          
+    
+    
+            
+          
+    
+    
+            
+          
+    
+    
+    
+        jQuery(function() {
+            var $module = jQuery('#m-1674674983046').children('.module');
+            var single   = $module.attr('data-single');
+            var openDefault  = $module.attr('data-openDefault');
+            var openTab  = $module.attr('data-openTab');
+            var mode     = jQuery('.gryffeditor').hasClass('editing') ? 'dev' : 'production';
+
+            if(openDefault == 0 || openDefault == '0') {
+                openTab = '0';
+            }
+
+            $module.gfAccordion({
+                single: single,
+                openTab: openTab,
+                mode: mode
+            });
+
+            var borderColor = $module.attr('data-borderColor');
+            var borderSize = $module.attr('data-borderSize');
+
+            $module.children('[data-accordion]').children('[data-control]').css('border-bottom', borderSize + ' solid ' + borderColor);
+            $module.children('[data-accordion]').children('[data-content]').children().css('border-bottom', borderSize + ' solid ' + borderColor);
+        });
+    
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+            
+          
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+            
+          
+    
+    
+            
+          
+    
+    
+    
+    
+    
+    
+    
+    
+  (function( jQuery ){
+  var $module = jQuery('#m-1672351097203').children('.module');
+
+})( window.GemQuery || jQuery );
+    
+  
+    (function( jQuery ){
+  var $module = jQuery('#m-1672351097203-child1').children('.module');
+  $module.gfV3Product();
+})( window.GemQuery || jQuery );
+  
+    (function(jQuery) {
+  var $module = jQuery('#m-1672351097203-child1-0').children('.module');
+  var effect = $module.attr('data-effect');
+  var magnify = $module.attr('data-zoom-level');
+  var displayType = $module.attr('data-displaytype');
+  $module.gfV3ProductImage({
+    'effect': effect,
+    'displayType': displayType,
+    'magnify': magnify
+  });
+})(window.GemQuery || jQuery);
+  
+    
+  
+    (function( jQuery ){
+  var $module = jQuery('#m-1672351097203-child2').children('.module');
+  $module.gfV3Product();
+})( window.GemQuery || jQuery );
+  
+    (function(jQuery) {
+  var $module = jQuery('#m-1672351097203-child2-0').children('.module');
+  var effect = $module.attr('data-effect');
+  var magnify = $module.attr('data-zoom-level');
+  var displayType = $module.attr('data-displaytype');
+  $module.gfV3ProductImage({
+    'effect': effect,
+    'displayType': displayType,
+    'magnify': magnify
+  });
+})(window.GemQuery || jQuery);
+  
+    
+  
+    (function( jQuery ){
+  var $module = jQuery('#m-1672351097203-child3').children('.module');
+  $module.gfV3Product();
+})( window.GemQuery || jQuery );
+  
+    (function(jQuery) {
+  var $module = jQuery('#m-1672351097203-child3-0').children('.module');
+  var effect = $module.attr('data-effect');
+  var magnify = $module.attr('data-zoom-level');
+  var displayType = $module.attr('data-displaytype');
+  $module.gfV3ProductImage({
+    'effect': effect,
+    'displayType': displayType,
+    'magnify': magnify
+  });
+})(window.GemQuery || jQuery);
+  
+    
+  
+    (function( jQuery ){
+  var $module = jQuery('#m-1672351097203-child4').children('.module');
+  $module.gfV3Product();
+})( window.GemQuery || jQuery );
+  
+    (function(jQuery) {
+  var $module = jQuery('#m-1672351097203-child4-0').children('.module');
+  var effect = $module.attr('data-effect');
+  var magnify = $module.attr('data-zoom-level');
+  var displayType = $module.attr('data-displaytype');
+  $module.gfV3ProductImage({
+    'effect': effect,
+    'displayType': displayType,
+    'magnify': magnify
+  });
+})(window.GemQuery || jQuery);
+  
+    
+  
+    
+  
+    
+  

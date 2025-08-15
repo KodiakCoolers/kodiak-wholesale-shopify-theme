@@ -1,0 +1,27 @@
+{% assign quantity_row = product.metafields.custom.table_quantity_row.value %}
+{% assign price_row = product.metafields.custom.table_price_row.value %}
+{% assign saving_row = product.metafields.custom.table_savings_row.value %}
+<div class="volume-pricing">
+<p>⚡️️ Buy more, save more!</p>
+<table>
+  <tr>
+    <th>Qty</th>
+  {% for quantity in quantity_row %}
+    <td>{{ quantity }}</td>
+{% endfor %}
+  </tr>
+  <tr>
+    <th>Price</th>
+  {% for price in price_row %}
+    <td>{{ price }}</td>
+{% endfor %}
+  </tr>
+  <tr class="savings-1">
+    <th>Savings</th>
+   {% for saving in saving_row %}
+    <td>{{ saving }}</td>
+{% endfor %}
+  </tr>
+ 
+</table>
+</div>

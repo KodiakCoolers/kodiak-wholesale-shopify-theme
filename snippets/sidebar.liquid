@@ -1,0 +1,666 @@
+{% comment %}
+  @param context {String}
+    The name of the template
+
+  @param results {Object}
+    The object used to determine faceted search results
+
+  @param has_faceted_filtering_block {Boolean}
+    If true, a "Faceted filtering" block is present in the sidebar
+{% endcomment %}
+
+{% liquid
+  if featured
+    assign collection = collections[featured_collection]
+  endif
+
+  assign sort_by = results.sort_by | default: results.default_sort_by
+
+  if results.url
+    assign results_url = results.url
+  else
+    assign results_url = '?q=' | append: results.terms | url_params_escape | append: '&options%5Bprefix%5D=last&sort_by=' | append: sort_by
+  endif
+
+  assign legacy_filter_block_types = 'filter,filter_by_tag,filter_by_type,filter_by_vendor' | split: ','
+
+  assign show_sidebar = false
+
+  for block in section.blocks
+    if block.type == 'faceted_filtering'
+      if results.filters.size > 0
+        comment
+          Has filters
+        endcomment
+        assign show_sidebar = true
+        break
+      endif
+    elsif has_faceted_filtering_block and legacy_filter_block_types contains block.type
+      comment
+        This is a legacy filtering block and will not be rendered, so ignore it
+      endcomment
+      continue
+    else
+      comment
+        Any other blocks are always rendered, so we need a sidebar
+      endcomment
+      assign show_sidebar = true
+      break
+    endif
+  endfor
+%}
+
+
+{% if show_sidebar %}
+  <div
+    class="
+      sidebar
+      toggle-all--{{ section.settings.toggle }}
+    "
+    data-sidebar
+    data-sidebar-allow-toggle="{{ section.settings.toggle }}"
+    {% if context == 'product' %}data-product-sidebar{% endif %}
+  >
+    {% if collection.products %}
+    <div class="search_filter">
+     <input type="text" id="collection-search-input" placeholder="Search">
+      <span class="search-icon">
+        <svg width="20" height="18" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M14.0001 7.00003C14.0001 8.39242 13.4101 9.72778 12.3599 10.7123C11.3097 11.6969 9.88531 12.25 8.4001 12.25C6.91489 12.25 5.49051 11.6969 4.4403 10.7123C3.3901 9.72778 2.8001 8.39242 2.8001 7.00003C2.8001 5.60765 3.3901 4.27229 4.4403 3.28772C5.49051 2.30316 6.91489 1.75003 8.4001 1.75003C9.88531 1.75003 11.3097 2.30316 12.3599 3.28772C13.4101 4.27229 14.0001 5.60765 14.0001 7.00003ZM12.9761 12.53C11.4755 13.6214 9.58778 14.1357 7.69703 13.9682C5.80628 13.8008 4.05464 12.9642 2.79864 11.6287C1.54264 10.2931 0.876682 8.55912 0.936301 6.77953C0.99592 4.99993 1.77664 3.30851 3.11956 2.04952C4.46247 0.790538 6.26666 0.0586136 8.16489 0.00272084C10.0631 -0.0531719 11.9127 0.571168 13.3373 1.74867C14.7618 2.92617 15.6542 4.56832 15.8329 6.3409C16.0115 8.11349 15.4629 9.88327 14.2988 11.29L19.7281 16.39L18.4054 17.62L12.9761 12.53Z" fill="black"/>
+      </svg>
+     </span>
+    </div>
+    {% endif %}
+ {% if show_logo_section %}       
+ <div class="personalize_content_inner_block collection-personalize-block desktop-section-upload-personalize">
+
+        <div class="upload_personalizer_inner">
+  
+        <div class="upload_personalize_image">
+          <div class="upload-inner-content" >
+              <label class="file-input-label1" for="fileInput">
+                          <img src="https://cdn.shopify.com/s/files/1/0082/8237/4203/files/div.swyd-icon.png?v=1701504166" style="display:none;">
+              </label>
+              <input value="" class="imageUpload-1" type="file" accept=".png, .jpg, .jpeg" id="fileInput" style="height:0px;"> 
+              <div class="imagePreview-name-1"><span class="imag-pre imag-pr imag-pr-desktop"></span><span class="remove-close fa fa-close close_upload01">X</span></div>
+            <h4>Got a Logo Or Design?</h4>
+            <p>Upload it to see it on our products</p>
+            <div class="upload-control"> 
+            <div class="button_upload_1"><button class="button_upload1" >Upload Now <span class="spinner-product" style="display: none;"></span></button></div>
+             <div class="size_div">
+                <h5>Max Size: 20MB</h5>
+                <p>Upload any High-Res file type Listed Below: </p>
+                <div class="images_ext"><div>.JPG</div><div>.JPEG</div><div>.PNG</div></div>
+             </div>
+        </div>
+        </div>
+        <div class="spinner-product-outer" style="display: none;">
+         <div class="spinner-product"></div>
+         <div class="spinner-product-content">
+             <p>Processing your Logo, give us a few seconds…</p>
+        </div>
+        </div>
+       <div class="remove_upload_image_1" style="display:none;">
+            <div class="imagePreview-name-1"><span class="imag-pre"></span><span class="remove-close fa fa-close close_upload01">X</span></div>
+            <div class="image_prev_upld"><img src="" style="width:150px;height:150px;margin-top: 10px;margin-bottom: 10px;border-radius: 50%;border: 2px dashed #fff;background: linear-gradient(#F7FAFF 0 0) padding-box,linear-gradient(to right,#ff0000,#ffa500,#ffff00,#008000,#0000ff,#4b0082,#ee82ee);"></div>
+            <div class="remove_upload_1"><button class="remove_upload" >X Clear Design</button></div>
+       </div>
+        </div>
+<div class="search-logo" style="display:none;">
+   <p>Or Enter your website and we’ll try to extract it.</p>
+   <div class="search-container-logo">
+     <div class="search-icon">
+       <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
+            <path d="M18.1608 18.4694L13.83 14.1386M13.83 14.1386C15.0021 12.9664 15.6606 11.3766 15.6606 9.71898C15.6606 8.06132 15.0021 6.47155 13.83 5.2994C12.6578 4.12725 11.0681 3.46875 9.41039 3.46875C7.75273 3.46875 6.16295 4.12725 4.99081 5.2994C3.81866 6.47155 3.16016 8.06132 3.16016 9.71898C3.16016 11.3766 3.81866 12.9664 4.99081 14.1386C6.16295 15.3107 7.75273 15.9692 9.41039 15.9692C11.0681 15.9692 12.6578 15.3107 13.83 14.1386Z" stroke="#777777" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+       </svg>
+      </div>
+      <input type="text" placeholder="Search.." name="search">
+      <button type="submit">Find Logo</button>
+  </div>
+</div>
+     </div>
+</div>
+
+{% endif %}
+
+
+    <div class="sidebar-wrap">
+    <div class="filter-heading"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000" height="16px" width="16px" version="1.1" id="Layer_1" viewBox="0 0 512 512" xml:space="preserve"><g><g><polygon points="512,59.076 452.922,0 256,196.922 59.076,0 0,59.076 196.922,256 0,452.922 59.076,512 256,315.076 452.922,512     512,452.922 315.076,256   "/></g></g></svg><span>filters</span></div>
+      {% assign first_block = true %}
+      {% for block in section.blocks %}
+        {% if has_faceted_filtering_block and legacy_filter_block_types contains block.type %}
+          {% continue %}
+        {% endif %}
+        {% if block.type == 'faceted_filtering' %}
+          <form class="faceted-filter-form" data-faceted-filter-form>
+            {% if results.terms %}
+              <input
+                name="q"
+                type="hidden"
+                value="{{ results.terms | escape }}"
+              >
+              <input
+                name="options[prefix]"
+                type="hidden"
+                value="last"
+              >
+            {% endif %}
+
+            {% assign has_active_filters = false %}
+
+            {% capture faceted_active_filters %}
+              {%- for filter in results.filters -%}
+                {% if filter.type == "price_range"  %}
+                  {%- if filter.min_value.value != nil or filter.max_value.value != nil -%}
+                    {% assign has_active_filters = true %}
+                    <a class="faceted-active-filters__remove-filter global-button" href="{{ filter.url_to_remove }}">
+                      {%- assign min_value = filter.min_value.value | default: 0 -%}
+                      {%- assign max_value = filter.max_value.value | default: filter.range_max -%}
+                      <i class="x-icon"></i>{{ min_value | money }} - {{ max_value | money }}
+                    </a>
+                  {%- endif -%}
+                {%- else -%}
+                  {%- for filter_value in filter.active_values -%}
+                    {% assign has_active_filters = true %}
+                    <a class="faceted-active-filters__remove-filter global-button" href="{{ filter_value.url_to_remove }}">
+                      <i class="x-icon"></i>{{ filter_value.label }}
+                    </a>
+                  {%- endfor -%}
+                {% endif %}
+              {%- endfor -%}
+            {% endcapture %}
+
+            {% if has_active_filters %}
+              <div
+                class="
+                  sidebar-block
+                  {% if first_block %}sidebar-block--first{% endif %}
+                "
+              >
+                <div class="faceted-active-filters">
+                  <a
+                    class="
+                      faceted-active-filters__clear
+                      global-button
+                      global-button--text
+                    "
+                    href="{{ results_url }}"
+                  >
+                    {{ 'collections.sidebar.clear_all' | t }}
+                  </a>
+                  {{ faceted_active_filters }}
+                </div>
+              </div>
+              {% assign first_block = false %}
+            {% endif %}
+
+            {%- for filter in results.filters -%}
+              <details
+                class="
+                  sidebar-block
+                  {% if first_block and forloop.first %}sidebar-block--first{% endif %}
+                  faceted-filter-group
+                "
+                data-sidebar-block
+                {% if
+                  section.settings.toggle == false
+                  or filter.active_values.size > 0
+                  or filter.min_value.value != blank
+                  or filter.max_value.value != blank
+                %}
+                  open
+                {% endif %}
+              >
+                <summary class="faceted-filter-group-summary">
+                  <h4 class="sidebar-block__heading faceted-filter-group-summary__heading">
+                    <span class="faceted-filter-group-summary__label">{{ filter.label }}</span>
+
+                    {%- if filter.active_values.size > 0 -%}
+                      <span class="faceted-filter-group-summary__active-count">({{ filter.active_values.size }})</span>
+                    {%- endif -%}
+
+                    <span class="right icon-down-arrow sidebar-block-toggle-icon"></span>
+                  </h4>
+                </summary>
+
+                <div class="faceted-filter-group-display">
+                  <div class="faceted-filter-group-display__header">
+                    {%- if filter.active_values.size > 0 -%}
+                      <a href="{{ filter.url_to_remove }}" class="faceted-filter-group-display__header-clear"><i class="x-icon"></i>{{ 'collections.sidebar.clear' | t }}</a>
+                    {%- endif -%}
+                  </div>
+
+                  {%- case filter.type -%}
+                    {%- when 'list' -%}
+                      <ul class="faceted-filter-group-display__list">
+                        {%- for filter_value in filter.values -%}
+                          <li class="faceted-filter-group-display__list-item">
+                            {% capture input_id %}Filter-{{ filter.label | escape }}-{{ forloop.index }}{% endcapture %}
+                            <label
+                              class="faceted-filter-group-display__list-item-label"
+                              for="{{ input_id }}"
+                            >
+                              <input
+                                class="faceted-filter-group-display__list-item-input"
+                                type="checkbox"
+                                name="{{ filter_value.param_name | escape }}"
+                                value="{{ filter_value.value | escape }}"
+                                id="{{ input_id }}"
+                                {% if filter_value.active -%}checked{%- endif %}
+                                {% if filter_value.count == 0 and filter_value.active == false -%}disabled{%- endif %}
+                              >
+                              <svg class="faceted-filter-group-display__checkmark" aria-hidden="true" focusable="false" role="presentation" width="14" height="14" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14">
+                                <path class="faceted-filter-group-display__checkmark-check" fill="none" d="M2.5 7L5.5 10L11.5 4"></path>
+                              </svg>
+                              <span class="faceted-filter-group-display__list-item-label-text">{{ filter_value.label }} {% if block.settings.show_filter_product_count %}({{ filter_value.count }}){% endif %}</span>
+                            </label>
+                          </li>
+                        {%- endfor -%}
+                      </ul>
+
+                      <div class="faceted-filter-group-display__submit faceted-filter-group-display__list-submit">
+                        <input
+                          class="global-button"
+                          type="submit"
+                          value="{{ 'collections.sidebar.apply_filter' | t | escape }}"
+                        >
+                      </div>
+                    {%- when 'price_range' -%}
+                      <div class="faceted-filter-group-display__price-range">
+                        <div class="faceted-filter-group-display__price-range-from">
+                          <label
+                            class="faceted-filter-group-display__price-range-label"
+                            for="Filter-{{ filter.label }}-{{ forloop.index }}"
+                          >
+                            {{ 'collections.sidebar.from' | t }}
+                          </label>
+                          <span>{{ cart.currency.symbol }}</span>
+                          <input
+                            class="faceted-filter-group-display__price-range-input"
+                            name="{{ filter.min_value.param_name }}"
+                            id="Filter-{{ filter.label }}-{{ forloop.index }}"
+                            {% if filter.min_value.value -%}
+                              value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}"
+                            {%- endif %}
+                            type="number"
+                            placeholder="0"
+                            min="0"
+                            max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                          >
+                        </div>
+                        <div class="faceted-filter-group-display__price-range-to">
+                          <label
+                            class="faceted-filter-group-display__price-range-label"
+                            for="Filter-{{ filter.label }}-{{ forloop.index }}"
+                          >
+                          {{ 'collections.sidebar.to' | t }}
+                          </label>
+                          <span>{{ cart.currency.symbol }}</span>
+                          <input
+                            class="faceted-filter-group-display__price-range-input"
+                            name="{{ filter.max_value.param_name }}"
+                            id="Filter-{{ filter.label }}-{{ forloop.index }}"
+                            {% if filter.max_value.value -%}
+                              value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}"
+                            {%- endif %}
+                            type="number"
+                            placeholder="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                            min="0"
+                            max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                          >
+                        </div>
+                      </div>
+
+                      <div class="faceted-filter-group-display__submit">
+                        <input
+                          class="global-button"
+                          type="submit"
+                          value="{{ 'collections.sidebar.apply_filter' | t | escape }}"
+                        >
+                      </div>
+                  {%- endcase -%}
+                </div>
+              </details>
+            {%- endfor -%}
+          </form>
+        {% else %}
+          {% if block.type == 'filter' %}
+            {% comment %}
+              Filter blocks should not be rendered unless some of the tags are valid for the current
+              collection. We need to check that here before we render the details element, otherwise
+              we end up rendering empty elements.
+            {% endcomment %}
+            {% assign initial_filter_tags = block.settings.filter_tags | split: ',' %}
+            {% assign filter_name = block.settings.filter_name | replace: ' ', '_' | downcase | append: '__' %}
+
+            {% capture filter_tags %}{% for filter_tag in initial_filter_tags %}{{- filter_name | strip }}{{ filter_tag | strip -}}{% if forloop.last == false %}^{% endif %}{% endfor %}{% endcapture %}
+            {% assign filter_tags = filter_tags | split: "^" %}
+
+            {%- capture headlines -%}
+              {%- for collection_tag in collection.all_tags -%}
+                {%- for tag in filter_tags -%}
+                  {%- capture formatted_tag -%}{{- tag | replace: filter_name, '' | downcase -}}{%- endcapture -%}
+                  {%- capture formatted_collection_tag -%}{{- collection_tag | downcase -}}{%- endcapture -%}
+                  {%- if formatted_tag == formatted_collection_tag -%}
+                    {{ block.settings.filter_name }}{% if forloop.last == false %}^{% endif %}
+                  {%- endif -%}
+                {%- endfor -%}
+              {%- endfor -%}
+            {%- endcapture -%}
+
+            {% assign headline_length = headlines | split: '^' | size %}
+            {% if headline_length == 0 %}
+              {% continue %}
+            {% endif %}
+          {% endif %}
+
+          <details
+            class="
+              sidebar-block
+              {% if first_block %}sidebar-block--first{% endif %}
+            "
+            data-sidebar-block
+            {{ block.shopify_attributes }}
+            {% unless section.settings.toggle %}open{% endunless %}
+          >
+            {% if block.type == 'menu' %}
+              {% assign sidebar_menu = linklists[block.settings.custom_menu_linklist] %}
+              {% if sidebar_menu != blank %}
+                <summary>
+                  <h4 class="sidebar-block__heading">{{ sidebar_menu.title }}<span class="right icon-down-arrow sidebar-block-toggle-icon"></span></h4>
+                </summary>
+                <ul class="toggle_list">
+                  {% for link in sidebar_menu.links %}
+                    {% if link.active %}
+                      {% assign active_link = true %}
+                    {% else %}
+                      {% assign active_link = false %}
+                      {% for sub_link in linklists[link.handle].links %}
+                        {% if sub_link.active %}
+                          {% assign active_link = true %}
+                        {% else %}
+                          {% for sub_sub_link in linklists[sub_link.handle].links %}
+                            {% if sub_sub_link.active %}
+                              {% assign active_link = true %}
+                            {% endif %}
+                          {% endfor %}
+                        {% endif %}
+                      {% endfor %}
+                    {% endif %}
+
+                    <li>
+                      {% if link.url == 'http://' or link.url == '' or link.url == '/' or link.url == 'https://' or link.url == '#' %}
+                      <a data-no-instant href="{{ link.url }}" class="{% if link.active %}active{% endif %} parent-link--false">
+                          {{ link.title }}
+                        </a>
+                      {% else %}
+                      <a data-no-instant href="{{ link.url }}" class="{% if link.active %}active{% endif %} parent-link--true">
+                        {{ link.title }}
+                      </a>
+                      {% endif %}
+
+                      {% if linklists[link.handle].links != blank %}
+                        <span class="menu-toggle icon-down-arrow {% if active_link %}active{% endif %}" aria-haspopup="true" aria-expanded="{% if active_link %}true{% else %}false{% endif %}"> </span>
+
+                        <ul class="{% if active_link %}active{% endif %}">
+                          {% for sub_link in linklists[link.handle].links %}
+                            {% if sub_link.active %}
+                              {% assign active_link = true %}
+                            {% else %}
+                              {% assign active_link = false %}
+                              {% for sub_sub_link in linklists[sub_link.handle].links %}
+                                {% if sub_sub_link.active %}
+                                  {% assign active_link = true %}
+                                {% endif %}
+                              {% endfor %}
+                            {% endif %}
+
+                            <li class="sub-menu {% if active_link %}active{% endif %}">
+                              <a {% if sub_link.active %}class="active"{% endif %} href="{{ sub_link.url }}">{{ sub_link.title }}</a>
+
+                              {% if linklists[sub_link.handle].links != blank %}
+                                <span class="menu-toggle icon-down-arrow {% if active_link %}active{% endif %}" aria-haspopup="true" aria-expanded="{% if active_link %}true{% else %}false{% endif %}"> </span>
+
+                                <ul class="{% if active_link %}active{% endif %}">
+                                  {% for sub_sub_link in linklists[sub_link.handle].links %}
+                                    <li class="sub-menu">
+                                      <a {% if sub_sub_link.active %}class="active"{% endif %} href="{{ sub_sub_link.url }}">{{ sub_sub_link.title }}</a>
+                                    </li>
+                                  {% endfor %}
+                                </ul>
+                              {% endif %}
+                            </li>
+                          {% endfor %}
+                        </ul>
+                      {% endif %}
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% else %}
+                <summary>
+                  <h4 class="sidebar-block__heading">Menu title<span class="right icon-down-arrow sidebar-block-toggle-icon"></span></h4>
+                </summary>
+                <ul class="toggle_list">
+                  <li><p>{{ 'homepage.onboarding.no_content' | t }}</p></li>
+                </ul>
+              {% endif %}
+
+            {% elsif block.type == 'page' %}
+              {% if block.settings.content_page != blank %}
+                <summary>
+                  <h4 class="sidebar-block__heading">{{ pages[block.settings.content_page].title }}<span class="right icon-down-arrow sidebar-block-toggle-icon"></span></h4>
+                </summary>
+                <ul class="toggle_list content_block">
+                  <li class="rte">
+                    {{ pages[block.settings.content_page].content }}
+                  </li>
+                </ul>
+              {% else %}
+                <summary>
+                  <h4 class="sidebar-block__heading">Page title<span class="right icon-down-arrow sidebar-block-toggle-icon"></span></h4>
+                </summary>
+                <ul class="toggle_list">
+                  <li><p>{{ 'homepage.onboarding.no_content' | t }}</p></li>
+                </ul>
+              {% endif %}
+
+            {% elsif block.type == 'filter_by_tag' %}
+              {% if template contains 'product' %}
+                {% assign tag_count = product.tags | size %}
+                {% if tag_count > 0 %}
+                  <summary>
+                    <h4 class="sidebar-block__heading">{{ 'collections.sidebar.tags' | t }}<span class="right icon-down-arrow sidebar-block-toggle-icon"></span></h4>
+                  </summary>
+                  <ul class="toggle_list">
+                    {% for tag in product.tags %}
+                      {% unless tag contains 'meta-' %}
+                        <li>
+                          <a {% if current_tags contains tag %}class="active" data-active-legacy-filter{% endif %} href="{{ routes.collections_url }}/{% if collection.handle != blank %}{{ collection.handle }}{% else %}all{% endif %}/{{ tag | handleize }}">{{ tag }}</a>
+                        </li>
+                      {% endunless %}
+                    {% endfor %}
+                  </ul>
+                {% endif %}
+              {% else %}
+                {% assign tag_count = collection.all_tags | size %}
+                {% if tag_count > 0 %}
+                  <summary>
+                    <h4 class="sidebar-block__heading">{{ 'collections.sidebar.tags' | t }}<span class="right icon-down-arrow sidebar-block-toggle-icon"></span></h4>
+                  </summary>
+                  <ul class="toggle_list">
+                    <li>
+                      <a {% unless current_tags %}class="active--default"{% endunless %} href="{% if collection.handle == "all" %}{{ routes.all_products_collection_url }}{% else %}{{ collection.url }}{% endif %}">{{ 'collections.general.all_collection_title' | t: title: collection.title }}</a>
+                    </li>
+                    {% for tag in collection.all_tags %}
+                      {% unless tag contains 'meta-' %}
+                        <li>
+                          <a {% if current_tags contains tag %}class="active" data-active-legacy-filter{% endif %} href="{{ routes.collections_url }}/{% if collection.handle != blank %}{{ collection.handle }}{% else %}all{% endif %}/{{ tag | handleize }}">{{ tag }}</a>
+                        </li>
+                      {% endunless %}
+                    {% endfor %}
+                  </ul>
+                {% endif %}
+              {% endif %}
+
+            {% elsif block.type == 'filter_by_type' %}
+              <summary>
+                <h4 class="sidebar-block__heading">{{ 'collections.sidebar.product_types' | t }}<span class="right icon-down-arrow sidebar-block-toggle-icon"></span></h4>
+              </summary>
+              <ul class="toggle_list">
+                {% for product_type in shop.types %}
+                  {% unless product_type == blank %}
+                    <li {% if product_type == collection.title %}class="active" data-active-legacy-filter{% endif %}>{{ product_type | link_to_type }}</li>
+                  {% endunless %}
+                {% endfor %}
+              </ul>
+
+            {% elsif block.type == 'filter_by_collection' %}
+              <summary>
+                <h4 class="sidebar-block__heading">{{ 'collections.sidebar.collections' | t }}<span class="right icon-down-arrow sidebar-block-toggle-icon"></span></h4>
+              </summary>
+              <ul class="toggle_list">
+                {% for col in collections %}
+                  {% unless col.handle == 'frontpage' %}
+                    <li {% if col.handle == collection.handle %}class="active"{% endif %}><a href="{{ col.url }}" title="{{ col.title | escape }}">{{ col.title }}</a></li>
+                  {% endunless %}
+                {% endfor %}
+              </ul>
+
+            {% elsif block.type == 'filter_by_vendor' %}
+              <summary>
+                <h4 class="sidebar-block__heading">{{ 'collections.sidebar.vendors' | t }}<span class="right icon-down-arrow sidebar-block-toggle-icon"></span></h4>
+              </summary>
+              <ul class="toggle_list">
+                {% for product_vendor in shop.vendors %}
+                  <li {% if product_vendor == collection.title %}class="active" data-active-legacy-filter{% endif %}>{{ product_vendor | link_to_vendor }}</li>
+                {% endfor %}
+              </ul>
+
+            {% elsif block.type == 'filter' %}
+              {% if headline_length > 0 %}
+                <summary>
+                  <h4 class="sidebar-block__heading">{{ block.settings.filter_name }}<span class="right icon-down-arrow sidebar-block-toggle-icon"></span></h4>
+                </summary>
+                <div class="sidebar__collection-filter">
+                  {% if block.settings.filter_name != blank and headline_length > 0 %}
+                    <ul class="toggle_list" >
+                      <div class="filter-all-tags color-filter--{{ block.settings.enable_filter_swatches }}">
+                        {% for tag in filter_tags %}
+                          {% for collection_tag in collection.all_tags %}
+                            {% capture formatted_tag %}{{- tag | replace: filter_name, '' | downcase -}}{% endcapture %}
+                            {% capture formatted_collection_tag %}{{ collection_tag | downcase }}{% endcapture %}
+
+                            {% if formatted_tag == formatted_collection_tag %}
+                              {% if block.settings.enable_filter_swatches %}
+                                <li>
+                                  <label data-option-filter><input type="checkbox" value="{{- tag | replace: filter_name, '' | handleize -}}" name="{{tag | handleize }}" id="{{tag}}" class="styled-checkbox" style="background-image: url({{ tag | replace: filter_name, ''| handleize | downcase | append: '.png' | asset_img_url: '50x' }}); background-color: {{tag | replace: filter_name, '' | downcase }}">
+                                      {{tag | replace: filter_name, '' | replace: '_', ' ' }}
+                                  </label>
+                                </li>
+                              {% else %}
+                                <li>
+                                  <a>
+                                    <label data-option-filter><input type="checkbox" value="{{- tag | replace: filter_name, '' | handleize -}}" name="{{tag | handleize }}" >
+                                      {{tag | replace: filter_name, '' | replace: '_', ' ' }}
+                                    </label>
+                                  </a>
+                                </li>
+                              {% endif %}
+                            {% endif %}
+                          {% endfor %}
+                        {% endfor %}
+                      </div>
+                      <div class="filter-active-tag color-filter--{{ block.settings.enable_filter_swatches }}">
+                        {% for tag in filter_tags %}
+                          {% for current_tag in current_tags %}
+                            {% capture formatted_tag %}{{- tag | replace: filter_name, '' | downcase | handleize -}}{% endcapture %}
+                            {% capture formatted_current_tag %}{{ current_tag | downcase | handleize }}{% endcapture %}
+                            {% if formatted_tag == formatted_current_tag %}
+                              {% if block.settings.enable_filter_swatches %}
+                                <li>
+                                  <label data-option-filter>
+                                    <input checked type="checkbox" value="{{- tag | replace: filter_name, '' | handleize -}}" name="{{tag | handleize }}" id="{{tag}}" class="styled-checkbox" style="background-image: url({{ tag | replace: filter_name, '' | handleize | downcase | append: '.png' | asset_img_url: '50x' }}); background-color: {{tag | replace: filter_name, '' | downcase }}">
+                                    {{tag | replace: filter_name, '' | replace: '_', ' ' }}
+                                  </label>
+                                </li>
+                              {% else %}
+                                <li>
+                                  <a class="active" data-active-legacy-filter>
+                                    <label data-option-filter><input checked type="checkbox" value="{{- tag | replace: filter_name, '' | handleize -}}" name="{{tag}}" >
+                                      {{tag | replace: filter_name, '' | replace: '_', ' ' }}
+                                    </label>
+                                  </a>
+                                </li>
+                              {% endif %}
+                              <button class="clear-active-filter" data-clear-filter>
+                              <i class="x-icon"></i>{{ 'collections.sidebar.clear' | t }}</button>
+                              {% break %}
+                            {% endif %}
+                          {% endfor %}
+                        {% endfor %}
+                      </div>
+                    </ul>
+                  {% endif %}
+                </div>
+              {% endif %}
+
+            {% elsif block.type == 'text' %}
+              <summary>
+                <h4 class="sidebar-block__heading">{{ block.settings.title }}<span class="right icon-down-arrow sidebar-block-toggle-icon"></span></h4>
+              </summary>
+              <ul class="toggle_list content_block">
+                <li>{{ block.settings.text }}</li>
+              </ul>
+            {% elsif block.type == 'recently_viewed'%}
+              <summary>
+                <h4 class="sidebar-block__heading">
+                  {{ block.settings.sidebar_rv_title }}
+                  <span class="right icon-down-arrow sidebar-block-toggle-icon"></span>
+                </h4>
+              </summary>
+              <div
+                class="js-sidebar-recently-viewed"
+                data-rv-handle="{{ product.handle }}"
+                data-visible-products="{{ block.settings.sidebar_rv_per | plus: 1 }}"
+              >
+                {%
+                  render 'sidebar-recently-viewed',
+                  products_limit: block.settings.sidebar_rv_per,
+                %}
+              </div>
+            {% endif %}
+          </details>
+        {% endif %}
+        {% assign first_block = false %}
+      {% endfor %}
+    </div>
+  </div>
+  {% if context == 'product' %}
+    {% style %}
+
+      #shopify-section-{{ section.id }} {
+        width: 25%;
+      }
+
+      #shopify-section-{{ section.id }} + .is-product-main {
+        width: 75%;
+      }
+
+      @media only screen and (max-width: 798px) {
+        #shopify-section-{{ section.id }} + .is-product-main {
+          padding-top: 0;
+        }
+      }
+    {% endstyle %}
+  {% else %}
+    {% style %}
+      #shopify-section-{{ section.id }} .sidebar {
+        width: 25%;
+      }
+
+      #shopify-section-{{ section.id }} .has-sidebar-option {
+        width: 75%;
+      }
+    {% endstyle %}
+  {% endif %}
+{% endif %}

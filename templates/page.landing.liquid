@@ -1,0 +1,290 @@
+{%- comment -%}
+  Landing page template (Header → Hero → Features → How It Works → Membership Calculator → Testimonials → CTA → Footer)
+{%- endcomment -%}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{{ page.title }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {{ 'landing.css' | asset_url | stylesheet_tag }}
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="container header__inner">
+        <a href="/" class="logo-link">
+          <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Kodiak%20Logo%20Navy%20150px-bGwOXIf5smaiwkck54mPGtmMH5WnaZ.png" alt="Kodiak Logo" class="logo" />
+        </a>
+        <a href="/early-access" class="btn btn--primary">Download App</a>
+      </div>
+    </header>
+    
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="container hero__inner">
+        <div class="hero__text">
+          <h1>The Best Print on Demand Tumblers for Your Shopify Store</h1>
+          <ul class="hero__list">
+            <li>
+              <svg width="20" height="20" viewBox="0 0 24 24">
+                <path stroke="#4CAF50" stroke-width="2" fill="none" d="M5 13l4 4L19 7"/>
+              </svg>
+              Add Custom Laser-Engraved Drinkware to Your Store in Minutes
+            </li>
+            <li>
+              <svg width="20" height="20" viewBox="0 0 24 24">
+                <path stroke="#4CAF50" stroke-width="2" fill="none" d="M5 13l4 4L19 7"/>
+              </svg>
+              No Inventory, No Upfront Costs – We Handle Production &amp; Shipping
+            </li>
+            <li>
+              <svg width="20" height="20" viewBox="0 0 24 24">
+                <path stroke="#4CAF50" stroke-width="2" fill="none" d="M5 13l4 4L19 7"/>
+              </svg>
+              Offer Premium POD Tumblers with Seamless Shopify Integration
+            </li>
+          </ul>
+          <div style="margin-top: 24px;">
+            <a href="/early-access" class="btn btn--primary" style="margin-right: 8px;">
+              <svg viewBox="0 0 24 24" style="vertical-align: middle; width: 16px; height: 16px; display: inline-block; margin-right: 4px;">
+                <path stroke="#fff" stroke-width="2" fill="none" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V3"/>
+              </svg>
+              Download on Shopify App Store
+            </a>
+            <a href="/early-access" class="btn btn--outline">
+              Learn More
+              <svg width="20" height="20" viewBox="0 0 24 24" style="vertical-align: middle; margin-left: 4px;">
+                <path stroke="#333" stroke-width="2" fill="none" d="M9 5l7 7-7 7"/>
+              </svg>
+            </a>
+          </div>
+          <div style="margin-top: 24px;">
+            {% include 'shopify-reviews' %}
+          </div>
+        </div>
+        <div class="hero__image">
+          <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screen%20Shot%202025-01-30%20at%208.19.35%20AM-X8pmoXRMuUxPphRb6YQbK6VokudfRn.png" alt="Product Preview" width="600" height="600" />         
+        </div>
+      </div>
+    </section>
+    
+    <!-- Features Section -->
+    <section class="features">
+      <div class="container">
+        <h2>Why Choose Our Print on Demand App?</h2>
+        <div class="feature-list">
+          <div class="feature">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Laser%20Engraving%20Icon-MV4wiCWdSd5QvHdfsD6ZClC0BKlCPc.png" alt="Laser Engraving">
+            <h3>Premium Laser-Engraved Products</h3>
+            <p>Partner with the world's leading manufacturers to ensure the highest quality custom drinkware for your customers.</p>
+          </div>
+          <div class="feature">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/shopify-wbvQowzzAMRXcgJeRhtypEJ92c4WEL.png" alt="Shopify">
+            <h3>Seamless Shopify Integration</h3>
+            <p>Connect your store instantly with our 1-click integration. Compatible with Shopify, Etsy, and other major platforms.</p>
+          </div>
+          <div class="feature">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+            </svg>
+            <h3>No Inventory Required</h3>
+            <p>Our print-on-demand model means zero upfront costs. We handle production and shipping while you focus on sales.</p>
+          </div>
+          <div class="feature">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 117.2 59.88" stroke="currentColor" fill="none">
+              <g>
+                <path d="M104.11,15.28l12.09,16.77v14.76c0,1.43-1.16,2.59-2.59,2.59h-1.75c-.35-4.8-4.36-8.58-9.24-8.58-4.88,0-8.92,3.78-9.28,8.58h-4.93V15.28h15.71Z" stroke-miterlimit="10" stroke-width="2"/>
+                <path d="M22.69,41.31v4.18c0,2.17,1.74,3.91,3.91,3.91h8.07c.35-4.81,4.36-8.58,9.24-8.58s8.92,3.78,9.28,8.58h35.21V4.91c0-2.17-1.74-3.91-3.91-3.91H26.6c-2.17,0-3.91,1.74-3.91,3.91v3.87" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                <path d="M93.66,49.86c0,4.99,4.02,9.02,9.02,9.02s9.02-4.02,9.02-9.02c0-5.01-4.02-9.03-9.02-9.03s-9.02,4.02-9.02,9.03Z" stroke-miterlimit="10" stroke-width="2"/>
+                <path d="M34.87,49.86c0,4.99,4.02,9.02,9.02,9.02s9.02-4.02,9.02-9.02c0-5.01-4.02-9.03-9.02-9.03s-9.02,4.02-9.02,9.03Z" stroke-miterlimit="10" stroke-width="2"/>
+                <path d="M93.59,19.41c-.6.06-1.06.56-1.06,1.17v11.4c0,.65.52,1.17,1.17,1.17h16.07c.27.01.53-.07.74-.23.52-.38.63-1.12.25-1.63l-8.11-11.4c-.22-.3-.58-.48-.95-.47h-8s-.07,0-.11,0h0Z" stroke-miterlimit="10" stroke-width="2"/>
+                <line x1="1" y1="14.56" x2="35.58" y2="14.56" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                <line x1="6.49" y1="25.2" x2="35.58" y2="25.2" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                <line x1="11.02" y1="35.83" x2="35.58" y2="35.83" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+              </g>
+            </svg>
+            <h3>Fast Global Shipping</h3>
+            <p>With multiple fulfillment centers, we ensure quick delivery to customers worldwide, maintaining competitive shipping times.</p>
+          </div>
+          <div class="feature">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/print-on-demand-drinkware-icon-msURMN6CTlErb3up0REs3z7UGYEYbZ.png" alt="Design Tools">
+            <h3>Advanced Design Tools</h3>
+            <p>Create stunning designs with our easy-to-use product customization tools, including AI-powered design assistance.</p>
+          </div>
+          <div class="feature">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"/>
+            </svg>
+            <h3>24/7 Dedicated Support</h3>
+            <p>Get help whenever you need it from our expert support team, committed to your success.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- How It Works Section -->
+    <section class="how-it-works">
+      <div class="container">
+        <h2>Start for free in 4 easy steps</h2>
+        <div class="step-list">
+          <div class="step">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Select-l3XLRfmxZJfMVIy8Xc0UzL40uylBQI.png" alt="Select">
+            <div>
+              <div style="font-size: 0.875rem; color: #777;">Step 1.</div>
+              <h3>Select</h3>
+            </div>
+            <p>Choose from over 1,000 top-quality products, including apparel, kitchenware, home decor, pet products, and more.</p>
+            <a href="/early-access">Choose your product</a>
+          </div>
+          <div class="step">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Create-u2M2N8GZ1ZRfVYbgQzlUHsLM7RaZAA.png" alt="Create">
+            <div>
+              <div style="font-size: 0.875rem; color: #777;">Step 2.</div>
+              <h3>Create</h3>
+            </div>
+            <p>Use our free Product Creator, full of beginner-friendly tools, to design the products of your dreams.</p>
+            <a href="/early-access">Start designing</a>
+          </div>
+          <div class="step">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Publish-Mzn1nj6xveyAuIqZdwr1jppBtVhphN.png" alt="Publish">
+            <div>
+              <div style="font-size: 0.875rem; color: #777;">Step 3.</div>
+              <h3>Publish</h3>
+            </div>
+            <p>Kodiak integrates with all the popular sales channels, like Etsy, Amazon, and Shopify, for seamless listing and order management.</p>
+            <a href="/early-access">Connect your store</a>
+          </div>
+          <div class="step">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Make%20Money-W6LH0SMDw3XIyKzsb8gVtUF1Q5b9qj.png" alt="Make money risk-free">
+            <div>
+              <div style="font-size: 0.875rem; color: #777;">Step 4.</div>
+              <h3>Make money risk-free</h3>
+            </div>
+            <p>Once you make a sale, our Print Providers take care of order fulfillment while you focus on marketing, designing, and making that $$$.</p>
+            <a href="/early-access">Start earning</a>
+          </div>
+        </div>
+        <div class="ready-launch">
+          <h3>Ready to launch your business?</h3>
+          <a href="/early-access" class="btn btn--primary">Get started</a>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Membership Calculator Section -->
+    <section>
+      <div class="container">
+        {% include 'membership-calculator' %}
+      </div>
+    </section>
+    
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+      <div class="container">
+        <h2>What Shopify Merchants Are Saying</h2>
+        <div class="testimonial-list">
+          <!-- Testimonial 1: Sarah T. -->
+          <div class="testimonial">
+            <div class="stars">
+              {% for i in (1..5) %}
+                <svg viewBox="0 0 20 20">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.95a1 1 0 00.95.69h4.15c.969 0 1.371 1.24.588 1.81l-3.36 2.44a1 1 0 00-.364 1.118l1.286 3.95c.3.921-.755 1.688-1.54 1.118l-3.36-2.44a1 1 0 00-1.175 0l-3.36 2.44c-.784.57-1.838-.197-1.539-1.118l1.285-3.95a1 1 0 00-.364-1.118L2.07 9.377c-.783-.57-.38-1.81.588-1.81h4.15a1 1 0 00.95-.69l1.286-3.95z"/>
+                </svg>
+              {% endfor %}
+            </div>
+            <p>This app made adding print on demand tumblers to my Shopify store incredibly easy! The quality is outstanding, and my customers love the laser-engraved designs.</p>
+            <div class="author">
+              <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/women%201.jpg-5JoTmf55UaAODjqOuwGNZWd4EBoYJz.jpeg" alt="Sarah T.">
+              <div>
+                <div class="name">Sarah T.</div>
+                <div>Shopify Entrepreneur</div>
+              </div>
+            </div>
+          </div>
+          <!-- Testimonial 2: James R. -->
+          <div class="testimonial">
+            <div class="stars">
+              {% for i in (1..5) %}
+                <svg viewBox="0 0 20 20">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.95a1 1 0 00.95.69h4.15c.969 0 1.371 1.24.588 1.81l-3.36 2.44a1 1 0 00-.364 1.118l1.286 3.95c.3.921-.755 1.688-1.54 1.118l-3.36-2.44a1 1 0 00-1.175 0l-3.36 2.44c-.784.57-1.838-.197-1.539-1.118l1.285-3.95a1 1 0 00-.364-1.118L2.07 9.377c-.783-.57-.38-1.81.588-1.81h4.15a1 1 0 00.95-.69l1.286-3.95z"/>
+                </svg>
+              {% endfor %}
+            </div>
+            <p>The best print on demand drinkware supplier out there! The fast fulfillment and premium engraving set this apart from other POD options.</p>
+            <div class="author">
+              <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/man%201.jpg-WT44CPnahAzrpVrQikqEfh0suSjEBU.jpeg" alt="James R.">
+              <div>
+                <div class="name">James R.</div>
+                <div>E-commerce Seller</div>
+              </div>
+            </div>
+          </div>
+          <!-- Testimonial 3: Michelle K. -->
+          <div class="testimonial">
+            <div class="stars">
+              {% for i in (1..5) %}
+                <svg viewBox="0 0 20 20">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.95a1 1 0 00.95.69h4.15c.969 0 1.371 1.24.588 1.81l-3.36 2.44a1 1 0 00-.364 1.118l1.286 3.95c.3.921-.755 1.688-1.54 1.118l-3.36-2.44a1 1 0 00-1.175 0l-3.36 2.44c-.784.57-1.838-.197-1.539-1.118l1.285-3.95a1 1 0 00-.364-1.118L2.07 9.377c-.783-.57-.38-1.81.588-1.81h4.15a1 1 0 00.95-.69l1.286-3.95z"/>
+                </svg>
+              {% endfor %}
+            </div>
+            <p>Incredible customer service and product quality. My business has grown significantly since adding these custom tumblers to my store.</p>
+            <div class="author">
+              <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/man%20woman.jpg-P9VIhZy0THUSrRex3og8O8hQIB3UKY.jpeg" alt="Michelle K.">
+              <div>
+                <div class="name">Michelle K.</div>
+                <div>Store Owner</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- CTA Section -->
+    <section class="cta">
+      <div class="container">
+        <div style="flex: 1;">
+          <h2>Start Selling Custom Print on Demand Tumblers Today!</h2>
+          <ul>
+            <li>
+              <svg viewBox="0 0 24 24">
+                <path stroke="#fff" stroke-width="2" fill="none" d="M5 13l4 4L19 7"/>
+              </svg>
+              No Inventory Needed
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24">
+                <path stroke="#fff" stroke-width="2" fill="none" d="M5 13l4 4L19 7"/>
+              </svg>
+              Fast &amp; Reliable Fulfillment
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24">
+                <path stroke="#fff" stroke-width="2" fill="none" d="M5 13l4 4L19 7"/>
+              </svg>
+              Premium Laser-Engraved Designs
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24">
+                <path stroke="#fff" stroke-width="2" fill="none" d="M5 13l4 4L19 7"/>
+              </svg>
+              24/7 Customer Support
+            </li>
+          </ul>
+        </div>
+        <div style="flex: 1; text-align: center;">
+          <a href="/early-access" class="cta-button">
+            <svg viewBox="0 0 24 24" style="vertical-align: middle; width: 16px; height: 16px; display: inline-block; margin-right: 4px;">
+              <path stroke="#fff" stroke-width="2" fill="none" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V3"/>
+            </svg>
+            Download on Shopify App Store
+          </a>
+          <div class="cta-note">No credit card required</div>
+        </div>
+      </div>
+    </section>
+   
+  </body>
+</html>

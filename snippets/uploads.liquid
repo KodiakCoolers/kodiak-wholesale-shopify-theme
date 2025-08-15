@@ -1,0 +1,40 @@
+<div class="upload1 hide-mob">
+  <div class="upload_artwork_content">
+    <div class="optin-heads">Upload Artwork</div>
+  </div>
+  <div class="container_avtar">
+    <div class="avatar-upload">
+      <div class="avatar-edit">
+        <span class="drop-zone__prompt"></span>
+        <div class="file-input-wrapper file-input-wrapper-1">
+          <img style="display:none;" src="" class="img-up-mm" id="img_urlss" alt="your image">
+          <input type="hidden" value="" name="properties[uploads]" class="input-forfile">
+          <br>
+          <div class="upload-control">
+            <input
+              value=""
+              class="imageUpload-1"
+              type="file"
+              accept=".png, .jpg, .jpeg"
+              id="img_filess"
+              onChange="img_pathUrl(this);"
+            >
+            <img
+              class="uplod-icon"
+              src="https://cdn.shopify.com/s/files/1/0791/7885/8793/files/photo_1.png?v=1690545049"
+            >
+          </div>
+        </div>
+        <label for="imageUpload"></label>
+      </div>
+
+      <div class="avatar-preview">
+      </div>
+      <div id="imagePreview-name"></div>
+      <button type="button" role="button" class="gf_remove_img remove_file" style="display:none;">
+        <span class="fa fa-close"></span>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="{% if template.suffix=="Leather Patch Hats" %}custom_section_content_table_mobile{% endif %}"></div>

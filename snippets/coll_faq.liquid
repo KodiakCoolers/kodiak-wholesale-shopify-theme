@@ -1,0 +1,32 @@
+
+    {% if section.settings.title != blank %}
+      <div
+        class="faq_heading">
+        <h2 class="faq_title">          
+          {{ section.settings.title | escape }}          
+        </h2>
+      </div>
+    {% endif %}
+
+    <div class="coll_question_anwer">
+          {% for block in section.blocks %}      
+           {% if block.type == "content" %}
+            <div class="faq_Accordion">
+              <div class="col_question">
+                <schemaplus_faq_question>
+                  {{ block.settings.ques }} <Span>{% render 'plus_icon' %}</Span>
+                </schemaplus_faq_question>
+              </div>
+              <div id="col_answer">
+                <schemaplus_faq_answer>
+                {{ block.settings.answer }}
+                </schemaplus_faq_answer>schemaplus_faq_answer>
+              </div>     
+            </div>
+            {% endif %}
+          {% endfor %}        
+    </div>
+
+    
+
+

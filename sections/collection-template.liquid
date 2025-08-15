@@ -1,0 +1,876 @@
+<script
+  type="application/json"
+  data-section-type="collection-template"
+  data-section-id="{{ section.id }}"
+>
+</script>
+
+{% liquid
+  if collection.image
+    assign image = collection.image
+  elsif section.settings.image
+    assign image = section.settings.image
+  else
+    assign image = collection.products.first.featured_image
+  endif
+
+  assign has_faceted_filtering_block = false
+  assign faceted_filtering_blocks_count = section.blocks | where: "type", "faceted_filtering" | size
+  if faceted_filtering_blocks_count > 0
+    assign has_faceted_filtering_block = true
+  endif
+%}
+
+{% if section.settings.featured_collection_image %}
+  {%
+    render 'template-banner',
+    image: image,
+    mobile_image: section.settings.mobile_image,
+    background_style: section.settings.caption_content_background,
+    wide_display: section.settings.wide_display,
+    banner_title: collection.title,
+    show_caption: section.settings.display_collection_title,
+  %}
+{% endif %}
+   <div class="one-whole column back_color">
+
+      <div class="breadcrumb-collection">
+        {% if section.settings.collection_breadcrumb %}
+          <script type="application/ld+json">
+            {
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "item": {
+                    "@id": "{{ shop.url }}",
+                    "name": "{{ 'general.breadcrumbs.home' | t }}"
+                  }
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "item": {
+                    "@id": "{{ routes.collections_url }}/{% if collection.handle != blank %}{{ collection.handle }}{% else %}all{% endif %}",
+                    "name": "{{ collection.title }}"
+                  }
+                }
+                {% if current_tags %}
+                  {% for tag in current_tags %}
+                    {% unless tag contains 'meta-' %}
+                      ,
+                      {
+                        "@type": "ListItem",
+                        "position": {{ forloop.index | plus: 2 }},
+                        "item": {
+                          "@id": "{{ routes.collections_url }}/{% if collection.handle != blank %}{{ collection.handle }}{% else %}all{% endif %}/{{ tag | handleize }}",
+                          "name": "{{ tag }}"
+                        }
+                      }
+                    {% endunless %}
+                  {% endfor %}
+                {% endif %}
+              ]
+            }
+          </script>
+
+          <div class="breadcrumb_text">
+            <a href="{{ routes.root_url }}" title="{{ shop.name | escape }}">
+              <span>{{ 'general.breadcrumbs.home' | t }}</span>
+            </a>
+
+            <span class="breadcrumb-divider">/</span>
+
+            <a href="{{ collection.url }}" title="{{ collection.title | escape }}" class="breadcrumb_link">
+              <span>{{ collection.title }}</span>
+            </a>
+
+            {% if current_tags %}
+              {% for tag in current_tags %}
+                {% unless tag contains 'meta-' %}
+                  <span class="breadcrumb-divider">/</span>
+
+                  <a href="{{ collection.url }}/{{ tag | handleize }}" title="{{ tag | escape }}">
+                    <span>{{ tag }}</span>
+                  </a>
+                {% endunless %}
+              {% endfor %}
+            {% endif %}
+
+            {% if paginate.pages != 0 and settings.pagination_type != 'load_more' and settings.pagination_type != 'infinite_scroll' %}
+              <span class="breadcrumb-divider"></span> 
+<!--               {{ 'general.breadcrumbs.page' | t: current_page: paginate.current_page, pages: paginate.pages }} -->
+            {% endif %}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+<section class="sections new_collection_template" data-show-logo='{{ collection.metafields.custom.engraved_upload_logo_collection_page }}'>
+  <div class="{% if collection.all_products_count > 0 %}collection_pro_template{% endif %}">
+  <div class="content">
+    {% paginate collection.products by section.settings.pagination_limit %}
+    {% if section.settings.display_collection_title and section.settings.featured_collection_image == false %}
+      <div class="one-half column medium-down--one-whole">
+        <h1>{{ collection.title }}</h1>
+      </div>
+    {% endif %}
+
+   <h1 class="main_heading">{{ collection.title }}</h1>
+  <div class="description_new">
+      
+      {% if collection.description.size > 100 %}
+<div class="description_new Rte product-description-short">
+ <div class="description-short-collection"> {{ collection.description  }}</div>
+  <a class="read_more_less" href="#">Read More</a>
+</div>
+<div class="description_new Rte product-description-full" style="display:none;">
+  <div class="description-short-collection-less"> {{ collection.description }}</div>
+  <a class="read_more_less" href="#">Read Less</a>
+</div>
+{% else %}
+<div class="description_new Rte">{{ collection.description }}</div>
+{% endif %} 
+
+      </div>
+
+
+<script>
+  $(document).ready(function(){
+    $('.read_more_less').on('click', function(e){
+      e.preventDefault();
+      if($('.product-description-full:visible')[0]){
+        $('.product-description-full').fadeOut(function(){ 
+          $('.product-description-short').fadeIn();
+        });
+      }else{
+        $('.product-description-short').fadeOut(function(){ 
+          $('.product-description-full').fadeIn();
+        });
+      }
+    });
+  });
+</script>
+
+{% render 'quick-filtering',section:section %}  
+    
+ {% if collection.metafields.custom.show_upload_logo_collection_page %}       
+ <div class="personalize_content_inner_block collection-personalize-block mobile-section-upload-personalize">
+
+        <div class="upload_personalizer_inner">
+  
+        <div class="upload_personalize_image">
+          <div class="upload-inner-content" >
+              <!-- <label class="file-input-label1" for="fileInput">
+                          <img src="https://cdn.shopify.com/s/files/1/0082/8237/4203/files/div.swyd-icon.png?v=1701504166" style="display:none;">
+              </label> -->
+              <!-- <input value="" class="imageUpload-1" type="file" accept=".png, .jpg, .jpeg" id="fileInput1" style="height:0px;">  -->
+              <div class="imagePreview-name-1"><span class="imag-pre imag-pr imag-pr-mobile"></span><span class="remove-close fa fa-close close_upload01">X</span></div>
+            <h4>Got a Logo Or Design?</h4>
+            <p>Upload it to see it on our products</p>
+            <div class="upload-control"> 
+            <div class="button_upload_1"><button class="button_upload1" >Upload Now <span class="spinner-product" style="display: none;"></span></button></div>
+             <div class="size_div">
+                <h5>Max Size: 20MB</h5>
+                <p>Upload any High-Res file type Listed Below: </p>
+                <div class="images_ext"><div>.JPG</div><div>.JPEG</div><div>.PNG</div></div>
+             </div>
+        </div>
+        </div>
+        <div class="spinner-product-outer" style="display: none;">
+         <div class="spinner-product"></div>
+         <div class="spinner-product-content">
+             <p>Processing your Logo, give us a few seconds…</p>
+        </div>
+        </div>
+       <div class="remove_upload_image_1" style="display:none;">
+            <div class="imagePreview-name-1"><span class="imag-pre"></span><span class="remove-close fa fa-close close_upload01">X</span></div>
+            <div class="image_prev_upld"><img src="" style="width:150px;height:150px;margin-top: 10px;margin-bottom: 10px;border-radius: 50%;border: 2px dashed #fff;background: linear-gradient(#F7FAFF 0 0) padding-box,linear-gradient(to right,#ff0000,#ffa500,#ffff00,#008000,#0000ff,#4b0082,#ee82ee);"></div>
+            <div class="remove_upload_1"><button class="remove_upload" >X Clear Design</button></div>
+       </div>
+        </div>
+<div class="search-logo" style="display:none;">
+   <p>Or Enter your website and we’ll try to extract it.</p>
+   <div class="search-container-logo">
+     <div class="search-icon">
+       <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
+            <path d="M18.1608 18.4694L13.83 14.1386M13.83 14.1386C15.0021 12.9664 15.6606 11.3766 15.6606 9.71898C15.6606 8.06132 15.0021 6.47155 13.83 5.2994C12.6578 4.12725 11.0681 3.46875 9.41039 3.46875C7.75273 3.46875 6.16295 4.12725 4.99081 5.2994C3.81866 6.47155 3.16016 8.06132 3.16016 9.71898C3.16016 11.3766 3.81866 12.9664 4.99081 14.1386C6.16295 15.3107 7.75273 15.9692 9.41039 15.9692C11.0681 15.9692 12.6578 15.3107 13.83 14.1386Z" stroke="#777777" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+       </svg>
+      </div>
+      <input type="text" placeholder="Search.." name="search">
+      <button type="submit">Find Logo</button>
+  </div>
+</div>
+     </div>
+</div>
+
+{% endif %}
+
+    {% comment %} Check to see if sidebar should be enabled {% endcomment %}
+    {% if section.blocks.size > 0 and collection.handle != 'types' and collection.handle != 'vendors' %}
+      {% assign sidebar = true %}
+    {% else %}
+      {% assign sidebar = false %}
+    {% endif %}
+
+  
+    <div
+      class="desktop-collection-fillter default_collection 
+        content-wrapper
+        is-flex
+        is-flex-wrap
+      "
+    >
+     
+      {% if collection.metafields.collection.menu != true %}
+              {%
+        render 'sidebar',
+        results: collection,
+         show_logo_section:collection.metafields.custom.show_upload_logo_collection_page,
+        has_faceted_filtering_block: has_faceted_filtering_block,
+      %}        
+      {% else %}
+         <div class="all_collections">
+          <div class="all_products">All products</div>
+          <div class="left_sidebar_collection">
+            {% for block in section.blocks %}
+              {% if block.type == 'Collection' %}
+              {% assign collection1 = collections[block.settings.coll] %}
+               {% assign coll1 = collection1.metafields.custom.subcategories.value %}
+              <div class="collection_heading_subheading">
+             {% if block.settings.colheading %} <div class="dropdown_collection">
+                <div class="collection_heading">{{ block.settings.colheading }}</div>            
+              </div>
+               {% endif %}
+              <div class="collection_lists">
+                {% for collname in coll1 %}
+                       <div class="collection_names"><a href="{{ collname.url }}">{{ collname.title }}</a></div>
+                    {% endfor %}
+              </div>
+              </div>
+                {% endif %}
+             {% endfor %}
+           </div>
+        </div>
+        {% endif %}
+
+        {% assign coll = collection.metafields.custom.subcategories.value %}
+         {% if collection.metafields.custom.subcategories.value!=blank %}  
+      <div class="all_collection_subcategories">
+        {% for customcollection in coll %}
+          <a href="{{ customcollection.url }}">
+            <div class="collection_img">
+              <div class="collection_name">{{ customcollection.title }}</div>
+              <div class="collection_images"><img src="{{ customcollection.image | img_url:'' }}"></div>
+            </div>
+          </a>
+        {% endfor %}
+      </div>
+      {% else %}
+
+
+      <div class="has-sidebar-option sidebar-enabled--{{ sidebar }}">
+
+       {% comment %} {% if collection.description != blank %}
+          <div class="container">
+            <div class="one-whole column">
+              <div class="collection_description rte">
+                {{ collection.description }}
+              </div>
+            </div>
+          </div>
+        {% endif %}{% endcomment %}
+            {% if collection.all_products_count > 0 %}
+    <div class="{% if section.settings.display_collection_title and section.settings.featured_collection_image == false %}one-half column medium-down--one-whole{% else %}one-whole column{% endif %} section_select">
+      {% if collection.handle != blank and collection.products_count > 0 %}
+        {% if section.settings.collection_tags and has_faceted_filtering_block == false %}
+          {% for tag in collection.all_tags %}
+            {% if forloop.first %}
+              <select name="tag_filter" id="tag_filter" class="tag_filter" data-default-collection="{% if collection.handle == 'all' %}{{ routes.all_products_collection_url }}{% else %}{{ collection.url }}{% endif %}">
+                <option {% unless current_tags %}selected="selected"{% endunless %} value="{% if collection.handle == "all" %}{{ routes.all_products_collection_url }}{% else %}{{ collection.url }}{% endif %}">{{ 'collections.general.all_collection_title' | t: title: collection.title }}</option>
+            {% endif %}
+
+            {% unless tag contains 'meta-' %}
+              <option {% if current_tags contains tag %}selected="selected"{% endif %} value="{{ routes.collections_url }}/{% if collection.handle != blank %}{{ collection.handle }}{% else %}all{% endif %}/{{ tag | handleize }}">{{ tag }}</option>
+            {% endunless %}
+
+            {% if forloop.last %}
+              </select>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+     
+         <div class="showing_product">Showing {{ collection.products_count }} of {{ collection.all_products_count }}</div> 
+        <div class="sort_by_filter">
+        <span class="filter_svg">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2.5 15H7.5V13.3333H2.5V15ZM2.5 5V6.66667H17.5V5H2.5ZM2.5 10.8333H12.5V9.16667H2.5V10.8333Z" fill="black"/>
+          </svg>
+
+        </span>
+        <span class="sort_tilte">Sort:</span>
+
+       
+        {% if section.settings.collection_sort %}
+          <select
+            class="sort_by"
+            id="sort-by"
+            data-sort-by
+          >
+            {%- for option in collection.sort_options -%}
+              {% assign sort_active = false %}
+              {% if collection.sort_by == blank and collection.default_sort_by == option.value %}
+                {% assign sort_active = true %}
+              {% elsif collection.sort_by == option.value %}
+                {% assign sort_active = true %}
+              {% endif %}
+              <option value="{{ option.value }}" {% if sort_active %}selected="selected"{% endif %}>
+                {{ option.name }}
+              </option>
+            {%- endfor -%}
+          </select>
+        {% endif %}
+      </div>
+      {% endif %}
+    </div>
+    {% endif %}
+
+        <div class="container product_grid_section">
+          <div class="one-whole column">
+            {% if collection.products.size == 0 %}
+              <div class="product-list product-list--collection">
+                <p class="quote">{{ 'collections.general.no_matches' | t }}</p>
+              </div>
+            {% else %}
+              {%- assign products_per_row = section.settings.products_per_row -%}
+              {%
+                render 'product-loop',
+                paginate: paginate,
+                products: products,
+                skip_product: product,
+                products_per_row: products_per_row,
+                sidebar: sidebar,
+              %}
+            {% endif %}
+          </div>
+        </div>
+
+
+        {% if settings.pagination_type == 'basic_pagination' %}
+          {%
+            render 'pagination',
+            paginate: paginate
+          %}
+        {% endif %}
+
+         <div class="container">
+          <div class="collections_description">
+             {{ collection.description }}
+          </div>
+        </div>
+
+         <div class="container">
+         <div class="collection_faq">
+           {% render 'coll_faq' %}
+         </div>
+         </div>
+      </div>
+      {% endif %}
+    </div>
+
+<!--  -->
+<!-- mobile-collection-fillter  -->
+
+<div
+      class="mobile-collection-fillter default_collection 
+        content-wrapper
+        is-flex
+        is-flex-wrap
+      "
+    >
+     
+
+
+
+      {% if collection.all_products_count > 0 %}{% endif %}
+{% if collection.metafields.collection.menu != true %}
+              {%
+        render 'sidebar',
+        results: collection,
+        has_faceted_filtering_block: has_faceted_filtering_block,
+      %}        
+      {% else %}
+         <div class="all_collections">
+          <div class="all_products">All products</div>
+           
+          <div class="left_sidebar_collection">
+            {% for block in section.blocks %}
+              {% if block.type == 'Collection' %}
+              {% assign collection1 = collections[block.settings.coll] %}
+               {% assign coll1 = collection1.metafields.custom.subcategories.value %}
+              <div class="collection_heading_subheading">
+             {% if block.settings.colheading %} <div class="dropdown_collection">
+                <div class="collection_heading">{{ block.settings.colheading }}</div>            
+              </div>
+               {% endif %}
+              <div class="collection_lists">
+                {% for collname in coll1 %}
+                       <div class="collection_names"><a href="{{ collname.url }}">{{ collname.title }}</a></div>
+                    {% endfor %}
+              </div>
+              </div>
+                {% endif %}
+             {% endfor %}
+           </div>
+        </div>
+        {% endif %}
+
+        {% assign coll = collection.metafields.custom.subcategories.value %}
+         {% if collection.metafields.custom.subcategories.value!=blank %}
+      <div class="all_collection_subcategories">
+        {% for customcollection in coll %}
+          <a href="{{ customcollection.url }}">
+            <div class="collection_img">
+              <div class="collection_name">{{ customcollection.title }}</div>
+              <div class="collection_images"><img src="{{ customcollection.image | img_url:'' }}"></div>
+            </div>
+          </a>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="has-sidebar-option sidebar-enabled--{{ sidebar }}">
+
+       {% comment %} {% if collection.description != blank %}
+          <div class="container">
+            <div class="one-whole column">
+              <div class="collection_description rte">
+                {{ collection.description }}
+              </div>
+            </div>
+          </div>
+        {% endif %}{% endcomment %}
+            {% if collection.all_products_count > 0 %}
+    <div class="{% if section.settings.display_collection_title and section.settings.featured_collection_image == false %}one-half column medium-down--one-whole{% else %}one-whole column{% endif %} section_select">
+      {% if collection.handle != blank and collection.products_count > 0 %}
+        {% if section.settings.collection_tags and has_faceted_filtering_block == false %}
+          {% for tag in collection.all_tags %}
+            {% if forloop.first %}
+              <select name="tag_filter" id="tag_filter" class="tag_filter" data-default-collection="{% if collection.handle == 'all' %}{{ routes.all_products_collection_url }}{% else %}{{ collection.url }}{% endif %}">
+                <option {% unless current_tags %}selected="selected"{% endunless %} value="{% if collection.handle == "all" %}{{ routes.all_products_collection_url }}{% else %}{{ collection.url }}{% endif %}">{{ 'collections.general.all_collection_title' | t: title: collection.title }}</option>
+            {% endif %}
+
+            {% unless tag contains 'meta-' %}
+              <option {% if current_tags contains tag %}selected="selected"{% endif %} value="{{ routes.collections_url }}/{% if collection.handle != blank %}{{ collection.handle }}{% else %}all{% endif %}/{{ tag | handleize }}">{{ tag }}</option>
+            {% endunless %}
+
+            {% if forloop.last %}
+              </select>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+     
+         <div class="showing_product">Showing {{ collection.products_count }} of {{ collection.all_products_count }}</div> 
+        <div class="test sort_by_filter">
+        <span class="filter_svg">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2.5 15H7.5V13.3333H2.5V15ZM2.5 5V6.66667H17.5V5H2.5ZM2.5 10.8333H12.5V9.16667H2.5V10.8333Z" fill="black"/>
+          </svg>
+
+        </span>
+        <span class="sort_tilte">Sort:</span>
+
+       
+        {% if section.settings.collection_sort %}
+          <select
+            class="sort_by"
+            id="sort-by"
+            data-sort-by
+          >
+            {%- for option in collection.sort_options -%}
+              {% assign sort_active = false %}
+              {% if collection.sort_by == blank and collection.default_sort_by == option.value %}
+                {% assign sort_active = true %}
+              {% elsif collection.sort_by == option.value %}
+                {% assign sort_active = true %}
+              {% endif %}
+              <option value="{{ option.value }}" {% if sort_active %}selected="selected"{% endif %}>
+                {{ option.name }}
+              </option>
+            {%- endfor -%}
+          </select>
+        {% endif %}
+      </div>
+<div class="fillters-icons">
+  {% if collection.all_products_count > 0 %}filters
+      {% comment %}
+         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="17px" height="17px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" id="Stock_cut" version="1.1" xml:space="preserve"><desc/><g><circle cx="5" cy="8" fill="none" r="2" stroke="#000000" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"/><line fill="none" stroke="#000000" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" x1="7" x2="32" y1="8" y2="8"/><circle cx="5" cy="24" fill="none" r="2" stroke="#000000" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"/><line fill="none" stroke="#000000" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" x1="7" x2="32" y1="24" y2="24"/><circle cx="27" cy="16" fill="none" r="2" stroke="#000000" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"/><line fill="none" stroke="#000000" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" x1="25" x2="0" y1="16" y2="16"/><line fill="none" stroke="#000000" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" x1="3" x2="0" y1="8" y2="8"/><line fill="none" stroke="#000000" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" x1="29" x2="32" y1="16" y2="16"/><line fill="none" stroke="#000000" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" x1="3" x2="0" y1="24" y2="24"/></g></svg>
+      {% endcomment %}
+      <svg xmlns="http://www.w3.org/2000/svg" width="17px" height="17px" class="hamburger" viewBox="0 0 35.32 23.65" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd" clip-rule="evenodd"><path d="M33.25 4.16H2.08A2.091 2.091 0 0 1 0 2.08C0 .93.93 0 2.08 0h31.17c1.14 0 2.07.94 2.07 2.08 0 1.14-.93 2.08-2.07 2.08zM2.08 13.9C.93 13.9 0 12.97 0 11.82c0-1.14.93-2.07 2.08-2.07h31.17a2.074 2.074 0 0 1 0 4.15H2.08zm0 9.75A2.091 2.091 0 0 1 0 21.57c0-1.14.93-2.08 2.08-2.08h31.17c1.14 0 2.07.94 2.07 2.08 0 1.14-.93 2.08-2.07 2.08H2.08z" fill="#444"></path></svg>{% endif %}</div> 
+      {% endif %}
+    </div>
+    {% endif %}
+
+        <div class="container product_grid_section">
+          <div class="one-whole column">
+            {% if collection.products.size == 0 %}
+              <div class="product-list product-list--collection">
+                <p class="quote">{{ 'collections.general.no_matches' | t }}</p>
+              </div>
+            {% else %}
+              {%- assign products_per_row = section.settings.products_per_row -%}
+              {%
+                render 'product-loop',
+                paginate: paginate,
+                products: products,
+                skip_product: product,
+                products_per_row: products_per_row,
+                sidebar: sidebar,
+              %}
+            {% endif %}
+          </div>
+        </div>
+
+
+        {% if settings.pagination_type == 'basic_pagination' %}
+          {%
+            render 'pagination',
+            paginate: paginate
+          %}
+        {% endif %}
+
+         <div class="container">
+          <div class="collections_description">
+             {{ collection.description }}
+          </div>
+        </div>
+
+         <div class="container">
+         <div class="collection_faq">
+           {% render 'coll_faq' %}
+         </div>
+         </div>
+      </div>
+      {% endif %}
+    </div>
+
+<!--  -->
+  {% endpaginate %}
+
+  </div>
+</div>
+
+</section>
+
+{% comment %} Shopify-XR {% endcomment %}
+{% if product.media %}
+  <script>
+    window.ShopifyXR=window.ShopifyXR||function(){(ShopifyXR.q=ShopifyXR.q||[]).push(arguments)}
+    {% assign models = product.media | where: 'media_type', 'model' | json %}
+    ShopifyXR('addModels', {{ models }});
+  </script>
+{% endif %}
+
+<script defer src="https://cdn.shopify.com/shopifycloud/shopify-xr-js/assets/v1.0/shopify-xr.en.js"></script>
+<script defer src="https://cdn.shopify.com/shopifycloud/model-viewer-ui/assets/v1.0/model-viewer-ui.en.js"></script>
+
+{% schema %}
+{
+  "name": "Collection",
+  "class": "shopify-section--collection-template under-menu",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "FAQ Heading",
+      "default": "FAQ"
+    },
+    {
+      "type": "header",
+      "content": "Banner"
+    },
+    {
+      "type": "checkbox",
+      "id": "featured_collection_image",
+      "label": "Show banner",
+      "info": "[Learn more](https://help.outofthesandbox.com/hc/en-us/articles/115009455768-How-to-add-a-Collection-Banner)",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "wide_display",
+      "label": "Wide display",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Banner image",
+      "info": "This only appears on collections that do not have a collection image. 1800 x 1000px recommended."
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Mobile banner image",
+      "info": "Display a different image on mobile screens."
+    },
+    {
+      "type": "select",
+      "id": "caption_content_background",
+      "label": "Text contrast technique",
+      "default": "original",
+      "info": "Improve legibility by applying a contrast technique to your banner’s text.",
+      "options": [
+        {
+          "value": "original",
+          "label": "None"
+        },
+        {
+          "value": "darken_bg",
+          "label": "Darken banner image"
+        },
+        {
+          "value": "text_box",
+          "label": "Solid box"
+        },
+        {
+          "value": "translucent_text_box",
+          "label": "Translucent box"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "display_collection_title",
+      "label": "Show collection title"
+    },
+    {
+      "type": "checkbox",
+      "id": "collection_breadcrumb",
+      "label": "Show breadcrumb links",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "collection_tags",
+      "label": "Enable filtering by product tag",
+      "info": "When using a Faceted filtering block, the tag filter will be hidden."
+    },
+    {
+      "type": "checkbox",
+      "id": "collection_sort",
+      "label": "Enable collection sorting"
+    },
+    {
+      "type": "header",
+      "content": "Products"
+    },
+    {
+      "type": "range",
+      "id": "products_per_row",
+      "label": "Products per row",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "pagination_limit",
+      "label": "Products per page",
+      "min": 2,
+      "max": 50,
+      "step": 1,
+      "default": 48
+    },
+    {
+      "type": "header",
+      "content": "Sidebar"
+    },
+    {
+      "type": "paragraph",
+      "content": "Create a sidebar by adding content blocks."
+    },
+    {
+      "type": "checkbox",
+      "id": "toggle",
+      "label": "Collapse sidebar content",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "quickfiltering",
+      "label": "Check if you want to show with image",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Frequently Asked Question",
+      "type": "content",
+      "settings": [
+        {
+          "type": "text",
+          "id": "ques",
+          "label": "Question",
+          "default": "Question"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>Provide the answer to the question here.</p>"
+        }
+      ]
+    },
+    {
+      "type": "Collection",
+      "name": "Collection sidebar",
+      "settings":[
+        {
+          "type":"text",
+          "id":"colheading",
+          "label":"Add heading"
+        },
+        {
+          "type":"collection",
+          "id":"coll",
+          "label":"Add collection"
+        }
+      ]
+    },
+    {
+      "type": "filter_by_collection",
+      "name": "Collection list",
+      "limit": 1
+    },
+    {
+      "type": "faceted_filtering",
+      "name": "Faceted filtering",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "[Learn how](https://help.shopify.com/en/manual/online-store/themes/os20/customize/filters) to configure filters."
+        },
+        {
+          "type": "paragraph",
+          "content": "Using this block will hide any tag filter, tag list, type list, and vendor list blocks."
+        },
+        {
+          "type": "checkbox",
+          "id": "show_filter_product_count",
+          "label": "Show product counts",
+          "default": true
+        }
+      ]
+    },
+    {
+      "type": "menu",
+      "name": "Menu",
+      "settings": [
+        {
+          "type": "link_list",
+          "id": "custom_menu_linklist",
+          "label": "Menu"
+        }
+      ]
+    },
+    {
+      "type": "page",
+      "name": "Page",
+      "settings": [
+        {
+          "type": "page",
+          "id": "content_page",
+          "label": "Page"
+        }
+      ]
+    },
+    {
+      "type": "recently_viewed",
+      "name": "Recently viewed products",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "To test the recently viewed products, view your online store outside of the Editor and visit multiple product pages. [Learn more](https:\/\/help.outofthesandbox.com\/hc\/en-us\/articles\/115008765228)"
+        },
+        {
+          "type": "text",
+          "id": "sidebar_rv_title",
+          "label": "Title",
+          "default": "Recently Viewed"
+        },
+        {
+          "type": "range",
+          "id": "sidebar_rv_per",
+          "label": "Products limit",
+          "min": 1,
+          "max": 4,
+          "step": 1,
+          "default": 3
+        }
+      ]
+    },
+    {
+      "type": "filter",
+      "name": "Tag filter",
+      "limit": 5,
+      "settings": [
+        {
+          "type": "text",
+          "id": "filter_name",
+          "label": "Title"
+        },
+        {
+          "type": "textarea",
+          "id": "filter_tags",
+          "label": "Filter tags",
+          "info": "Add a comma-separated list of product tags. Only the tags found in the collection will be displayed as filters. [Learn more](https://help.outofthesandbox.com/hc/en-us/articles/115008642047)"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_filter_swatches",
+          "label": "Display color swatches"
+        }
+      ]
+    },
+    {
+      "type": "filter_by_tag",
+      "name": "Tag list",
+      "limit": 1
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Text area can be used for special announcements or general information.</p>"
+        }
+      ]
+    },
+    {
+      "type": "filter_by_type",
+      "name": "Type list",
+      "limit": 1
+    },
+    {
+      "type": "filter_by_vendor",
+      "name": "Vendor list",
+      "limit": 1
+    }
+  ]
+}
+
+{% endschema %}

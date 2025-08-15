@@ -1,0 +1,384 @@
+{%- assign gift_box_product = all_products['ditas-signature-gift-box'] -%}
+
+<!--<script>
+    var cart_drawer = new Vue({
+        el: "#cart-drawer",
+        name: "Cart Drawer",
+        delimiters: ['${', '}'],
+        data: {
+            cart_open: false,
+            cart_items: [
+                {% for item in cart.items %}
+                    {
+                        barcode: "{{ item.variant.barcode }}",
+                        compare_price: "{{ item.variant.compare_at_price }}",
+                        final_price: {{ item.final_price }},
+                        final_line_price: {{ item.final_line_price }},
+                        handle: "{{ item.product.handle }}",
+                        id: {{ item.id }},
+                        image: "{{ item | img_url: '1024x' }}",
+                        price: {{ item.final_line_price }},
+                        product: {{ item.product | json }},
+                        product_title: `{{ item.product.title }}`,
+                        product_id: {{ item.product.id }},
+                        product_type: "{{ item.product.type }}",
+                        quantity: {{ item.quantity }},
+                        sku: "{{ item.sku }}",
+                        title: "{{ item.title }}",
+                        total_discount: {{ item.line_level_total_discount }},
+                        url: "{{ item.variant.url }}",
+                        variant_id: {{ item.variant_id }},
+                        variant_options: [
+                        {% for option in item.variant.options %}
+                            "{{ option }}",
+                        {% endfor %}
+                        ],
+                        variant_title: "{{ item.variant.title }}",
+                        vendor: "{{ item.product.vendor }}",
+                        tags: "{{ item.product.tags }}",
+                        properties: {
+						  {% for pro in item.properties %}
+                            {% unless pro.last == blank  %}
+                      			"{{ pro.first }}": "{{ pro.last }}" {% unless forloop.last %},{% endunless %}
+                            {% endunless %}
+                          {% endfor %}
+                   		 }
+                    },
+                {% endfor %}
+            ],
+            gift_box: {{ gift_box_product | json }},
+            upsells: [],
+            wishlist_cache: {},
+            free_shipping_target: 5500,
+            first_open: true
+        },
+        watch: {
+            cart_open: function cart_open(){
+                if(this.cart_open){
+                    $("html").addClass("cart-active");
+                }
+                else{
+                    $("html").removeClass("cart-active");
+                }
+            },
+            cart_items: function cart_items(){
+              var count = 0;
+              cart_drawer.$data.cart_items.forEach(function(itm){
+                  count+=itm.quantity
+              })
+             if($("#cart-icon-bubble .cart-count-bubble").length){
+				jQuery(".cart-count-bubble span:first-child").html(count);
+             }else{
+             	$("#cart-icon-bubble").append(`<div class="cart-count-bubble"><span aria-hidden="true">`+count+`</span><span class="visually-hidden">`+ count +` item</span></div>`);
+             }
+            
+                this.recommendations();
+            },
+            upsells: function upsells(){
+                var self = this;
+
+                if(this.upsells.length > 0) {
+                    console.log("open upsell")
+                    setTimeout(function() {
+                        var upsell_el = document.querySelector(".collapse-cart-upsell");
+
+                        if(upsell_el != null && upsell_el.style.display == "none") {
+                            self.toggle_dropdown('upsell');
+                            self.first_open = false;
+                        }
+                        console.log("opened upsell")
+                    }, 0);
+                }
+            }
+        },
+        computed: {
+            cart_total_price: function cart_total_price(){
+                var tp = 0;
+                this.cart_items.forEach(function(item){
+                    tp += item.final_line_price;
+                });
+                return tp;
+            },
+           cmp_price: function cmp_price(){
+                var tcp = 0;
+                this.cart_items.forEach(function(item){
+                    tcp += parseFloat(item.compare_price);
+                });
+                return tcp;
+            }
+  
+        },
+        
+        filters: {
+            money: function money(price){
+                return "$" + (price/100).toFixed(2);
+            }
+        },
+        mounted(){
+            var self = this;
+
+            this.check_wishlist();
+
+            this.recommendations();
+            this.cart_items.forEach(function(item){
+                if(item.handle.includes("gift-box")){
+                    self.update_gift_box(true, item.variant_id);
+                }
+            })
+        },
+        methods: {
+            /**
+            *    qty_selector changes the quantity for the selected product.
+            *
+            *    @param { string } type - either plus or minus, you can choose whatever
+            *    @param { integer } variant_id - need variant ID to update the cart for the product
+            *    @param { integer } current_qty - get the current quantity of the product so you can change it   
+            */
+            qty_selector: function qty_selector(type, variant_id, current_qty){
+                if(type == "plus"){
+                    this.ajax_call(variant_id, current_qty + 1);
+                }
+                else{
+                    this.ajax_call(variant_id, current_qty - 1);
+                }
+            },
+            /**
+            *   == inline commenting is provided ==
+            *   ajax_call is the main function that adds/removes etc. the product from the cart.
+            *
+            *   @param { integer } id - the ID of the product (this has to be the variant ID)
+            *   @param { integer } qty - the quantity you want to change to for the product
+            */
+            ajax_call: function ajax_call(id, qty){
+                var self = this;
+                var finished = false;
+                var temp = [];
+
+                var item = this.cart_items.find(x => x.id == id);
+
+                if(item != null) {
+                    if(item.quantity > qty) {
+//                         window.removeFromCart({
+//                             id: item.id,
+//                             title: item.product_title,
+//                             price: item.price,
+//                             vendor: item.vendor,
+//                             type: item.product_type
+//                         }, item.variant_title, Math.abs(item.quantity - qty));
+                    }
+                    if(item.quantity < qty) {
+//                         window.addToCart({
+//                             id: item.id,
+//                             title: item.product_title,
+//                             price: item.price,
+//                             vendor: item.vendor,
+//                             type: item.product_type
+//                         }, item.variant_title, Math.abs(item.quantity - qty));
+                    }
+                }
+
+                // removes checked value for gift box if they remove gift box
+                this.cart_items.forEach(function(item){
+                    if(item.handle.includes("gift-box")){
+                        if(item.variant_id == id && qty == 0){
+                            self.update_gift_box(false, item.variant_id);
+                        }
+                    }
+                })
+
+                // do an update.js API
+                jQuery.ajax({
+                    type: 'POST',
+                    url: '/cart/update.js',
+                    data: {
+                        updates: {
+                            [id]: qty
+                        }
+                    },
+                    dataType: 'json',
+                    success: function(res) {
+                        self.cart_items = res.items;
+                    }
+                });
+            },
+            /**
+            *   https://api.jquery.com/slidetoggle/
+            *   toggle_dropdown just utilises the jQuery function slideToggle to have a dropdown.
+            *   
+            *   @param { string } type - the name of what the toggle is going to be
+            */
+            toggle_dropdown: function toggle_dropdown(type){
+                $(".cart-"+type+"-title .icon-chevron").toggleClass("active");
+                $(".collapse-cart-"+type).slideToggle();
+            },
+            /**
+            *   gift_toggle just toggles the gift slider, nothing fancy here.
+            */
+            gift_toggle: function gift_toggle(){
+                $('.collapse-cart-gift-flex').slideToggle();
+            },
+            /**
+            *   == inline commenting in provided ==
+            *   add_gift_box function adds gift box to the cart
+            *
+            *   @param { integer } id - the ID of what you need to add
+            */
+            add_gift_box: function add_gift_box(id){
+                var self = this;
+                var gift_box_obj = {};
+
+                // we need to set the object to remove all the gift box initially
+                // obj needs to look like
+                /**
+                    {
+                        [id]: 0,
+                        [id]: 0
+                    }
+                */
+                self.gift_box.variants.forEach(function(variant){
+                    gift_box_obj[variant.id] = 0;
+                });
+                    
+                // using update API to remove all the gift box and adding the one we need
+                jQuery.ajax({
+                    type: 'POST',
+                    url: '/cart/update.js',
+                    data: {
+                        updates: gift_box_obj
+                    },
+                    dataType: 'json',
+                    success: function(res) {
+                        jQuery.ajax({
+                            type: 'POST',
+                            url: '/cart/update.js',
+                            data: {
+                                updates: {
+                                    [id]: 1
+                                }
+                            },
+                            dataType: 'json',
+                            success: function(res) {
+                                self.cart_items = res.items;
+                            }
+                        });
+                    }
+                });
+            },
+            /**
+            *   removes checked boxes and radio button when gift box is not in cart is not in cart
+            *
+            *   @param { bool } bool - true or false value for when checkbox and radio is ticked
+            *   @param { id } id - variant ID of the gift box
+            */
+            update_gift_box: function update_gift_box(bool, id){
+                if(bool){
+                    $(".cart-checkbox input").prop("checked", true);
+                    $(".collapse-cart-gift-flex").show();
+                    $(".cart-radio input[value="+id+"]").prop("checked", true);
+                }
+                else{
+                    $(".cart-checkbox input").prop("checked", false);
+                    $(".collapse-cart-gift-flex").hide();
+                    $(".cart-radio input[value="+id+"]").prop("checked", false);
+                }
+            },
+            /**
+            *   https://shopify.dev/docs/themes/ajax-api/reference/product-recommendations
+            *   uses the recommendations API from shopify to add upsells for products
+            */
+            recommendations: function recommendations(){
+                var self = this;
+                var c = this.cart_items.filter(function(item){
+                    if(!item.handle.includes("gift-box")){
+                        return item;
+                    };
+                });
+                window.c = c;
+              
+                var upsell_target = $.map(window.c, function(v){
+                    return "id:"+v.product_id;
+                }).join('%20OR%20');
+              
+                //var upsell_target = c[0];
+                jQuery.ajax({
+                  type: 'GET',
+                  //url: '/recommendations/products.json?limit=3&product_id='+upsell_target.product_id,
+                  url: '/search?view=ajax&q='+upsell_target+'&type=product',
+                  success: function(res) {
+                    var recom_products = res;
+                    //console.log(res);
+                    recom_products = recom_products.replace(",]", "]");
+                    recom_products = JSON.parse(recom_products);
+                    self.upsells = recom_products.products;
+                    console.log(self.upsells);
+                    console.log(self.upsells);
+                  }
+                });
+            },
+            /**
+            *   upsell_change function changes the ID of the button's variant ID when they add to cart
+            *
+            *   @param { event } e - onchange event from the select
+            */
+            upsell_change: function upsell_change(e){
+                $("#btn-id-"+e.target.dataset.id).attr("data-atc", e.target.value);
+            },
+            /**
+            *   upsell_atc function adds the upsell item to cart
+            *
+            *   @param { integer } id - variant ID of the product
+            */
+            upsell_atc: function upsell_atc(id){
+                this.ajax_call(id, 1);
+            },
+            check_wishlist: function check_wishlist() {
+                var stored_wishlist = localStorage.getItem('dvt_wishlist');
+
+                if(stored_wishlist != null && stored_wishlist != '') {
+                    this.wishlist_cache = JSON.parse(stored_wishlist);
+                }
+            },
+            handle_wishlist: function handle_wishlist(id, handle) {
+                this.check_wishlist();
+
+                if(this.wishlist_cache[id] != null) {
+                    delete this.wishlist_cache[id];
+                } else {
+                    this.wishlist_cache[id] = handle;
+                }
+
+                localStorage.setItem('dvt_wishlist', JSON.stringify(this.wishlist_cache));
+
+                this.check_wishlist();
+
+                // update product form wishlist
+                if(typeof product_form != "undefined") {
+                    product_form.check_wishlist();
+                }
+            },
+            checkMono: function checkMono(prop, sku){
+console.log("prop", prop, 'sku', sku);
+// return true;
+            try{
+              if(prop){
+                if(typeof prop['_tags'] != "undefined" && !prop['_tags'].includes('notcustom')){
+                  //debugger;
+                  
+                    if(this.cart_items.find(itm => itm.properties["SKU"] == sku)){
+                      return false;
+                    }else{
+                      return true;
+                    }
+                }else{
+                  return false;
+                }
+              }
+            } catch(err){
+              return false;
+            }
+              
+            }
+        }
+    });
+  
+</script>-->

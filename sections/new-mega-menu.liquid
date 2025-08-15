@@ -1,0 +1,95 @@
+{%
+  render 'mega-menu-new',
+  menu: section,
+  
+  style: mega-menu-1,
+%}
+
+{% schema %}
+{
+  "name": "Mega menu New",
+  "class": "shopify-section--mega-menu",
+  "settings": [
+    {
+      "type": "text",
+      "id": "parent",
+      "label": "Link title",
+      "info": "The mega menu will appear below this parent link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "column",
+      "name": "Column",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Top content"
+        },
+        {
+          "type": "richtext",
+          "id": "richtext_top",
+          "label": "Text area"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_top",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "image_caption_top",
+          "label": "Image caption"
+        },
+        {
+          "type": "url",
+          "id": "image_link_top",
+          "label": "Image link"
+        },
+        {
+          "type": "header",
+          "content": "Navigation"
+        },
+        {
+          "type": "link_list",
+          "id": "menu_1",
+          "label": "Menu 1"
+        },
+        {
+          "type": "header",
+          "content": "Bottom content"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_bottom",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "image_caption_bottom",
+          "label": "Image caption"
+        },
+        {
+          "type": "url",
+          "id": "image_link_bottom",
+          "label": "Image link"
+        },
+        {
+          "type": "richtext",
+          "id": "richtext_bottom",
+          "label": "Text area"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Mega menu New"
+    }
+  ],
+  "enabled_on": {
+    "groups": [ "header" ]
+  }
+}
+
+{% endschema %}

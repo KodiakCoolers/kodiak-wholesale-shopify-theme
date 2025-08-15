@@ -1,0 +1,62 @@
+<div class="order-now-pay-later">
+  <div class="afterpay-img-with-txt">
+     <div class="pay_image">
+       {% if section.settings.img %}<img class="lozad" data-src="{{ section.settings.img | img_url:'master' }}">{% endif %}
+     </div>
+    <div class="afterpay_content">
+       <div class="afterpay_heading">{{ section.settings.heading }}</div>
+       <div class="after_subheading">{{ section.settings.subheading }}</div>
+       <div class="afterpay_icon">{% if section.settings.icon %}<img class="lozad" data-src="{{ section.settings.icon | img_url:'medium' }}">{% endif %}</div>
+    </div>
+  </div>
+  <div class="start_oder_btn"><a href="{{ section.settings.order_start_link }}">{{ section.settings.orderstart }} 👉</a></div>
+</div>
+{% schema %}
+  {
+    "name": "order now afterpay",
+    "class":"order_now_afterpay",
+    "settings": [
+      {
+        "type":"image_picker",
+        "id":"img",
+        "label":"Add image"
+      },
+      {
+        "type":"text",
+        "id":"heading",
+        "label":"Add heading"
+      },
+      {
+        "type":"richtext",
+        "id":"subheading",
+        "label":"Add subheading"
+      },
+      {
+        "type":"image_picker",
+        "id":"icon",
+        "label":"Afterpay icon"
+      },
+      {
+        "type":"text",
+        "id":"orderstart",
+        "label":"Add button text"
+      },
+      {
+        "type":"url",
+        "id":"order_start_link",
+        "label":"Add button link"
+      }
+    ],
+    "presets":[
+      {
+        "name":"order_now_afterpay"
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

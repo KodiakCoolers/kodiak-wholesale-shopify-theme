@@ -1,0 +1,28 @@
+{% schema %}
+  {
+    "name": "Product Image Overlay",
+    "settings": []
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+  document.querySelector('#logo-upload').addEventListener('change', async (event) => {
+  const file = event.target.files[0];
+  const formData = new FormData();
+  formData.append('logo', file);
+
+  const response = await fetch('http://your-server.com/upload', {
+    method: 'POST',
+    body: formData
+  });
+
+  const png = await response.text();
+
+  // Overlay the SVG on the product image
+  // This will depend on how your product images are structured
+  document.querySelector('#product-image').innerHTML = png;
+});
+{% endjavascript %}

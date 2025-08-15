@@ -1,0 +1,334 @@
+<section class="loyality-program">
+<div id="rivo-page-wrapper">
+<div class="container-fluid">
+    <div class="row" style="margin-bottom:0px">
+     <div class="col-md-7 title-perent">
+     <div class="loyality-title">
+      Join our Loyalty<br> Program & Earn<br> Store Credit          
+     </div>
+       <div class="loyality-para">Join for free and begin earning points & rewards every time you shop.</div>
+       <div class="loyality-btns">
+         <div class="layality-btn1"><a href="">Join Now</a></div>
+          <div class="layality-btn2"><a href="">Sign In</a></div>
+       </div>
+   
+      </div>
+</div>
+  </div>
+</div>
+</section>
+<section class="way-to-earn">
+  <div class="container-fluid">
+    <div class="row hed-perent">
+      <div class="earn-heading">Ways to Earn</div>
+      <div class="earn-para">Earn points by completing any of the actions below</div>
+       <div class="col-md-8 earn-perent">
+      <div class="row content">
+        {% for block in section.blocks %}
+        <div class="col-md-4
+          earn-perent{{forloop.index}}">
+          {% if block.type == 'loyality-earn' %}
+            <div class="card-icons">{{ block.settings.card_icon }}</div>
+          <div class="sub-headings">
+            <span class="card-title">{{ block.settings.card_title }}</span><br>
+          <span class="discription">{{ block.settings.card_description }}</span>
+          </div>
+          <span class="popup-icon">{{ block.settings.popup_icon }}</span>
+            {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+       </div>
+    </div>
+  </div>
+</section>
+<section class="how-it-work">
+  <div class="container-fluid">
+    <div class="row loyality-work">
+      <div class=""
+    </div>
+  </div>
+</section>
+{% schema %}
+  {
+    "name": "loyality-programe",
+    "settings":[
+      {
+        "type":"image_picker",
+        "id":"layality_banner",
+        "label":"add-image"
+      }
+    ],
+    "blocks":[
+    {
+      "type":"loyality-earn",
+      "name":"content",
+      "settings":[
+        {
+          "type":"html",
+          "id":"card_icon",
+          "label":"add html"
+        },
+        {
+          "type":"text",
+          "id":"card_title",
+          "label":"add text"
+        },
+        {
+          "type":"text",
+          "id":"card_description",
+          "label":"add-text"
+        },{
+          "type":"html",
+          "id":"popup_icon",
+          "label":"add-html"
+        }
+      ]
+        }
+   
+      ],
+   
+    "presets":[
+      {
+        "name":"loyality_programe"
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}
+<style>
+.loyality-program{
+background-color: #f3f0f0!important;
+}
+.loyality-title{
+color: rgb(54, 69, 91);
+    font-size: 40px;
+    line-height: normal;
+    font-weight: 800;
+    padding-bottom: 15px;
+}
+  .loyality-para{
+     font-size: 22px;
+    color: #b5b5b5;
+    line-height: 33px;
+    padding-bottom: 24px;
+  }
+  .layality-btn1{
+    font-size: 18px;
+    color: #ffffff!important;
+    background-color: #e44d4d;
+    height: 36px;
+    padding: 6px 53px;
+  }
+  .layality-btn1 a{
+     color: #ffffff!important;
+  }
+  .layality-btn2{
+    font-size: 18px;
+    color: #ffffff!important;
+    background-color: #e44d4d;
+    height: 36px;
+    padding: 6px 53px;
+        margin-left: 16px
+  }
+  .layality-btn2 a{
+     color: #ffffff!important;
+  }
+  .title-perent{
+    padding-top: 80px;
+   padding-left: 73px;
+    padding-bottom: 76px;
+    max-width: 500px;
+  }
+  .loyality-btns{
+    display:flex;
+  }
+  .hed-perent{
+  display:flex;
+  justify-content:center;
+  }
+  .earn-heading{
+  text-align:center;
+  font-size: 38px;
+    color: #e44d4d;
+    font-weight: 800;
+    line-height: 45.6px;
+    font-femily: Nunito, sans-serif!important;
+    margin-bottom: 19px;
+    padding-top: 66px
+  }
+  .earn-para{
+text-align: center;
+    color: rgb(138, 138, 138);
+    font-size: 18px;
+    line-height: 24px;
+  }
+  .earn-perent1{
+  max-width: 275px;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid #c5bebe;
+    margin-bottom: 15px;
+    display: flex;
+    text-align: center;
+    min-height: 100px;
+  }
+   .earn-perent2{
+      max-width: 275px;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid #c5bebe;margin-left: 17px;
+     margin-bottom: 15px;
+     display: flex;
+    text-align: center;
+     min-height: 100px;
+   }
+  .earn-perent3{
+     max-width: 275px;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid #c5bebe;
+    margin-left: 17px;
+    margin-bottom: 15px;
+    display: flex;
+    text-align: center;
+    min-height: 100px;
+  }
+  .earn-perent4{
+     max-width: 275px;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid #c5bebe;
+    margin-bottom: 15px;
+    display: flex;
+    text-align: center;
+    min-height: 100px;
+  }
+   .earn-perent5{
+      max-width: 275px;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid #c5bebe;
+     margin-left: 17px;
+     margin-bottom: 15px;
+     display: flex;
+    text-align: center;
+     min-height: 100px;
+   }
+   .earn-perent6{
+      max-width: 275px;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid #c5bebe;
+     margin-left: 17px;
+     margin-bottom: 15px;
+     display: flex;
+    text-align: center;
+     min-height: 100px;
+   }
+  .earn-perent7{
+     max-width: 275px;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid #c5bebe;
+    display: flex;
+    text-align: center;
+    min-height: 100px;
+  }
+  .earn-perent8{
+     max-width: 275px;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid #c5bebe;
+    margin-left: 17px;
+    display: flex;
+    text-align: center;
+    min-height: 100px;
+  }
+   .content{
+     display:flex;
+     justify-content:center;
+     margin-top: 6px;
+   }
+  .svg-icon{
+padding: 6px;
+    height: 66px;
+    width: 56px;
+    min-width: 44px;
+    /* padding-right: 4px; */
+    margin-right: 6px;
+    margin-top: 14px!important;  }
+  .card-title{
+margin-bottom: 0.5rem;
+    color: rgb(59, 67, 81);
+    font-size: 16px;
+    font-weight: 800;
+  }
+  .discription{
+    color: rgb(130, 130, 130);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: normal;
+  }
+  .way-to-earn{
+    background-color:#fafafa;
+  }
+ .earn-perent1 .sub-headings{
+    width: 100px;
+    text-align: left;
+    padding-top: 12px;
+  }
+ .earn-perent2 .sub-headings{
+    text-align: left;
+    margin-top: 15px;
+  }
+   .earn-perent3 .sub-headings{
+    text-align: left;
+    margin-top: 15px;
+     margin-top: 21px;
+  }
+  .earn-perent4 .sub-headings{
+    text-align: left;
+    margin-top: 15px;
+    margin-top: 25px;
+  }
+  .earn-perent5 .sub-headings{
+    text-align: left;
+    margin-top: 15px;
+    margin-top: 22px;
+  }
+  .earn-perent6 .sub-headings{
+    text-align: left;
+    margin-top: 15px;
+    margin-top: 16px;
+  }
+  .earn-perent7 .sub-headings{
+    text-align: left;
+    margin-top: 15px;
+    text-align: left;
+    margin-top: 27px;
+  }
+  .earn-perent8 .sub-headings{
+    text-align: left;
+    margin-top: 13px;
+    width: 100px;
+  }
+  @media only screen and (max-width: 720px) {
+    .loyality-btns{
+    display:block;
+      line-height:1;
+  }
+    .layality-btn2 {
+    font-size: 18px;
+    color: #ffffff!important;
+    background-color: #e44d4d;
+    height: 36px;
+    padding: 6px 53px;
+    margin-left: 1px;
+    margin-top: 12px;
+}
+.title-perent {
+    
+    padding-left: 42px;
+  
+  
+}
+  }
+</style>

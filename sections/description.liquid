@@ -1,0 +1,65 @@
+<div data-id="id-match" class="Product-questions-dropdown active-drop hide-mob">Product Description <i class="arrow down"></i></div>
+<div data-id="id-match" id="{{ section.settings.custom_id }}" class="tab_content">
+<div class="product_description_inner container">
+<div>
+  <div class="product_description" {% if section.settings.description_height %}style="max-height:{{ section.settings.description_height }}px;"{% endif %}>{{ product.description }}</div>
+  {% if section.settings.button_url %}<a class="inner_content_link" href="{{ section.settings.button_url }}" tabindex="0">{{ section.settings.button_text }}</a>{% endif %}
+  {% if section.settings.description_height!=blank %}<div id="read-more-btn" class="read-more-btn inner_content_link">{{ section.settings.button_text }}</div>{% endif %}
+
+</div>
+<div class="product_description_image">
+{% if section.settings.image %}
+
+  {{ section.settings.image |
+       image_url: width: 400 |
+       image_tag:
+       widths: '400',
+       height: 'auto',
+       loading: 'lazy' }}
+{% endif %}
+</div>
+</div>
+</div>
+{% schema %}
+  {
+    "name": "description",
+    "settings": [
+       {
+          "id": "custom_id",
+          "type": "text",
+          "label": "custom_id"
+        },
+       {
+          "id": "image",
+          "type": "image_picker",
+          "label": "custom_image"
+        },
+       {
+          "id": "button_text",
+          "type": "text",
+          "label": "button text"
+        },
+       {
+          "id": "button_url",
+          "type": "url",
+          "label": "button link"
+        },
+       {
+          "id": "description_height",
+          "type": "text",
+          "label": "Description height"
+        }       
+     ],
+  "presets": [
+    {
+      "name": "description"
+    }
+  ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

@@ -1,0 +1,24 @@
+{% if section.settings.show_estimated_shipping_dates %}
+<div class="estimated_shipping">
+<div class="icons_text">
+  <div class="icons_text-1 icons-content">
+   {% if section.settings.first_image %} <div class="icons_image">
+      <img src="{{ section.settings.first_image | img_url:'master' }}">
+    </div>{% endif %}
+    <div class="icons_inner_content">
+      <h5>{{ section.settings.first_heading }}</h5>
+       <p>{{ section.settings.first_subheading}}</p>
+    </div>
+  </div>
+  <div class="icons_text-2 icons-content">
+   {% if section.settings.second_image_2  %} <div class="icons_image">
+       <img src="{{ section.settings.second_image_2 | img_url:'master' }}">
+    </div>{% endif %}
+    <div class="icons_inner_content">
+       <h5>{{ section.settings.second_heading_2}}</h5>
+      <p>{{ section.settings.second_subheading_2}} <span>{{ section.settings.rush_min_date }} & {{ section.settings.rush_max_date }}</span></p>
+    </div>
+  </div>
+</div>
+</div>
+{% endif %}

@@ -1,0 +1,174 @@
+<style>
+  .image-text-row .image-text-row-main {
+      color: {{ section.settings.heading-color }};
+      text-align: center;
+
+      font-size: {{ section.settings.font-size }};;
+      font-style: normal;
+      font-weight: 800;
+      line-height: 32px;
+  }
+  .image-text-row{
+      background-color: {{ section.settings.background-color }};
+      margin-top:50px;
+  }
+  .image-text-row .image-text-row-inner{
+      display: grid;
+      align-content: center;
+      align-items: center;
+      justify-content: center;
+      grid-template-columns: auto auto auto auto;
+      padding: 13px 12px;
+      gap: 20px;
+  }
+  .image-text-row-content {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+  }
+  .image-text-row-content h4.subhead {
+  /*     color: #FFF; */
+      text-align: center;
+
+  /*     font-size: 14px; */
+      font-style: normal;
+      font-weight: 700;
+      line-height: 24px;
+      margin-bottom:0px;
+  }
+  .image-text-row-content p.image-text-content {
+  /*     color: #FFF; */
+
+  /*     font-size: 12px; */
+      font-style: normal;
+      font-weight: 300;
+      line-height: 13px;
+      margin-bottom: 0px;
+  }
+  @media (max-width:767px){
+  .image-text-row .image-text-row-inner{
+     display: flex;
+      gap: 22px;
+     padding: 30px;
+  }
+  .image-text-row-content {
+      flex-direction: column;
+      text-align: center;
+  }
+  }
+  @media only screen and (max-width:992px) and (min-width:768px){
+  .image-text-row .image-text-row-inner{
+     display: flex;
+      gap: 22px;
+     padding: 30px;
+  }
+  .image-text-row-content {
+      flex-direction: column;
+      text-align: center;
+  }
+  }
+</style>
+<div class="image-text-row">
+  <div class="image-text-row-inner container">
+    <div class="image-text-row-main">{{ section.settings.heading }}</div>
+    {% for block in section.blocks %}
+      <div class="image-text-row-content">
+        {% if block.settings.image %}<img alt="icons-{{ forloop.index }}" class="lazyload" src="{{ block.settings.image | img_url:'master' }}" data-src="{{ block.settings.image | img_url:'master' }}">{% endif %}
+        <h4
+          class="subhead"
+          style="color:{{ block.settings.color-subhead }};font-size: {{ block.settings.subhead-font-size }};"
+        >
+          {{ block.settings.subhead }}
+        </h4>
+        <p
+          class="image-text-content"
+          style="color:{{ block.settings.color-content }}; font-size:{{ block.settings.content-font-size }}"
+        >
+          {{ block.settings.content }}
+        </p>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% schema %}
+{
+   "name": "image-text-rows",
+   "settings": [
+      {
+         "id": "heading",
+         "type": "text",
+         "label": "heading"
+       },
+       {
+         "id": "heading-color",
+         "type": "text",
+         "label": "heading-color",
+         "default":"#FFF"
+       },
+       {
+         "id": "background-color",
+         "type": "text",
+         "label": "backgound-color",
+         "default":"#273242"
+       },
+       {
+         "id": "font-size",
+         "type": "text",
+         "label": "font-size",
+         "default":"24px"
+       }
+    ],
+   "blocks": [
+   {
+     "type": "content",
+     "name": "content",
+     "settings": [
+       {
+         "id": "image",
+         "type": "image_picker",
+         "label": "image"
+       },
+       {
+         "id": "subhead",
+         "type": "text",
+         "label": "Subheading"
+       },
+       {
+         "id": "content",
+         "type": "textarea",
+         "label": "content"
+       },
+       {
+         "id": "color-subhead",
+         "type": "text",
+         "label": "Heading color",
+         "default":"#FFFFFF"
+       },
+       {
+         "id": "subhead-font-size",
+         "type": "text",
+         "label": "heading-font-size",
+         "default":"14px"
+       },
+       {
+         "id": "color-content",
+         "type": "text",
+         "label": "content color",
+         "default":"#FFFFFF"
+       },
+       {
+         "id": "content-font-size",
+         "type": "text",
+         "label": "content-font-size",
+         "default":"12px"
+       }
+     ]
+   }
+   ],
+"presets": [
+   {
+     "name": "image-text-rows"
+   }
+ ]
+ }
+{% endschema %}

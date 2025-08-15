@@ -1,0 +1,122 @@
+<div class="tab-collection compare-col">
+
+  {% if section.settings.heading %}
+   <div class="container">
+    <h3 class="main-head">{{ section.settings.heading }} {% if section.settings.show_product_type %}{{ product.type }}{% endif %}</h3>
+   </div>
+  {% endif %}
+<div class="container tabs-col">
+  <div class="collection-tabs">
+  {% for block in section.blocks %}
+    <button class="tablinks" id="{{ block.settings.custom_id }}">{{ block.settings.tab_title }}</button>
+  {% endfor %}
+  </div>
+  <div class="compare">
+  <div class="compare-collections-1">
+    {% for block in section.blocks %}
+       <div class="compare-collections" data-id="{{ block.settings.custom_id }}">
+      {% assign col = block.settings.collection %}
+      {% for product in collections[col].products %}
+        <div class="product-box"><div class="product-box-inner">
+          <img src="{{ product.featured_image | img_url:'master' }}">
+
+          <div class="show_colors">
+   
+         {% comment %} {%- for option in product.options_with_values -%}
+             {% if option.name =="Color" %}
+              {%- for value in option.values -%}
+                    <span class="color-option" data-value="{{ value }}" style="background-color:{{ value | escape }};"></span>
+               {% endfor %}
+             {% endif %}
+           {% endfor %}{% endcomment %}
+
+{%- assign limit = 9 -%}
+{%- assign count = 0 -%}
+{%- for option in product.options_with_values -%}
+  {%- if option.name == "Color" -%}
+    {%- for value in option.values -%}
+      {%- if count < limit -%}
+        {%- assign count = count | plus: 1 -%}
+        <span class="color-option" data-value="{{ value }}" style="background-color:{{ value | escape }};"></span>
+      {%- endif -%}
+    {%- endfor -%}
+    {%- assign total_colors = option.values.size -%}
+    {% break %}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- for option in product.options_with_values -%}
+  {%- if option.name == "Color" -%}
+{% if total_colors > limit %}
+  <span class="total_count">+{{ total_colors | minus: limit }}</span>
+{% endif %}
+{% endif %}
+{% endfor %}
+
+{%- for option in product.options_with_values -%}
+  {%- if option.name == "Color" -%}
+    {%- for value in option.values -%}
+        <span class="color-option color-option-1" data-value="{{ value }}" style="background-color:{{ value | escape }};"></span>
+    {%- endfor -%}
+    {% break %}
+  {%- endif -%}
+{%- endfor -%}
+
+          </div>
+
+
+          <h2>{{ product.title }}</h2>
+          <p class="comparable-price">As Low As <span>{{ product.price | money }}</span> ea.</p>
+          <a href="{{ product.handle }}" class="compare-btn">SHOP NOW 👉🏻</a>
+        </div>      
+        </div>
+      {% endfor %}</div>
+    {% endfor %}
+  </div></div>
+</div></div>
+{% schema %}
+ {
+   "name": "comparable-collections",
+   "settings": [
+     {
+         "id": "heading",
+         "type": "text",
+         "label": "Heading"
+       },
+       {
+          "type": "checkbox",
+          "id": "show_product_type",
+          "label": "Show product Type",
+          "default": false
+        }
+   ],
+   "blocks": [
+   {
+     "type": "tabs",
+     "name": "tabs",
+     "settings": [
+       {
+         "id": "tab_title",
+         "type": "text",
+         "label": "tab title"
+       },
+       {
+         "id": "custom_id",
+         "type": "text",
+         "label": "Custom Id"
+       },
+       {
+         "type": "collection",
+         "id": "collection",
+         "label": "Collection"
+       }
+     ]
+   }
+   ],
+"presets": [
+   {
+     "name": "comparable-collections"
+   }
+ ]
+ }
+{% endschema %}

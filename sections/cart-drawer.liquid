@@ -1,0 +1,321 @@
+<style>
+    #cart-drawer {
+        z-index: 999999999999;
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+        box-shadow: -4px 0 10px -5px rgb(0 0 0 / 10%);
+        touch-action: none;
+    }
+    #cart-drawer:not(.active){
+        pointer-events: none;
+    }
+    #cart-drawer:not(.active) .cart{
+        transform: translate3d(100%, 0, 0);
+        z-index: 0;
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 100%;
+        width: 480px;
+        max-width: 100%;
+        display: flex;
+        flex-direction: column;
+        background-color: #fff;
+        transition: transform 0.75s cubic-bezier(0.075, 0.8, 0.175, 1);
+    }
+    #cart-drawer .cart{
+        z-index: 0;
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 100%;
+        width: 480px;
+        max-width: 100%;
+        display: flex;
+        flex-direction: column;
+        background-color: #fff;
+        transition: transform 0.75s cubic-bezier(0.075, 0.8, 0.175, 1);
+        color: #000;
+    }
+    #cart-drawer:not(.active) .cart-mask{
+        opacity: 0;
+    }
+    .cart-mask {
+        cursor: pointer;
+        z-index: -1;
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+/*      background: rgba(0, 0, 0, 0.4); */
+        background: rgba(0, 0, 0, 0.8);
+        transition: opacity .3s;
+    }
+  a.cart-mask {
+    display: block;
+}
+    .cart-body-empty{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: calc(100vh - 30.34px); 
+    }
+  .emptycart-close {
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+ div#cart-drawer .cart-checkout img.secure-img {
+    display: flex;
+    margin: auto;
+    padding-top: 10px;
+}
+    @media(min-width: 991px){
+        #cart-drawer .cart{
+            width: 600px;
+        }
+    }
+</style>
+<div id="cart-drawer" class="cart-drawer" :class="cart_open ? 'active' : ''">
+  	<a class="cart-mask" @click="cart_open = false"></a>
+    <form action="/cart" method="post" novalidate="novalidate" class="cart container">
+        <div class="cart-body">
+            <div v-if="cart_items.length <= 0" class="cart-body-empty">
+              <div class="emptycart-close" @click="cart_open = false">{%- render 'icon-close' -%} </div>
+                <div class="text-center">
+                    <p class="cta-text">YOUR CART IS CURRENTLY EMPTY!</p>
+                  {% comment %}
+                    <a href="/collections/all" class="cta">SHOP ALL</a>
+                    {% endcomment %}
+                </div>
+            </div>
+          {% comment %}
+            <div class="payement_icons">
+              <div class="badges_img">
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 124 80" enable-background="new 0 0 124 80" xml:space="preserve">  <image width="124" height="80" x="0" y="0" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHwAAABQCAMAAADsruHBAAAABGdBTUEAALGPC/xhBQAAACBjSFJN AAB6JQAAgIMAAPn/AACA6AAAUggAARVYAAA6lwAAF2/XWh+QAAABaFBMVEX///8AAACy5LP1+PbY /NyQtY5chVx8k322ubbw+fHLzcrU1dRotmhUmVJaoFNhqVVep2Jas1pcwV5RtFdLsVF3w3aJ4YFV r1RIqU1QrlJDiUI/mj5IrUVNsUxPp0hIoVJQsk5UuFJmm2ZDpj9NtUtItkZMskZKs0lejlxWr0o+ rzhLukNMvk9UuUhFtz9Pp1xSsENHsllFtVA+r0w6u0hRlFx1sHqCzIWc5pq78LSn1qWYzpmRvY3W +t3H/sXZ/9Lq/uXi/t7y/u3I8cz/9OH/++yx3rKuyKp2qG7+/Pb29valp6SLrIp0mXfG48X/5+nf 396RkZH/8/P/3+LR0dHn//TZ2ti8vLzj4+Pp6en4+fj1+Pbu7u709PT0/P3////7/PzY/NzP0dCy srKdnZ3ExcTx8fGXl5eJion/8v+10+o0vDGlx+T/7dTHx8fw9vvn8PiDg4OXmJefn5/g4OCqqqrw 6uhTsjH5NI2iAAAADHRSTlMAACMUC0d6XikG/v3LD2UwAAAAAWJLR0QAiAUdSAAAAAlwSFlzAAAL EwAACxMBAJqcGAAAAAd0SU1FB+MHCBcnHYs6XDoAAArGSURBVGje7ZqJe9pWEsDr1keSFTpAGClI QgdCSAhxGtABSKLG4BiSelc53Bop3aZblm3T7R7+93cEOTfFJlmy3f3a0WdkeA/93sybeTNP4pNP fuWy80I+RRIJFMMxjNi2JFNkMn34GTDWwHf39hMoiuIAz2xbKDKVorG9z9bC9+7ezdLLrvTWJUUy LMvhB7tr4Lf27+ZyQCZi+LY1T5IMLxCouLcGfnA3S0kkSabIvCzzWxY6Iwh5hsb3d9+B3wb27f1E TqLIWPL5/LbhPF0oKAqNFz/7WfjOPkpJvKKQrKLIcn7LQqiSVtLzFP7pz5t9PyFl2Xye5D8GXFXL smEomTVwMHtWYlmW5wsg8pZFVQsAl8nKGnhxBVdfwZUtHfGlboDvxHA1lmo1do7tCk0v4TR6LZx/ Cc8X8lv8uwH+0uw8z4LR2S0LSSoAL2D/s3CYHeimbB9eqwG8UL0eXv9IcHIDOKMoL81Ekiwbu12Z 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 YII="></image></svg>
+              </div>
+              <div class="badges_img">
+                <svg class="icon" viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg" role="img" width="38" height="24" aria-labelledby="pi-master"><title class="pi-master">Mastercard</title><path opacity=".07" d="M35 0H3C1.3 0 0 1.3 0 3v18c0 1.7 1.4 3 3 3h32c1.7 0 3-1.3 3-3V3c0-1.7-1.4-3-3-3z"></path><path fill="#fff" d="M35 1c1.1 0 2 .9 2 2v18c0 1.1-.9 2-2 2H3c-1.1 0-2-.9-2-2V3c0-1.1.9-2 2-2h32"></path><circle fill="#EB001B" cx="15" cy="12" r="7"></circle><circle fill="#F79E1B" cx="23" cy="12" r="7"></circle><path fill="#FF5F00" d="M22 12c0-2.4-1.2-4.5-3-5.7-1.8 1.3-3 3.4-3 5.7s1.2 4.5 3 5.7c1.8-1.2 3-3.3 3-5.7z"></path></svg>
+              </div>
+              <div class="badges_img">
+                <svg class="icon" viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg" role="img" width="38" height="24" aria-labelledby="pi-visa"><title class="pi-visa">Visa</title><path opacity=".07" d="M35 0H3C1.3 0 0 1.3 0 3v18c0 1.7 1.4 3 3 3h32c1.7 0 3-1.3 3-3V3c0-1.7-1.4-3-3-3z"></path><path fill="#fff" d="M35 1c1.1 0 2 .9 2 2v18c0 1.1-.9 2-2 2H3c-1.1 0-2-.9-2-2V3c0-1.1.9-2 2-2h32"></path><path d="M28.3 10.1H28c-.4 1-.7 1.5-1 3h1.9c-.3-1.5-.3-2.2-.6-3zm2.9 5.9h-1.7c-.1 0-.1 0-.2-.1l-.2-.9-.1-.2h-2.4c-.1 0-.2 0-.2.2l-.3.9c0 .1-.1.1-.1.1h-2.1l.2-.5L27 8.7c0-.5.3-.7.8-.7h1.5c.1 0 .2 0 .2.2l1.4 6.5c.1.4.2.7.2 1.1.1.1.1.1.1.2zm-13.4-.3l.4-1.8c.1 0 .2.1.2.1.7.3 1.4.5 2.1.4.2 0 .5-.1.7-.2.5-.2.5-.7.1-1.1-.2-.2-.5-.3-.8-.5-.4-.2-.8-.4-1.1-.7-1.2-1-.8-2.4-.1-3.1.6-.4.9-.8 1.7-.8 1.2 0 2.5 0 3.1.2h.1c-.1.6-.2 1.1-.4 1.7-.5-.2-1-.4-1.5-.4-.3 0-.6 0-.9.1-.2 0-.3.1-.4.2-.2.2-.2.5 0 .7l.5.4c.4.2.8.4 1.1.6.5.3 1 .8 1.1 1.4.2.9-.1 1.7-.9 2.3-.5.4-.7.6-1.4.6-1.4 0-2.5.1-3.4-.2-.1.2-.1.2-.2.1zm-3.5.3c.1-.7.1-.7.2-1 .5-2.2 1-4.5 1.4-6.7.1-.2.1-.3.3-.3H18c-.2 1.2-.4 2.1-.7 3.2-.3 1.5-.6 3-1 4.5 0 .2-.1.2-.3.2M5 8.2c0-.1.2-.2.3-.2h3.4c.5 0 .9.3 1 .8l.9 4.4c0 .1 0 .1.1.2 0-.1.1-.1.1-.1l2.1-5.1c-.1-.1 0-.2.1-.2h2.1c0 .1 0 .1-.1.2l-3.1 7.3c-.1.2-.1.3-.2.4-.1.1-.3 0-.5 0H9.7c-.1 0-.2 0-.2-.2L7.9 9.5c-.2-.2-.5-.5-.9-.6-.6-.3-1.7-.5-1.9-.5L5 8.2z" fill="#142688"></path></svg>
+              </div>
+              <div class="badges_img">
+                <svg class="icon" xmlns="http://www.w3.org/2000/svg" role="img" viewBox="0 0 38 24" width="38" height="24" aria-labelledby="pi-american_express"><title>American Express</title><path d="M35 0H3C1.3 0 0 1.3 0 3v18c0 1.7 1.4 3 3 3h32c1.7 0 3-1.3 3-3V3c0-1.7-1.4-3-3-3z" fill="#000" opacity=".07"></path><path d="M35 1c1.1 0 2 .9 2 2v18c0 1.1-.9 2-2 2H3c-1.1 0-2-.9-2-2V3c0-1.1.9-2 2-2h32" fill="#002663"></path><path d="M8.971 10.268l.774 1.876H8.203l.768-1.876zm16.075.078h-2.977v.827h2.929v1.239h-2.923v.922h2.977v.739l2.077-2.245-2.077-2.34-.006.858zm-14.063-2.34h3.995l.887 1.935L16.687 8h10.37l1.078 1.19L29.25 8h4.763l-3.519 3.852 3.483 3.828h-4.834l-1.078-1.19-1.125 1.19H10.03l-.494-1.19H8.406l-.495 1.19H4L7.286 8h3.43l.267.006zm8.663 1.078h-2.239l-1.5 3.536-1.625-3.536H12.06v4.81l-2.06-4.81H8.007l-2.382 5.512H7.18l.494-1.19h2.596l.494 1.19h2.72v-3.935l1.751 3.941h1.19l1.74-3.929v3.93h1.458l.024-5.52zm9.34 2.768l2.531-2.768h-1.822l-1.601 1.726-1.548-1.726h-5.894v5.518h5.81l1.614-1.738 1.548 1.738h1.875l-2.512-2.75z" fill="#FFF"></path></svg>
+              </div>
+              <div class="badges_img">
+                <svg class="icon" viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg" width="38" height="24" role="img" aria-labelledby="pi-paypal"><title id="pi-paypal">PayPal</title><path opacity=".07" d="M35 0H3C1.3 0 0 1.3 0 3v18c0 1.7 1.4 3 3 3h32c1.7 0 3-1.3 3-3V3c0-1.7-1.4-3-3-3z"></path><path fill="#fff" d="M35 1c1.1 0 2 .9 2 2v18c0 1.1-.9 2-2 2H3c-1.1 0-2-.9-2-2V3c0-1.1.9-2 2-2h32"></path><path fill="#003087" d="M23.9 8.3c.2-1 0-1.7-.6-2.3-.6-.7-1.7-1-3.1-1h-4.1c-.3 0-.5.2-.6.5L14 15.6c0 .2.1.4.3.4H17l.4-3.4 1.8-2.2 4.7-2.1z"></path><path fill="#3086C8" d="M23.9 8.3l-.2.2c-.5 2.8-2.2 3.8-4.6 3.8H18c-.3 0-.5.2-.6.5l-.6 3.9-.2 1c0 .2.1.4.3.4H19c.3 0 .5-.2.5-.4v-.1l.4-2.4v-.1c0-.2.3-.4.5-.4h.3c2.1 0 3.7-.8 4.1-3.2.2-1 .1-1.8-.4-2.4-.1-.5-.3-.7-.5-.8z"></path><path fill="#012169" d="M23.3 8.1c-.1-.1-.2-.1-.3-.1-.1 0-.2 0-.3-.1-.3-.1-.7-.1-1.1-.1h-3c-.1 0-.2 0-.2.1-.2.1-.3.2-.3.4l-.7 4.4v.1c0-.3.3-.5.6-.5h1.3c2.5 0 4.1-1 4.6-3.8v-.2c-.1-.1-.3-.2-.5-.2h-.1z"></path></svg>
+              </div>
+            </div> 
+            {% endcomment %}
+            <div v-else class="cart-items">
+                <div class='cart-items__header'>
+                    <div class="mycart">
+                      <span class="right_mark">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 442.533 442.533" width="15px" height="30px" style="
+                        "><path d="M434.539 98.499l-38.828-38.828c-5.324-5.328-11.799-7.993-19.41-7.993-7.618 0-14.093 2.665-19.417 7.993L169.59 247.248l-83.939-84.225c-5.33-5.33-11.801-7.992-19.412-7.992-7.616 0-14.087 2.662-19.417 7.992L7.994 201.852C2.664 207.181 0 213.654 0 221.269c0 7.609 2.664 14.088 7.994 19.416l103.351 103.349 38.831 38.828c5.327 5.332 11.8 7.994 19.414 7.994 7.611 0 14.084-2.669 19.414-7.994l38.83-38.828L434.539 137.33c5.325-5.33 7.994-11.802 7.994-19.417.004-7.611-2.669-14.084-7.994-19.414z"></path></svg>
+                      </span>
+                      AN ITEM WAS ADDED TO CART!
+                    </div>
+                    <span class="cursor-pointer" @click="cart_open = false">
+                               {%- render 'icon-close' -%} 
+                              </span>
+
+                    
+                  	
+                </div>
+              
+              
+              <div class="cart-scroll">
+                {% if section.settings.alert_text != blank %}
+                <div class="alert">
+                  {{ section.settings.alert_text }}
+                  </div>
+                  {% endif %}
+                <div class="cart-item-container">
+                  <div v-for="item in cart_items" class="cart-item" :data-item_id="item.id" :data-proid="item.product_id" :data-sku="item.sku">
+                    <div class="item-img">
+                      <a class="cart-item_img" :href="item.url">
+                        <img :src="item.image">
+                      </a>
+                    </div>
+                    <div class="cart-item_desc">
+                      <div class="cart-item_desc-text" v-bind:class="(item.variant_options[0] != 'Default Title')?'':'default_v'">
+                        <p class="cart-item_title">
+                          <a :href="item.url">${ item.product_title.replace(" - " + item.variant_options[0], "") }
+                           
+                            <span v-if="item.variant_options[1]">- ${ item.variant_options[1] }</span>
+
+                          </a>
+                        </p>
+                        <p class="cart-item_color"  v-if="item.variant_options[0] != 'Default Title'" :data-clr="item.variant_options[0]">${ item.variant_options[0] }</p>
+                       
+                      <div class="personalised">
+                        <div class="product-option 11" v-for="(item, key) in item.properties" v-if="!key.includes('_tags') && !key.includes('uploads')">
+                          <dt>${ key } : <span>${ item }</span></dt>
+                        </div>
+                      <div class="product-option 11" v-for="(item, key) in item.properties" v-if="!key.includes('_tags') && key.includes('uploads')">
+                      <p>Uploaded File: <a :href="item" target="_blank">Open File</a></p>
+                      </div>
+                      </div>
+
+                      <div class="cart-item_qty desktop" v-if="!item.handle.includes('gift-box')">
+                        <button class="minus" @click.prevent="qty_selector('minus', item.id, item.quantity)">-</button>
+                        <input :value="item.quantity" @change="ajax_call(item.id, $event.target.value)">
+                        <button class="plus" @click.prevent="qty_selector('plus', item.id, item.quantity)">+</button>
+                      </div>
+                         <div class="monogram_check" v-if="checkMono(item.properties, item.sku)" >
+                            <input type="checkbox" name="monogram_text" value="">
+                            <label for="monogram_text"> <span>Add monogram</span></label><br>
+                         </div>
+                    </div>
+                    <div class="cart-item_desc-remove">
+<!--                        <p class="cart-item_price_compare" v-if="item.compare_price" :cmp="item.compare_price">${ item.compare_price | money }</p> -->
+
+                      <p class="cart-item_price"><span>${ item.final_line_price | money }</span>
+                      <span class="compprice" v-if="cmp_price">${ item.compare_price | money }</span></p>
+                      <span :data-id="item.id" class="cursor-pointer">
+                        Remove
+                      </span>
+                      
+                     {% comment %} <span :data-id="item.id" class="cursor-pointer" @click="cart_open = false">
+                         {%- render 'icon-close' -%} 
+                        Remove
+                      </span>{% endcomment %}
+                    </div>
+<span class="compprice" v-if="cmp_price" style="visibility:hidden;">${ item.compare_price | money }</span>
+                  </div>
+                </div>
+              </div>
+              <div v-if="cart_items.length > 0" class="cart-bottom">
+                <div v-if="upsells.length > 0" class="cart-upsell">
+                  <a class="cart-upsell-title cursor-pointer" @click="toggle_dropdown('upsell')">
+                    <span> frequently bought With</span>
+                    {% comment %}{%- render 'icon-chevron' -%}{% endcomment %}
+                  </a>
+                  <div class="collapse-cart-upsell" style="display:none;">
+                    <div class="upsell-item" v-for="upsell in upsells">
+                      <!--                         <p class="title">${ upsell.title.replace(' - '+upsell.variants[0].option1, '') }</p>
+<p class="color" >${ upsell.variants[0].option1 }</p>
+<p class="price">${ upsell.variants[0].price | money }</p> -->
+                      <div class="container-img">
+                        <img class="w-100" :src="upsell.featured_image">
+                        <div class="price-title">
+                          <p class="title">${ upsell.title.replace(' - '+upsell.variants[0].option1, '') }</p>
+                          <p class="price">${ upsell.variants[0].price | money }</p>
+                        </div>
+                      </div>
+                      <div class="upsell-btn-container">
+                        <select :id="'select-id-'+upsell.id" :data-id="upsell.id" class="upsell-btn-select" @change="upsell_change($event)">
+                          <option v-for="variant in upsell.variants" :value="variant.id">${ variant.option1 }</option>
+                        </select>
+                        <a :id="'btn-id-'+upsell.id" class="upsell-btn" @click.prevent="upsell_atc(upsell.variants[0].id)" :data-atc="upsell.variants[0].id">
+                          Add
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+
+              </div>
+          </div>
+          <div class="cart-checkout">
+                 <div class="drawer-bottom">
+                   <div class="cart-checkout-price desktop">
+<!--                      <p>Subtotal</p> -->
+                     <span>Total:</span><p>${ cart_total_price | money }  {% comment %}<span class="compprice" v-if="cmp_price">${ cmp_price | money }</span>{% endcomment %}</p>
+                   </div>
+  {% comment %}    <div class="ship-return-wranty">
+                     <div class="minicar-freeshipping">{{ settings.cartfreeshipping }}</div>  
+                     <div class="minicar-returns">{{ settings.cartreturn }}</div>
+                     <div class="minicar-warranty">{{ settings.cartwarranty }}</div>
+                   </div> {% endcomment %}
+                  
+                   <a class="cursor-pointer" href="/checkout">
+                      <span class="lock_icon">
+                     <svg height="30px" width="15px" viewBox="0 0 401.998 401.998" xmlns="http://www.w3.org/2000/svg"><path d="M357.45 190.721c-5.331-5.33-11.8-7.993-19.417-7.993h-9.131v-54.821c0-35.022-12.559-65.093-37.685-90.218C266.093 12.563 236.025 0 200.998 0c-35.026 0-65.1 12.563-90.222 37.688-25.126 25.126-37.685 55.196-37.685 90.219v54.821h-9.135c-7.611 0-14.084 2.663-19.414 7.993-5.33 5.326-7.994 11.799-7.994 19.417V374.59c0 7.611 2.665 14.086 7.994 19.417 5.33 5.325 11.803 7.991 19.414 7.991H338.04c7.617 0 14.085-2.663 19.417-7.991 5.325-5.331 7.994-11.806 7.994-19.417V210.135c.004-7.612-2.669-14.084-8.001-19.414zm-83.363-7.993H127.909v-54.821c0-20.175 7.139-37.402 21.414-51.675 14.277-14.275 31.501-21.411 51.678-21.411 20.179 0 37.399 7.135 51.677 21.411 14.271 14.272 21.409 31.5 21.409 51.675v54.821z"></path></svg>
+                   
+                   </span>
+                     Proceed to Checkout
+                   </a>
+<!--                    <img class="secure-img" src="https://cdn.shopify.com/s/files/1/0507/0418/7590/files/image_121.png?v=1672298927">         -->
+                    <div class="payement_icons">
+                      <div class="badges_img">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 124 80" enable-background="new 0 0 124 80" xml:space="preserve">  <image width="124" height="80" x="0" y="0" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHwAAABQCAMAAADsruHBAAAABGdBTUEAALGPC/xhBQAAACBjSFJN AAB6JQAAgIMAAPn/AACA6AAAUggAARVYAAA6lwAAF2/XWh+QAAABaFBMVEX///8AAACy5LP1+PbY /NyQtY5chVx8k322ubbw+fHLzcrU1dRotmhUmVJaoFNhqVVep2Jas1pcwV5RtFdLsVF3w3aJ4YFV r1RIqU1QrlJDiUI/mj5IrUVNsUxPp0hIoVJQsk5UuFJmm2ZDpj9NtUtItkZMskZKs0lejlxWr0o+ rzhLukNMvk9UuUhFtz9Pp1xSsENHsllFtVA+r0w6u0hRlFx1sHqCzIWc5pq78LSn1qWYzpmRvY3W +t3H/sXZ/9Lq/uXi/t7y/u3I8cz/9OH/++yx3rKuyKp2qG7+/Pb29valp6SLrIp0mXfG48X/5+nf 396RkZH/8/P/3+LR0dHn//TZ2ti8vLzj4+Pp6en4+fj1+Pbu7u709PT0/P3////7/PzY/NzP0dCy srKdnZ3ExcTx8fGXl5eJion/8v+10+o0vDGlx+T/7dTHx8fw9vvn8PiDg4OXmJefn5/g4OCqqqrw 6uhTsjH5NI2iAAAADHRSTlMAACMUC0d6XikG/v3LD2UwAAAAAWJLR0QAiAUdSAAAAAlwSFlzAAAL EwAACxMBAJqcGAAAAAd0SU1FB+MHCBcnHYs6XDoAAArGSURBVGje7ZqJe9pWEsDr1keSFTpAGClI QgdCSAhxGtABSKLG4BiSelc53Bop3aZblm3T7R7+93cEOTfFJlmy3f3a0WdkeA/93sybeTNP4pNP fuWy80I+RRIJFMMxjNi2JFNkMn34GTDWwHf39hMoiuIAz2xbKDKVorG9z9bC9+7ezdLLrvTWJUUy LMvhB7tr4Lf27+ZyQCZi+LY1T5IMLxCouLcGfnA3S0kkSabIvCzzWxY6Iwh5hsb3d9+B3wb27f1E TqLIWPL5/LbhPF0oKAqNFz/7WfjOPkpJvKKQrKLIcn7LQqiSVtLzFP7pz5t9PyFl2Xye5D8GXFXL smEomTVwMHtWYlmW5wsg8pZFVQsAl8nKGnhxBVdfwZUtHfGlboDvxHA1lmo1do7tCk0v4TR6LZx/ Cc8X8lv8uwH+0uw8z4LR2S0LSSoAL2D/s3CYHeimbB9eqwG8UL0eXv9IcHIDOKMoL81Ekiwbu12Z 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 YII="></image></svg>
+                      </div>
+                      <div class="badges_img">
+                        <svg class="icon" viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg" role="img" width="38" height="24" aria-labelledby="pi-master"><title class="pi-master">Mastercard</title><path opacity=".07" d="M35 0H3C1.3 0 0 1.3 0 3v18c0 1.7 1.4 3 3 3h32c1.7 0 3-1.3 3-3V3c0-1.7-1.4-3-3-3z"></path><path fill="#fff" d="M35 1c1.1 0 2 .9 2 2v18c0 1.1-.9 2-2 2H3c-1.1 0-2-.9-2-2V3c0-1.1.9-2 2-2h32"></path><circle fill="#EB001B" cx="15" cy="12" r="7"></circle><circle fill="#F79E1B" cx="23" cy="12" r="7"></circle><path fill="#FF5F00" d="M22 12c0-2.4-1.2-4.5-3-5.7-1.8 1.3-3 3.4-3 5.7s1.2 4.5 3 5.7c1.8-1.2 3-3.3 3-5.7z"></path></svg>
+                      </div>
+                      <div class="badges_img">
+                        <svg class="icon" viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg" role="img" width="38" height="24" aria-labelledby="pi-visa"><title class="pi-visa">Visa</title><path opacity=".07" d="M35 0H3C1.3 0 0 1.3 0 3v18c0 1.7 1.4 3 3 3h32c1.7 0 3-1.3 3-3V3c0-1.7-1.4-3-3-3z"></path><path fill="#fff" d="M35 1c1.1 0 2 .9 2 2v18c0 1.1-.9 2-2 2H3c-1.1 0-2-.9-2-2V3c0-1.1.9-2 2-2h32"></path><path d="M28.3 10.1H28c-.4 1-.7 1.5-1 3h1.9c-.3-1.5-.3-2.2-.6-3zm2.9 5.9h-1.7c-.1 0-.1 0-.2-.1l-.2-.9-.1-.2h-2.4c-.1 0-.2 0-.2.2l-.3.9c0 .1-.1.1-.1.1h-2.1l.2-.5L27 8.7c0-.5.3-.7.8-.7h1.5c.1 0 .2 0 .2.2l1.4 6.5c.1.4.2.7.2 1.1.1.1.1.1.1.2zm-13.4-.3l.4-1.8c.1 0 .2.1.2.1.7.3 1.4.5 2.1.4.2 0 .5-.1.7-.2.5-.2.5-.7.1-1.1-.2-.2-.5-.3-.8-.5-.4-.2-.8-.4-1.1-.7-1.2-1-.8-2.4-.1-3.1.6-.4.9-.8 1.7-.8 1.2 0 2.5 0 3.1.2h.1c-.1.6-.2 1.1-.4 1.7-.5-.2-1-.4-1.5-.4-.3 0-.6 0-.9.1-.2 0-.3.1-.4.2-.2.2-.2.5 0 .7l.5.4c.4.2.8.4 1.1.6.5.3 1 .8 1.1 1.4.2.9-.1 1.7-.9 2.3-.5.4-.7.6-1.4.6-1.4 0-2.5.1-3.4-.2-.1.2-.1.2-.2.1zm-3.5.3c.1-.7.1-.7.2-1 .5-2.2 1-4.5 1.4-6.7.1-.2.1-.3.3-.3H18c-.2 1.2-.4 2.1-.7 3.2-.3 1.5-.6 3-1 4.5 0 .2-.1.2-.3.2M5 8.2c0-.1.2-.2.3-.2h3.4c.5 0 .9.3 1 .8l.9 4.4c0 .1 0 .1.1.2 0-.1.1-.1.1-.1l2.1-5.1c-.1-.1 0-.2.1-.2h2.1c0 .1 0 .1-.1.2l-3.1 7.3c-.1.2-.1.3-.2.4-.1.1-.3 0-.5 0H9.7c-.1 0-.2 0-.2-.2L7.9 9.5c-.2-.2-.5-.5-.9-.6-.6-.3-1.7-.5-1.9-.5L5 8.2z" fill="#142688"></path></svg>
+                      </div>
+                      <div class="badges_img">
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" role="img" viewBox="0 0 38 24" width="38" height="24" aria-labelledby="pi-american_express"><title>American Express</title><path d="M35 0H3C1.3 0 0 1.3 0 3v18c0 1.7 1.4 3 3 3h32c1.7 0 3-1.3 3-3V3c0-1.7-1.4-3-3-3z" fill="#000" opacity=".07"></path><path d="M35 1c1.1 0 2 .9 2 2v18c0 1.1-.9 2-2 2H3c-1.1 0-2-.9-2-2V3c0-1.1.9-2 2-2h32" fill="#002663"></path><path d="M8.971 10.268l.774 1.876H8.203l.768-1.876zm16.075.078h-2.977v.827h2.929v1.239h-2.923v.922h2.977v.739l2.077-2.245-2.077-2.34-.006.858zm-14.063-2.34h3.995l.887 1.935L16.687 8h10.37l1.078 1.19L29.25 8h4.763l-3.519 3.852 3.483 3.828h-4.834l-1.078-1.19-1.125 1.19H10.03l-.494-1.19H8.406l-.495 1.19H4L7.286 8h3.43l.267.006zm8.663 1.078h-2.239l-1.5 3.536-1.625-3.536H12.06v4.81l-2.06-4.81H8.007l-2.382 5.512H7.18l.494-1.19h2.596l.494 1.19h2.72v-3.935l1.751 3.941h1.19l1.74-3.929v3.93h1.458l.024-5.52zm9.34 2.768l2.531-2.768h-1.822l-1.601 1.726-1.548-1.726h-5.894v5.518h5.81l1.614-1.738 1.548 1.738h1.875l-2.512-2.75z" fill="#FFF"></path></svg>
+                      </div>
+                      <div class="badges_img">
+                        <svg class="icon" viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg" width="38" height="24" role="img" aria-labelledby="pi-paypal"><title id="pi-paypal">PayPal</title><path opacity=".07" d="M35 0H3C1.3 0 0 1.3 0 3v18c0 1.7 1.4 3 3 3h32c1.7 0 3-1.3 3-3V3c0-1.7-1.4-3-3-3z"></path><path fill="#fff" d="M35 1c1.1 0 2 .9 2 2v18c0 1.1-.9 2-2 2H3c-1.1 0-2-.9-2-2V3c0-1.1.9-2 2-2h32"></path><path fill="#003087" d="M23.9 8.3c.2-1 0-1.7-.6-2.3-.6-.7-1.7-1-3.1-1h-4.1c-.3 0-.5.2-.6.5L14 15.6c0 .2.1.4.3.4H17l.4-3.4 1.8-2.2 4.7-2.1z"></path><path fill="#3086C8" d="M23.9 8.3l-.2.2c-.5 2.8-2.2 3.8-4.6 3.8H18c-.3 0-.5.2-.6.5l-.6 3.9-.2 1c0 .2.1.4.3.4H19c.3 0 .5-.2.5-.4v-.1l.4-2.4v-.1c0-.2.3-.4.5-.4h.3c2.1 0 3.7-.8 4.1-3.2.2-1 .1-1.8-.4-2.4-.1-.5-.3-.7-.5-.8z"></path><path fill="#012169" d="M23.3 8.1c-.1-.1-.2-.1-.3-.1-.1 0-.2 0-.3-.1-.3-.1-.7-.1-1.1-.1h-3c-.1 0-.2 0-.2.1-.2.1-.3.2-.3.4l-.7 4.4v.1c0-.3.3-.5.6-.5h1.3c2.5 0 4.1-1 4.6-3.8v-.2c-.1-.1-.3-.2-.5-.2h-.1z"></path></svg>
+                      </div>
+                    </div>
+                  
+                   <div class="three_icons three_icons_desktop">
+                      <div class="row">
+                        <div class="col-md-4">
+                          <img src="{{ settings.image_fl1 | img_url:'35x35'}}">
+                          <p class="warranty">{{ settings.cartwarranty }}</p>
+                        </div>
+                        <div class="col-md-4">
+                          <img src="{{ settings.image_fl2 | img_url:'35x35'}}">
+                          <p class="shipping">{{ settings.cartfreeshipping }}</p>
+    
+                        </div>
+                        <div class="col-md-4">
+                          <img src="{{ settings.image_fl3 | img_url:'35x35'}}">
+                          <p class="returns">{{ settings.cartreturn }}</p>
+                        </div>
+                      </div>
+                    </div> 
+                   
+                 </div>
+               </div>
+            </div>
+            
+      </div>
+    </form>
+</div>
+{%- render 'cart-vue' -%}
+{% schema %}
+{
+    "name": "Cart",
+    "tag": "section",
+    "settings": [
+        {
+            "type": "text",
+            "id": "cart_announcement_text",
+            "label": "Cart Announcement Text"
+        },
+        {
+            "type": "text",
+            "id": "cart_empty_text",
+            "label": "Cart Empty Text"
+        },
+        {
+            "type": "url",
+            "id": "cart_empty_url",
+            "label": "Cart Empty URL"
+        },
+      {
+            "type": "text",
+            "id": "alert_text",
+            "label": "Alert Text"
+        }
+        
+    ]
+}
+{% endschema %}

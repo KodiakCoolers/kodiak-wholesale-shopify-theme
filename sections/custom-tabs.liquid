@@ -1,0 +1,68 @@
+<style>
+.tab .tablinks.active-tab {
+    color: {{ section.settings.active_tab_color }};
+}
+.tab button.tablinks {
+    color: {{ section.settings.tab_color }};   
+}
+</style>
+<div class="tab container mobile-hide">
+{% for block in section.blocks %}
+  <button class="tablinks"  id="{{ block.settings.custom_id }}" style="font-size:{{ block.settings.font-size }}">{{ block.settings.tab_title }}</button>
+{% endfor %}
+
+</div>
+{% schema %}
+  {
+    "name": "custom-tabs",
+    "settings": [
+         {
+          "id": "active_tab_color",
+          "type": "text",
+          "label": "Active tab Color",
+          "default":"#E61F37"
+         },
+         {
+          "id": "tab_color",
+          "type": "text",
+          "label": "Tab Color",
+          "default":"#000"
+         }
+     ],
+    "blocks": [
+    {
+      "type": "tabs",
+      "name": "tabs",
+      "settings": [
+        {
+          "id": "tab_title",
+          "type": "text",
+          "label": "tab title"
+        },
+        {
+          "id": "custom_id",
+          "type": "text",
+          "label": "Custom Id"
+        },
+        {
+          "id": "font-size",
+          "type": "text",
+          "label": "font-size",
+          "default":"18px"
+        }
+      ]
+    }
+    ],
+ "presets": [
+    {
+      "name": "custom-tabs"
+    }
+  ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

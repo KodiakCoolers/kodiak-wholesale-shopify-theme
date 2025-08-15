@@ -1,0 +1,169 @@
+<div class="additionalreferral_resources">
+  <div class="wrapper">
+     <div class="additional_heading">
+          {{ section.settings.title }}
+      </div>
+      <div class="additional_subheading">
+        {{ section.settings.subheading }}
+      </div>
+    
+        <div class="signed_up_or_not">
+        <div class="not_signed">Not Signed up for Our Referral Program Yet?</div>
+        <div class="sign_up_here">
+             <a href="">Sign Up Here</a>
+        </div>
+        </div>
+
+      <div class="referral_resources_content">
+        {% for block in section.blocks %}
+          <div class="add_referral_resources">          
+            {% if block.settings.heading %}<div class="resouces_heading">{{ block.settings.heading }}</div>{% endif %}
+            {% if block.settings.content %}<div class="resources_content">{{ block.settings.content }}</div>{% endif %}
+             {% if block.settings.linktext != blank %}<div class="access_dashboard">
+             <a href="{{ block.settings.login_link }}">{{ block.settings.linktext }}</a>
+           </div>{% endif %}
+             {% if block.settings.iconimg %}<div class="Image"><img src="{{ block.settings.iconimg | img_url:'medium' }}"></div>{% endif %}
+          </div>
+        {% endfor %}
+      </div>
+  </div>
+</div>
+{% schema %}
+  {
+    "name": "additional_resource",
+    "class":"referal_resources",
+    "settings": [
+      {
+        "type":"text",
+        "id":"title",
+        "label":"Add text"
+      },
+      {
+        "type":"richtext",
+        "id":"subheading",
+       "label":"Add subheading"
+      }
+    ],
+           "blocks":[
+      {
+        "type":"addition-resourc",
+        "name":"additional_resources",
+        "settings":[
+          {
+            "type":"text",
+            "id":"heading",
+            "label":"Add heading"
+          },          
+          {
+            "type":"richtext",
+            "id":"content",
+            "label":"Add content"
+          },
+          {
+            "type":"text",
+            "id":"linktext",
+            "label":"Add text"
+          },
+          {
+            "type":"url",
+            "id":"login_link",
+            "label":"Add link"
+          },
+          {
+            "type":"image_picker",
+            "id":"iconimg",
+            "label":"Add image"
+          }
+        ]
+      }
+    ],
+    "presets":[
+      {
+        "name":"Additional resources"
+      }
+    ]
+  }
+{% endschema %}
+
+<style>
+  .referal_resources{
+     background: #d6d6d6;
+  }
+   .referal_resources .wrapper {
+    background: #fff;
+    padding: 27px 70px;
+    border-radius: 20px;
+    margin-bottom:40px;
+}
+   .additional_heading{
+     font-size: 40px;
+    line-height: 1.6em;
+    letter-spacing: 0px;
+    color: #688299;
+    text-transform: uppercase;
+    font-weight: 700;
+    text-align: center;
+    margin-top:40px;
+  }
+  .additional_subheading {
+    font-size: 18px;
+    line-height: 29px;
+    color: #000;
+    font-weight: 400;
+    padding-top: 25px;
+}
+  .not_signed {
+    font-size: 23px;
+    text-align: center;
+    line-height: 37px;
+    color: #000;
+    font-weight: 400;
+    font-style: italic;
+}
+  .sign_up_here {
+    text-align: center;
+}
+  .sign_up_here a {
+    font-size: 23px;
+    line-height: 37px;
+    color: #0f69e0;
+    font-weight: 400;
+    font-style: italic;
+}
+  .add_referral_resources {
+    margin-top: 40px;
+}
+  .resouces_heading {
+    font-size: 28px;
+    line-height: 45px;
+    letter-spacing: 0px;
+    color: #688299;
+    text-transform: none;
+    font-weight: 700;
+}
+  .resources_content p {
+    font-size: 15px;
+    line-height: 24px;
+    color: #212529;
+    font-weight: 400;
+}
+  .access_dashboard a {
+    font-size: 31px!important;
+    text-transform: uppercase!important;
+    background-color: #388810!important;
+    color: #fff!important;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+}
+  .add_referral_resources .Image {
+    text-align: center;
+}
+  .resources_content strong {
+    color: #0464b7;
+    margin-right: 2px;
+    font-size:15px;
+}
+</style>

@@ -1,0 +1,33 @@
+<div class="product_top_bar" style="background:{{ section.settings.colors }}">
+  <div class="wrapper">
+    <div class="bar-text-heading-2"><b>{{ section.settings.content }}</b></div>
+  </div>
+</div>
+{% schema %}
+  {
+    "name":"product bar",
+    "settings": [
+      {
+        "type":"color",
+        "id":"colors",
+        "label":"Add background color"
+      },
+      {
+        "type":"text",
+        "id":"content",
+        "label":"Add content"
+      }
+    ],
+    "presets":[
+      {
+        "name":"product Bar"
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

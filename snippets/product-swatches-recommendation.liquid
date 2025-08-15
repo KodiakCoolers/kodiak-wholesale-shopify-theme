@@ -1,0 +1,270 @@
+{% comment %}
+Set the extension of your color files below. Use 'png', 'jpeg', 'jpg' or 'gif'.
+{% endcomment %}
+
+{%- assign file_extension = 'png' -%}
+{%- assign swatch = option -%}
+{%- assign found_option = false -%}
+{%- assign is_color = false -%}
+{%- assign option_index = 0 -%}
+
+{% for option in product.options %}
+  {% if option == swatch %}
+    {%- assign found_option = true -%}
+    {%- assign option_index = forloop.index0 -%}
+    {%- assign downcased_option = swatch | downcase -%}
+
+    {% if downcased_option contains 'color' or downcased_option contains 'colour' %}
+      {% if option_index == 0 %}
+      {% if product.template_suffix == 'Leather Patch Hats' %}
+      <p class="optionname">{{ swatch }}</p>
+      <select class="dropdown-media">
+        {% for variant in product.variants %}
+          {%- assign value = variant.options[option_index] | escape -%}
+            {%- assign values = values | join: ',' -%}
+            {%- assign values = values | append: ',' | append: value -%}
+          {%- assign values = values | split: ',' -%}
+      <option>{{ value | escape }}</option>
+      {% endfor %}
+      </select>
+      {% endif %}
+{% endif %}
+      {%- assign is_color = true -%}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+
+<div style="{% if product.template_suffix == 'Leather Patch Hats' %}display:none;{% endif %}" attr="{{  option_index }}" class="swatch is-flex is-flex-wrap {% if swatch == 'Style' %}style_swatch_design{% else %}color_swatch_design{% endif %}" data-option-index="{{ option_index }}">
+
+ <div class="option_title">{{ swatch }}</div>
+  {%- assign values = '' -%}
+
+
+  {% for variant in product.variants %}
+    {%- assign value = variant.options[option_index] | escape -%}
+
+    {% unless values contains value %}
+      {%- assign values = values | join: ',' -%}
+      {%- assign values = values | append: ',' | append: value -%}
+    {%- assign values = values | split: ',' -%}
+
+      <input id="swatch-{{ option_index }}-{{ value | replace: ' ', '-' }}-{{ product.id }}{% if section.id %}-{{ section.id }}{% endif %}" type="radio" name="option-{{ option_index }}" aria-label="{{ value | escape }}" tabindex="0" value="{{ value | escape }}"{% if forloop.first %} checked{% endif %} />
+
+      <div tabindex="0"  value="{{ value | escape }}" data-value="{{ value | escape }}" data-id="{{ variant.id }}" class="swatch-element {% if is_color %}color{% endif %}  {% if swatch == 'Style' %}style{% endif %} {{ value | handle }}-swatch {% if variant.available %}available{% else %}soldout{% endif %}">
+        {% if is_color %}
+          <div class="tooltip">{{ value }}</div>
+        {% endif %}
+
+        {% if is_color %}
+          <label  {% if variant.featured_image %} data-image="{{ variant.featured_image | product_img_url: '600x' }}"{% endif %}  data-value="{{ value }}" data-color="{{ value | downcase  }}" for="swatch-{{ option_index }}-{{ value | replace: ' ', '-' }}-{{ product.id }}{% if section.id %}-{{ section.id }}{% endif %}" style="background-image: url({{ value | handle | append: '.' | append: file_extension | asset_img_url: '50x' | prepend: 'https:' }}); background-color: {{ value | split: ' ' | last | handle }};">
+            <img class="crossed-out" src="{{ 'soldout.png' | asset_url }}" aria-label="sold out" alt="sold out"/>
+          </label>
+        {% else %}
+          <label {% if variant.featured_image %}style="background-image:url('{{ variant.featured_image | img_url:'' }}'); height:85px; width:85px; background-size:cover;" data-value="{{ value }}" data-image="{{ variant.featured_image | product_img_url: '600x' }}"{% endif %} for="swatch-{{ option_index }}-{{ value | replace: ' ', '-' }}-{{ product.id }}{% if section.id %}-{{ section.id }}{% endif %}">
+<!--             {{ value }} -->
+            <img class="crossed-out" src="{{ 'soldout.png' | asset_url }}" aria-label="sold out" alt="sold out"/>
+          </label>
+        {% endif %}
+      </div>
+    {% endunless %}
+  {% endfor %}
+</div>
+{% if option_index == 0 %}
+{% if product.tags contains 'Patch-shape' %}
+{% for block in section.blocks %}
+  {% if block.type == 'patch-shape' %}
+  <div class="patch-color">
+    <div class="with-dimension">
+    <div class="color-tct">Patch Color</div>
+    <div class="dimension">
+    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="14" viewBox="0 0 25 14" fill="none">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M3.54004 0.759766C1.88319 0.759766 0.540039 2.10292 0.540039 3.75977V10.7598C0.540039 12.4167 1.88319 13.7598 3.54004 13.7598H21.54C23.1969 13.7598 24.54 12.4167 24.54 10.7598V3.75977C24.54 2.10292 23.1969 0.759766 21.54 0.759766H3.54004ZM9.54004 2.75977H7.54004V7.75977C7.54004 8.31207 7.09232 8.75977 6.54004 8.75977C5.98776 8.75977 5.54004 8.31207 5.54004 7.75977V2.75977H3.54004C2.98776 2.75977 2.54004 3.20749 2.54004 3.75977V10.7598C2.54004 11.3121 2.98776 11.7598 3.54004 11.7598H21.54C22.0923 11.7598 22.54 11.3121 22.54 10.7598V3.75977C22.54 3.20749 22.0923 2.75977 21.54 2.75977H19.54V5.75977C19.54 6.31207 19.0923 6.75977 18.54 6.75977C17.9877 6.75977 17.54 6.31207 17.54 5.75977V2.75977H15.54V7.75977C15.54 8.31207 15.0923 8.75977 14.54 8.75977C13.9877 8.75977 13.54 8.31207 13.54 7.75977V2.75977H11.54V5.75977C11.54 6.31207 11.0923 6.75977 10.54 6.75977C9.98775 6.75977 9.54004 6.31207 9.54004 5.75977V2.75977Z" fill="#1F1F1F"/>
+    </svg>
+    Dimensions
+  </div>
+      <section class="popup-dimension">
+      <div class="popup__content-dimension">
+      <div class="close-dimension">
+      <span></span>
+      <span></span>
+      </div>
+    <table>
+  <tr>
+    <td>Cell 1</td>
+    <td>Cell 2</td>
+    <td>Cell 3</td>
+    <td>Cell 4</td>
+    <td>Cell 5</td>
+  </tr>
+  <tr>
+    <td>Cell 6</td>
+    <td>Cell 7</td>
+    <td>Cell 8</td>
+    <td>Cell 9</td>
+    <td>Cell 10</td>
+  </tr>
+</table>
+      </div>
+      </section>
+    </div>
+    <div class="color-flex-patch">
+    <div class="color-image" color="lights">
+      <input style="display:none" type="checkbox" id="patch1" name="properties[Patch Color]" value="Light">
+      <img src="{{ block.settings.imageopt1 | img_url:'master' }}">
+    </div>
+      
+     <div class="color-image" color="darks">
+       <input style="display:none" type="checkbox" id="patch2" name="properties[Patch Color]" value="Dark">
+       <img src="{{ block.settings.imageopt2 | img_url:'master' }}">
+    </div>
+  </div>
+</div>
+<div class="patch-shapes" tag="{{ product.tags }}" >
+<div class="Patch-Shape">Patch Shape</div>
+<div data-v-0e6f4fef="" class="swatch-container" color="lights">
+<div data-index="1" class="swatch customily-swatch">
+<input data-v-0e6f4fef="" id="cl-set-dac530c6-e446-477b-b76a-58005f912443-cl-option-3-cl-value-id-1" type="radio" name="properties[Patch Shape]" class="needsclick needsfocus" value="{{ block.settings.text-l1 }}">
+<label data-v-0e6f4fef="" for="cl-set-dac530c6-e446-477b-b76a-58005f912443-cl-option-3-cl-value-id-1" class="needsclick needsfocus" tabindex="0" style="color: rgb(0, 0, 0); cursor: pointer; width: 46px !important; height: 46px !important; min-width: 46px !important; max-width: 46px !important; min-height: 46px !important; max-height: 46px !important; background-color: transparent;">
+<img data-v-0e6f4fef="" src="{{ block.settings.image-l1 | img_url:'master' }}" loading="lazy"  alt="swatch image style" style="width: 60px !important; height: 60px !important; min-width: 60px !important; max-width: 60px !important; min-height: 60px !important; max-height: 60px !important;">
+ <p class="hover-patch">{{ block.settings.text-l1 }}</p> 
+</label>
+</div>
+<div data-index="2" class="swatch customily-swatch">
+<input data-v-0e6f4fef="" id="cl-set-dac530c6-e446-477b-b76a-58005f912443-cl-option-3-cl-value-id-0" type="radio" name="properties[Patch Shape]" class="needsclick needsfocus" value="{{ block.settings.text-l2 }}">
+<label data-v-0e6f4fef="" for="cl-set-dac530c6-e446-477b-b76a-58005f912443-cl-option-3-cl-value-id-0" class="needsclick needsfocus" tabindex="0" style="color: rgb(0, 0, 0); cursor: pointer; width: 46px !important; height: 46px !important; min-width: 46px !important; max-width: 46px !important; min-height: 46px !important; max-height: 46px !important; background-color: transparent;">
+<img data-v-0e6f4fef="" src="{{ block.settings.image-l2 | img_url:'master' }}" loading="lazy"  alt="swatch image style" style="width: 60px !important; height: 60px !important; min-width: 60px !important; max-width: 60px !important; min-height: 60px !important; max-height: 60px !important;">
+<p class="hover-patch">{{ block.settings.text-l2 }}</p> 
+</label>
+</div>
+<div data-index="3" class="swatch customily-swatch">
+<input data-v-0e6f4fef="" id="cl-set-dac530c6-e446-477b-b76a-58005f912443-cl-option-3-cl-value-id-2" type="radio" name="properties[Patch Shape]" class="needsclick needsfocus" value="{{ block.settings.text-l3 }} ">
+<label data-v-0e6f4fef="" for="cl-set-dac530c6-e446-477b-b76a-58005f912443-cl-option-3-cl-value-id-2" class="needsclick needsfocus" tabindex="0" style="color: rgb(0, 0, 0); cursor: pointer; width: 46px !important; height: 46px !important; min-width: 46px !important; max-width: 46px !important; min-height: 46px !important; max-height: 46px !important; background-color: transparent;">
+<img data-v-0e6f4fef="" src="{{ block.settings.image-l3 | img_url:'master' }}" loading="lazy"  alt="swatch image style" style="width: 60px !important; height: 60px !important; min-width: 60px !important; max-width: 60px !important; min-height: 60px !important; max-height: 60px !important;">
+<p class="hover-patch">{{ block.settings.text-l3 }}</p> 
+</label>
+</div>
+<div data-index="4" class="swatch customily-swatch">
+<input data-v-0e6f4fef="" id="cl-set-dac530c6-e446-477b-b76a-58005f912443-cl-option-3-cl-value-id-3" type="radio" name="properties[Patch Shape]" class="needsclick needsfocus" value="{{ block.settings.text-l4 }}"> 
+<label data-v-0e6f4fef="" for="cl-set-dac530c6-e446-477b-b76a-58005f912443-cl-option-3-cl-value-id-3" class="needsclick needsfocus" tabindex="0" style="color: rgb(0, 0, 0); cursor: pointer; width: 46px !important; height: 46px !important; min-width: 46px !important; max-width: 46px !important; min-height: 46px !important; max-height: 46px !important; background-color: transparent;">
+<img data-v-0e6f4fef="" src="{{ block.settings.image-l4 | img_url:'master' }}" loading="lazy"  alt="swatch image style" style="width: 60px !important; height: 60px !important; min-width: 60px !important; max-width: 60px !important; min-height: 60px !important; max-height: 60px !important;">
+<p class="hover-patch">{{ block.settings.text-l4 }}</p> 
+</label>
+</div>
+<div data-index="5" class="swatch customily-swatch">
+<input data-v-0e6f4fef="" id="cl-set-dac530c6-e446-477b-b76a-58005f912443-cl-option-3-cl-value-id-4" type="radio" name="properties[Patch Shape]" class="needsclick needsfocus" value="Circle"> 
+<label data-v-0e6f4fef="" for="cl-set-dac530c6-e446-477b-b76a-58005f912443-cl-option-3-cl-value-id-4" class="needsclick needsfocus" tabindex="0" style="color: rgb(0, 0, 0); cursor: pointer; width: 46px !important; height: 46px !important; min-width: 46px !important; max-width: 46px !important; min-height: 46px !important; max-height: 46px !important; background-color: transparent;">
+<img data-v-0e6f4fef="" src="{{ block.settings.image-l5 | img_url:'master' }}" loading="lazy" alt="swatch image style" style="width: 60px !important; height: 60px !important; min-width: 60px !important; max-width: 60px !important; min-height: 60px !important; max-height: 60px !important;">
+<p class="hover-patch">{{ block.settings.text-l5 }}</p> 
+</label>
+</div>
+<div data-index="6" class="swatch customily-swatch">
+<input data-v-0e6f4fef="" id="cl-set-dac530c6-e446-477b-b76a-58005f912443-cl-option-3-cl-value-id-5" type="radio" name="properties[Patch Shape]" class="needsclick needsfocus" value="{{ block.settings.text-l6 }}"> 
+<label data-v-0e6f4fef="" for="cl-set-dac530c6-e446-477b-b76a-58005f912443-cl-option-3-cl-value-id-5" class="needsclick needsfocus" tabindex="0" style="color: rgb(0, 0, 0); cursor: pointer; width: 46px !important; height: 46px !important; min-width: 46px !important; max-width: 46px !important; min-height: 46px !important; max-height: 46px !important; background-color: transparent;">
+<img data-v-0e6f4fef="" src="{{ block.settings.image-l6 | img_url:'master' }}" loading="lazy" alt="swatch image style" style="width: 60px !important; height: 60px !important; min-width: 60px !important; max-width: 60px !important; min-height: 60px !important; max-height: 60px !important;">
+<p class="hover-patch">{{ block.settings.text-l6 }}</p> 
+</label>
+</div>
+<div data-index="7" class="swatch customily-swatch">
+<input data-v-0e6f4fef="" id="cl-set-dac530c6-e446-477b-b76a-58005f912443-cl-option-3-cl-value-id-6" type="radio" name="properties[Patch Shape]" class="needsclick needsfocus" value="{{ block.settings.text-l7 }}">
+<label data-v-0e6f4fef="" for="cl-set-dac530c6-e446-477b-b76a-58005f912443-cl-option-3-cl-value-id-6" class="needsclick needsfocus" tabindex="0" style="color: rgb(0, 0, 0); cursor: pointer; width: 46px !important; height: 46px !important; min-width: 46px !important; max-width: 46px !important; min-height: 46px !important; max-height: 46px !important; background-color: transparent;">
+<img data-v-0e6f4fef="" src="{{ block.settings.image-l7 | img_url:'master' }}" loading="lazy" alt="swatch image style" style="width: 60px !important; height: 60px !important; min-width: 60px !important; max-width: 60px !important; min-height: 60px !important; max-height: 60px !important;">
+<p class="hover-patch">{{ block.settings.text-l7 }}</p> 
+</label>
+</div>
+<div data-index="8" class="swatch customily-swatch">
+<input data-v-0e6f4fef="" id="cl-set-dac530c6-e446-477b-b76a-58005f912443-cl-option-3-cl-value-id-7" type="radio" name="properties[Patch Shape]" class="needsclick needsfocus" value="{{ block.settings.text-l8 }}"> 
+<label data-v-0e6f4fef="" for="cl-set-dac530c6-e446-477b-b76a-58005f912443-cl-option-3-cl-value-id-7" class="needsclick needsfocus" tabindex="0" style="color: rgb(0, 0, 0); cursor: pointer; width: 46px !important; height: 46px !important; min-width: 46px !important; max-width: 46px !important; min-height: 46px !important; max-height: 46px !important; background-color: transparent;">
+<img data-v-0e6f4fef="" src="{{ block.settings.image-l8 | img_url:'master' }}" loading="lazy" alt="swatch image style" style="width: 60px !important; height: 60px !important; min-width: 60px !important; max-width: 60px !important; min-height: 60px !important; max-height: 60px !important;">
+<p class="hover-patch">{{ block.settings.text-l8 }}</p> 
+</label>
+</div>
+<div data-index="9" class="swatch customily-swatch">
+<input data-v-0e6f4fef="" id="cl-set-dac530c6-e446-477b-b76a-58005f912443-cl-option-3-cl-value-id-8" type="radio" name="properties[Patch Shape]" class="needsclick needsfocus" value="{{ block.settings.text-l9 }}"> 
+<label data-v-0e6f4fef="" for="cl-set-dac530c6-e446-477b-b76a-58005f912443-cl-option-3-cl-value-id-8" class="needsclick needsfocus" tabindex="0" style="color: rgb(0, 0, 0); cursor: pointer; width: 46px !important; height: 46px !important; min-width: 46px !important; max-width: 46px !important; min-height: 46px !important; max-height: 46px !important; background-color: transparent;">
+<img data-v-0e6f4fef="" src="{{ block.settings.image-l9 | img_url:'master' }}" loading="lazy"  alt="swatch image style" style="width: 60px !important; height: 60px !important; min-width: 60px !important; max-width: 60px !important; min-height: 60px !important; max-height: 60px !important;">
+<p class="hover-patch">{{ block.settings.text-l9 }}</p> 
+</label>
+</div>
+</div>
+
+<div data-v-0e6f4fef="" class="swatch-container darks" color="darks">
+<div class="for-dark-flex">
+<div data-index="1" class="swatch customily-swatch">
+<input data-v-0e6f4fef="" id="cl-set-dac530c6-e446-477b-b76a-58005f912443-cl-option-3-cl-value-id-7" type="radio" name="properties[Patch Shape]" class="needsclick needsfocus" value="{{ block.settings.text-d1 }}"> 
+<label data-v-0e6f4fef="" for="cl-set-dac530c6-e446-477b-b76a-58005f912443-cl-option-3-cl-value-id-7" class="needsclick needsfocus" tabindex="0" style="color: rgb(0, 0, 0); cursor: pointer; width: 46px !important; height: 46px !important; min-width: 46px !important; max-width: 46px !important; min-height: 46px !important; max-height: 46px !important; background-color: transparent;">
+<img data-v-0e6f4fef="" src="{{ block.settings.image-d1 | img_url:'master' }}" loading="lazy" alt="swatch image style" style="width: 60px !important; height: 60px !important; min-width: 60px !important; max-width: 60px !important; min-height: 60px !important; max-height: 60px !important;">
+<p class="hover-patch">{{ block.settings.text-d1 }}</p> 
+</label>
+</div>
+<div data-index="2" class="swatch customily-swatch">
+<input data-v-0e6f4fef="" id="cl-set-dac530c6-e446-477b-b76a-58005f912443-cl-option-3-cl-value-id-8" type="radio" name="properties[Patch Shape]" class="needsclick needsfocus" value="{{ block.settings.text-d2 }}"> 
+<label data-v-0e6f4fef="" for="cl-set-dac530c6-e446-477b-b76a-58005f912443-cl-option-3-cl-value-id-8" class="needsclick needsfocus" tabindex="0" style="color: rgb(0, 0, 0); cursor: pointer; width: 46px !important; height: 46px !important; min-width: 46px !important; max-width: 46px !important; min-height: 46px !important; max-height: 46px !important; background-color: transparent;">
+<img data-v-0e6f4fef="" src="{{ block.settings.image-d2 | img_url:'master' }}" loading="lazy"  alt="swatch image style" style="width: 60px !important; height: 60px !important; min-width: 60px !important; max-width: 60px !important; min-height: 60px !important; max-height: 60px !important;">
+<p class="hover-patch">{{ block.settings.text-d2 }}</p> 
+</label>
+</div>
+<div data-index="3" class="swatch customily-swatch">
+<input data-v-0e6f4fef="" id="cl-set-dac530c6-e446-477b-b76a-58005f912443-cl-option-3-cl-value-id-9" type="radio" name="properties[Patch Shape]" class="needsclick needsfocus" value="{{ block.settings.text-d3 }}">
+<label data-v-0e6f4fef="" for="cl-set-dac530c6-e446-477b-b76a-58005f912443-cl-option-3-cl-value-id-9" class="needsclick needsfocus" tabindex="0" style="color: rgb(0, 0, 0); cursor: pointer; width: 46px !important; height: 46px !important; min-width: 46px !important; max-width: 46px !important; min-height: 46px !important; max-height: 46px !important; background-color: transparent;">
+<img data-v-0e6f4fef="" src="{{ block.settings.image-d3 | img_url:'master' }}" loading="lazy"  alt="swatch image style" style="width: 60px !important; height: 60px !important; min-width: 60px !important; max-width: 60px !important; min-height: 60px !important; max-height: 60px !important;">
+<p class="hover-patch">{{ block.settings.text-d3 }}</p> 
+</label>
+</div>
+<div data-index="4" class="swatch customily-swatch">
+<input data-v-0e6f4fef="" id="cl-set-dac530c6-e446-477b-b76a-58005f912443-cl-option-3-cl-value-id-10" type="radio" name="properties[Patch Shape]" class="needsclick needsfocus" value="{{ block.settings.text-d4 }}"> 
+<label data-v-0e6f4fef="" for="cl-set-dac530c6-e446-477b-b76a-58005f912443-cl-option-3-cl-value-id-10" class="needsclick needsfocus" tabindex="0" style="color: rgb(0, 0, 0); cursor: pointer; width: 46px !important; height: 46px !important; min-width: 46px !important; max-width: 46px !important; min-height: 46px !important; max-height: 46px !important; background-color: transparent;">
+<img data-v-0e6f4fef="" src="{{ block.settings.image-d4 | img_url:'master' }}" loading="lazy"  alt="swatch image style" style="width: 60px !important; height: 60px !important; min-width: 60px !important; max-width: 60px !important; min-height: 60px !important; max-height: 60px !important;">
+<p class="hover-patch">{{ block.settings.text-d4 }}</p> 
+</label>
+</div>
+<div data-index="5" class="swatch customily-swatch">
+<input data-v-0e6f4fef="" id="cl-set-dac530c6-e446-477b-b76a-58005f912443-cl-option-3-cl-value-id-10" type="radio" name="properties[Patch Shape]" class="needsclick needsfocus" value="{{ block.settings.text-d5 }}"> 
+<label data-v-0e6f4fef="" for="cl-set-dac530c6-e446-477b-b76a-58005f912443-cl-option-3-cl-value-id-10" class="needsclick needsfocus" tabindex="0" style="color: rgb(0, 0, 0); cursor: pointer; width: 46px !important; height: 46px !important; min-width: 46px !important; max-width: 46px !important; min-height: 46px !important; max-height: 46px !important; background-color: transparent;">
+<img data-v-0e6f4fef="" src="{{ block.settings.image-d5 | img_url:'master' }}" loading="lazy"  alt="swatch image style" style="width: 60px !important; height: 60px !important; min-width: 60px !important; max-width: 60px !important; min-height: 60px !important; max-height: 60px !important;">
+<p class="hover-patch">{{ block.settings.text-d5 }}</p> 
+</label>
+</div>
+<div data-index="6" class="swatch customily-swatch">
+<input data-v-0e6f4fef="" id="cl-set-dac530c6-e446-477b-b76a-58005f912443-cl-option-3-cl-value-id-10" type="radio" name="properties[Patch Shape]" class="needsclick needsfocus" value="{{ block.settings.text-d6 }}"> 
+<label data-v-0e6f4fef="" for="cl-set-dac530c6-e446-477b-b76a-58005f912443-cl-option-3-cl-value-id-10" class="needsclick needsfocus" tabindex="0" style="color: rgb(0, 0, 0); cursor: pointer; width: 46px !important; height: 46px !important; min-width: 46px !important; max-width: 46px !important; min-height: 46px !important; max-height: 46px !important; background-color: transparent;">
+<img data-v-0e6f4fef="" src="{{ block.settings.image-d6 | img_url:'master' }}" loading="lazy" alt="swatch image style" style="width: 60px !important; height: 60px !important; min-width: 60px !important; max-width:60px !important; min-height: 60px !important; max-height: 60px !important;">
+<p class="hover-patch">{{ block.settings.text-d6 }}</p> 
+</label>
+</div>
+<div data-index="7" class="swatch customily-swatch">
+<input data-v-0e6f4fef="" id="cl-set-dac530c6-e446-477b-b76a-58005f912443-cl-option-3-cl-value-id-10" type="radio" name="properties[Patch Shape]" class="needsclick needsfocus" value="{{ block.settings.text-d7 }}"> 
+<label data-v-0e6f4fef="" for="cl-set-dac530c6-e446-477b-b76a-58005f912443-cl-option-3-cl-value-id-10" class="needsclick needsfocus" tabindex="0" style="color: rgb(0, 0, 0); cursor: pointer; width: 46px !important; height: 46px !important; min-width: 46px !important; max-width: 46px !important; min-height: 46px !important; max-height: 46px !important; background-color: transparent;">
+<img data-v-0e6f4fef="" src="{{ block.settings.image-d7 | img_url:'master' }}" loading="lazy"  alt="swatch image style" style="width: 60px !important; height: 60px !important; min-width: 60px !important; max-width: 60px !important; min-height: 60px !important; max-height: 60px !important;">
+<p class="hover-patch">{{ block.settings.text-d7 }}</p> 
+</label>
+</div>
+<div data-index="8" class="swatch customily-swatch">
+<input data-v-0e6f4fef="" id="cl-set-dac530c6-e446-477b-b76a-58005f912443-cl-option-3-cl-value-id-10" type="radio" name="properties[Patch Shape]" class="needsclick needsfocus" value="{{ block.settings.text-d8 }}"> 
+<label data-v-0e6f4fef="" for="cl-set-dac530c6-e446-477b-b76a-58005f912443-cl-option-3-cl-value-id-10" class="needsclick needsfocus" tabindex="0" style="color: rgb(0, 0, 0); cursor: pointer; width: 46px !important; height: 46px !important; min-width: 46px !important; max-width: 46px !important; min-height: 46px !important; max-height: 46px !important; background-color: transparent;">
+<img data-v-0e6f4fef="" src="{{ block.settings.image-d8 | img_url:'master' }}" loading="lazy"  alt="swatch image style" style="width: 60px !important; height: 60px !important; min-width: 60px !important; max-width: 60px !important; min-height: 60px !important; max-height: 60px !important;">
+<p class="hover-patch">{{ block.settings.text-d8 }}</p> 
+</label>
+</div>
+<div data-index="9" class="swatch customily-swatch">
+<input data-v-0e6f4fef="" id="cl-set-dac530c6-e446-477b-b76a-58005f912443-cl-option-3-cl-value-id-10" type="radio" name="properties[Patch Shape]" class="needsclick needsfocus" value="{{ block.settings.text-d9 }}"> 
+<label data-v-0e6f4fef="" for="cl-set-dac530c6-e446-477b-b76a-58005f912443-cl-option-3-cl-value-id-10" class="needsclick needsfocus" tabindex="0" style="color: rgb(0, 0, 0); cursor: pointer; width: 46px !important; height: 46px !important; min-width: 46px !important; max-width: 46px !important; min-height: 46px !important; max-height: 46px !important; background-color: transparent;">
+<img data-v-0e6f4fef="" src="{{ block.settings.image-d9 | img_url:'master' }}" loading="lazy"  alt="swatch image style" style="width: 60px !important; height: 60px !important; min-width: 60px !important; max-width: 60px !important; min-height: 60px !important; max-height: 60px !important;">
+<p class="hover-patch">{{ block.settings.text-d9 }}</p> 
+</label>
+</div>
+</div>
+</div>
+</div>
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endif %}
+
+<script>
+      $(document).on('click','.dimension',function(){
+    $(".popup-dimension").fadeIn(500);
+    });
+    $(document).on('click','.close-dimension',function(){
+    $(".popup-dimension").fadeOut(500);
+    });
+</script>

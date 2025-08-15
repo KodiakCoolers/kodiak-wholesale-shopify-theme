@@ -1,0 +1,609 @@
+<section class="loyality-program">
+  <div class="container-fluid">
+    <div class="col-md-7 col-sm-10 col-xs-12 laya">
+      <div class="loyality-heading">
+        Join our Loyalty<br>
+        Program & Earn<br>
+        Store Credit
+      </div>
+      <div class="layality-sub-heading">Join for free and begin earning points & rewards every time you shop.</div>
+      <div class="layality-btns">
+        <div><a href="/account/register">Join Now</a></div>
+        <div class="laya-btn"><a href="/account/login">Sign In</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="way-to-earn">
+  <div class="container-fluid">
+    <div class="row earn-perent">
+      <div class="earn-title">Ways to Earn</div>
+      <div class="earn-para">Earn points by completing any of the actions below</div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12 earning-perent">
+        <div class="row content-preent">
+          {% for block in section.blocks %}
+            {% if block.type == 'monograme-block' %}
+              <div class="col-md-4 col-sm-3 earn-cards{{ forloop.index }}">
+                <div class="card-icon" style="color: rgb(59, 67, 81)!important">{{ block.settings.card_icon }}</div>
+                <div class="content1">
+                  <div class="content-title">{{ block.settings.content_title }}</div>
+                  <div class="content-hed">{{ block.settings.content_hed }}</div>
+                </div>
+                <div class="content-image">
+                  {{ block.settings.content_image }}
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="how-it-work">
+  <div class="container-fluid">
+    <div class="row work-perent">
+      <div class="work-title">How it Works</div>
+      <div class="col-md-9 col-sm-12">
+        <div class="row work-subperent">
+          {% for block in section.blocks %}
+            {% if block.type == 'step-colm' %}
+              <div class="col-md-4">
+                <div class="step-num">{{ block.settings.step_num }}</div>
+                <div class="step-title">{{ block.settings.step_title }}</div>
+                <div class="step-sub-title">{{ block.settings.step1_title }}</div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "monograme_section",
+  "settings": [],
+   "blocks":[
+    {
+      "type":"monograme-block",
+      "name":"content",
+      "settings":[
+        {
+          "type":"html",
+          "id":"card_icon",
+          "label":"add html"
+        },
+        {
+          "type":"text",
+          "id":"content_title",
+          "label":"add text"
+        },
+        {
+          "type":"text",
+          "id":"content_hed",
+          "label":"add text"
+        },
+        {
+          "type":"html",
+          "id":"content_image",
+          "label":"add html"
+        }
+
+      ]
+    },
+     {
+      "type":"step-colm",
+      "name":"context",
+      "settings":[
+        {
+          "type":"text",
+          "id":"step_num",
+          "label":"add text"
+        },
+
+       {
+        "type":"text",
+        "id":"step_title",
+        "label":"Add text"
+      },
+        {
+          "type":"text",
+          "id":"step1_title",
+          "label":"add text"
+        }
+      ]
+    }
+
+  ],
+  "presets":[
+    {
+      "name":"loyality banner or earn"
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}
+<style>
+                                .layality-btns a:hover{
+                                  text-decoration:none;
+
+                                }
+                                .layality-btns div:hover{
+                                   background-color:rgb(220 128 128);
+                                }
+                                .loyality-program{
+                                  padding:80px 8px 117px 40px;
+                                  background-color: #f5f3f3;
+                                }
+                                .loyality-heading{
+                                  color: rgb(54, 69, 91);
+                                  font-size: 40px;
+                                  font-weight: 800;
+                                  padding-bottom: 15px;
+                                  line-height: normal;
+                                  latter-spacing: normal;
+                                  font-family: 'Nunito', sans-serif !important;
+                                }
+                                .layality-sub-heading{
+                                  color: rgb(181, 181, 181);
+                                  font-size: 22px;
+                                  line-height: 33px;
+                                 max-width: 383px;
+                                }
+                                .layality-btns{
+                                  display:flex;
+                                  padding-top: 21px;
+                                }
+                                .layality-btns div{
+                                 background-color: rgb(228, 77, 77);
+                                  width: 188px;
+                                  height: 37px;
+                                  text-align: center;
+                                  padding: 5px;
+                                  font-size: 18px;
+                                }
+                                .layality-btns a{
+                                  color:white!important;
+                                }
+                              .laya-btn{
+                                margin-left: 21px;
+                              }
+                              .earn-title{
+                              text-align: center;
+                              color: rgb(228, 77, 77);
+                              font-size: 38px;
+                              font-weight: 800;
+                              font-family: Nunito, sans-serif;
+                              padding-bottom: 15px;
+                              line-height: 45.6px;
+                              padding-top:60px;
+                              }
+                      .earn-para{
+                          text-align: center;
+                          font-size: 16px;
+                        font-family: 'Poppins', sans-serif, serif, monospace !important;
+
+                          line-height: 24px;
+                          color: #8a8a8a;
+                      }
+                    .way-to-earn{
+                        background: #fafafa;
+                        padding-bottom: 85px;
+                    }
+                  .earning-perent{
+                      max-width:960px!important;
+                      margin:auto;
+                    }
+                  .earn-cards1{
+                    max-width:275px;
+                    border: 1px solid gainsboro;
+                     background: white;
+                    display: flex;
+                    justify-content: space-between;
+                    min-height: 100px;
+                  }
+                .earn-cards2{
+                    max-width:275px;
+                  border: 1px solid gainsboro;
+                  margin-left: 16px;
+                  background: white;
+                  display: flex;
+                  justify-content: space-between;
+                  min-height: 100px;
+                  }
+                .earn-cards3{
+                    max-width:275px;
+                  border: 1px solid gainsboro;
+              margin-left: 16px;
+                  background: white;
+                  display: flex;
+                  justify-content: space-between;
+                  min-height: 100px;
+
+                  }
+
+                .earn-cards4{
+                    max-width:275px;
+                    min-height: 100px;
+                    border: 1px solid gainsboro;
+                     background: white;
+                    margin-top: 17px;
+                    display: flex;
+                  justify-content: space-between;
+                  }
+                  .earn-cards5{
+                      max-width:275px;
+                      border: 1px solid gainsboro;
+                      margin-left: 16px;
+                    background: white;
+                    margin-top: 17px;display: flex;
+                    justify-content: space-between;
+                    min-height: 100px;
+                  }
+                  .earn-cards6{
+                      max-width:275px;
+                      border: 1px solid gainsboro;
+                      margin-left: 16px;
+                      background: white;
+                       margin-top: 17px;display: flex;
+                      justify-content: space-between;
+                      min-height: 100px;
+                  }
+                  .earn-cards7{
+                    max-width:275px;
+                    border: 1px solid gainsboro;
+                     background: white;
+                    margin-top: 17px;display: flex;
+                      justify-content: space-between;
+                    min-height: 100px;
+                  }
+                  .earn-cards8{
+                    max-width:275px;
+                    min-height: 100px;
+                    border: 1px solid gainsboro;
+                      margin-left: 16px;
+                      background: white;
+                    margin-top: 17px;display: flex;
+                    justify-content: space-between;
+                  }
+                .content-preent{
+                      display:flex;
+                      justify-content:center;
+                      padding-top: 36px;
+                      display: flex;
+
+                }
+  .content-preent .svg-icon{
+              color: rgb(59, 67, 81)!important;
+  }
+              .svg-icon{
+                width: 40px;
+                height: 48px;
+                margin-top: 26px;
+                color: rgb(59, 67, 81)!important;
+              }
+              .earn-cards1 .content-title{
+                color: rgb(59, 67, 81);
+                font-size: 16px;
+                font-weight: 800;
+                margin: 2px;
+                line-height: normal;
+                text-align: left;
+                font-family: Nunito, sans-serif;
+
+              }
+              .earn-cards8
+              .content-title{
+                color: rgb(59, 67, 81);
+                font-size: 16px;
+                font-weight: 800;
+                margin: 2px;
+                line-height: normal;
+                text-align: left;
+                font-family: Nunito, sans-serif;
+
+              }
+
+              .content-title{
+                color: rgb(59, 67, 81);
+                font-size: 16px;
+                font-weight: 800;
+                margin: 2px;
+                line-height: normal;
+                text-align: left;
+                font-family: Nunito, sans-serif;
+
+              }
+              .content1{
+               padding-top: 26px;
+                padding-left: 14px;
+               padding-right: 20px;
+              }
+              .content-hed{
+                color: rgb(130, 130, 130);
+                font-size: 14px;
+                line-height: normal;
+              }
+              .earn-cards1 .content1{
+                padding-top: 16px;
+                padding-left: 14px;
+              }
+              .earn-cards2 .content1{
+                padding-top: 16px;
+                padding-left: 14px;
+              }
+              .earn-cards6 .content1{
+                padding-top: 16px;
+                padding-left: 14px;
+              }
+              .earn-cards8 .content1 {
+              padding-top: 16px;
+              padding-left: inherit;
+              padding-right: 20px;
+          }
+              .earn-cards5 .content1{
+                padding-top: 26px;
+                padding-left: 0px;
+               padding-right: 114px;
+              }
+              .earn-cards3 .content1 {
+                padding-top: 26px;
+                padding-left: 10px;
+                padding-right: 21px;
+            }
+              .content-image{
+                position: absolute;
+                top: 38%;
+                right: 16px;
+              }
+              .content-image svg{
+                color: #c1bbbb;
+                font-size: 17px;
+              }
+          .earn-cards7 .content1{
+            padding-right: 21px;
+          }
+          .work-title{
+            font-size: 38px;
+            color: #000000;
+            font-weight: bolder;
+            line-height: 45.6px;
+            font-family: Nunito, sans-serif;
+            margin-top: 59px;
+            text-align:center;
+            margin-bottom:19px;
+          }
+          .work-subperent{
+            margin:auto;
+            padding-top: 12px;
+          }
+        .work-perent{
+            display: flex;
+            justify-content: center;
+            text-align: center;
+            padding-bottom: 41px;
+        }
+        .step-num{
+          color: rgb(228, 77, 77);
+          font-size: 40px;
+          font-weight: 800;
+          line-height: 60px;
+          font-family: Nunito, sans-serif;
+        }
+        .step-title{
+          color: rgb(0, 0, 0);
+          font-size: 20px;
+          font-weight: 800;
+          line-height: 30px;
+          font-family: Nunito, sans-serif;
+        }
+        .step-sub-title{
+          color: rgb(94, 94, 94);
+          font-size: 14px;
+              font-family: 'Poppins', sans-serif, serif, monospace !important;
+        }
+
+
+
+                               @media screen and (max-width: 768px) {
+                            .layality-btns{
+                              display:block!important;
+                                  max-width: 433px;
+                            }
+                            .layality-btns div{
+                            width:100%;
+                            }
+                            .laya-btn {
+                              margin-left: auto;
+                              margin-top: 12px;
+                          }
+                          .loyality-program {
+                            padding: 80px 8px 80px 69px;
+                            padding-left: 2%!important;
+                        }
+                        .earn-cards1 {
+
+                        max-width: 100%;
+                        border: 1px solid gainsboro;
+                        background: white;
+                        display: flex;
+                        justify-content: normal;
+                        min-height: 100px;
+                        width: 100%;
+
+                          margin-top: 13px;
+                          max-width: 96%;
+                          margin-left: 3px
+                        /* margin: 10px; */
+                          }
+                                  .earn-cards2 {
+                        max-width: 100%;
+                        border: 1px solid gainsboro;
+                        background: white;
+                        display: flex;
+                                    margin-left: 3px;
+                        justify-content: normal;
+                        min-height: 100px;
+                        width: 100%;
+                                    max-width: 96%;
+                                    margin-top: 13px;
+                        /* margin: 10px; */
+                          }
+                                  .earn-cards3 {
+                        max-width: 100%;
+                        border: 1px solid gainsboro;
+                        background: white;
+                        display: flex;
+                                    margin-left: 3px;
+                                    max-width: 96%;
+                                    margin-top: 13px;
+                        justify-content: normal;
+                        min-height: 100px;
+                        width: 100%;
+                        /* margin: 10px; */
+                          }
+                                  .earn-cards4 {
+                        max-width: 100%;
+                        border: 1px solid gainsboro;
+                        background: white;
+                        display: flex;
+                        justify-content: normal;
+                        min-height: 100px;
+                        width: 100%;
+                                    margin-left: 3px;
+                                    max-width: 96%;
+                                    margin-top: 13px;
+                        /* margin: 10px; */
+                          }
+                                  .earn-cards5 {
+                        max-width: 100%;
+                        border: 1px solid gainsboro;
+                        background: white;
+                        display: flex;
+                        justify-content: normal;
+                        min-height: 100px;
+                        width: 100%;
+                                    margin-left: 3px;
+                                    max-width: 96%;
+                                    margin-top: 13px;
+                        /* margin: 10px; */
+                          }
+                                  .earn-cards6 {
+                        max-width: 100%;
+                        border: 1px solid gainsboro;
+                        background: white;
+                        display: flex;
+                        justify-content: normal;
+                        min-height: 100px;
+                        width: 100%;
+                                    margin-left: 3px;
+                                    max-width: 96%;
+                                    margin-top: 13px;
+                        /* margin: 10px; */
+                          }
+                                  .earn-cards7 {
+                        max-width: 100%;
+                        border: 1px solid gainsboro;
+                        background: white;
+                        display: flex;
+                        justify-content: normal;
+                        min-height: 100px;
+                        width: 100%;
+                                    max-width: 96%;
+                                    margin-top: 13px;
+                        /* margin: 10px; */
+                          }
+                      .earn-cards8 {
+                      max-width: 96%;
+                      border: 1px solid gainsboro;
+                      background: white;
+                      display: flex;
+                      justify-content: normal;
+                      min-height: 100px;
+                      width: 100%;
+                      margin-top: 13px;
+                      /* margin: 10px; */
+                      margin-left: 1px;
+                  }
+                                }
+                @media screen and (max-width: 993px) {
+                  .earn-cards5 .content1{
+                    padding-right: 63px;
+                  }
+                }
+                @media screen and (max-width: 400px) {
+                  .loyality-heading {
+                color: rgb(54, 69, 91);
+                font-size: 40px;
+                font-weight: 800;
+                padding-bottom: 15px;
+                line-height: normal;
+            }
+                  .layality-sub-heading {
+              color: rgb(181, 181, 181);
+              font-size: 19px;
+              line-height: 33px;
+          }
+          .laya{
+            padding:0px;
+          }
+        }
+          .earn-cards1:hover{
+           background-color: #f5f3f3;
+          }
+          .earn-cards3:hover{
+           background-color: #f5f3f3;
+          }
+          .earn-cards5:hover{
+           background-color: #f5f3f3;
+          }
+          .earn-cards7:hover{
+           background-color: #f5f3f3;
+          }
+          .earn-cards8:hover{
+           background-color: #f5f3f3;
+          }
+.way-to-earn .content-hed {
+    width: 100%;
+}
+ .way-to-earn .content-title {
+    width: 100%;
+}
+
+.way-to-earn .col-md-4 {
+    position: relative;
+}
+  .way-to-radeem .col-md-4.col-sm-3 {
+    position: relative;
+}
+svg:not(:host).svg-inline--fa, svg:not(:root).svg-inline--fa {
+    overflow: visible!important;
+    box-sizing: content-box!important;
+}
+.content-image svg {
+    height: 1em;
+}
+  .fa-chevron-right:before {
+    content: "\f054";
+}
+
+
+
+@media only screen and (max-width:767px){
+  .way-to-earn .content-hed {
+    width: 100%;
+}
+ .way-to-earn .content-title {
+    width: 100%;
+}
+}
+  
+</style>

@@ -1,0 +1,54 @@
+<div class="popular_cases">
+      <div class="popular_heading">{{ section.settings.heading }}</div>
+      <div class="popular_subheading">{{ section.settings.subheading }}</div>
+  <div class="popular-use-case">
+    {% for block in section.blocks %}
+     <div class="popular-step">
+          <div class="popular_img">
+           {% if block.settings.img  %}<img src="{{ block.settings.img | img_url:'master' }}">{% endif %}
+          </div>
+       <div class="popular-steps">{{ block.settings.steps }}</div>
+     </div>
+    {% endfor %}
+  </div>
+</div>
+{% schema %}
+  {
+    "name": "popular use cases",
+    "settings": [
+     {
+            "type":"text",
+            "id":"heading",
+            "label":"Add heading"
+     },
+      {
+            "type":"text",
+            "id":"subheading",
+            "label":"Add subheading"
+     }
+    ],
+    "blocks":[
+      {
+        "type":"order",
+        "name":"custom",
+        "settings":[
+          {
+            "type":"image_picker",
+            "id":"img",
+            "label":"Add image"
+          },
+          {
+            "type":"text",
+            "id":"steps",
+            "label":"Add steps"
+          }
+        ]
+      }
+    ],
+    "presets":[
+      {
+        "name":"popular cases"
+      }
+    ]
+  }
+{% endschema %}

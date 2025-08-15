@@ -1,0 +1,14 @@
+<div class="quick_filters">
+    {% assign colle1 = collection.metafields.custom.quick_filter.value %}
+    {% assign custom_name = collection.metafields.custom.quick_filter_names.value %} 
+    {% if collection.metafields.custom.quick_filter.value != blank %}
+    {% for collnames in colle1 %}
+       {% if section.settings.quickfiltering %}
+         <div class="quick_filters_collection_names quick_filters_collection_images" data-handle="{{ collnames.handle }}"><a href="{{ collnames.url }}">{% if collnames.featured_image !=blank %}<img src="{{ collnames.featured_image | img_url:'master' }}">{{ custom_name[forloop.index0] }}{% endif %}</a></div>
+      {% else %}
+         <div class="quick_filters_collection_names quick_filters_collection_pills" data-handle="{{ collnames.handle }}"><a href="{{ collnames.url }}">{{ custom_name[forloop.index0] }}</a></div>
+       {% endif %} 
+    {% endfor %}
+    {% endif %}
+</div>
+

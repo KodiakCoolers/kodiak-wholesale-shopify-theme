@@ -1,0 +1,41 @@
+<script async src="//cdn.jsdelivr.net/npm/vanilla-lazyload@12.0.0/dist/lazyload.min.js"></script>
+<script>
+    var es_ie =  /*@cc_on!@*/false || !!document.documentMode;
+    if(es_ie){
+      (function($){
+        $.getScript('//unpkg.com/css-vars-ponyfill@1/dist/css-vars-ponyfill.min.js', function(){
+          cssVars({
+              onlyLegacy: false
+          });
+          setTimeout(function () {
+              jQuery('.loaderIE').removeClass('active');
+          }, 1000);
+        });
+      })(jQuery);
+    } else
+        jQuery('.loaderIE').removeClass('active');
+</script>
+<script>
+    VastaShop.Cart.current = {{ cart | json }};
+    VastaShop.Cart.total_price = {{ cart.total_price }};
+    VastaShop.Cart.total_quantity = {{ cart.item_count }};
+    
+    var all_variants = {};
+  {% comment %} {% for collection in collections %}
+        {% for product in collection.products %}
+            {% for variant in product.variants %}
+            all_variants[{{ variant.id }}] = {
+                inventory_policy: "{{ variant.inventory_policy }}",
+                inventory_management: "{{ variant.inventory_management }}",
+                inventory_quantity: {{ variant.inventory_quantity }}
+            };
+            {% endfor %}
+        {% endfor %}
+    {% endfor %}
+{% endcomment %}
+   $(window).load(function(){
+    setTimeout(function(){
+      window.localStorage.setItem("all_products", JSON.stringify(all_variants));
+    },500);
+  });
+</script>

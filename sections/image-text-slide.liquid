@@ -1,0 +1,94 @@
+<div class="image-text-slide container">
+   <div class="image-text-slide-text">
+    <div class="image-text-slide-text-inner slick-slider-text">
+    {% for block in section.blocks %}
+      <div class="image-text-slide-text-inner-content">
+      <div class="heading">
+           <h1 class="mainheading">{{ block.settings.heading_1 }}</h1>
+           <h1 class="mainsubheading">{{ block.settings.heading_2 }}</h1>
+      </div>
+       <div class="inner_content">
+           <h3 class="inner_content_subhead">{{ block.settings.subheading }}</h3>
+           <div class="inner_content_para">{{ block.settings.custom-text-field }}</div>
+           <a class="inner_content_link" href="{{ block.settings.url }}">{{ block.settings.link_text }}</a>
+       </div>
+      </div>
+      {% endfor %}
+   </div>
+  <div class="progress-1">
+       <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+        <span class="slider__label sr-only">
+        </span> </div>
+    <div class="progres-1"><div class="prev-arrow"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="16" viewBox="0 0 11 16" fill="none">
+  <path d="M0.00976562 8L0.875766 8.848L8.26777 16L10.0098 14.305L3.49377 8L10.0098 1.7L8.26777 0L0.875766 7.153L0.00976562 8Z" fill="black"/>
+</svg></div>
+    <div class="dots-text"></div>
+    <div class="next-arrow"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="16" viewBox="0 0 11 16" fill="none">
+  <path d="M10.0098 8L9.14377 7.152L1.75177 0L0.00976562 1.695L6.52577 8L0.00976562 14.3L1.75177 16L9.14377 8.847L10.0098 8Z" fill="black"/>
+</svg></div></div></div>
+   </div>
+   <div class="image-text-slide-image">
+      <img src="{{ section.settings.image | img_url:'master' }}">
+   </div>
+</div>
+{% schema %}
+  {
+    "name": "image-text-slide",
+    "settings": [
+      {
+        "id": "image",
+        "type": "image_picker",
+        "label": "Image"
+        }
+     ],
+    "blocks": [
+    {
+      "type": "content",
+      "name": "content",
+      "settings": [
+        {
+          "id": "heading_1",
+          "type": "text",
+          "label": "Heading"
+        },
+        {
+          "id": "heading_2",
+          "type": "text",
+          "label": "Second Heading"
+        },
+        {
+          "id": "subheading",
+          "type": "text",
+          "label": "Subheading"
+        },
+        {
+          "id": "custom-text-field",
+          "type": "textarea",
+          "label": "Text"
+        },
+        {
+          "id": "url",
+          "type": "url",
+          "label": "link"
+        },
+        {
+          "id": "link_text",
+          "type": "text",
+          "label": "Link text"
+        }
+      ]
+    }
+    ],
+  "presets": [
+    {
+      "name": "image-text-slide"
+    }
+  ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

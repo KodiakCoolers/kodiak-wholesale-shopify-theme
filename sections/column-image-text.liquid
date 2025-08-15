@@ -1,0 +1,459 @@
+<div
+  id="sf-custom-{{ section.id }}"
+  class="sf-custom sf-section-padding {{ section.settings.custom_class }}"
+  data-section-type="custom-content"
+  data-section-id="{{ section.id }}"
+>
+  <div
+    class="{{ section.settings.container }} section-my"
+    style="background-color:{{ section.settings.background-color }}"
+  >
+    {%- assign block_width_mobile = '' -%}
+
+    {% if section.blocks.size > 0 %}
+      {% if scrollMobile %}<div class="sf__ms">{% endif %}
+      <div class="sf-custom__grid">
+        <div class="main_grid">
+          {% for block in section.blocks %}
+            <div
+              id="sf-custom__block--{{ block.id }}"
+              class="sf-custom__block {{ block.settings.block_custom_class }} sf-custom__block--{{ block.type }} flex {{ block_width }} {{ block_width_mobile }} items-{{ vertical_alignment }}"
+              {{ block.shopify_attributes }}
+            >
+              <div class="sf-custom__block-inner w-full">
+                {% case block.type %}
+                  {% when 'image' %}
+                    {% if block.settings.image != blank %}
+                      <img class="image-column" src="{{  block.settings.image |img_url:'master' }}" width="{{  block.settings.image.width }}" height="{{  block.settings.image.height }}">
+                    {% else %}
+                      {% if block.settings.width == '100%' %}
+                        {{
+                          'lifestyle-1'
+                          | placeholder_svg_tag: 'placeholder-svg sf__placeholder-svg sf__placeholder-svg-no-border'
+                        }}
+                      {% else %}
+                        {{
+                          'image'
+                          | placeholder_svg_tag: 'placeholder-svg sf__placeholder-svg sf__placeholder-svg-no-border'
+                        }}
+                      {% endif %}
+                    {% endif %}
+                  {% when 'text' %}
+                    <div
+                      class="text-{{ block.settings.align_text }}{% if section.settings.container == 'w-full' %} px-4 md:px-0{% endif %}"
+                      style="--text-color: {{ block.settings.text_color }};"
+                    >
+                      {% if block.settings.subheading != blank %}
+                        <h2 class="content__subheading">{{ block.settings.subheading }}</h2>
+                      {% endif %}
+                      {% if block.settings.title != blank %}
+                        <h3 class="content__heading text-2xl ">{{ block.settings.title }}</h3>
+                      {% endif %}
+                      {% if block.settings.title1 != blank %}
+                        <h3 class="content__heading title1 text-2xl">{{ block.settings.title1 }}</h3>
+                      {% endif %}
+                      {% if block.settings.text != blank %}
+                        <div class="prose rte mt-4 text-color-subtext">{{ block.settings.text }}</div>
+                      {% endif %}
+                      {% if block.settings.button_label != blank %}
+                        <div class="sf-custom__text-cta mt-5 md:mt-8">
+                          <a href="{{ block.settings.button_link }}" class="sf__btn">
+                            {{- block.settings.button_label -}}
+                          </a>
+                        </div>
+                      {% endif %}
+                      <div class="element-wrap-for-payment">
+                        <div class="elm-payment">
+                          <img
+                            src="https://ucarecdn.com/5e78259b-0b70-4663-ad2d-8e39b9b798f2/-/format/auto/-/preview/960x960/-/quality/lightest/Screen%20Shot%202022-10-25%20at%201.23.09%20PM.png"
+                            alt="payment methods accepted for bulk custom t-shirt orders"
+                            class="gf_image"
+                            title=""
+                            loading="lazy"
+                          >
+                        </div>
+                      </div>
+                      <div class="review">
+                        <div><img src=""></div>
+                        <div>
+                          <p class="review-text">
+                            {{ block.settings.review_message }}
+                          </p>
+                          <div>
+                            <p class="verified-author">Shelly N.</p>
+                            <img
+                              src="https://ucarecdn.com/865b5d7a-31d3-4e8c-9e24-129571a604c0/-/format/auto/-/preview/100x100/-/quality/lightest/"
+                              alt=""
+                              class="gf_image"
+                              data-gemlang="en"
+                              data-width="20%"
+                              data-height="auto"
+                              title=""
+                              natural-width="100"
+                              natural-height="16"
+                              width="100"
+                              height="16"
+                              loading="lazy"
+
+                            ><br>
+                            <p class="verified-text">
+                              <img
+                                src="//www.kodiak-wholesale.com/cdn/shop/files/ba612e6c6a0592a374e2307102d52a7b.png?v=1695289588"
+                                width="16"
+                                height="16"
+                                alt="verified"
+                              >Verified purchase
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                {% endcase %}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% if scrollMobile %}</div>{% endif %}
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Custom content",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section header"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom classes"
+    },
+    {
+      "type": "color",
+      "id": "background-color",
+      "label": "Background Color"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Text",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "title",
+          "label": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "title1",
+          "label": "Heading"
+        },
+        {
+          "type": "textarea",
+          "id": "subheading",
+          "label": "Subheading"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.</p>"
+        },
+        {
+          "type": "select",
+          "id": "width",
+          "label": "Container width",
+          "default": "50%",
+          "options": [
+            {
+              "value": "16%",
+              "label": "16%"
+            },
+            {
+              "value": "25%",
+              "label": "25%"
+            },
+            {
+              "value": "33%",
+              "label": "33%"
+            },
+            {
+              "value": "50%",
+              "label": "50%"
+            },
+            {
+              "value": "66%",
+              "label": "66%"
+            },
+            {
+              "value": "75%",
+              "label": "75%"
+            },
+            {
+              "value": "83%",
+              "label": "83%"
+            },
+            {
+              "value": "100%",
+              "label": "100%"
+            }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "alignment",
+          "label": "Vertical alignment",
+          "default": "center",
+          "options": [
+            {
+              "value": "start",
+              "label": "Top"
+            },
+            {
+              "value": "center",
+              "label": "Middle"
+            },
+            {
+              "value": "end",
+              "label": "Bottom"
+            }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "align_text",
+          "label": "Horizontal alignment",
+          "default": "left",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "text_size",
+          "label": "Text size",
+          "options": [
+            {
+              "value": "medium",
+              "label": "Medium"
+            },
+            {
+              "value": "large",
+              "label": "Large"
+            }
+          ],
+          "default": "medium"
+        },
+        {
+          "type": "select",
+          "id": "text_color",
+          "label": "Text color",
+          "options": [
+            {
+              "value": "white",
+              "label": "Light"
+            },
+            {
+              "value": "black",
+              "label": "Dark"
+            }
+          ],
+          "default": "black"
+        },
+        {
+          "type": "header",
+          "content": "Button settings"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        },
+        {
+          "type": "select",
+          "id": "button_style",
+          "label": "Button style",
+          "options": [
+            {
+              "value": "sf__btn-primary",
+              "label": "Primary button"
+            },
+            {
+              "value": "sf__btn-secondary",
+              "label": "Secondary button"
+            },
+            {
+              "value": "sf__btn-white",
+              "label": "White button"
+            },
+            {
+              "value": "sf__btn-link",
+              "label": "Underline button"
+            }
+          ],
+          "default": "sf__btn-primary"
+        },
+        {
+          "type": "select",
+          "id": "button_size",
+          "label": "Button size",
+          "options": [
+            {
+              "value": "sf__btn-small",
+              "label": "Button small"
+            },
+            {
+              "value": "",
+              "label": "Button medium"
+            },
+            {
+              "value": "sf__btn-large",
+              "label": "Button large"
+            }
+          ],
+          "default": ""
+        },
+        {
+          "type": "image_picker",
+          "id": "review_image",
+          "label": "Review Image"
+        },
+        {
+          "type": "text",
+          "id": "review_message",
+          "label": "Review text"
+        },
+        {
+          "type": "header",
+          "content": "Advanced settings"
+        },
+        {
+          "type": "text",
+          "id": "block_custom_class",
+          "label": "Custom classes"
+        }
+      ]
+    },
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Image link"
+        },
+        {
+          "type": "select",
+          "id": "width",
+          "label": "Container width",
+          "default": "50%",
+          "options": [
+            {
+              "value": "16%",
+              "label": "16%"
+            },
+            {
+              "value": "25%",
+              "label": "25%"
+            },
+            {
+              "value": "33%",
+              "label": "33%"
+            },
+            {
+              "value": "50%",
+              "label": "50%"
+            },
+            {
+              "value": "66%",
+              "label": "66%"
+            },
+            {
+              "value": "75%",
+              "label": "75%"
+            },
+            {
+              "value": "83%",
+              "label": "83%"
+            },
+            {
+              "value": "100%",
+              "label": "100%"
+            }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "alignment",
+          "label": "Vertical alignment",
+          "default": "center",
+          "options": [
+            {
+              "value": "start",
+              "label": "Top"
+            },
+            {
+              "value": "center",
+              "label": "Middle"
+            },
+            {
+              "value": "end",
+              "label": "Bottom"
+            }
+          ]
+        },
+        {
+          "type": "header",
+          "content": "Advanced settings"
+        },
+        {
+          "type": "text",
+          "id": "block_custom_class",
+          "label": "Custom classes"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom content",
+      "category": "Advanced layout",
+      "blocks": [
+        {
+          "type": "text"
+        },
+        {
+          "type": "image"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

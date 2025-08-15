@@ -1,0 +1,225 @@
+<section class="main_help_center">
+  <div class="container kodiak_help_center">
+    <div class="row helping_center">
+          <div class="new_headers">
+            <h1 class="headings_help">{{ section.settings.heading }}</h1>
+            <p class="new_sect_help">{{ section.settings.content1 }}</p>
+          </div>
+
+            {% for block in section.blocks %}
+        {% if block.type == 'Image' %}
+          <div class="col-md-6 help_center">
+            <div class="content-quality">
+              <div class="help_img">
+                  <div class="only_img">
+                <img src="{{ block.settings.image | img_url:'master' }}">
+                  </div>
+
+                     <div class="second_help">
+                  <button class="head_cont">{{ block.settings.heading1 }}</button>
+
+           
+                  <div class="content_panel">
+                    <p>
+                      {{ block.settings.content }}
+                    </p>
+                  </div>
+                     </div>
+                {% if block.settings.bt_text != blank %}
+      <div class="help_btn_res">
+        <a href="{{ block.settings.link }}">{{ block.settings.bt_text }}</a>
+      </div>
+    {% endif %}
+              </div>
+            </div>
+          </div>
+        {% endif %}
+              {% endfor %}
+
+    </div>
+  </div>
+</section>
+
+
+
+  
+{% schema %}
+  {
+    "name": "Help center",
+    "settings": [
+  {
+    "type" : "text",
+    "id" : "heading",
+    "label" : "Heading"
+         },
+        {
+    "type" : "text",
+    "id" : "content1",
+    "label" : "Add Content Head"
+         }
+    ],
+ "blocks":[
+        {
+         "name": "Image",
+      "type": "Image",
+      "settings": [
+         {
+    "type" : "image_picker",
+    "id" : "image",
+    "label" : "Hero Image"
+         },
+          {
+    "type" : "text",
+    "id" : "heading1",
+    "label" : "Add Heading"
+         },
+        {
+    "type" : "text",
+    "id" : "content",
+    "label" : "Add Content"
+         },
+        {
+          "type":"url",
+          "id":"link",
+          "label":"Add button link"
+        },
+        {
+          "type":"text",
+          "id":"bt_text",
+          "label":"Add button text"
+        }
+      ]
+        }
+  ],  
+    "presets":[
+      {
+        "name":"help center"
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+body.page-help_center.template-page .container.kodiak_help_center {
+    max-width: 1200px!important;
+    margin: 0 auto;
+    display: block;
+}
+ body.page-help_center.template-page .help_img img {
+    width: 100px;
+}
+ body.page-help_center.template-page .new_headers {
+    text-align: center;
+    padding-top: 35px;
+   padding-bottom: 15px;
+}
+body.page-help_center.template-page h1.headings_help {
+    font-size: 40px;
+    line-height: 1.4em;
+    letter-spacing: 0px;
+    font-family: Nunito;
+    color: #000;
+    text-transform: none;
+    font-weight: 800;
+  margin-bottom: 0;
+}
+body.page-help_center.template-page p.new_sect_help {
+    font-size:17px;
+  font-family: Nunito,Lato,Arial,sans-serif!important;
+  line-height:24px;
+  color:#000;
+}
+body.page-help_center.template-page .help_img {
+    max-width: 600px;
+    padding-top: 10px;
+    background-color: #f9f9f9;
+    margin-top: 20px;
+  display: flex;
+  padding: 10px 2.5rem;
+}
+/*   .second_help {
+    width: 33%;
+    margin: 0 auto; 
+}*/
+  .second_help {
+    width: 35%;
+    margin-right: 3rem;
+}
+ body.page-help_center.template-page .help_btn_res a {
+    background-color: #7fabe0;
+    padding-top: 5px;
+    border-radius: 100px;
+   font-family: Nunito,Lato,Arial,sans-serif!important;
+    font-size: 18px;
+    line-height: 5.5em;
+    letter-spacing: 0px;
+    color: #fff;
+    text-transform: none;
+    font-weight: 800!important;
+ padding: 8px 10px;
+}
+  button.head_cont {
+    font-size: 20px;
+    line-height: 1.2em;
+    letter-spacing: 0px;
+    color: #000;
+    text-transform: none;
+    font-weight: 800;
+    font-family: Nunito!important;
+    background: #f9f9f9;
+    text-align: left;
+    padding: 0;
+}
+  .content_panel p {
+    font-size: 14px;
+    line-height: 1.6em;
+    letter-spacing: 0px;
+    color: #000;
+    text-transform: none;
+    font-weight: 400;
+    margin-bottom: 0;
+}
+.only_img {
+    width: 35%;
+    margin-left: 3rem;
+    margin-right: -4rem;
+}
+  .col-md-6.help_center {
+    padding-bottom: 2rem;
+}
+
+  
+
+@media only screen and (max-width:767px){
+  .help_img {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: auto;
+    text-align: center;
+}
+  .second_help {
+    width: 100%;
+}
+  .help_btn_res a {
+    padding: 8px 100px!important;
+    width: 100%;
+}
+  .content_panel p {
+    margin-bottom: 0;
+}
+  .help_btn_res {
+    margin-top: -12px;
+    margin-bottom: -10px;
+}
+  .only_img {
+    width: 35%;
+    margin-left: 6rem;
+    margin-right: -6rem;
+}
+}
+  
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

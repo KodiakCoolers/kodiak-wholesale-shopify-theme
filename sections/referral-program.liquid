@@ -1,0 +1,197 @@
+<div class="referral_program">
+  <div class="wrapper">
+      <div class="website_logo">
+        <img src="{{ section.settings.logo | img_url:'master' }}">
+      </div>
+     <div class="referral_heading">
+          {{ page.title }}
+      </div>
+      <div class="referral_subheading">
+        {{ section.settings.subheading }}
+      </div>
+
+      <div class="referral-icon-text">
+        {% for block in section.blocks %}
+          <div class="steps_icon_text">
+            <div class="Icon"><img src="{{ block.settings.iconimg | img_url:'master' }}"></div>
+            <div class="steps">{{ block.settings.imgstep }}</div>
+            <div class="icon_content">{{ block.settings.imgsubheading }}</div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="signin_login">
+        <a href="{{ section.settings.login_link }}">SIGN UP / LOGIN</a>
+      </div>
+  </div>
+</div>
+{% schema %}
+  {
+    "name": "referral program",
+    "class":"shopify-referral_program",
+    "settings": [
+         {
+            "type":"image_picker",
+            "id":"logo",
+            "label":"Add logo"
+          },
+         {
+            "type":"richtext",
+            "id":"subheading",
+            "label":"Add text"
+          },
+         {
+            "type":"url",
+            "id":"login_link",
+            "label":"Signup/login"
+          }
+    ],
+        "blocks":[
+      {
+        "type":"referal",
+        "name":"referal-icon-text",
+        "settings":[
+          {
+            "type":"image_picker",
+            "id":"iconimg",
+            "label":"Add image"
+          },
+          {
+            "type":"text",
+            "id":"imgstep",
+            "label":"Add Step"
+          },
+          {
+            "type":"richtext",
+            "id":"imgsubheading",
+            "label":"Add subheading"
+          }
+        ]
+      }
+    ],
+    "presets":[
+      {
+        "name":"referral program"
+      }
+    ]
+  }
+{% endschema %}
+
+<style>
+  .website_logo {
+    text-align: center;
+}
+  .shopify-referral_program{
+    padding-top:60px;
+    padding-bottom:60px;
+    background: #d6d6d6;
+  }
+   .shopify-referral_program .wrapper {
+    background: #fff;
+    padding: 27px 70px;
+    border-radius: 20px;
+}
+  .website_logo img {
+    width: 55%;
+}
+  .referral_heading{
+     font-size: 55px;
+    line-height: 1.25em;
+    letter-spacing: 0px;
+    color: #688299;
+    text-transform: uppercase;
+    font-weight: 700;
+    text-align: center;
+    margin-top:40px;
+  }
+  .referral_subheading {
+    font-size: 15px;
+    line-height: 24px;
+    text-align: center;
+    font-style: italic;
+    color: #69727b;
+    letter-spacing: 1.3px;
+    padding-bottom:20px;
+}
+ .referral-icon-text {
+    display: flex;
+    width: 100%;
+    padding-top:20px;
+}
+  .steps_icon_text{
+    width:33.333%;
+    text-align: center;
+    padding:0 5px;
+  }
+  .steps_icon_text .Icon img {
+    width: 120px;
+}
+  .steps_icon_text .steps {
+    font-size: 21px;
+    line-height: 34px;
+    font-weight: 700;
+    color: #688299;
+    padding-top: 10px;
+}
+  .icon_content {
+    font-size: 17px;
+    color: #d53600;
+    line-height: 1.6em;
+    font-family: poppins;
+    font-weight: 700;
+}
+  .referral_program .signin_login {
+    padding: 40px 0;
+}
+  .referral_program .signin_login a {
+    font-size: 31px!important;
+    text-transform: uppercase!important;
+    background-color: #d53600!important;
+    color: #fff;
+    width: 100%;
+    display: flex;
+    height: 60px;
+    align-items: center;
+    justify-content: center;
+}
+  @media only screen and (max-width:799px){
+    .shopify-referral_program .wrapper,.referal_resources .additionalreferral_resources .wrapper{
+      padding: 27px 10px;
+    }
+    .referral_heading {
+    font-size: 36px;
+    margin-top: 0;
+}
+    .website_logo{
+      display:none;
+    }
+    .referral_subheading {
+    font-size: 14px;
+    line-height: 22px;
+    text-align: left;
+}
+    .referral-icon-text{
+      display:block;
+    }
+    .steps_icon_text{
+      width:100%;
+    }
+    .referral_resources_content .access_dashboard a {
+    font-size: 33px!important;
+    line-height: 53px;
+    height: fit-content;
+    text-align: center;
+}
+    .resources_content {
+    padding: 20px;
+}
+    .referal_resources .resources_content p {
+    font-size: 18px;
+    line-height: 29px;
+}
+    .referal_resources .resources_content strong {
+    font-size: 18px;
+    line-height: 29px;
+}
+  }
+</style>

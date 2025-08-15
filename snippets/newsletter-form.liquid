@@ -1,0 +1,65 @@
+<div class="newsletter">
+  <div class="{% if context == 'blog' or context == 'password-page' %}popup-signup-show--true{% else %}popup-signup-show--{{ settings.newsletter_popup_form }}{% endif %}">
+    <span class="message"></span>
+    {% if settings.mailchimp_link != blank %}
+      <form action="{{ settings.mailchimp_link }}" method="post" name="mc-embedded-subscribe-form" id="contact_form" target="_blank">
+        <div class="input-row">
+          {% if settings.display_first_name %}
+            <input type="text" value="" class="firstName" name="FNAME" placeholder="{{ 'general.newsletter_form.subscriber_first_name' | t }}">
+          {% endif %}
+          {% if settings.display_last_name %}
+            <input type="text" value="" name="LNAME" placeholder="{{ 'general.newsletter_form.subscriber_last_name' | t }}">
+          {% endif %}
+        </div>
+
+        <div class="input-row">
+          <input type="email" value="" name="EMAIL" class="contact_email" placeholder="{{ 'general.newsletter_form.placeholder' | t }}">
+          <input type="submit" value="{{ 'general.newsletter_form.submit' | t }}" class="global-button global-button--primary newsletter-form__sign-up" name="subscribe" />
+        </div>
+      </form>
+    {% else %}
+      {% form 'customer' %}
+        {% if form.posted_successfully? %}
+          <p><em>{{ 'general.newsletter_form.success_text' | t }}</em></p>
+        {% elsif form.errors %}
+          {% for field in form.errors %}
+            <p><em>{{ field }} - {{ form.errors.messages[field] }}</em></p>
+          {% endfor %}
+        {% endif %}
+
+        <input type="hidden" name="contact[tags]" value="prospect,newsletter"/>
+        <div class="input-row {% if settings.display_first_name and settings.display_last_name %}newsletter-both-names--true {% else %}newsletter-both-names--false {% endif %}">
+          {% if settings.display_first_name %}
+            <input type="text" class="firstName" name="contact[first_name]" placeholder="{{ 'general.newsletter_form.subscriber_first_name' | t }}" />
+          {% endif %}
+          {% if settings.display_last_name %}
+            <input type="text" name="contact[last_name]" placeholder="{{ 'general.newsletter_form.subscriber_last_name' | t }}" />
+          {% endif %}
+        </div>
+
+        <div class="input-row">
+          <input type="hidden" name="challenge" value="false" />
+          {% if template.suffix =="new_article_template" %}
+            <div class="email_text">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="11" viewBox="0 0 12 11" fill="none">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M7.19427 0.695984C6.43293 -0.0653274 5.1986 -0.0653281 4.43729 0.695983L1.1869 3.29655C0.806493 3.67696 0.617435 4.17547 0.617188 4.67405V9.22279C0.617188 9.94058 1.19906 10.5224 1.91683 10.5224H9.71466C10.4325 10.5224 11.0143 9.94058 11.0143 9.22279V4.67405C11.0144 4.17504 10.8241 3.67602 10.4434 3.29528L7.19427 0.695984ZM9.17076 3.93571L5.8157 5.87274L2.46009 3.93537L5.35628 1.61923C5.61004 1.36547 6.02149 1.36547 6.27526 1.61923L9.17076 3.93571ZM9.71518 5.12208L6.1481 7.18151C6.13314 7.19041 6.11786 7.19867 6.10229 7.20627C6.01776 7.24792 5.92795 7.2695 5.83865 7.27255C5.72081 7.27684 5.60038 7.24909 5.49073 7.1858L1.91683 5.12241V9.22279H9.71466L9.71518 5.12208Z" fill="#FD71AF"/>
+            </svg>
+            <input type="email" class="contact_email" name="contact[email]" required placeholder="Enter your work email" />
+              </div>
+          {% else %}
+            <input type="email" class="contact_email" name="contact[email]" required placeholder="{{ 'general.newsletter_form.placeholder' | t }}" />
+          {% endif %}
+           {% if template.suffix =="new_article_template" %}
+          <div class="newsletter_button">
+          <input type='submit' class="global-button global-button--primary newsletter-form__sign-up" value="{{ 'general.newsletter_form.submit' | t }}" />
+         <span>We hate spam too. Like our <a href="#">privacy policy</a> says, we'll only send you emails you subscribe to.</span>
+          </div>
+          {% else %}
+             <input type='submit' class="global-button global-button--primary newsletter-form__sign-up" value="{{ 'general.newsletter_form.submit' | t }}" />
+        {% endif %}
+         
+         </div>
+      {% endform %}
+    {% endif %}
+  </div>
+</div>

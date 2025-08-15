@@ -1,0 +1,66 @@
+<div data-id="id-match" class="Product-questions-dropdown hide-mob">Questions <i class="arrow down"></i></div>
+<div data-id="id-match" id="{{ section.settings.custom_id }}" class="tab_content">
+  <div class="text-slide-text-inner slider-text container">
+    <div class="heading">
+      <h1 class="mainheading">{{ section.settings.heading_1 }}</h1>
+    </div>
+    <div class="slider-content">
+      {% for block in section.blocks %}
+        <div class="text-slide-text-inner-content">
+          <div class="slider_inner_content">
+            <h3 class="slider_inner_content_subhead">{{ block.settings.subheading }}</h3>
+            <div class="slider_inner_content_para">{{ block.settings['custom-text-field'] }}</div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+</div>
+
+{% schema %}
+{
+  "name": "text-slider",
+  "settings": [
+     {
+        "id": "custom_id",
+        "type": "text",
+        "label": "custom_id"
+      },
+      {
+        "id": "heading_1",
+        "type": "text",
+        "label": "heading"
+      }
+   ],
+  "blocks": [
+  {
+    "type": "content",
+    "name": "content",
+    "settings": [
+      {
+        "id": "subheading",
+        "type": "text",
+        "label": "Subheading"
+      },
+      {
+        "id": "custom-text-field",
+        "type": "textarea",
+        "label": "Text"
+      }
+    ]
+  }
+  ],
+"presets": [
+  {
+    "name": "text-slider"
+  }
+]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

@@ -1,0 +1,180 @@
+<section class="way-to-radeem">
+  <div class="container-fluid">
+    <div class="row radeem-perent">
+      <div class="radeem-title earn-title">Ways to Redeem</div>
+      <div class="radeem-para earn-para">Spend your points on any of the amazing rewards below.</div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12 earning-perent">
+        <div class="row loyality-preent">
+          {% for block in section.blocks %}
+            {% if block.type == 'monograme-block1' %}
+              <div class="col-md-4 col-sm-3 radeem-card{{ forloop.index }} earn-cards{{ forloop.index }}">
+                <div class="card-icon">{{ block.settings.radeem_icon }}</div>
+                <div class="content1">
+                  <div class="content-title radeem">{{ block.settings.radeem_title }}</div>
+                  <div class="content-hed radeem">{{ block.settings.radeem_hed }}</div>
+                </div>
+                <div class="content-image dadeem">{{ block.settings.radeem_image }}</div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="refer-a-frien">
+  <div class="container-fluid">
+    <div class="row refer-perent">
+      <div class="refer-title earn-title">Refer a friend</div>
+      <div class="refer-para earn-para">Share your unique referral link with friends to earn rewards</div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12 earning-perent">
+        <div class="row loyality-preent">
+          {% for block in section.blocks %}
+            {% if block.type == 'monograme-block2' %}
+              <div class="col-md-4 col-sm-3 refer-card{{ forloop.index }} earn-cards{{ forloop.index }}">
+                <div class="refer-perent">
+                  <div class="content-title refer">{{ block.settings.refer_title }}</div>
+                  <div class="content-hed refer1">{{ block.settings.refer_hed }}</div>
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Section name",
+  "settings": [],
+   "blocks":[
+  {
+    "type":"monograme-block1",
+    "name":"content1",
+    "settings":[
+      {
+        "type":"html",
+        "id":"radeem_icon",
+        "label":"add html"
+      },
+      {
+        "type":"text",
+        "id":"radeem_title",
+        "label":"add text"
+      },
+      {
+        "type":"text",
+        "id":"radeem_hed",
+        "label":"add text"
+      },
+      {
+        "type":"html",
+        "id":"radeem_image",
+        "label":"add html"
+      }
+
+    ]
+  },
+      {
+      "type":"monograme-block2",
+      "name":"context1",
+      "settings":[
+        {
+          "type":"text",
+          "id":"refer_title",
+          "label":"add text"
+        },
+
+        {
+          "type":"text",
+          "id":"refer_hed",
+          "label":"add text"
+        }
+      ]
+    }
+   ],
+  "presets":[
+    {
+      "name":"loyality_reedem"
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+  .radeem-card2:hover,.radeem-card4:hover{
+    background-color: #f5f3f3;
+  }
+  .refer-card7:hover{
+    background-color:white;
+  }
+        .refer {
+          text-align: center!important;
+          padding-top: 19px;
+      }
+        .refer1 {
+          text-align: center!important;
+          padding-top: 10px;
+      }
+          .refer-perent{
+            width:100%;
+            text-align:center;
+          }
+            .refer-card6,.refer-card7{
+              text-align:center!important;
+            }         
+              .radeem-para{
+                    color: #1f1e1e!important;
+                    font-size: 15px;
+              }
+              .loyality-preent{
+                display: flex;
+                justify-content: center;
+                margin-top:27px;
+                padding-bottom: 83px;
+              }
+              .radeem-card{
+               justify-content: flex-start;
+              }
+              .way-to-radeem .radeem-card5 .content1 {
+                padding-top: 26px;
+                padding-left: 11px;
+                padding-right: 0px;
+            }
+            .way-to-radeem .loyality-preent .col-md-4{
+              justify-content:normal!important;
+            }            
+            .way-to-radeem .loyality-preent .content1{
+              justify-content:normal!important;
+              padding-top:27px;
+            }           
+            .refer-card7{
+              margin-left:14px!important;
+            }
+  .way-to-radeem .col-md-4.col-sm-3.radeem-card1.earn-cards1 {
+    cursor:pointer;
+}
+  .way-to-radeem .col-md-4.col-sm-3.radeem-card2.earn-cards2 {
+    cursor:pointer;
+}
+  .way-to-radeem .col-md-4.col-sm-3.radeem-card3.earn-cards3 {
+    cursor:pointer;
+}
+  .way-to-radeem .col-md-4.col-sm-3.radeem-card4.earn-cards4 {
+    cursor:pointer;
+}
+  .way-to-radeem .col-md-4.col-sm-3.radeem-card5.earn-cards5 {
+    cursor:pointer;
+}
+  
+       @media screen and (max-width: 768px) {
+         .refer-card7 {
+        margin-left: 2px!important;
+    }
+       }
+</style>

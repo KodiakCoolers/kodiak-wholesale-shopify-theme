@@ -1,0 +1,208 @@
+<div class="about_section">
+    <div class="wrapper">
+      <div class="about_heading">
+          {{ page.title }}
+      </div>
+      <div class="subheading">
+        {{ section.settings.subheading }}
+      </div>
+
+      <div class="about_image_with_txt">
+      {% for block in section.blocks %}
+      <div class="about_img_text {% cycle 'odd', 'even' %}">
+        {% if block.settings.img %}
+        <div class="img">
+          <img src="{{ block.settings.img | img_url:'master' }}">
+        </div>
+        {% endif %}
+          <div class="img_text">
+           {{ block.settings.imgtxt }}
+          </div>
+      </div>
+      {% endfor %}        
+      </div>
+      <div class="shop_now"><a href="{{ section.settings.link }}">Shop now</a></div>
+      </div>
+ </div>
+{% schema %}
+  {
+    "name": "About section",
+    "class":"about-us-shopify",
+    "settings": [
+         {
+            "type":"richtext",
+            "id":"subheading",
+            "label":"Add text"
+          },
+         {
+            "type":"url",
+            "id":"link",
+            "label":"Add link"
+          }
+    ],
+    "blocks":[
+      {
+        "type":"about",
+        "name":"about-content",
+        "settings":[
+          {
+            "type":"image_picker",
+            "id":"img",
+            "label":"Add image"
+          },
+          {
+            "type":"richtext",
+            "id":"imgtxt",
+            "label":"Add text"
+          }
+        ]
+      }
+    ],
+    "presets":[
+      {
+        "name":"About_section"
+      }
+    ]
+  }
+{% endschema %}
+
+<style>
+  .about-us-shopify{
+    padding-top:60px;
+    padding-bottom:60px;
+    background: #d6d6d6;
+  }
+  .about_section .wrapper {
+    background: #fff;
+    padding: 27px 70px;
+    border-radius: 20px;
+}
+  .about_heading {
+    font-size: 58px;
+    line-height: 1.6em;
+    letter-spacing: 0px;
+    color: #00426a;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-family: poppins;
+    text-align: center;
+}
+  .subheading {
+    text-align: center;
+    font-size: 16px;
+    color: #69727b;
+    line-height: 26px;
+    font-weight: 400;
+    font-family: poppins;
+}
+  .about_img_text {
+    display: flex;
+    width: 100%;
+    padding-top: 20px;
+}
+  .about_img_text > div{
+    width:50%;
+    padding: 0 15px;
+  }
+  .about_img_text > div img{
+    width:100%;
+    border-radius:30px;
+  }
+  .about_img_text .img_text {
+    font-size: 16px;
+    color: #69727b;
+    line-height: 26px;
+    font-weight: 400;
+    font-family: poppins;
+}
+  .about_img_text {
+    padding-bottom: 80px;
+}
+  .about_img_text:last-child {
+    padding-bottom: 0!important;
+}
+  .about_section .shop_now {
+    margin-top: 45px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+  .about_section .shop_now a {
+    background: #d53600;
+    color: #fff;
+    font-size: 26px;
+    line-height: 42px;
+    font-weight: 400;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    height: 50px;
+    align-items: center;
+    text-transform: uppercase;
+    border-radius: 4px;
+}
+  .about_img_text.even {
+    flex-direction: row-reverse;
+}
+body.page-about-us .shopify-section--faq.FAQ {
+    background: #d6d6d6;
+  padding-bottom: 60px;
+}
+   body.page-about-us .FAQ section.section {
+    background: #fff;
+    border: 2px solid #134875;
+    border-radius: 25px;
+}
+  body.page-about-us .FAQ section.section h2.title {
+    text-align: center;
+    color: #3d4246;
+    position: relative;
+    font-size: 32px;
+    line-height: 1.6em;
+    font-weight: 700;
+    letter-spacing: 0;
+}
+  body.page-about-us .faqAccordion > dt > button {
+    font-size: 24px!important;
+    line-height: 38px;
+    font-weight: 400;
+    color: #000;
+}
+  body.page-about-us dl.faqAccordion p {
+    font-size: 19px!important;
+    line-height: 30px;
+    letter-spacing: 1.1px;
+    font-style: italic;
+    padding-left: 15px;
+    font-weight: 400;
+    color: #3d3d3d;
+}
+  body.page-about-us section.section.reviews_head .reviews_heading {
+    color: #00426a;
+}
+  @media only screen and (min-width:800px){
+     body.page-about-us  .FAQ section.section {
+    max-width: 900px;
+}
+  }
+ 
+  @media only screen and (max-width:799px){
+    .about_section .wrapper{
+      padding:20px;
+    }
+    .about_img_text > div{
+      padding:0;
+      width:100%;
+    }
+    .about_img_text{
+      display:block;
+    }
+    .about_img_text.even {
+    flex-direction: column-reverse;
+    display: flex;
+}
+    .about_section .shop_now a{
+      width:100%;
+    }
+  }
+</style>

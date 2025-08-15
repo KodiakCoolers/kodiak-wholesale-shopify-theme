@@ -1,0 +1,143 @@
+<script
+  type="application/json"
+  data-section-type="featured-collection"
+  data-section-id="{{ section.id }}"
+></script>
+
+{% style %}
+  {%
+    render 'css-loop',
+    css: section.settings.custom_css,
+    id: section.id
+  %}
+{% endstyle %}
+
+<div class="{{ section.settings.css_class }}">
+  <section class="section">
+    <div class="container">
+      <div class="one-whole column center homepage_content">
+        {% if section.settings.title != blank %}
+          <h2 class="title">{{ section.settings.title | escape }}</h2>
+        {% endif %}
+          {% if section.settings.subtitle != blank %}<h2 class="subtitle title">{{ section.settings.subtitle }}</h2>{% endif %}
+      </div>
+    </div>
+  </section>
+
+  {% if section.settings.collection_style == 'slider' %}
+    <div class="ready_now_slider js-product-slider homepage-product-slider full-width--true featured-collection__products">
+      {% for block in section.blocks %}
+        {% assign product = all_products[block.settings.product] %}
+        <div class="product_slider_content_inner"><div class="product_slider_content">
+          <a href="{{ product.url }}">
+            <img
+              src="{{  product.selected_or_first_available_variant.featured_image | img_url:'master' }}"
+              alt="custom tumbler 20 oz with your logo or design"
+              class=""
+              width="180"
+              height="180"
+            >
+          </a>
+          <div data-label="Text Block">
+            <div class=" text-edit">
+              <a href="{{ product.url }}"><p>{% if block.settings.title!=blank %}{{ block.settings.title }}{% else %}{{ product.title }}{% endif %}</p>
+              </a></div>
+
+           {%- assign limit = 7 -%}
+           {%- assign count = 0 -%}
+           {% for option in product.options_with_values %}
+             {%- if option.name == "Color" -%}
+              
+                {%- assign total_colors = option.values.size -%}  {% break %}
+             {% endif  %}
+          {% endfor %}
+
+            <a href="{{ product.url }}"><p class="colors_available"><i>{{ total_colors }} Colors Available</p></i></a>
+          </div>
+        </div></div>
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "Products slider",
+  "class": "shopify-section--featured-collection",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Featured collection"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Sub heading"
+    },
+   
+    {
+      "type": "radio",
+      "id": "collection_style",
+      "label": "Collection layout",
+      "default": "slider",
+      "options": [
+        {
+          "value": "slider",
+          "label": "Slider"
+        }
+      ]
+    },
+   
+    {
+      "type": "text",
+      "id": "css_class",
+      "label": "CSS Class"
+    },
+    {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "Custom CSS"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "product",
+      "settings": [
+        {
+          "id": "product",
+          "type": "product",
+          "label": "Choose Product"
+        },
+        {
+          "id": "title",
+          "type": "text",
+          "label": "custom title"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Products slider",
+      "category": "Collection"
+    }
+  ],
+  "enabled_on": {
+    "templates": [
+      "404",
+      "article",
+      "blog",
+      "cart",
+      "collection",
+      "list-collections",
+      "index",
+      "page",
+      "product",
+      "search"
+    ]
+  }
+}
+{% endschema %}

@@ -1,0 +1,78 @@
+{% comment %} <div class="product_verants_css">
+  <style>
+      {% for block in section.blocks %}
+        {% if block.type == "item1" %}
+           [data-color="{{ block.settings.name | downcase }}"]
+            {
+            background-color : {{ block.settings.colorname1 }}!important;
+            }
+    {% endif %}
+        {% endfor %}
+    {% for block in section.blocks  %}
+    {% if block.type == "item2" %}
+
+      [data-color = "{{ block.settings.colorname | downcase}}"]
+    {
+      background-image:url('{{ block.settings.color-image | img_url:"master" }}')!important;
+    }
+      {% endif %}
+    {% endfor %}
+  </style>
+</div>
+{% schema %}
+{
+  "name": "Choose swatch color",
+  "settings": [
+
+  ],
+  "blocks":[
+  {
+    "type":"item1",
+    "name":"Color Picker",
+    "settings":[
+       {
+        "type":"text",
+        "id":"name",
+        "label":"Add Color Name",
+         "default": "#FFFFFF"
+      },
+      {
+        "type":"color",
+        "id":"colorname1",
+        "label":"Add Color"
+      }
+     ]
+  },
+    {
+      "type":"item2",
+      "name":"color image",
+      "settings":[
+        {
+          "type":"image_picker",
+          "id":"color-image",
+          "label":"add image"
+        },
+
+       {
+        "type":"text",
+        "id":"colorname",
+        "label":"Add Color"
+      }
+      ]
+    }
+],
+"presets":[
+  {
+    "name":"Product_variant"
+  }
+]
+
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}
+ {% endcomment %}

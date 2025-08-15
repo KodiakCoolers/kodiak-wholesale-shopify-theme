@@ -1,0 +1,73 @@
+{% comment %}
+  <div class="upload01 upload1 {% unless template.suffix=="Leather Patch Hats" %}custom_section_content_table_mobile{% endunless %}">
+      <div class="upload_artwork_content">
+           <div class="option_title swatch-heading-title"  style="margin-top:{{ block.settings.swatch_artwork_top_margin }}px; margin-bottom:{{ block.settings.swatch_artwork_bottom_margin }}px;">{{ block.settings.swatch_artwork_heading }}</div>
+           </div>
+            <div class="container_avtar">
+              <div class="avatar-upload">
+                <div class="avatar-edit">
+                  <span class="drop-zone__prompt"></span>
+                   <div class="file-input-wrapper file-input-wrapper-1">
+                    <img style="display:none;" src="" class="img-up-mm" id="img_urlss" alt="your image">
+                    <!--<input type="hidden" value="" name="properties[uploads]" class="input-forfile">-->
+                    <!-- <br> -->
+                    <div class="upload-control">
+                    <input value="" class="imageUpload-1" type="file" accept=".png, .jpg, .jpeg" id="img_filess" onChange="img_pathUrl(this);">
+                    <img class="uplod-icon" src="https://cdn.shopify.com/s/files/1/0791/7885/8793/files/photo_1.png?v=1690545049" >
+                    </div>
+                 <!-- <input type="file"  id="imageUpload"   onChange="img_pathUrl(this);"> -->
+                   </div>
+                  <label for="imageUpload"></label>
+                </div>
+              <div class="avatar-preview">
+              <!-- <div id="imagePreview"></div> -->
+              </div> <div id="imagePreview-name"></div>
+              <button type="button"  role="button" class="gf_remove_img remove_file" style="display:none;"><span class="fa fa-close close_upload01">X</span></button>
+            </div>
+          </div></div>
+{% endcomment %}
+<div class="{% unless template.suffix=="Leather Patch Hats" %}upload01{% endunless %} upload1 {% unless template.suffix=="Leather Patch Hats" %}custom_section_content_table_mobile{% endunless %}" style="{% if template.suffix=="new" or template.suffix=="drinkware_v2" or template.suffix=="drinkware_v3" or template.suffix=="Drinkware_Samples" %}display:none;{% endif %}">
+  <div class="upload_artwork_content">
+    <div
+      class="option_title swatch-heading-title"
+      style="margin-top:{{ swatch_artwork_top_margin }}px; margin-bottom:{{ swatch_artwork_bottom_margin }}px;"
+    >
+      {{ swatch_artwork_heading }}
+    </div>
+  </div>
+  <div class="container_avtar">
+    <div class="avatar-upload">
+      <div class="avatar-edit">
+        <span class="drop-zone__prompt"></span>
+        <div class="file-input-wrapper file-input-wrapper-1">
+          <img style="display:none;" src="" class="img-up-mm" id="img_urlss" alt="your image">
+          <!-- <input type="hidden" value="" name="properties[uploads]" class="input-forfile"> -->
+          <!-- <br> -->
+          <div class="upload-control">
+            <input
+              value=""
+              class="imageUpload-1"
+              type="file"
+              accept=".png, .jpg, .jpeg"
+              id="img_filess"
+              onChange="img_pathUrl(this);"
+            >
+            <img
+              class="uplod-icon" alt="upload-icon"
+              src="https://cdn.shopify.com/s/files/1/0791/7885/8793/files/photo_1.png?v=1690545049"
+            >
+          </div>
+          <!-- <input type="file"  id="imageUpload"   onChange="img_pathUrl(this);"> -->
+        </div>
+        <label for="imageUpload"></label>
+      </div>
+      <div class="avatar-preview">
+           <!-- <div id="imagePreview"></div> -->
+      </div>
+      <div id="imagePreview-name"></div>
+      <button type="button" role="button" class="gf_remove_img remove_file" style="display:none;">
+        <span class="fa fa-close close_upload01">X</span>
+      </button>
+    </div>
+  </div>
+</div>

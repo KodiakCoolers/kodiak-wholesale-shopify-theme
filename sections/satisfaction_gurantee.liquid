@@ -1,0 +1,59 @@
+<div class="satisfaction_gurantee">
+  <div class="wrapper">
+    {% if section.settings.gurante_img %}
+    <div class="satisfaction_img">
+      <img src="{{ section.settings.gurante_img | img_url:'medium' }}">
+    </div>
+    {% endif %}
+    <div class="satisfaction_heading">
+      {{ section.settings.heading }}
+    </div>
+     <div class="satisfaction_subheading">
+      {{ section.settings.subheading }}
+    </div>
+  </div>
+   <div class="gurantee_order_btn"><a href="{{ section.settings.guranteelink }}">{{ section.settings.gurantee_text }}</a></div>
+</div>
+{% schema %}
+  {
+    "name": "Satisfaction gurantee",
+    "settings": [
+      {
+        "type":"image_picker",
+        "id":"gurante_img",
+        "label":"Add image"
+      },
+      {
+        "type":"text",
+        "id":"heading",
+        "label":"Add heading"
+      },
+      {
+        "type":"text",
+        "id":"subheading",
+        "label":"Add subheading"
+      },
+      {
+        "type":"url",
+        "id":"guranteelink",
+        "label":"Add link"
+      },
+      {
+        "type":"text",
+        "id":"gurantee_text",
+        "label":"Add btn text"
+      }
+    ],
+    "presets":[
+      {
+        "name":"satisfaction_guranteed"
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

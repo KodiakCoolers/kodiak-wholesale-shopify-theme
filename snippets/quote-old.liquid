@@ -1,0 +1,485 @@
+{% if template contains 'product' %}
+<div class="quote-popup">
+  <div class="quote-popup-container">
+    <div class="quote-popup-head">
+      <h3>Your Instant Quote</h3>
+      <button class="quote-popup-close" quote-popup-close>
+        <svg focusable="false" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+      </button>
+    </div>
+    <div class="quote-popup-body">
+        <div class="quote-popup-row">
+          <div class="quote-popup-title">{{ product.title }}</div>
+          <!--div class="quote-popup-product">
+            <div class="quote-popup-product-color"></div>
+            <div class="quote-popup-product-color-name">White</div>
+            <a href="#">Change Color</a>
+          </div-->
+          
+          <div class="quote-options">
+          {% if product.options.size > 0 %}
+            {% for q_option in product.options_with_values %}
+              {% if q_option.name contains 'Color' %}
+              <label>{{ q_option.name }}: {{ q_option.values | first }}</label>
+              <div class="choose-variant">
+                {% for color_option in q_option.values %}
+                    <div data-index="option{{ q_option.position }}" class="option-input quote-swatch {% if forloop.first %} active {% endif %}" data-color="{{ color_option }}"></div>
+                {% endfor %}
+              </div>
+              {% else %}
+              <label>{{ q_option.name }}</label>
+              <select class="option-input" data-index="option{{ q_option.position }}">
+                {% for q_option_v in q_option.values %}
+                    <option>{{ q_option_v }}</option>
+                {% endfor %}
+              </select>
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+          </div>
+
+        </div>
+        <div class="quote-popup-row">
+          <div class="quote-popup-inputs">
+            <label>Type of print?</label>
+            <div class="input-list">
+              <div class="input-list-group">
+                <input id="print_type1" type="radio" name="print_type" {% unless product.metafields.custom.screen_or_digital_print %}disabled{% endunless %} value="Screen or Digital Print" class="printtype" />
+                <label for="print_type1">Screen or Digital Print</label>
+              </div>
+              <div class="input-list-group">
+                <input id="print_type2" type="radio" name="print_type" {% unless product.metafields.custom.embroidery %}disabled{% endunless %} value="Embroidery" class="printtype" />
+                <label for="print_type2">Embroidery</label>
+              </div>
+              <div class="input-list-group">
+                <input id="print_type3" type="radio" name="print_type" {% unless product.metafields.custom.engraved %}disabled{% endunless %} value="Engraved" class="printtype" />
+                <label for="print_type3">Engraved</label>
+              </div>
+            </div>
+          </div>
+          
+          <div class="quote-popup-inputs">
+            <label>How many items?</label>
+            <input type="number" class="quote-qty" />
+          </div>
+
+          <div class="quote-popup-inputs">
+            <label>How many colors are in your design?</label>
+            <div class="input-list">
+              <select id="fcolor">
+                <option value="0">0 color Front</option>
+                <option value="1">1 color Front</option>
+                <option value="2">2 color Front</option>
+                <option value="3">3 color Front</option>
+                <option value="4">4 color Front</option>
+                <option value="5">5 color Front</option>
+                <option value="6">6 color Front</option>
+                <option value="7">7 color Front</option>
+                <option value="8">8 color Front</option>
+              </select>
+
+              <select id="bcolor">
+                <option value="0">0 color Back</option>
+                <option value="1">1 color Back</option>
+                <option value="2">2 color Back</option>
+                <option value="3">3 color Back</option>
+                <option value="4">4 color Back</option>
+                <option value="5">5 color Back</option>
+                <option value="6">6 color Back</option>
+                <option value="7">7 color Back</option>
+                <option value="8">8 color Back</option>
+              </select>
+              
+            </div>
+          </div>
+        </div>
+        <div class="quote-popup-row quote-result" style="display:none;">
+          <table>
+            <thead><tr><th>Quantity</th><th>Per Price</th><th>Total</th></tr></thead>
+            <tbody></tbody>
+          </table>
+
+          <!--div class="email-quote">
+              <label class="">Email a copy of this quote</label>
+              <div class="email-quote-input">
+                  <input type="email" placeholder="example@domain.com"><button>Send</button>
+              </div>
+          </div-->
+        </div>
+        <div class="quote-popup-row footer">
+              <button class="view-price">View Price</button>
+        </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.quote-calc {
+    display: block;
+    clear: both;
+    margin-top: 50px;
+    background: #f3f3f3;
+    margin-bottom: -40px;
+    text-align: center;
+    padding: 80px 0;
+}
+.quote-calc button {
+  margin-top: 30px;
+  padding: 12px 45px;
+  text-transform: none!important;
+  background-color: #ffd74a!important;
+  color: #000!important;
+  border-radius: 10px!important;
+  padding-top: 10px!important;
+  font-weight: 700!important;
+}
+
+.quote-popup {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    background: #000000a3;
+    z-index: 99;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.quote-popup-container {
+    width: 65%;
+    background: #fff;
+    max-height: calc(100% - 64px);
+    overflow-y: scroll;
+}
+.quote-popup-head {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 25px;
+}
+button.quote-popup-close {
+    color: #000;
+    display: inline-flex;
+}
+button.quote-popup-close svg {
+    width: 30px;
+}
+.quote-popup-head h3 {
+  font-size: 20px;
+}
+.quote-popup-row {
+    padding: 30px 60px;
+}
+.quote-popup-title {
+    font-weight: 700;
+    font-size: 18px;
+}
+.quote-popup-product {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-top: 10px;
+}
+.quote-popup-product-color {
+    width: 35px;
+    height: 35px;
+    border: 1px solid #ccc;
+    border-radius: 40px;
+}
+.quote-popup-product-color-name {
+    font-weight: 500;
+}
+.quote-popup-product a {
+  color: blue;
+  font-weight: 500;
+}
+.quote-popup-row:not(first-child) {
+  border-top: 1px solid #ccc;
+}
+.input-list input {
+  appearance: auto;
+  -webkit-appearance: auto;
+  width: 25px;
+  height: 25px;
+}
+.input-list {
+    gap: 35px;
+    display: flex;
+}
+.input-list-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.quote-popup-inputs > label {
+    font-weight: 500;
+    margin-bottom: 10px;
+    display: block;
+}
+.quote-popup-inputs:not(:first-child) {
+    margin-top: 25px;
+}
+input.quote-qty {
+    height: 45px;
+    border: 1px solid #ccc;
+    width: 170px;
+    padding: 0 10px;
+}
+.input-list select {
+    height: 45px;
+    padding: 0 10px;
+}
+.quote-popup-row.footer {
+    text-align: right;
+}
+button.view-price {
+    border: 1px solid #e44d4d;
+    background: #e44d4d;
+    color: #fff;
+    padding: 10px 50px;
+    font-weight: 700;
+}
+.choose-variant {
+  flex-wrap: wrap;
+  gap: 10px;
+  display: flex;
+}
+.quote-swatch {
+    width: 35px;
+    height: 35px;
+    border: 1px solid #ccc;
+    border-radius: 40px;
+    cursor: pointer;
+    position: relative;
+}
+.quote-swatch.active:after {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    content: '';
+    z-index: 1;
+    position: absolute;
+    background-size: 50%;
+    background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMzBweCIgaGVpZ2h0PSIyM3B4IiB2aWV3Qm94PSIwIDAgMzAgMjMiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDU1LjIgKDc4MTgxKSAtIGh0dHBzOi8vc2tldGNoYXBwLmNvbSAtLT4KICAgIDx0aXRsZT5QYXRoPC90aXRsZT4KICAgIDxkZXNjPkNyZWF0ZWQgd2l0aCBTa2V0Y2guPC9kZXNjPgogICAgPGcgaWQ9IlBhZ2UtMSIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLW9wYWNpdHk9IjAuNiI+CiAgICAgICAgPGcgaWQ9IkFydGJvYXJkIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMS4wMDAwMDAsIC0xLjAwMDAwMCkiIGZpbGw9IiNGRkZGRkYiIHN0cm9rZT0iIzAwMDAwMCI+CiAgICAgICAgICAgIDxwYXRoIGQ9Ik0xMS4wMDg0NDYyLDIzIEMxMC40MDYyNTA0LDIzIDkuODA0MDU0NzMsMjIuNzczOTc4OSA5LjM0NDU5NDg4LDIyLjMyMTkzNjggTDIuNjg5MTg5NzcsMTUuNzczOTc4OSBDMS43NzAyNzAwOCwxNC44Njk4OTQ2IDEuNzcwMjcwMDgsMTMuNDA0MDg0MyAyLjY4OTE4OTc3LDEyLjUgQzMuNjA4MTA5NDUsMTEuNTk1OTE1NyA1LjA5Nzk3MjY0LDExLjU5NTkxNTcgNi4wMTY4OTIzMiwxMi41IEwxMS4wMDg0NDYyLDE3LjQxMDk2ODQgTDI1Ljk4MzEwNzcsMi42NzgwNjMyNCBDMjYuOTAyMDI3NCwxLjc3Mzk3ODkyIDI4LjM5MTg5MDUsMS43NzM5Nzg5MiAyOS4zMTA4MTAyLDIuNjc4MDYzMjQgQzMwLjIyOTcyOTksMy41ODIxNDc1NSAzMC4yMjk3Mjk5LDUuMDQ3OTU3ODQgMjkuMzEwODEwMiw1Ljk1MjA0MjE2IEwxMi42NzIyOTc0LDIyLjMyMTkzNjggQzEyLjIxMjgzNzYsMjIuNzczOTc4OSAxMS42MTA2NDE5LDIzIDExLjAwODQ0NjIsMjMgTDExLjAwODQ0NjIsMjMgWiIgaWQ9IlBhdGgiPjwvcGF0aD4KICAgICAgICA8L2c+CiAgICA8L2c+Cjwvc3ZnPgo=);
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+.quote-options label {
+    font-weight: 500;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    display: block;
+}
+.quote-options select {
+  height: 45px;
+  padding: 0 10px;
+}
+.quote-swatch.active {
+padding: 8px;
+box-shadow: 0 0 6px 0 #000;
+}
+.quote-popup-row.quote-result table {
+    width: 100%;
+    border: 1px solid #d1d3d6;
+    background-color: #FFF;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+.quote-popup-row.quote-result table th, .quote-popup-row.quote-result table td {
+    padding: 16px;
+    border-bottom: 1px solid #e5e7ea;
+    vertical-align: inherit;
+    line-height: 1.5;
+    border-bottom-width: 2px;
+    text-align: left;
+}
+.quote-popup-row.quote-result table th{
+    color: #22252c;
+    font-size: 0.925rem;
+    font-weight: 600;
+}
+.quote-popup-row.quote-result table th:last-child, .quote-popup-row.quote-result table td:last-child {
+    text-align: right;
+}
+.quote-popup-row.quote-result table th:nth-child(2), .quote-popup-row.quote-result table td:nth-child(2) {
+    text-align: center;
+}
+.email-quote {
+    margin-top: 20px;
+}
+.email-quote>label {
+    font-weight: 500;
+}
+.email-quote-input input {
+    color: #22252c;
+    width: 100%;
+    border: 1px solid #d1d3d6;
+    height: calc(1.5em + 1rem + 2px);
+    display: block;
+    padding: 0.5rem 0.75rem;
+    font-size: 1rem;
+    box-sizing: border-box;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    font-family: "ProximaSoft", sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
+    border-radius: 0.25rem;
+    background-clip: padding-box;
+    background-color: #ffffff;
+}
+.email-quote-input button {
+    color: #e44d4d;
+    border: 2px solid #e44d4d;
+    display: block;
+    padding: 0.5rem 1.5rem 0.5rem;
+    position: relative;
+    font-size: 1rem;
+    text-align: center;
+    font-family: "ProximaSoft", sans-serif;
+    font-weight: 500;
+    line-height: 1.5;
+    user-select: none;
+    border-radius: 999px;
+    text-transform: uppercase;
+    vertical-align: middle;
+    text-decoration: none;
+    background-color: #ffffff;
+}
+.email-quote-input {
+    gap: 20px;
+    display: flex;
+    width: 60%;
+}
+.quote-popup-row.quote-result table td:nth-child(2) {
+    color: #27a6ff;
+    font-weight: 600;
+}
+  
+/* color */
+.quote-swatch[data-color="Black"] {
+    background: black;
+}.quote-swatch[data-color="Baby Blue"] {
+    background: #9ed5d7;
+}.quote-swatch[data-color="Coral"] {
+    background: #c6726f;
+}.quote-swatch[data-color="Crimson"] {
+    background: #98241f;
+}.quote-swatch[data-color="Green"] {
+    background: #055b2c;
+}.quote-swatch[data-color="Grey"] {
+    background: #525152;
+}.quote-swatch[data-color="Lt. Purple"] {
+    background: #ce99cf;
+}.quote-swatch[data-color="Navy"] {
+    background: #263548;
+}.quote-swatch[data-color="Orange"] {
+    background: #f86900;
+}.quote-swatch[data-color="Pink"] {
+    background: #ec75bd;
+}.quote-swatch[data-color="Purple"] {
+    background: #5e608f;
+}.quote-swatch[data-color="Red"] {
+    background: #f80000;
+}.quote-swatch[data-color="Royal Blue"] {
+    background: #37659c;
+}.quote-swatch[data-color="Teal"] {
+    background: #8fc8d2;
+}.quote-swatch[data-color="White"] {
+    background: #ffffff;
+}.quote-swatch[data-color="Yellow"] {
+    background: #dcd202;
+}.quote-swatch[data-color="Olive Green"] {
+    background: #5e7055;
+}.quote-swatch[data-color="Ash"] {
+    background: #bebebf;
+}.quote-swatch[data-color="Charcoal"] {
+    background: #535059;
+}.quote-swatch[data-color="Forest"] {
+    background: #263d2e;
+}.quote-swatch[data-color="Maroon"] {
+    background: #570d2a;
+}.quote-swatch[data-color="Royal"] {
+    background: #274181;
+}.quote-swatch[data-color="Sport Grey"] {
+    background: #cccfd6;
+}
+  
+
+@media only screen and (max-width:768px){
+  .quote-popup-container{width: 99%;}
+  .quote-popup-row {padding: 30px 15px;}
+  .input-list {flex-direction: column;}
+}
+</style>
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script >
+$(document).ready(function(){
+ jQuery("[view-quote-popup], .quote-popup-open").click(function(){
+    jQuery(".quote-popup").css("display", "flex");
+  }); 
+
+  jQuery("[quote-popup-close]").click(function(){
+    jQuery(".quote-popup").hide();
+  });
+
+  jQuery(".quote-swatch").click(function(){
+    jQuery(".quote-swatch").removeClass('active');
+    jQuery(this).addClass('active');
+    jQuery(this).parent().prev().text("Color: "+jQuery(this).data('color'))
+  });  
+
+  jQuery(".view-price").click(function(e){
+    e.preventDefault();
+    var pJson = JSON.parse($("#quote_product_json").html());
+    if(pJson.options.length){
+      var qu_option = [];
+      $('.option-input').each(function(){
+          if($(this).prop("tagName") == "DIV" && $(this).hasClass('active')){
+              qu_option.push({
+                  "index": $(this).data('index'),
+                  "value": $(this).data('color')
+              });
+          }
+          if($(this).prop("tagName") == "SELECT"){
+              qu_option.push({
+                  "index": $(this).data('index'),
+                  "value": $(this).val()
+              });
+          }
+      });
+      qu_option_1 = qu_option.find(c => c.index == "option1").value;
+      qu_option_2 = qu_option.find(c => c.index == "option2").value;
+      var q_variant = pJson.variants.find(v => (v.option1 == qu_option_1 && v.option2 == qu_option_2));
+    }else{
+      var q_variant = pJson.variants[0];
+    }
+
+    var q_qty = jQuery(".quote-qty").val();
+    var fcolor = jQuery("#fcolor").val();
+    var bcolor = jQuery("#bcolor").val();
+    var price = q_variant.price / 100;
+    $.ajax({
+      "url":"https://kodiakapps.com/price-calc/backend/api/quote-price",
+      "type":"post",
+      "dataType": "json",
+      "data": {"qty": q_qty, "fcolor": fcolor, "bcolor":bcolor, "price": price},
+      "success": function(res){
+        if(res.length){
+          var q_view = '';
+          for(var q=0; q<res.length; q++){
+            q_view += '<tr><td>'+res[q].qty+'</td><td>$'+res[q].per_unit+'</td><td>$'+res[q].total+'</td></tr>';
+          }
+          $(".quote-popup-row.quote-result table tbody").html(q_view);
+          $(".quote-popup-row.quote-result").show();
+          jQuery(".view-price").text("Update Quote");
+        }
+      }
+    });
+  });
+  
+})
+</script>
+<script id="quote_product_json" type="application/json">{{ product | json }}</script>
+{% endif %}      

@@ -1,0 +1,67 @@
+
+
+        jQuery(function() {
+            var $module = jQuery('#m-1585257320359').children('.module');
+            $module.gfV3Product();
+        }); 
+    
+      
+      
+      
+    
+    
+    
+      (function(jQuery) {
+  var $module = jQuery('#m-1617141723603').children('.module');
+  var swatchText = $module.attr('data-swatch-text') != undefined ? $module.attr('data-swatch-text') : '1';
+  $module.gfV3ProductSwatches({
+    swatchText: swatchText,
+    onSwatchSelected: function(variant, $swatch) {}
+  });
+})(window.GemQuery || jQuery);
+      jQuery(function() {
+    var $module = jQuery('#m-1585257864521').children('.module');
+    var style = $module.attr('data-style');
+    var updatePrice = $module.attr('data-updateprice');
+
+    $module.gfV3ProductQuantity({
+        'style': style,
+        'updatePrice': updatePrice
+    });
+});
+      
+      jQuery(function() {
+  var $module = jQuery('#m-1585257320395').children('.module');
+  $module.gfV3ProductCartButton({ onItemAdded: function(data) {}});
+});
+      
+      
+      
+    
+    
+    
+      
+      
+      
+      
+        jQuery(function() {
+            var $module = jQuery('#m-1585257320359-0').children('.module');
+            var effect = $module.attr('data-effect');
+            $module.gfV3ProductImage({
+                'effect': effect
+            })
+        }); 
+    
+        jQuery(function() {
+            var $module = jQuery('#m-1585257320359-1').children('.module');
+        }); 
+    
+(function(jQuery) {
+    var $module = jQuery('#m-1617160046838').children('.module');
+    $module.gfV3ProductPrice({
+        displayCurrency: true
+    });
+})(window.GemQuery || jQuery);
+    
+      
+    

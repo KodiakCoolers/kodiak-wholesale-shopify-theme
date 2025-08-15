@@ -1,0 +1,131 @@
+<div class="new_faq_section"> 
+  <div class="new_faq_section style_new content container">
+    <h3 class="new_faq_section_heading">{{ section.settings.heading }}</h3>
+    {% for block in section.blocks %}<div class="inner_content">
+      {% if block.settings.text != blank %}
+        <div class="block_heading">
+          <div><h4>{{ block.settings.text }}</h4></div>
+        </div>
+      {% endif %}
+<div class="blocks_faq_inner"><div>
+      {% if block.settings.faq_question1 != blank %}
+        <div class="faq_inner">
+          <div>
+            <h4 class="question">{{ block.settings.faq_question1 }}</h4>
+          </div>
+          <div>
+            <p class="answer">{{ block.settings.faq_answer1 }}</p>
+          </div>
+        </div>
+      {% endif %}
+         {% if block.settings.faq_question3 != blank %}
+        <div class="faq_inner">
+          <div>
+            <h4 class="question">{{ block.settings.faq_question3 }}</h4>
+          </div>
+          <div>
+            <p class="answer">{{ block.settings.faq_answer3 }}</p>
+          </div>
+        </div>
+      {% endif %}</div><div>
+      {% if block.settings.faq_question2 != blank %}
+        <div class="faq_inner1">
+          <div>
+            <h4 class="question">{{ block.settings.faq_question2 }}</h4>
+          </div>
+          <div>
+            <p class="answer">{{ block.settings.faq_answer2 }}</p>
+          </div>
+        </div>
+      {% endif %}
+ {% if block.settings.faq_question4 != blank %}
+        <div class="faq_inner1">
+          <div>
+            <h4 class="question">{{ block.settings.faq_question4 }}</h4>
+          </div>
+          <div>
+            <p class="answer">{{ block.settings.faq_answer4 }}</p>
+          </div>
+        </div>
+      {% endif %}</div>
+</div>
+    </div>  {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+ {
+   "name": "new faq section style 3",
+   "settings": [
+       {
+         "type":"text",
+         "id":"heading",
+         "label":"Title"
+       }
+    ],
+   "blocks":[
+      {
+          "type": "FAQ_block",
+          "name": "FAQ block heading",
+          "settings": [
+            {
+              "id": "text",
+              "type": "text",
+              "label": "FAQ block heading"
+            },
+            {
+                "id": "faq_question1",
+                "type": "text",
+                "label": "faq question"
+              },
+              {
+                "id": "faq_answer1",
+                "type": "text",
+                "label": "faq answer"
+              },
+             {
+                "id": "faq_question2",
+                "type": "text",
+                "label": "faq question"
+              },
+              {
+                "id": "faq_answer2",
+                "type": "text",
+                "label": "faq answer"
+              },
+         {
+                "id": "faq_question3",
+                "type": "text",
+                "label": "faq question"
+              },
+              {
+                "id": "faq_answer3",
+                "type": "text",
+                "label": "faq answer"
+              },
+ {
+                "id": "faq_question4",
+                "type": "text",
+                "label": "faq question"
+              },
+              {
+                "id": "faq_answer4",
+                "type": "text",
+                "label": "faq answer"
+              }
+          ]
+        }
+    ],
+  "presets": [
+  {
+    "name": "new faq section style 3"
+  }
+]
+ }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

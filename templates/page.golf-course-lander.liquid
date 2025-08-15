@@ -1,0 +1,156 @@
+{% layout 'theme' %}
+<div class="custom-tumblers-page">
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1>CUSTOM TUMBLERS: THE PERFECT 19TH HOLE TAKEAWAY</h1>
+    <h2>Grab Custom Tumblers for Your Next Outing – Order Now and Get Free Shipping!</h2>
+    <div class="product-images">
+      <img src="{{ '20oz-tumbler.jpg' | asset_url }}" alt="20 oz Tumbler" />
+      <img src="{{ '30oz-tumbler.jpg' | asset_url }}" alt="30 oz Tumbler" />
+    </div>
+  </section>
+
+  <!-- QR Code Section -->
+  <section class="qr-code">
+    <img src="{{ 'qr-code.png' | asset_url }}" alt="QR Code" />
+    <p>Scan to order now and save 10% off your first order!</p>
+  </section>
+
+  <!-- Benefits Section -->
+  <section class="benefits">
+    <p>Laser Engraved | Multiple Styles Available | 17 Colors | Premium Quality</p>
+    <p class="additional-text">Need Custom Tumblers for Your Business? We Do That Too!</p>
+  </section>
+
+  <!-- Form Section -->
+  <section class="order-form">
+    <h3>Request Custom Tumblers for Your Course</h3>
+    {% form 'contact' %}
+      {{ form.errors | default_errors }}
+      <div class="form-field">
+        <label for="company">Company (Golf Course Name)</label>
+        <input type="text" id="company" name="contact[company]" required>
+      </div>
+      <div class="form-field">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="contact[email]" required>
+      </div>
+      <div class="form-field">
+        <label for="first-name">First Name</label>
+        <input type="text" id="first-name" name="contact[first_name]" required>
+      </div>
+      <div class="form-field">
+        <label for="last-name">Last Name</label>
+        <input type="text" id="last-name" name="contact[last_name]" required>
+      </div>
+      <div class="form-field">
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" name="contact[phone]" required>
+      </div>
+      <div class="form-field">
+        <label for="address">Shipping Address</label>
+        <input type="text" id="address" name="contact[address]" required>
+      </div>
+      <div class="form-field">
+        <label for="city">City</label>
+        <input type="text" id="city" name="contact[city]" required>
+      </div>
+      <div class="form-field">
+        <label for="state">State</label>
+        <input type="text" id="state" name="contact[state]" required>
+      </div>
+      <div class="form-field">
+        <label for="logo">Logo (Optional)</label>
+        <input type="file" id="logo" name="contact[logo]" accept="image/*">
+      </div>
+      <button type="submit">Submit Request</button>
+    {% endform %}
+  </section>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var form = document.querySelector('.order-form form');
+    form.addEventListener('submit', function(e) {
+      e.preventDefault(); // Prevent the default form submission
+      
+      // Create FormData object to handle file uploads
+      var formData = new FormData(form);
+      
+      // Prepare data for Refersion API
+      var apiData = {
+        offer: "116354", // Your specific offer ID
+        company: document.getElementById('company').value,
+        email: document.getElementById('email').value,
+        first_name: document.getElementById('first-name').value,
+        last_name: document.getElementById('last-name').value,
+        phone: document.getElementById('phone').value,
+        address: document.getElementById('address').value,
+        city: document.getElementById('city').value,
+        state: document.getElementById('state').value,
+        // We'll handle the logo separately since it's a file
+        password: "golf123", // Random password          
+        send_welcome: "FALSE",
+        status: "ACTIVE"                
+      };
+
+      // Log the data being sent (for debugging)
+      console.log('Sending data to Refersion:', apiData);
+
+      // Send data to Refersion API
+      fetch('https://api.refersion.com/v2/affiliate/new', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Refersion-Public-Key': 'pub_b0ed4bec7a83baa18a04',
+          'Refersion-Secret-Key': 'sec_c5f07c836f71a1323d20'
+        },
+        body: JSON.stringify(apiData)
+      })
+      .then(response => {
+        console.log('Response status:', response.status);
+        if (!response.ok) {
+          throw new Error('Network response was not ok: ' + response.statusText);
+        }
+        return response.json();
+      })
+      .then(result => {
+        console.log('Success:', result);
+        alert('Your request has been submitted successfully!');
+        
+        // Also submit the form to Shopify
+        var shopifyFormData = new FormData(form);
+        fetch(form.action, {
+          method: 'POST',
+          body: shopifyFormData
+        });
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('There was an error submitting your request. Please try again or contact us directly.');
+      });
+    });
+  });
+  </script>
+</div>
+
+<style>
+  .custom-tumblers-page { max-width: 1200px; margin: 0 auto; padding: 20px; }
+  .hero { text-align: center; }
+  h1 { font-size: 36px; font-weight: bold; color: #2E7D32; text-transform: uppercase; }
+  h2 { font-size: 24px; margin-bottom: 20px; }
+  .product-images img { max-width: 200px; margin: 10px; }
+  .qr-code { text-align: center; margin: 20px 0; }
+  .qr-code img { max-width: 150px; }
+  .benefits { text-align: center; font-size: 18px; }
+  .additional-text { font-style: italic; margin-top: 10px; }
+  .order-form { background: #f5f5f5; padding: 20px; border-radius: 8px; margin-top: 30px; }
+  .form-field { margin-bottom: 15px; }
+  .form-field label { display: block; font-weight: bold; }
+  .form-field input, .form-field select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; }
+  button { background: #2E7D32; color: white; padding: 12px 24px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; transition: background 0.3s; }
+  button:hover { background: #1B5E20; }
+  .color-swatches { text-align: center; margin-top: 20px; }
+  .swatches { display: flex; justify-content: center; gap: 10px; }
+  .swatch { width: 30px; height: 30px; border-radius: 50%; display: inline-block; }
+</style>

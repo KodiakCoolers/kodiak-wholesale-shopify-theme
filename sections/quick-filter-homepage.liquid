@@ -1,0 +1,38 @@
+<div class="quick_filters quick_filters-home">
+  {% for block in section.blocks %} 
+    {% assign collnames = block.settings.collection %}
+    {% if block.settings.collection != blank %}
+         <div class="quick_filters_collection_names"><a href="{{ collnames.url }}">{% if collnames.featured_image !=blank %}<img src="{{ collnames.featured_image | img_url:'master' }}" width="{{ collnames.featured_image.width }}" height="{{ collnames.featured_image.height }}">{{ block.settings.custom-title }}{% endif %}</a></div>
+    {% endif %}
+    {% endfor %}
+</div>
+{% schema %}
+  {
+    "name": "quick-filters-home",
+    "settings": [],
+      "blocks": [
+        {
+          "type": "collection",
+          "name": "collection",
+          "settings": [
+            {
+              "id": "collection",
+              "type": "collection",
+              "label": "Choose Collection"
+            },
+            {
+              "id": "custom-title",
+              "type": "text",
+              "label": "Title"
+            }
+          ]
+        }
+      ],
+    "presets": [
+      {
+        "name": "quick-filters-home"
+      }
+    ]
+    
+  }
+{% endschema %}

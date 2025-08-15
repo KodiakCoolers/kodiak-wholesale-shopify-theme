@@ -1,0 +1,311 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "collection-template",
+      "blocks": {
+        "198711f9-b15b-42c2-8ace-44187733f47f": {
+          "type": "faceted_filtering",
+          "settings": {
+            "show_filter_product_count": true
+          }
+        },
+        "49a969c5-9848-4c44-9f6c-631850c7255c": {
+          "type": "Collection",
+          "settings": {
+            "colheading": "Drinkware",
+            "coll": "custom-drinkware"
+          }
+        },
+        "6d4491cd-56dc-4121-88c6-24efbb8dcf53": {
+          "type": "Collection",
+          "settings": {
+            "colheading": "Hats",
+            "coll": "custom-hats"
+          }
+        },
+        "1b524906-6d25-4cdc-b332-cc1b8e3e7864": {
+          "type": "Collection",
+          "settings": {
+            "colheading": "Custom T-Shirts",
+            "coll": "custom-t-shirts"
+          }
+        },
+        "5efce5e4-b512-4231-84c9-9050274fc5eb": {
+          "type": "Collection",
+          "settings": {
+            "colheading": "Sweatshirts & Hoodies",
+            "coll": "custom-sweatshirts-hoodies"
+          }
+        },
+        "f77e745e-f882-4b2f-8a91-a6074ad13aaf": {
+          "type": "Collection",
+          "settings": {
+            "colheading": "Polo Shirts",
+            "coll": "custom-polo-shirts"
+          }
+        },
+        "045269c6-2bcf-4fb5-ac4a-ea7e71bc89d0": {
+          "type": "Collection",
+          "settings": {
+            "colheading": "Womens",
+            "coll": "custom-womens-apparel"
+          }
+        },
+        "47581eb5-530d-4ed4-8da3-43c799881e45": {
+          "type": "Collection",
+          "settings": {
+            "colheading": "Kids",
+            "coll": "custom-kids-apparel"
+          }
+        },
+        "fb5a5649-dbe5-4eac-b392-3dfc1613c9e1": {
+          "type": "Collection",
+          "settings": {
+            "colheading": "Activewear",
+            "coll": "custom-activewear"
+          }
+        },
+        "dee7b150-c317-442b-bfd3-a36d23d98f23": {
+          "type": "Collection",
+          "settings": {
+            "colheading": "Jackets",
+            "coll": "custom-jackets"
+          }
+        },
+        "d369db74-98a8-4dea-b94c-8770f8803bd0": {
+          "type": "Collection",
+          "settings": {
+            "colheading": "Embroidery",
+            "coll": "custom-embroidery"
+          }
+        },
+        "5c184043-76c1-4947-b158-9e3aee1789b1": {
+          "type": "Collection",
+          "settings": {
+            "colheading": "Safety",
+            "coll": "custom-safety-apparel"
+          }
+        },
+        "65db87d3-be50-4a05-9a44-2bd1bfe6b228": {
+          "type": "Collection",
+          "settings": {
+            "colheading": "Backpacks",
+            "coll": "custom-backpacks"
+          }
+        },
+        "7083c95c-aa33-48f6-b733-c69b15828cc2": {
+          "type": "Collection",
+          "settings": {
+            "colheading": "Premium Brands",
+            "coll": "custom-premium-brands"
+          }
+        }
+      },
+      "block_order": [
+        "198711f9-b15b-42c2-8ace-44187733f47f",
+        "49a969c5-9848-4c44-9f6c-631850c7255c",
+        "6d4491cd-56dc-4121-88c6-24efbb8dcf53",
+        "1b524906-6d25-4cdc-b332-cc1b8e3e7864",
+        "5efce5e4-b512-4231-84c9-9050274fc5eb",
+        "f77e745e-f882-4b2f-8a91-a6074ad13aaf",
+        "045269c6-2bcf-4fb5-ac4a-ea7e71bc89d0",
+        "47581eb5-530d-4ed4-8da3-43c799881e45",
+        "fb5a5649-dbe5-4eac-b392-3dfc1613c9e1",
+        "dee7b150-c317-442b-bfd3-a36d23d98f23",
+        "d369db74-98a8-4dea-b94c-8770f8803bd0",
+        "5c184043-76c1-4947-b158-9e3aee1789b1",
+        "65db87d3-be50-4a05-9a44-2bd1bfe6b228",
+        "7083c95c-aa33-48f6-b733-c69b15828cc2"
+      ],
+      "custom_css": [],
+      "settings": {
+        "title": "",
+        "featured_collection_image": false,
+        "wide_display": true,
+        "caption_content_background": "original",
+        "display_collection_title": false,
+        "collection_breadcrumb": true,
+        "collection_tags": true,
+        "collection_sort": true,
+        "products_per_row": 3,
+        "pagination_limit": 24,
+        "toggle": true,
+        "quickfiltering": true
+      }
+    },
+    "cc17c884-0797-4cff-9ea0-c2cec461b788": {
+      "type": "faq",
+      "blocks": {
+        "template--14813978918948__cc17c884-0797-4cff-9ea0-c2cec461b788-16886278253e45b26b-1": {
+          "type": "content",
+          "settings": {
+            "title": "How much do {{ collection.title }} cost?",
+            "answer": "<p>The price of your {{ collection.metafields.custom.seo_kw_3.value }} depends on a handful of things such as the style of mug you choose, how many pieces you order, and number of sides you print or engrave. Kodiak is happy to offer bulk volume discount pricing on all orders.</p>"
+          }
+        },
+        "template--14813978918948__cc17c884-0797-4cff-9ea0-c2cec461b788-16886278253e45b26b-7": {
+          "type": "content",
+          "settings": {
+            "title": "Is there a minimum order quantity for {{ collection.metafields.custom.seo_kw_3.value }}?",
+            "answer": "<p>Yes, due to the customization process, we have a minimum order requirement of $250 on Bulk Pricing Orders. However, we offer single unit sample orders to test out our products as well as low minimal order options for those only looking to order a few units. </p>"
+          }
+        },
+        "0dc05e4f-12aa-4284-b83f-bf6bea585d30": {
+          "type": "content",
+          "settings": {
+            "title": "Can I get my company logo printed on the {{ collection.metafields.custom.seo_kw_1.value }}?",
+            "answer": "<p>Absolutely! We specialize in printing company logos on {{ collection.metafields.custom.product_type.value }}, making them perfect for promotional events, corporate gifts and employee gifts, or branded merchandise.</p>"
+          }
+        },
+        "template--14813978918948__cc17c884-0797-4cff-9ea0-c2cec461b788-16886278253e45b26b-2": {
+          "type": "content",
+          "disabled": true,
+          "settings": {
+            "title": "Where can I add a design to my custom shirts?",
+            "answer": "<p>We offer multiple design placement locations, the most common being Full Front Print, Full Back Print, and Left Chest Pockets. If your ordering more than 12 t-shirts, we also offer sleeve printing as an option!</p>"
+          }
+        },
+        "template--14813978918948__cc17c884-0797-4cff-9ea0-c2cec461b788-16886278253e45b26b-3": {
+          "type": "content",
+          "disabled": true,
+          "settings": {
+            "title": "Where can I add a design to my {{ collection.metafields.custom.seo_kw_1.value }} {{ collection.title }}",
+            "answer": "<p>Kodiak has a huge selection of t shirts to choose and customize on. Our offering includes custom t shirts for everyone from kids to adults and many specific women's styles, including long sleeve T-shirts, v-neck T-shirts, performance T-shirts, soft and fitted T-shirts, and more!</p>"
+          }
+        },
+        "template--14813978918948__cc17c884-0797-4cff-9ea0-c2cec461b788-16886278253e45b26b-5": {
+          "type": "content",
+          "disabled": true,
+          "settings": {
+            "title": "How will my {{ collection.title }} design be printed?",
+            "answer": "<p>Your custom t shirts order will be printed using the best method for your order’s unique needs. There are a few different ways that a custom T-shirt design can be printed. Your custom t shirt will be printed by either utilizing \\\"screen printing\\\" or DTG (also referred to as a direct to garment \\\"digital printing\\\"). If you choose embroidery, the t shirt will be customized with your logo using our state of the art embroidery equipment.</p>"
+          }
+        },
+        "template--14813978918948__cc17c884-0797-4cff-9ea0-c2cec461b788-16886278253e45b26b-6": {
+          "type": "content",
+          "disabled": true,
+          "settings": {
+            "title": "How fast can I receive my {{ collection.title }} order?",
+            "answer": "<p>ith rush shipping, we can deliver custom t shirts within 5 business days and custom embroidered t shirts within 6 business days. Our free standard shipping times for custom apparel are around 6-12 days for printed apparel and 8-14 business days for embroidered items.</p>"
+          }
+        },
+        "79505a1d-f7ea-4376-9cba-b17434cbb7e4": {
+          "type": "content",
+          "settings": {
+            "title": "Can I get a sample before placing a large order?",
+            "answer": "<p>Absolutely! We understand the importance of quality, so we offer sample products for you to review before committing to a larger order. This ensures you're satisfied with the final product. You can checkout all of our sample options in our <a href=\"https://www.kodiak-wholesale.com/collections/custom-drinkware-samples\">samples collection here.</a></p>"
+          }
+        },
+        "81adaa24-1429-43eb-a3ed-664c53ec9f09": {
+          "type": "content",
+          "settings": {
+            "title": "Why Are {{ collection.title }} Popular Gifts & Giveaways?",
+            "answer": "<p>Custom tumblers have become increasingly sought-after as gifts and giveaways, and a<a href=\"https://www.asicentral.com/news/web-exclusive/april-2023/2023-asi-ad-impressions-study-powerful-stats-on-promo-s-top-products/\">recent study done in 2023 by Advertising Specialty Institution (ASI</a>) underscores their effectiveness. These personalized drinkware items can generate up to 3,162 impressions over their lifetime, ensuring that a business or event remains top-of-mind for long after receiving the drinkware. A significant 63% of consumers have indicated that they would retain and utilize a custom tumbler for at least a year, emphasizing its lasting appeal. Additionally, 30% of consumers are more inclined to engage with an advertiser that gifted them with logo drinkware. Given these compelling statistics, it's evident that custom tumblers, with their blend of functionality and simple business branding promotion, are a favorite choice for both personal gifts and bulk promotional giveaways.</p>"
+          }
+        },
+        "e650bed8-deec-4593-aea9-06f1e49bac87": {
+          "type": "content",
+          "settings": {
+            "title": "What are the Benefits of {{ collection.title }} for Business?",
+            "answer": "<p><strong>Brand Visibility:</strong> Custom Drinkware can generate up to 3,162 impressions over their lifetime, ensuring consistent brand exposure.</p><p><strong>Customer Loyalty: </strong>30% of consumers are more likely to engage with a business that gifts them drinkware.</p><p><strong>Cost-Effective Marketing:</strong> The cost per impression for a $10 insulated travel mug is just 1/3 of a cent, offering a high return on investment.</p><p><strong>Long-Term Use:</strong> 63% of consumers will keep and use a gift for at least a year, ensuring prolonged brand promotion.</p><p><strong>Eco-Friendly Promotion:</strong> Reusable tumblers reduce the need for disposable cups, showcasing a business's commitment to sustainability.</p><p><strong>Versatile Marketing Tool:</strong> Suitable for various events, from trade shows to corporate meetings.</p><p><strong>Personalized Touch:</strong> Customization allows businesses to connect with their audience on a personal level.</p><p><strong>Increased Brand Recall:</strong> Regular use of the tumbler ensures that consumers frequently remember and associate with the brand.</p><p><strong>Practicality:</strong> As functional items, they cater to a daily need, ensuring that they're used often.</p>"
+          }
+        },
+        "f0598f0b-34a6-48a7-ad45-3558df4fc11c": {
+          "type": "content",
+          "settings": {
+            "title": "What are the Most Popular {{ collection.title }} Colors Businesses Buy?",
+            "answer": "<p>Businesses often gravitate towards neutral and versatile colors, such as black, white, silver, and navy blue. These colors provide a professional look and ensure that logos and branding stand out. However, with the growing trend of brand personalization, many businesses are also exploring vibrant colors like red, teal, and purple to make their {{ collection.metafields.custom.seo_kw_2.value }} more distinctive.</p>"
+          }
+        },
+        "9af478ed-d329-485e-8e06-10c810b5b26d": {
+          "type": "content",
+          "settings": {
+            "title": "Popular Use Cases for {{ collection.metafields.custom.seo_kw_3.value }}?",
+            "answer": "<p>{{ collection.metafields.custom.seo_kw_1.value }} are versatile and find use in various scenarios. They're popular as corporate gifts, promoting brand loyalty among employees. Businesses also use them as giveaways at trade shows or events, ensuring brand visibility. Additionally, they're favored as merchandise for cafes or stores, and even as personalized gifts for special occasions or celebrations, and finally they are becoming a popular item for school sports teams and make a great fundraising item!</p>"
+          }
+        },
+        "bbd439bf-c700-45c2-a7fe-0addf6ffe6af": {
+          "type": "content",
+          "disabled": true,
+          "settings": {
+            "title": "Who Buys {{ collection.title }}?",
+            "answer": "<p>Our {{ collection.title }} are popular among a wide range of customers including businesses, event organizers, sports teams, and individuals looking for personalized items. Whether you're planning a corporate event, a family reunion, or simply want to promote your business, our wide selection of {{ collection.title }} has got you covered, no matter your style or needs.</p>"
+          }
+        },
+        "79cec898-d291-4949-b30e-5440bf57480f": {
+          "type": "content",
+          "settings": {
+            "title": "How Many {{ collection.metafields.custom.seo_kw_3.value }} Should I Buy?",
+            "answer": "<p>Whether you're just looking for one special item or you're a big company needing a large quantity, we've got you covered. The number of items you should purchase depends on the occasion and your budget. Most Importantly, we offer bulk volume pricing, meaning the more you order, the more savings you'll enjoy. Whatever your needs, we're here to provide the best value for your investment.</p>"
+          }
+        },
+        "491856d9-99ff-48a4-a967-81984ec7ed6a": {
+          "type": "content",
+          "settings": {
+            "title": "How long does it take to receive my order of {{ collection.title }}?",
+            "answer": "<p>Standard processing orders ship in 5-10 business days. </p><p>With priority processing, we can ship your order in as little as 1-3 business days. Shipping times will depend on your location but we ship UPS Ground from Green Bay Location and most orders arrive within 2-3 business days of initial shipping date. Need it faster? We will do our best to meet any deadline!</p>"
+          }
+        },
+        "5dae9a2e-214f-4e02-bfa5-2bac2af316a9": {
+          "type": "content",
+          "disabled": true,
+          "settings": {
+            "title": "How is my logo or design be added to the {{ collection.metafields.custom.seo_kw_1.value }}?",
+            "answer": "<p>Your {{ collection.title }} order will have your logo or design printed either by laser engraving, or UV Full Color Printing depending on the product you order. Laser Engraved customization works by removing the powder coating finish on the tumblers to reveal your logo or design in stainless steel. This is by far our most popular option and provides a premium, and unique long lasting product. UV Printing works by printing your full color logo directly onto the mug.  </p>"
+          }
+        },
+        "8af5723c-e2a8-4ddd-be48-a5637178b652": {
+          "type": "content",
+          "disabled": true,
+          "settings": {
+            "title": "Are the customizations permanent, or will they fade over time?",
+            "answer": "<p>Our advanced uv printing and laser engraving techniques ensure that your new customized cups will last a lifetime and resistant to fading, even with daily use use.</p>"
+          }
+        },
+        "39a9b725-865a-4d8b-82d1-97fa9b19dd23": {
+          "type": "content",
+          "settings": {
+            "title": "What if I'm not satisfied with my order?",
+            "answer": "<p>Customer satisfaction and long-term relationships are what we're all about. Thanks to our digital proofing system, you'll get a sneak peek of how your design or logo will appear on your chosen product—be it drinkware, leather patch hats, or embroidered and screen-printed apparel—before we even start on your order. And hey, if you've given the thumbs-up to the digital proof but aren't thrilled with the final product, just give our customer service team a shout. We're here to make things right and find a solution that works for you.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "template--14813978918948__cc17c884-0797-4cff-9ea0-c2cec461b788-16886278253e45b26b-1",
+        "template--14813978918948__cc17c884-0797-4cff-9ea0-c2cec461b788-16886278253e45b26b-7",
+        "0dc05e4f-12aa-4284-b83f-bf6bea585d30",
+        "template--14813978918948__cc17c884-0797-4cff-9ea0-c2cec461b788-16886278253e45b26b-2",
+        "template--14813978918948__cc17c884-0797-4cff-9ea0-c2cec461b788-16886278253e45b26b-3",
+        "template--14813978918948__cc17c884-0797-4cff-9ea0-c2cec461b788-16886278253e45b26b-5",
+        "template--14813978918948__cc17c884-0797-4cff-9ea0-c2cec461b788-16886278253e45b26b-6",
+        "79505a1d-f7ea-4376-9cba-b17434cbb7e4",
+        "81adaa24-1429-43eb-a3ed-664c53ec9f09",
+        "e650bed8-deec-4593-aea9-06f1e49bac87",
+        "f0598f0b-34a6-48a7-ad45-3558df4fc11c",
+        "9af478ed-d329-485e-8e06-10c810b5b26d",
+        "bbd439bf-c700-45c2-a7fe-0addf6ffe6af",
+        "79cec898-d291-4949-b30e-5440bf57480f",
+        "491856d9-99ff-48a4-a967-81984ec7ed6a",
+        "5dae9a2e-214f-4e02-bfa5-2bac2af316a9",
+        "8af5723c-e2a8-4ddd-be48-a5637178b652",
+        "39a9b725-865a-4d8b-82d1-97fa9b19dd23"
+      ],
+      "settings": {
+        "title": "{{ collection.title }} FAQ's"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "cc17c884-0797-4cff-9ea0-c2cec461b788"
+  ]
+}

@@ -1,0 +1,29 @@
+<div class="start_ur_order_btn"><a href="{{ section.settings.link }}">{{ section.settings.btntext }}</a></div>
+{% schema %}
+  {
+    "name": "Start your order",
+    "settings": [
+       {
+        "type":"url",
+        "id":"link",
+        "label":"Add link"
+      },
+      {
+        "type":"text",
+        "id":"btntext",
+        "label":"Add btn text"
+      }
+    ],
+    "presets":[
+      {
+        "name":"Start your order"
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

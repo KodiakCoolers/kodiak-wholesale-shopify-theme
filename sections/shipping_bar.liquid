@@ -1,0 +1,442 @@
+<div data-section-type="shipping-bar">
+  {% if section.settings.enabled_shipping_bar %}
+    {% if section.settings.enabled_only_homepage == false or template.name == 'index' %}
+      <div id="shipping-bar" class="shipping-bar {% if section.settings.position %} fixed {% endif %}">
+        <div class="wrapper style-wrapper discount-style">
+          {% for block in section.blocks %}
+            {% if block.type == 'discount-style'
+              and section.settings.shipping_bar_style == 'dicount_style'
+              or block.type == 'discount-style'
+              and template == 'cart'
+              and section.settings.anable_discout_in_cart == true
+            %}
+              <div class="no-mobile shipping-bar_left-section dicount_style">
+                <span>
+                  {%- if block.settings.text_email != blank %}{% include 'icon-envelope' %}{% endif %}
+                  {{ block.settings.text_email -}}
+                </span>
+              </div>
+              <section class="dicount_style">
+                <p class="hide">Shipping discount</p>
+                {% assign value_freeShipping = block.settings.shipping_bar_value_discount | times: 100 %}
+                {% assign quantity_freeShipping = block.settings.shipping_bar_free_qtd_range %}
+                {% if block.settings.shipping_bar_type_freeshipping == 'shipping_bar_free_price' %}
+                  <!-- IF FREE SHIPPING BY PRICE -->
+                  {% if cart.total_price == 0 %}
+                    <div class="new shipping-bar-text text-price free-shipping-bar" data-free-shipping="{{ value_freeShipping }}" data-free-shipping-currency="{{ cart.currency.symbol }}">
+                      {{ block.settings.shipping_bar_free_shipping_before }}
+                      <span class="free_shipping money">
+                        {{- value_freeShipping | minus: cart.total_price | money -}}
+                      </span>
+                      {{ block.settings.shipping_bar_free_shipping_after }}
+                    </div>
+                  {% elsif cart.total_price >= value_freeShipping %}
+                    <span class="shipping-bar-text"  data-free-shipping="{{ value_freeShipping }}" data-free-shipping-currency="{{ cart.currency.symbol }}">{{ block.settings.shipping_bar_freeshipping_text }} </span>
+                  {% else %}
+                    <span class="shipping-bar-text text-price free-shipping-bar" data-free-shipping="{{ value_freeShipping }}" data-free-shipping-currency="{{ cart.currency.symbol }}"
+                      >ONLY
+                      <span class="free_shipping money">
+                        {{- value_freeShipping | minus: cart.total_price | money -}}
+                      </span>
+                      AWAY FROM FREE SHIPPING!</span
+                    >
+                  {% endif %}
+                {% elsif block.settings.shipping_bar_type_freeshipping == 'shipping_bar_free_qtd' %}
+                  <!-- IF FREE SHIPPING BY QUANTITY -->
+                  {% if cart.item_count == 0 %}
+                    <p class="shipping-bar-text text-quantity free-shipping-bar">
+                      {{ block.settings.shipping_bar_free_shipping_before }}&nbsp<span class="free_shipping qtd">
+                        {{- quantity_freeShipping | minus: cart.item_count -}}
+                      </span>
+                      {{ block.settings.shipping_bar_free_shipping_after }}
+                    </p>
+                  {% elsif cart.item_count >= quantity_freeShipping %}
+                    <p class="shipping-bar-text">{{ block.settings.shipping_bar_freeshipping_text }}</p>
+                  {% else %}
+                    <p class="shipping-bar-text text-quantity free-shipping-bar">
+                      ONLY
+                      <span class="free_shipping qtd">
+                        {{- quantity_freeShipping | minus: cart.item_count }} Products</span
+                      >
+                      AWAY FROM FREE SHIPPING!
+                    </p>
+                  {% endif %}
+                {% endif %}
+              </section>
+              <div class="no-mobile shipping-bar_right-section dicount_styles">
+                <span>
+                  {%- if block.settings.text_tel != blank %}{% include 'icon-phone' %}{% endif %}
+                  {{ block.settings.text_tel -}}
+                </span>
+              </div>
+            {% elsif block.type == 'sections-style'
+              and section.settings.shipping_bar_style == 'sections_style'
+              and section.settings.anable_discout_in_cart == false
+              or block.type == 'sections-style'
+              and section.settings.shipping_bar_style == 'sections_style'
+              and section.settings.anable_discout_in_cart == true
+              and template != 'cart'
+            %}
+              <section class="sections_style">
+                <p class="hide">Shipping Bar With Icons</p>
+                <div class="shipping-bar-icons shipping-bar_left-section">
+                  {% assign image = block.settings['shipping-bar_icon-left-section'] | img_url: '30x' %}
+                  {% unless image contains 'assets/no-image' %}
+                    <img class="no-mobile lazy" data-src="{{ image }}" alt="icon-left-section">
+                  {% endunless %}
+
+                  <span>{{ block.settings['shipping-bar_text-left-section'] }}</span>
+                </div>
+                <div class="shipping-bar-icons shipping-bar_middle-section">
+                  {% assign image = block.settings['shipping-bar_icon-middle-section'] | img_url: '30x' %}
+                  {% unless image contains 'assets/no-image' %}
+                    <img class="no-mobile lazy" data-src="{{ image }}" alt="icon-middle-section">
+                  {% endunless %}
+
+                  <span>{{ block.settings['shipping-bar_text-middle-section'] }}</span>
+                </div>
+                <div class="shipping-bar-icons shipping-bar_right-section">
+                  {% assign image = block.settings['shipping-bar_icon-right-section'] | img_url: '30x' %}
+                  {% unless image contains 'assets/no-image' %}
+                    <img class="no-mobile lazy" data-src="{{ image }}" alt="icon-middle-section">
+                  {% endunless %}
+
+                  <span>{{ block.settings['shipping-bar_text-right-section'] }}</span>
+                </div>
+              </section>
+            {% elsif block.type == 'info-style'
+              and section.settings.shipping_bar_style == 'info_style'
+              and section.settings.anable_discout_in_cart == false
+              or block.type == 'info-style'
+              and section.settings.shipping_bar_style == 'info_style'
+              and section.settings.anable_discout_in_cart == true
+              and template != 'cart'
+            %}
+              <section class="info-style">
+                <div class="no-mobile shipping-bar_left-section">
+                  <span>
+                    {%- if block.settings.text_email != blank %}{% include 'icon-envelope' %}{% endif %}
+                    {{ block.settings.text_email -}}
+                  </span>
+                </div>
+                <div class="shipping-bar_middle-section">
+                  <span>{{ block.settings.shipping_bar_info_text }}</span>
+                </div>
+                <div class="no-mobile shipping-bar_right-section">
+                  <span>
+                    {%- if block.settings.text_tel != blank %}{% include 'icon-phone' %}{% endif %}
+                    {{ block.settings.text_tel -}}
+                  </span>
+                </div>
+              </section>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+
+      {% if section.settings.position %}
+        <div class="height-desck"></div>
+      {% endif %}
+    {% endif %}
+  {% endif %}
+</div>
+
+<script>
+  {% for block in section.blocks %}
+    {% if "discount-style" == block.type %}
+      var shipping_bar = {
+        style_shipping: "{{ section.settings.shipping_bar_style | scape  }}",
+        enable_discount: {{ section.settings.anable_discout_in_cart }},
+        free_shipping_text: "{{ block.settings.shipping_bar_freeshipping_text | scape  }}",
+        first_free_shipping_text: "{{ block.settings.shipping_bar_free_shipping_before | scape  }}",
+        second_free_shipping_text: "{{ block.settings.shipping_bar_free_shipping_after | scape  }}",
+        discount_in_cart_page:"{{ settings.enabled_discount_cart_page | scape  }}",
+        text_cart_above_button_sucess:"{{ block.settings.shipping_bar_freeshipping_text | scape  }}",
+
+        price_enable: '{{ block.settings.shipping_bar_type_freeshipping | scape  }}',
+        shipping_quantity: {{ block.settings.shipping_bar_free_qtd_range }},
+        shipping_value: {{ block.settings.shipping_bar_value_discount | times: 100 }}
+      };
+    {% endif %}
+  {% endfor %}
+</script>
+
+<style>
+  :root {
+    {% for block in section.blocks %}
+        {% if 'discount-style' == block.type %}
+          --freeship-back-color: {{ block.settings.free_shipping_background_color }};
+          --freeship-value-color: {{ block.settings.free_shipping_text_color }};
+        {% endif %}
+    {% endfor %}
+
+    --ship-back-color: {{ section.settings.background_color }};
+    --ship-text-color: {{ section.settings.text_color }};
+
+    {% if section.settings.position %}
+      --vasta-fixed-filter: 45px;
+    {% else %}
+      --vasta-fixed-filter: 0px;
+    {% endif %}
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Shipping Bar (Sitewide)",
+  "class": "shipping-bar",
+  "max_blocks": 3,
+  "settings": [
+    {
+      "type": "header",
+      "content": "General Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "enabled_shipping_bar",
+      "label": "Enable Shipping Bar",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "enabled_only_homepage",
+      "label": "Enable Shipping bar Only On Homepage",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Shipping Bar Background Color",
+      "default": "#006ba2"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Shipping Bar Text Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "select",
+      "id": "shipping_bar_style",
+      "label": "Sitewide Shipping Bar Style",
+      "options": [
+        {
+          "label": "Sections With Icons",
+          "value": "sections_style"
+        },
+        {
+          "label": "Discount Threshold",
+          "value": "dicount_style"
+        },
+        {
+          "label": "Informational",
+          "value": "info_style"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "position",
+      "label": "Enable Static Shipping Bar",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "anable_discout_in_cart",
+      "label": "Keep Shipping Bar Discount Threshold Only On Cart Page",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "sections-style",
+      "name": "Section With Icons",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "shipping-bar_icon-left-section",
+          "label": "Icon Image - Left Section",
+          "info": "80x80"
+        },
+        {
+          "type": "text",
+          "id": "shipping-bar_text-left-section",
+          "label": "Text - Left Section"
+        },
+        {
+          "type": "image_picker",
+          "id": "shipping-bar_icon-middle-section",
+          "label": "Icon Image - Middle Section",
+          "info": "80x80"
+        },
+        {
+          "type": "text",
+          "id": "shipping-bar_text-middle-section",
+          "label": "Text - Middle Section"
+        },
+        {
+          "type": "image_picker",
+          "id": "shipping-bar_icon-right-section",
+          "label": "Icon Image - Right Section",
+          "info": "80x80"
+        },
+        {
+          "type": "text",
+          "id": "shipping-bar_text-right-section",
+          "label": "Text - Right Section"
+        }
+      ]
+    },
+    {
+      "type": "discount-style",
+      "name": "Discount Threshold",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "header",
+          "content": "Discount Threshold"
+        },
+        {
+          "type": "select",
+          "id": "shipping_bar_type_freeshipping",
+          "label": "Threshold Default Style",
+          "options": [
+            {
+              "label": "By Price",
+              "value": "shipping_bar_free_price"
+            },
+            {
+              "label": "By Quantity",
+              "value": "shipping_bar_free_qtd"
+            }
+          ]
+        },
+        {
+          "type": "color",
+          "id": "free_shipping_background_color",
+          "label": "Discount Price Background Color",
+          "default": "#E32C2B"
+        },
+        {
+          "type": "color",
+          "id": "free_shipping_text_color",
+          "label": "Discount Price Text Color",
+          "default": "#FFFFFF"
+        },
+        {
+          "type": "header",
+          "content": "Settings Of Free Shipping by Price"
+        },
+        {
+          "type": "range",
+          "id": "shipping_bar_value_discount",
+          "min": 0,
+          "max": 1000,
+          "step": 10,
+          "unit": "$",
+          "label": "Free Shipping Value",
+          "default": 50
+        },
+        {
+          "type": "header",
+          "content": "Settings of Free Shipping by Quantity"
+        },
+        {
+          "type": "range",
+          "id": "shipping_bar_free_qtd_range",
+          "min": 1,
+          "max": 100,
+          "step": 1,
+          "label": "Product Qtd of Free Shipping Bar",
+          "default": 10
+        },
+        {
+          "type": "text",
+          "id": "shipping_bar_free_shipping_before",
+          "label": "Text Before Price/Quantity",
+          "default": "WE PAY SHIPPING ON ORDERS OVER"
+        },
+        {
+          "type": "text",
+          "id": "shipping_bar_free_shipping_after",
+          "label": "Text After Price/Quantity"
+        },
+        {
+          "type": "text",
+          "id": "shipping_bar_freeshipping_text",
+          "label": "Free Shipping Message After Threshold is Met",
+          "default": "Congratulations! We'll Pay Your Shipping"
+        },
+        {
+          "type": "text",
+          "id": "text_email",
+          "label": "Email",
+          "default": "info@vastaweb.com"
+      },
+      {
+          "type": "text",
+          "id": "text_tel",
+          "label": "Phone Number",
+          "default": "+1 (000) 000-0000"
+      }
+      ]
+    },
+    {
+      "type": "info-style",
+      "name": "Informational",
+      "limit": 1,
+      "settings": [
+        {
+            "type": "text",
+            "id": "text_email",
+            "label": "Email",
+            "default": "info@vastaweb.com"
+        },
+        {
+          "type": "text",
+          "id": "shipping_bar_info_text",
+          "label": "Center Bar Text"
+        },
+          {
+            "type": "text",
+            "id": "text_tel",
+            "label": "Phone Number",
+            "default": "+1 (000) 000-0000"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+<script>
+  window.SectionShippingBar = (function(){
+    function SectionShippingBar() {
+      this._run();
+    }
+
+    SectionShippingBar.prototype = {
+      _run: function() {
+
+      },
+
+      onSelect: function() {
+        this._run();
+      },
+
+      onUnload: function() {
+
+      }
+    };
+
+    return new SectionShippingBar;
+    })();
+</script>

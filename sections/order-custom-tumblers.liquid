@@ -1,0 +1,60 @@
+<div class="order-custom-tumblers">
+      <div class="order_custom_heading">{{ section.settings.heading }}</div>
+  <div class="order-custom">
+    {% for block in section.blocks %}
+     <div class="order-custom-step">
+          <div class="order_img">
+           {% if block.settings.img  %}<img class="lozad" data-src="{{ block.settings.img | img_url:'master' }}">{% endif %}
+          </div>
+       <div class="order-steps">{{ block.settings.steps }}</div>
+        <div class="order-desc">{{ block.settings.order_desc }}</div>
+     </div>
+    {% endfor %}
+  </div>
+</div>
+{% schema %}
+  {
+    "name": "order custom",
+    "settings": [
+     {
+            "type":"text",
+            "id":"heading",
+            "label":"Add heading"
+     }
+    ],
+    "blocks":[
+      {
+        "type":"order",
+        "name":"custom",
+        "settings":[
+          {
+            "type":"image_picker",
+            "id":"img",
+            "label":"Add image"
+          },
+          {
+            "type":"text",
+            "id":"steps",
+            "label":"Add steps"
+          },
+          {
+            "type":"text",
+            "id":"order_desc",
+            "label":"order desc"
+          }
+        ]
+      }
+    ],
+    "presets":[
+      {
+        "name":"order custom"
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

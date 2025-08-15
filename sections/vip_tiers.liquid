@@ -1,0 +1,274 @@
+<section class="vip-tiers">
+  <div class="container-fluid">
+    <div class="row radeem-perent">
+      <div class="vip-title earn-title">Vip Tiers</div>
+      <div class="vip-para earn-para">Get access to higher tiers and exclusive VIP rewards</div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12 earning-perent">
+        <div class="row loyality-preent">
+          {% for block in section.blocks %}
+            {% if block.type == 'monograme-block3' %}
+              <div class="col-md-4 col-sm-3 vip-card{{ forloop.index }} earn-cards{{ forloop.index }}">
+                <div class="vip-icon card-icon">{{ block.settings.vip_icon }}</div>
+                <div class="vip-con">
+                  <div class="content-title vip">{{ block.settings.vep_hed }}</div>
+                  <div class="content-hed vip">{{ block.settings.vip_title1 }}</div>
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="popup_overlay">
+  <div class="loyality-popup">
+    <div class=" btn btn-clear float-right crose-icon"><i class="fa-light fa-xmark"></i></div>
+    <h5 class="login-modal-title">Join and Earn Store Credit</h5>
+    <div class="login-modal-desc">Earn points and turn these into rewards!</div>
+    <button class="modal-login-btn"><a href="/account/register">Start Earning</a></button>
+    <div class="popup-sec">Already a member? &nbsp; <a href="/account/login" class="sign-in">Sign in</a></div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Vip tier",
+  "settings": [],
+   "blocks":[
+  {
+    "type":"monograme-block3",
+    "name":"abc",
+    "settings":[
+       {
+      "type":"html",
+      "id":"vip_icon",
+      "label":"add html"
+      },
+      {
+        "type":"text",
+        "id":"vep_hed",
+        "label":"add text"
+      },
+      {
+        "type":"text",
+        "id":"vip_title1",
+        "label":"add-text"
+      }
+     ]
+  }
+],
+  "presets":[
+    {
+      "name":"vip_tiers"
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}
+<style>
+/*   .sign-in:hover{
+    border:1px solid #00456c;
+    text-decoration:none;
+  } */
+      .vip-para{
+        color:black!important;
+        font-size: 14px!important;
+      }
+    .crose-icon{
+         display: flex;
+        justify-content: end;
+        /* padding-bottom: 5px; */
+        padding-top: -18px;
+        margin-top: -33px;
+        padding-right: 14px;
+      cursor: pointer;
+    }
+    .crose-icon i{
+      font-size: 19px;
+      color: #c7b2b2;
+    }
+      .popup-sec{
+      color: rgb(59, 67, 81);
+        font-size: 16px;
+        line-height: 24px;
+        font-family: 'Poppins', sans-serif, serif, monospace !important;
+
+      }
+      .modal-login-btn a{
+        text-decoration:none;
+        color:white!important;
+      }
+        .modal-login-btn{
+            background: rgb(228, 77, 77);
+            font-size: 17px;
+            min-width: 180px;
+            padding: 7px 24px;
+            margin-top: 20px;
+            line-height: 24px;
+            margin-bottom: 20px;
+            border: none;
+            color: white;
+            font-weight: 600;
+          font-weight: 500;
+    font-family: 'Poppins', sans-serif, serif, monospace !important;
+        }
+          .loyality-popup{
+             max-height: 75vh;
+             max-width: 640px;
+            background-color:white;
+            text-align:center;
+            padding-top: 30px;
+            padding-bottom: 34px;
+/*             margin: auto;
+              position: fixed;
+              top: 30%; */
+/*               right: 24%; */
+            width: 100%;
+    margin: 16rem auto!important;
+
+           }
+          .popup_overlay{
+            position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,.6);
+    display: flex;
+    justify-content: center;
+    display:none;
+          }
+           .login-modal-desc{
+           color: rgb(59, 67, 81);
+            font-size: 16px;
+            line-height: 24px;
+             font-family: 'Poppins', sans-serif, serif, monospace !important;
+           }
+          .login-modal-title{
+            color: rgb(59, 67, 81);
+            font-size: 20px;
+            font-weight: 800;
+            line-height: 24px;
+            margin-bottom: 10px;
+            margin-top:10px;
+            font-family: 'Nunito', sans-serif !important;
+    text-transform: inherit;
+    letter-spacing: 0;
+          }
+             .vip-tiers .loyality-preent .col-md-4{
+               display:block!important;
+               text-align: center;
+             }
+             .vip{
+               text-align:center;
+             }
+             .vip-card1 .content-title {
+               text-align:center!important;
+             }
+             .vip-icon svg{
+               width: 36px;
+               height: 31px;
+               margin-top: 4px;
+             }
+              .vip-card1 .content1{
+
+                padding-top: 7px;
+             }
+              .vip-card2 .content1{
+               padding-top: 7px;
+             }
+              .vip-card3 .content1{
+               padding-top: 7px;}
+              .vip-con{
+
+                padding-top:7px;
+               padding-left: 0px;
+           }
+            .fa-xmark:before {
+    content: "\f00d";
+}
+.btn.btn-clear:before {
+    content: "\2715";
+}
+  .btn.btn-clear.float-right.crose-icon {
+    float: right!important;
+}
+  
+.way-to-earn .col-md-4.col-sm-3.earn-cards1 {
+    cursor: pointer;
+}
+  .way-to-earn .col-md-4.col-sm-3.earn-cards3 {
+    cursor: pointer;
+}
+  .way-to-earn .col-md-4.col-sm-3.earn-cards5 {
+    cursor: pointer;
+}
+  .way-to-earn .col-md-4.col-sm-3.earn-cards7 {
+    cursor: pointer;
+}
+  .way-to-earn .col-md-4.col-sm-3.earn-cards8 {
+    cursor: pointer;
+}
+  .btn.btn-clear {
+    background: 0 0;
+    border: 0;
+    color: currentColor;
+    height: 1rem;
+    line-height: .8rem;
+    margin-left: 0.2rem;
+    margin-right: 18px;
+    opacity: 1;
+    padding: 0.1rem;
+    text-decoration: none;
+    width: 1rem;
+    padding-top: 25px;
+}
+  
+  [class^=fa-]:before{
+  font-style: normal;
+    font-weight: 400;
+    speak: none;
+    text-decoration: inherit;
+    width: 1em;
+    margin-right: 0.2em;
+    text-align: center;
+    font-variant: normal;
+    text-transform: none;
+  }
+  .popup-sec a.sign-in {
+    color: #5755d9;
+}
+
+
+ 
+             @media screen and (max-width: 768px) {
+
+            .loyality-popup {
+              max-height: 75vh;
+              max-width: 70%;
+              text-align: center;
+              padding-top: 34px;
+              padding-bottom: 34px;
+              margin: auto!important;
+              position: fixed;
+              top: 30%;
+              right:0;
+           /* right: 16%; */
+              width: 100%;
+
+          }
+             }
+     @media screen and (max-width: 568px) {
+      .loyality-popup {
+      max-width: 100%;
+/*       right: 5%; */
+  }
+     }
+</style>

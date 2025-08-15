@@ -1,0 +1,47 @@
+{%- comment -%}
+  Early Access page template using plain CSS.
+{%- endcomment -%}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Early Access</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {{ 'landing.css' | asset_url | stylesheet_tag }}
+  </head>
+  <body>
+    <header class="early-access__header">
+      <a href="/" class="early-access__back">
+        <svg viewBox="0 0 24 24">
+          <path stroke="#333" stroke-width="2" fill="none" d="M15 19l-7-7 7-7"/>
+        </svg>
+        <span class="visually-hidden">Back to home</span>
+      </a>
+    </header>
+    <main class="early-access__main">
+      <h1>Sign up for Early Access</h1>
+      <p>Be among the first to experience Kodiak's Print on Demand Drinkware. Launching in Q1 2025.</p>
+      <div class="early-access__form">
+        <!-- Insert your Klaviyo form embed code here -->
+        <div class="klaviyo-form-VgB3r6"></div>
+      </div>
+    </main>
+    <footer class="early-access__footer">
+      <p>© 2025 Kodiak Coolers LLC. All rights reserved.</p>
+      <nav>
+        <a href="#">Terms of Service</a>
+        <a href="#">Privacy</a>
+      </nav>
+    </footer>
+    <script>
+      // Klaviyo script: ensure it loads only once
+      if (!document.getElementById("klaviyo-script")) {
+        var script = document.createElement("script");
+        script.id = "klaviyo-script";
+        script.src = "https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=NC6HHW";
+        script.async = true;
+        document.body.appendChild(script);
+      }
+    </script>
+  </body>
+</html>

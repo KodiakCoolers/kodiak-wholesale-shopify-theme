@@ -1,0 +1,230 @@
+<div class="container-fluid survices-con">
+  <div class="row survices-main-fristrow">
+  <h1 class="product-survices-heading">Services</h1>
+    <span class="survices-para">Find the customization method that's perfect for you.</span>
+  </div>
+  <div class="row survices-main-secondrow">
+    <div class="col-xl-7 main-survices-col">
+      <div class="row">
+      <div class=" col-md-3  gff-image">
+      <img src="{{ section.settings.survice_image | img_url:'master' }}"> 
+      </div>
+      <div class="col-md-6  gff-text">
+        <h5>Samples</h5>
+      <p> Looking for the peace of mind that comes with being able to see, touch, or try on a product before buying? We can have a blank sample at your door within a week to make sure your the products are exactly what your looking for.
+      </p>
+      </div>
+      <div class="col-md-3  gff-button">
+        <p class="gff1-button"><a href="contact">Learn More</a></p>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+{% schema %}
+  {
+    "name": "survices-sample-section",
+    "settings": [
+      {
+        "type":"image_picker",
+        "id":"survice_image",
+        "label":"add-image"
+      }
+    ],
+    "presets":[
+      {
+        "name":"page-survice-section"
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}
+<style>
+  .survices-con{
+    margin-bottom: -37px;
+  }
+.main-survices-col{
+max-width: 600px;
+}
+  .product-survices-heading{
+  text-align: center;
+    font-size: 40px;
+    line-height: 56px;
+    letter-spacing: 0px;
+    color: #000;
+    font-weight: 800;
+   text-transform: none;
+    margin-bottom: 0px;
+  }
+  .survices-para{
+    text-align:center;
+     font-size: 17px;
+     font-weight: 400;
+  }
+  .main-survices-col{
+    margin:auto;
+   background-color: #f9f9f9;
+   margin-bottom: 16px;
+  }
+  .gff-image img{
+    width: 108%;
+    padding-top: 32px;
+    
+  }
+  .survices-main-fristrow{
+    padding-top: 37px;
+    padding-bottom: 16px;
+  }
+ .gff-text p {
+    font-size: 14px;
+    color: black;
+    margin-bottom: -9px;
+    font-weight: 400;
+    line-height: 22.4px;
+}
+  .gff-text h5{
+    font-size: 20px;
+    line-height: 1.2em;
+    letter-spacing: 0px;
+    color: #000!important;
+    text-transform: none;
+    font-weight: 700;
+   padding-top: 13px;
+    padding-bottom: 0px;
+    vertical-align: middle;
+  }
+ .gff1-button {
+    background-color: #85abdd;
+    padding: 5px 11px;
+    border-radius: 24px;
+    color: white;
+    font-size: 18px;
+    font-weight: 900;
+    position: relative;
+    top: 40%;
+    text-align: center;
+}
+.gff-button a {
+color:white;
+text-decoration:none;
+}
+ @media screen and (max-width: 1200px) {
+ .main-survices-col{
+max-width: 100%;
+}
+.gff-image{
+display: flex!important;
+    justify-content: end!important;
+ } 
+ .gff-image img {
+    width: 55%;
+    padding-top: 0px;
+  
+}
+.gff-text{
+padding-top: 22px;
+}
+.gff1-button {
+    background-color: #85abdd;
+    padding: 5px 24px;
+    border-radius: 24px;
+    color: white;
+    font-size: 18px;
+    font-weight: 900;
+    position: relative;
+    top: 40%;
+    text-align: center;
+    margin-top: 12px;
+}
+
+}
+ @media screen and (max-width: 992px) {
+ .gff-image img {
+    width: 16%;
+    padding-top: 0px;
+    margin: auto;
+    margin-top: 8px;
+}
+.gff-text h5 {
+    font-size: 20px;
+    line-height: 1.2em;
+    letter-spacing: 0px;
+    color: #000!important;
+    text-transform: none;
+    font-weight: 700;
+    /* padding-top: 13px; */
+    padding-bottom: 0px;
+    vertical-align: middle;
+    text-align: center;
+    margin-top: -37px;
+}
+.gff-text p {
+    font-size: 14px;
+    color: black;
+    margin-bottom: -9px;
+    text-align: center;
+}
+ }
+ @media screen and (max-width: 999px) {
+ .gff-image{
+ width:100%;
+ }
+ .gff-text{
+ width:100%;
+ }
+ .gff-button{
+ width:100%;
+ }
+ .gff-image img {
+    width: 138px;
+    padding-top: 0px;
+    margin: auto;
+    margin-top: 8px;
+}
+.survices-con{
+margin-bottom: -25px;
+}
+.gff-button{
+margin-top: -9px;
+
+ }
+ .gff1-button{
+ font-size:18px!important;
+font-weight: 900!important;
+ }
+ .survices-main-fristrow{
+ padding-top: 25px;
+ }
+ }
+  @media screen and (max-width: 576px) {
+  .survices-main-fristrow{
+  padding-top:0px;
+  }
+    .main-survices-col{
+       padding-bottom: 12px;
+     } 
+  }
+   @media screen and (width: 1024px) {
+     .gff-image img {
+    width: 57%;
+    padding-top: 0px;
+    margin-top: 26px;
+}
+   }
+   @media only screen and (min-width:580px) and (max-width:768px) {
+    .main-survices-col{
+max-width: 600px;
+}
+     .main-survices-col{
+       padding-bottom: 12px;
+     }
+   }
+</style>

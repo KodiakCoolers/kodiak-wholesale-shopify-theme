@@ -1,0 +1,315 @@
+<section class="section">
+  <div class="main-inner-template container">
+    <div class="main_row">
+      <div
+        style="display: block; flex-direction: unset; justify-content: unset; min-height: auto;"
+        class="gf_column gf_col-md-4 gf_col-sm-4 gf_col-xs-12 gf_col-lg-3 inner_page_menu"
+        data-sanitized-windowheight="950"
+        data-sanitized-actualminwidth="auto"
+        data-sanitized-actualminheight="auto"
+        data-sanitized-actualmaxwidth="none"
+        data-sanitized-actualmaxheight="none"
+        data-sanitized-actualwidth="1350px"
+        data-sanitized-actualheight="351.984px"
+      >
+        <div class="element-wrap">
+          <div class="elm gf-elm-center gf-elm-left-xs gf-elm-left-sm gf-elm-left-md gf-elm-left-lg">
+            <h2
+              class="button btn gf_button main-button-first"
+              data-sanitized-target=""
+            >
+              Help Center
+            </h2>
+          </div>
+        </div>
+        {% for link in linklists['help-center'].links %}
+          <div
+            class="module-wrap"
+            data-key="accordion"
+            data-sanitized-data-key="accordion"
+            data-label="Accordion"
+            data-sanitized-data-label="Accordion"
+          >
+            <div class="module">
+              <div>
+                <div class="plus iCon-right item-content item-content-heading">
+                  <div style="display: block;" class="element-wrap">
+                    <div class="elm gf-elm-center gf-elm-left-sm gf-elm-left-xs gf-elm-left-md gf-elm-left-lg">
+                      <h2 class="button btn gf_button gf_gs-button-element gf_gs-button---large navigable">
+                        {{ link.title }}
+                      </h2>
+                    </div>
+                  </div>
+                  <button class="plus-icon wrapp-icon" type="button">
+                    <span style="font-weight:600" class="acc-icon">+</span>
+                  </button>
+                  <!--
+                    <button class="minus-icon wrapp-icon" type="button">
+                      <span style="font-weight:600" class="acc-icon">-</span>
+                    </button>
+                  -->
+                </div>
+                {% if link.links != blank %}
+                  <div style="background-color: none;" class="item-content-links">
+                    <article class="item-content">
+                      {% for child_link in link.links %}
+                        <div class="element-wrap">
+                          <div class="elm gf-elm-center gf-elm-center-md gf-elm-center-sm gf-elm-center-xs gf-elm-left-lg">
+                            <a
+                              style="font-size: 16px;"
+                              href="{{ child_link.url }}"
+                              class="button btn gf_button gf_gs-button-element gf_gs-button---large navigable"
+                              data-sanitized-target=""
+                              ><span>• {{ child_link.title }}</span></a
+                            >
+                          </div>
+                        </div>
+                      {% endfor %}
+                    </article>
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      <div class="content-inner-template-page">
+        {%
+          render 'page-multi-column',
+          content: page.content,
+        %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="FAQ">
+<section class="section">
+  <div class="faq-content-inner-pages">
+    <div
+      class="
+        container
+        main
+        content
+        has-background
+        has-gutter-enabled
+      "
+    >
+      {% if section.settings.title != blank %}
+        <div
+          class="
+            one-whole
+            column
+            page
+          "
+        >
+          <h2 class="title">
+            {{ section.settings.title | escape }}
+          </h2>
+        </div>
+      {% endif %}
+
+      <div
+        class="
+            one-whole
+          medium-down--one-whole
+          column
+          faq
+          faq__column-1
+        "
+      >
+        {% if section.blocks.size > 0 %}
+          <dl class="faqAccordion">
+            {% for block in section.blocks %}
+              {% if block.settings.title != blank %}
+                <dt>
+                  <button
+                    data-index="{{ forloop.index }}"
+                    type="button"
+                    aria-controls="panel-01"
+                    aria-expanded="true"
+                  >
+                    {{ block.settings.title }}
+                  </button>
+                </dt>
+                <dd id="panel-01" aria-hidden="false">
+                  {{ block.settings.answer }}
+                </dd>
+              {% endif %}
+            {% endfor %}
+          </dl>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+<section class="section">
+  <div class="gf_row button_last_content">
+    <div class="inner_button_column">
+      <div class="element-wrap">
+        <div
+          class="elm gf-elm-center gf-elm--lg gf-elm--md gf-elm--sm gf-elm--xs gf-elm-center-md gf-elm-center-sm gf-elm-center-xs gf-elm-center-lg"
+          data-stretch-lg="1"
+          data-sanitized-data-stretch-lg="1"
+          data-stretch-md="1"
+          data-sanitized-data-stretch-md="1"
+          data-stretch-sm="1"
+          data-sanitized-data-stretch-sm="1"
+          data-stretch-xs="1"
+          data-sanitized-data-stretch-xs="1"
+          data-sanitized-actualheight="44.5px"
+          data-sanitized-actualwidth="1380px"
+          data-sanitized-actualmaxheight="none"
+          data-sanitized-actualmaxwidth="none"
+          data-sanitized-actualminheight="0px"
+          data-sanitized-actualminwidth="0px"
+          data-sanitized-windowheight="950"
+        >
+          <div>
+            <a
+              class="button btn gf_button navigable gf_gs-button-element gf_gs-button---large quote-popup-open"
+              href="{{ section.settings.button_url }}"
+              data-scroll-speed="2000"
+              data-sanitized-data-scroll-speed="2000"
+              data-exc="quote-popup-open"
+              data-sanitized-data-exc="quote-popup-open"
+              style="padding-top: 0px; padding-bottom: 0px; font-size: 15px;"
+              data-scroll-speed-md="2000"
+              data-sanitized-data-scroll-speed-md="2000"
+              data-scroll-speed-sm="2000"
+              data-sanitized-data-scroll-speed-sm="2000"
+              data-scroll-speed-xs="2000"
+              data-sanitized-data-scroll-speed-xs="2000"
+              data-open-accessibility-text-original="15px"
+              data-sanitized-data-open-accessibility-text-original="15px"
+              data-sanitized-target=""
+              data-sanitized-actualheight="44.5px"
+              data-sanitized-actualwidth="690px"
+              data-sanitized-actualmaxheight="none"
+              data-sanitized-actualmaxwidth="none"
+              data-sanitized-actualminheight="0px"
+              data-sanitized-actualminwidth="0px"
+              data-sanitized-windowheight="950"
+              ><span
+                data-open-accessibility-text-original="15px"
+                data-sanitized-data-open-accessibility-text-original="15px"
+                style="font-size: 15px;"
+              >
+                {{- section.settings.button_title -}}
+              </span></a
+            >
+          </div>
+        </div>
+      </div>
+      <div class="element-wrap">
+        <div
+          class="elm gf-elm-center gf_elm-left-xs gf-elm-center-md gf-elm-center-sm gf-elm-center-xs gf-elm-center-lg"
+          data-exc=""
+          data-sanitized-data-exc=""
+          data-sanitized-actualheight="71.1641px"
+          data-sanitized-actualwidth="1400px"
+          data-sanitized-actualmaxheight="none"
+          data-sanitized-actualmaxwidth="none"
+          data-sanitized-actualminheight="0px"
+          data-sanitized-actualminwidth="0px"
+          data-sanitized-windowheight="950"
+        >
+          <img
+            src="{{ section.settings.payment_icons | img_url:'master' }}"
+            alt="payment methods accepted for bulk custom t-shirt orders"
+            class="gf_image"
+            width="960"
+            height="98"
+            loading="lazy"
+          >
+        </div>
+      </div>
+      <div class="module-wrap" style="background-image: none; display: block;">
+        <div class="module gf_module-left gf_module-left-lg gf_module-center-md gf_module-center-sm gf_module--xs">
+          <div style="font-size: 12px; margin-bottom: 0px; margin-top: 10px; text-align: center;">
+            <img
+              alt="Afterpay"
+              src="{{ section.settings.afterway_icon | img_url:'master' }}"
+              srcset="{{ section.settings.afterway_icon | img_url:'master' }} 1x,"
+              style="vertical-align: middle; max-width: 80px; width: 80px !important; height: auto; display: inline;"
+            >
+            {{ section.settings.afterway_text }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "main-inner-template",
+  "settings": [
+      {
+      "type": "text",
+      "id": "button_title",
+      "label": "Button text",
+      "default":"START MY ORDER NOW 👉🏻"
+      },
+      {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button URL"
+      },
+      {
+      "type": "image_picker",
+      "id": "payment_icons",
+      "label": "payments images"
+      },
+      {
+      "type": "image_picker",
+      "id": "afterway_icon",
+      "label": "Afterway image"
+      },
+      {
+      "type": "text",
+      "id": "afterway_text",
+      "label": "Afterway text",
+      "default":"Order Now Pay Later in Installments"
+      },
+      {
+      "type": "text",
+      "id": "title",
+      "label": "FAQ Heading",
+      "default": "FAQ"
+      }
+  ],
+  "blocks": [
+    {
+      "name": "Frequently Asked Question",
+      "type": "content",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Question",
+          "default": "Question"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>Provide the answer to the question here.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "main-inner-template"
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

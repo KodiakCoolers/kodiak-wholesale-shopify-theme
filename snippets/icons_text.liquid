@@ -1,0 +1,20 @@
+<div class="icons_text {% if template.suffix=="Leather Patch Hats" %}custom_section_content_table{% endif %}">
+  <div class="icons_text-1 icons-content">
+    <div class="icons_image">
+      <img src="{{ block.settings.image | img_url:'master' }}">
+    </div>
+    <div class="icons_inner_content">
+      <h5>{{ block.settings.heading }}</h5>
+       <p>{{ block.settings.subheading}}</p>
+    </div>
+  </div>
+  <div class="icons_text-2 icons-content">
+    <div class="icons_image">
+       <img src="{{ block.settings.image_2 | img_url:'master' }}">
+    </div>
+    <div class="icons_inner_content">
+       <h5>{{ block.settings.heading_2}}</h5>
+      <p>{{ block.settings.subheading_2}}</p>
+    </div>
+  </div>
+</div>

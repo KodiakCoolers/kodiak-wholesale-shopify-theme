@@ -1,0 +1,349 @@
+
+
+    
+  
+    
+    
+        jQuery(function() {
+            var $module = jQuery('#m-1672352195259').children('.module');
+            $module.gfV3Product();
+        }); 
+    
+    
+  
+    
+    
+    
+(function(jQuery) {
+    var $module = jQuery('#m-1675889032234').children('.module');
+    $module.gfV3ProductPrice({
+        displayCurrency: true
+    });
+})(window.GemQuery || jQuery);
+    
+(function( jQuery ){
+  var $module = jQuery('#m-1674527404382').children('.module');
+  $module.gfV1StockCounter();
+})( window.GemQuery || jQuery );
+  (function(jQuery) {
+  var $module = jQuery('#m-1674146467646').children('.module');
+  var swatchText = $module.attr('data-swatch-text') != undefined ? $module.attr('data-swatch-text') : '1';
+  $module.gfV3ProductSwatches({
+    swatchText: swatchText,
+    onSwatchSelected: function(variant, $swatch) {}
+  });
+})(window.GemQuery || jQuery);
+    (function( jQuery ){
+  var $module = jQuery('#m-1743708547180').children('.module');
+  var style = $module.attr('data-style');
+  var updatePrice = $module.attr('data-updateprice');
+
+  $module.gfV3ProductQuantity({
+    'style': style,
+    'updatePrice': updatePrice
+  });
+})( window.GemQuery || jQuery );
+  
+    
+    jQuery(function() {
+  var $module = jQuery('#m-1676508879138').children('.module');
+  $module.gfV3ProductCartButton({ onItemAdded: function(data) {}});
+});
+    
+    (function( jQuery ){
+  var $module = jQuery('#m-1676143976906').children('.module');
+  $module.gfv1PFileUpload();
+})( window.GemQuery || jQuery );
+  
+    
+    
+    
+    (function(jQuery) {
+  var $module = jQuery('#m-1672352195379').children('.module');
+  var effect = $module.attr('data-effect');
+  var magnify = $module.attr('data-zoom-level');
+  var displayType = $module.attr('data-displaytype');
+  $module.gfV3ProductImage({
+    'effect': effect,
+    'displayType': displayType,
+    'magnify': magnify
+  });
+})(window.GemQuery || jQuery);
+  
+(function(jQuery) {
+    var $module = jQuery('#m-1675890546910').children('.module');
+    $module.gfV3ProductPrice({
+        displayCurrency: true
+    });
+})(window.GemQuery || jQuery);
+    (function(jQuery) {
+  var $module = jQuery('#m-1674146479326').children('.module');
+  var swatchText = $module.attr('data-swatch-text') != undefined ? $module.attr('data-swatch-text') : '1';
+  $module.gfV3ProductSwatches({
+    swatchText: swatchText,
+    onSwatchSelected: function(variant, $swatch) {}
+  });
+})(window.GemQuery || jQuery);
+    
+    
+    
+    (function( jQuery ){
+  var $module = jQuery('#m-1676143955837').children('.module');
+  $module.gfv1PFileUpload();
+})( window.GemQuery || jQuery );
+  
+    
+    
+    
+    /* add your custom script here */
+    
+(function( jQuery ){
+  var $module = jQuery('#m-1674529379477').children('.module');
+  $module.gfV1StockCounter();
+})( window.GemQuery || jQuery );
+  jQuery(function() {
+  var $module = jQuery('#m-1672352195354').children('.module');
+  $module.gfV3ProductCartButton({ onItemAdded: function(data) {}});
+});
+            
+          
+            
+          
+    
+        jQuery(function() {
+            var $module = jQuery('#m-1672352195411').children('.module');
+            var single   = $module.attr('data-single');
+            var openDefault  = $module.attr('data-openDefault');
+            var openTab  = $module.attr('data-openTab');
+            var mode     = jQuery('.gryffeditor').hasClass('editing') ? 'dev' : 'production';
+
+            if(openDefault == 0 || openDefault == '0') {
+                openTab = '0';
+            }
+
+            $module.gfAccordion({
+                single: single,
+                openTab: openTab,
+                mode: mode
+            });
+
+            var borderColor = $module.attr('data-borderColor');
+            var borderSize = $module.attr('data-borderSize');
+
+            $module.children('[data-accordion]').children('[data-control]').css('border-bottom', borderSize + ' solid ' + borderColor);
+            $module.children('[data-accordion]').children('[data-content]').children().css('border-bottom', borderSize + ' solid ' + borderColor);
+        });
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+            
+          
+    
+    
+            
+          
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+            
+          
+    
+    
+    
+  
+    (function( jQuery ){
+  try {
+    var $module = jQuery('#m-1672352195369').children('.module');   
+    var navspeed = $module.data('navspeed'),
+      autoplaytimeout = $module.data('autoplaytimeout'),
+      autoplayhoverpause = $module.data('autoplayhoverpause'),
+      navlg = $module.data('navlg'),
+      navmd = $module.data('navmd'),
+      navsm = $module.data('navsm'),
+      navxs = $module.data('navxs'),
+      collg = $module.data('collg'),
+      colmd = $module.data('colmd'),
+      colsm = $module.data('colsm'),
+      colxs = $module.data('colxs'),
+      dotslg = $module.data('dotslg'),
+      dotsmd = $module.data('dotsmd'),
+      dotssm = $module.data('dotssm'),
+      dotsxs = $module.data('dotsxs'),
+      marginlg = parseInt($module.data('marginlg')),
+      marginmd = parseInt($module.data('marginmd')),
+      marginsm = parseInt($module.data('marginsm')),
+      marginxs = parseInt($module.data('marginxs'));
+
+    var mode = jQuery('.gryffeditor').hasClass('editing') ? 'dev' : 'production';
+    if(mode == 'production') {
+    var autoplay = $module.data('autoplay'), 
+        autoRefresh = true, 
+        loop = $module.data('loop');
+    } else {
+    var autoplay = 0, 
+        autoRefresh = false, 
+        loop = 0;
+    }
+
+    var initCarousel = function() {
+      $module.owlCarousel({
+        mouseDrag: false,
+        autoplayHoverPause: autoplayhoverpause,
+        autoplay: autoplay,
+        autoRefresh: autoRefresh,
+        autoplaySpeed: navspeed,
+        autoplayTimeout: autoplaytimeout,
+        loop: loop,
+        navSpeed: navspeed,
+        autoWidth: !1,
+        responsiveClass:true,
+        responsive:{
+          0:{
+            items:colxs,
+            nav: navxs,
+            dots:dotsxs,
+            margin: marginxs
+          },
+          768:{
+            items:colsm,
+            nav: navsm,
+            dots:dotssm,
+            margin: marginsm
+          },
+          992:{
+            items:colmd,
+            nav: navmd,
+            dots:dotsmd,
+            margin: marginmd
+          },
+          1200:{
+            items:collg,
+            nav: navlg,
+            dots:dotslg,
+            margin: marginlg
+          }
+        },
+        onInitialized: function () {
+          $module.closest('.module-wrap[data-label="Carousel"]').addClass('gf-carousel-loaded');
+          jQuery(window).trigger("resize");
+        }
+      });
+    }
+    
+    // Fix nested carousel bug	
+    if ($module.parent().parent().closest('.module-wrap[data-label="Carousel"]').length > 0) {	
+      setTimeout(function() {	
+        initCarousel();	
+      }, 300)	
+    } else {	
+      initCarousel();	
+    }
+  } catch(err) {}
+})( window.GemQuery || jQuery );
+  
+    
+    
+    
+  
+    
+  
+    
+    
+    
+  
+    
+  
+    
+    
+    
+  
+    
+  
+    
+    
+    
+  
+    
+  
+    
+    
+    
+  
+    
+  
+    
+    
+    
+  
+    
+  
+    
+    
+    
+  
+    
+  
+    
+    
+    
+  
+    
+  
+    
+    
+    
+  
+    
+  
+    
+    
+    
+  
+    
+  
+    
+    
+    
+  
+    
+  
+    
+    
+    
+  
+    
+  
+    
+    
+    
+  
+    
+  
+    
+  
+    
+  
+            
+          
+            
+          

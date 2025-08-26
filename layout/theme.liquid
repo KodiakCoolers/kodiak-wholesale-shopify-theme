@@ -152,10 +152,11 @@
       // Also try to initialize carousel on DOM ready as backup
       document.addEventListener('DOMContentLoaded', function() {
         setTimeout(function() {
-          if (typeof $ !== 'undefined' && typeof $.fn.flickity !== 'undefined') {
-            $('.product_gallery').each(function() {
-              if (!$(this).data('flickity')) {
-                $(this).flickity({
+          if (typeof Flickity !== 'undefined') {
+            var galleries = document.querySelectorAll('.product_gallery');
+            galleries.forEach(function(gallery) {
+              if (!gallery.flickityInstance) {
+                gallery.flickityInstance = new Flickity(gallery, {
                   cellAlign: 'left',
                   contain: true,
                   imagesLoaded: true,
@@ -171,7 +172,8 @@
     </script>
     <script src="{{ 'custom.js' | asset_url }}" defer></script>
     <script src="{{ 'VastaShop.js' | asset_url }}" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js" defer></script>
+    <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js" defer></script>
+    <script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js" defer></script>
     {%- comment -%} ── PERFORMANCE: Critical inline JavaScript only ── {%- endcomment -%}
     <script>
         // Essential globals only - no heavy operations
@@ -531,19 +533,23 @@
     {% if template.suffix == "Leather Patch Hats" %}
       <script> 
         function handleFlickityOnScroll_hattemplate() {
-          // Ensure jQuery and Flickity are loaded before initializing
-          if (typeof $ === 'undefined' || typeof $.fn.flickity === 'undefined') {
-            window.jQueryQueue = window.jQueryQueue || [];
-            window.jQueryQueue.push(handleFlickityOnScroll_hattemplate);
+          // Ensure Flickity is loaded before initializing
+          if (typeof Flickity === 'undefined') {
+            setTimeout(handleFlickityOnScroll_hattemplate, 100);
             return;
           }
           
-          var $slider = $('.product_gallery').flickity({
-            cellAlign: 'left',
-            contain: true,
-            imagesLoaded: true,
-            lazyLoad: 2
-          });
+          var galleryElement = document.querySelector('.product_gallery');
+          if (galleryElement && !galleryElement.flickityInstance) {
+            galleryElement.flickityInstance = new Flickity(galleryElement, {
+              cellAlign: 'left',
+              contain: true,
+              imagesLoaded: true,
+              lazyLoad: 2,
+              wrapAround: false,
+              pageDots: false
+            });
+          }
         $slider.on('select.flickity', function(event, index) {
           var currentSlide = $slider.data('flickity').selectedElement;
           var imageSrc = $(currentSlide).find('.product-gallery__image').attr('data-imglink');
@@ -621,19 +627,23 @@
        <script>
          // Product gallery handler - load immediately for functionality
          function handleFlickityOnScroll() {
-            // Ensure jQuery and Flickity are loaded before initializing
-            if (typeof $ === 'undefined' || typeof $.fn.flickity === 'undefined') {
-              window.jQueryQueue = window.jQueryQueue || [];
-              window.jQueryQueue.push(handleFlickityOnScroll);
+            // Ensure Flickity is loaded before initializing
+            if (typeof Flickity === 'undefined') {
+              setTimeout(handleFlickityOnScroll, 100);
               return;
             }
             
-            var $slider = $('.product_gallery').flickity({
-              cellAlign: 'left',
-              contain: true,
-              imagesLoaded: true,
-              lazyLoad: 2
-            });
+            var galleryElement = document.querySelector('.product_gallery');
+            if (galleryElement && !galleryElement.flickityInstance) {
+              galleryElement.flickityInstance = new Flickity(galleryElement, {
+                cellAlign: 'left',
+                contain: true,
+                imagesLoaded: true,
+                lazyLoad: 2,
+                wrapAround: false,
+                pageDots: false
+              });
+            }
             
             $slider.on('select.flickity', function(event, index) {
             var currentSlide = $slider.data('flickity').selectedElement;

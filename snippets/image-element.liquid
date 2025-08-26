@@ -164,7 +164,7 @@
         data-sizes="auto"
         data-aspectratio="{{ image.width }}/{{ image.height }}"
         data-srcset="{{ srcset }}"
-        style="{{ inline_style }}"
+        style="{{ inline_style }}; aspect-ratio: {{ image.width }}/{{ image.height }};"
         width="{{ image.width }}"
         height="{{ image.height }}"
         loading="lazy"

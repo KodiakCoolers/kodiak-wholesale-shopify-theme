@@ -106,7 +106,7 @@
     {% endif %}
     <!-- <script src="{{ 'jquery.min.js' | asset_url }}" defer></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script> -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js" defer></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script type="lazyload2" data-src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
     <script src="{{ 'custom.js' | asset_url }}" async></script>
     <script src="{{ 'VastaShop.js' | asset_url }}" async></script>
@@ -141,10 +141,10 @@
     <script>
     {% render 'js-variables' %}
     </script>
-    <script type="lazyload2" data-src="{{ 'vendors.js' | asset_url }}"></script>
-    <script type="lazyload2" data-src="{{ 'sections.js' | asset_url }}"></script>
-    <script type="lazyload2" data-src="{{ 'utilities.js' | asset_url }}"></script>
-    <script type="lazyload2" data-src="{{ 'app.js' | asset_url }}"></script>
+    <script src="{{ 'vendors.js' | asset_url }}" defer></script>
+    <script src="{{ 'sections.js' | asset_url }}" defer></script>
+    <script src="{{ 'utilities.js' | asset_url }}" defer></script>
+    <script src="{{ 'app.js' | asset_url }}" defer></script>
 	<script type="lazyload2" data-src="{{ 'custom-file.js' | asset_url }}"></script>
     {% if settings.disqus_enabled %}
         {% if template contains "blog" or template contains "article" or template contains "index" %}

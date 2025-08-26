@@ -2,15 +2,31 @@
 
 This document summarizes all the performance optimizations implemented for the Kodiak Wholesale Shopify theme based on the GTmetrix report showing ~481 requests and ~10.2 MB on mobile.
 
+## 📊 Performance Results Analysis
+
+### Before Optimization (Baseline)
+- **Requests**: ~481 requests
+- **Page weight**: ~10.2 MB on mobile
+- **FCP**: Baseline measurement needed
+- **LCP**: ~1.7s
+- **TBT**: 1.7s (very high)
+- **TTI**: 13.4s (extremely high)
+- **Speed Index**: 20.9s (extremely high)
+- **TTFB**: ~138ms (good - server not the bottleneck)
+
+### After Initial Optimizations (Current)
+- **GTmetrix Report**: Desktop improvements visible
+- **Key Issues Identified**: Still high requests, need further optimization
+
 ## 🎯 Performance Goals Targeted
 
 - **Requests**: Reduce from ~481 to < 120 on first view (mobile)
 - **Page weight**: Reduce from ~10.2 MB to < 2.0 MB initial page
-- **FCP**: Target < 0.9s (from current baseline)
+- **FCP**: Target < 0.9s
 - **LCP**: Target < 1.2s (from ~1.7s)
 - **TBT**: Target < 150ms (from 1.7s)
 - **TTI**: Target < 4s (from 13.4s)
-- **Speed Index**: Target significant improvement (from 20.9s)
+- **Speed Index**: Target < 5s (from 20.9s)
 
 ## ✅ Optimizations Implemented
 
@@ -197,6 +213,92 @@ All changes are incremental and can be reverted by:
 1. Removing `type="lazyload2"` attributes from scripts
 2. Reverting image-element.liquid to original version
 3. Removing conditional menu logic from header.liquid
+
+## 🚀 CRITICAL NEXT STEPS - HIGH IMPACT OPTIMIZATIONS
+
+### Phase 2: Critical Fixes (Immediate - High Impact)
+
+#### A. CSS & Asset Optimization
+- [ ] **Minify CSS files** - Reduce styles.css, custom.css, fancybox.css file sizes by 20-40%
+- [ ] **Combine CSS files** - Merge multiple CSS files into one to reduce HTTP requests
+- [ ] **Remove unused CSS** - Audit and remove unused styles (major impact)
+- [ ] **Optimize critical CSS** - Enhance existing critical-css snippet
+
+#### B. JavaScript Optimization  
+- [ ] **Bundle JavaScript files** - Combine vendors.js, sections.js, utilities.js, app.js
+- [ ] **Remove unused JavaScript** - Audit and remove dead code
+- [ ] **Tree-shake libraries** - Remove unused parts of jQuery, Vue, etc.
+- [ ] **Minify JavaScript files** - Reduce file sizes by 30-50%
+
+#### C. Image Optimization (Major Impact)
+- [ ] **Implement WebP/AVIF conversion** - Convert all product images to modern formats
+- [ ] **Optimize image sizes** - Ensure no oversized images are served
+- [ ] **Implement responsive images** - Use srcset for all product images
+- [ ] **Compress existing images** - Reduce file sizes without quality loss
+- [ ] **Lazy load all images** - Ensure all images below-fold are lazy loaded
+
+#### D. Request Reduction (Massive Impact)
+- [ ] **Audit third-party apps** - Remove or optimize unused Shopify apps
+- [ ] **Combine font requests** - Reduce Google Fonts requests
+- [ ] **Optimize app blocks** - Review all app blocks for performance impact
+- [ ] **Remove duplicate resources** - Check for duplicate CSS/JS loading
+
+### Phase 3: Advanced Optimizations (High Impact)
+
+#### E. HTML & Liquid Optimization
+- [ ] **Minify HTML output** - Remove whitespace and comments
+- [ ] **Optimize Liquid loops** - Improve template performance
+- [ ] **Cache expensive operations** - Store computed values
+- [ ] **Optimize section loading** - Implement section-level lazy loading
+
+#### F. Network Optimization
+- [ ] **Implement preconnect hints** - For critical third-party domains
+- [ ] **Add dns-prefetch** - For external resources
+- [ ] **Optimize resource loading order** - Critical path optimization
+- [ ] **Enable compression** - Ensure gzip/brotli is enabled
+
+#### G. Advanced Lazy Loading
+- [ ] **Lazy load sections** - Implement intersection observer for below-fold sections
+- [ ] **Lazy load videos** - Defer video loading until needed
+- [ ] **Progressive enhancement** - Load features based on user interaction
+
+### Phase 4: Monitoring & Maintenance
+
+#### H. Performance Monitoring
+- [ ] **Set up automated testing** - Regular GTmetrix/Lighthouse checks
+- [ ] **Implement RUM** - Real User Monitoring for actual performance data
+- [ ] **Monitor Core Web Vitals** - Track LCP, FID, CLS continuously
+- [ ] **A/B test optimizations** - Measure impact on conversions
+
+## 📈 Expected Impact by Phase
+
+### Phase 2 (Critical Fixes)
+- **Requests**: 481 → ~200-250 requests
+- **Page Weight**: 10.2MB → ~4-6MB
+- **TTI**: 13.4s → ~6-8s
+- **TBT**: 1.7s → ~800ms-1.2s
+
+### Phase 3 (Advanced)
+- **Requests**: ~200 → ~120-150 requests  
+- **Page Weight**: ~5MB → ~2-3MB
+- **TTI**: ~7s → ~3-4s
+- **TBT**: ~1s → ~300-600ms
+
+### Phase 4 (Polish)
+- **Requests**: ~130 → ~100-120 requests
+- **Page Weight**: ~2.5MB → ~1.5-2MB
+- **TTI**: ~3.5s → ~2-3s
+- **TBT**: ~400ms → ~150-300ms
+
+## 🔧 Implementation Priority
+
+1. **URGENT** - Fix linter errors (parser blocking scripts) ✅
+2. **HIGH** - CSS/JS minification and bundling
+3. **HIGH** - Image optimization and WebP conversion
+4. **HIGH** - Remove unused apps and third-party scripts
+5. **MEDIUM** - Advanced lazy loading implementation
+6. **MEDIUM** - HTML minification and Liquid optimization
+7. **LOW** - Monitoring and maintenance setup
 
 ## 🎉 Summary
 

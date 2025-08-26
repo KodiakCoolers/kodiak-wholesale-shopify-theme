@@ -106,7 +106,7 @@
     {% endif %}
     <!-- <script src="{{ 'jquery.min.js' | asset_url }}" defer></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script> -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js" defer></script>
     <script type="lazyload2" data-src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
     <script src="{{ 'custom.js' | asset_url }}" async></script>
     <script src="{{ 'VastaShop.js' | asset_url }}" async></script>
@@ -265,9 +265,9 @@
 {%- comment -%}
 If your theme’s main CSS file is named differently, replace 'theme.css' with 'base.css' or whatever exists in /assets.
 {%- endcomment -%}
-<link rel="preload" as="style" href="{{ 'theme.css' | asset_url }}">
-<link rel="stylesheet" href="{{ 'theme.css' | asset_url }}" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="{{ 'theme.css' | asset_url }}"></noscript>
+<link rel="preload" as="style" href="{{ 'styles.css' | asset_url }}">
+<link rel="stylesheet" href="{{ 'styles.css' | asset_url }}" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="{{ 'styles.css' | asset_url }}"></noscript>
 
 {%- comment -%} ── PERFORMANCE: fonts (swap) ──────────────────────────── {%- endcomment -%}
 {%- comment -%} If you self-host fonts, add the @font-face here or import a small fonts.css {%- endcomment -%}
@@ -650,7 +650,7 @@ If your theme’s main CSS file is named differently, replace 'theme.css' with '
             console.error('Error fetching JSON data:', error);
         });
     </script>
-    <script src="{{ 'custom-new.js' | asset_url }}"></script>
+    <script src="{{ 'custom-new.js' | asset_url }}" defer></script>
     <!--Gem_Page_Footer_Script-->
   {%- liquid
     assign gpTemplateSuffix = template.suffix

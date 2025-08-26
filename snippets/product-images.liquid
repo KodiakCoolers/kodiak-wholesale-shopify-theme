@@ -39,7 +39,7 @@
 {% capture list %}
   {% for image in product.images %}
     {% comment %}Loop through images only once{% endcomment %}
-    {{ image.id }}`~`{{ image.alt }}`~`{{ image | img_url: '100x' }}`~`{{ image | img_url: '200x' }}`~`{{ image | img_url: '400x' }}`~`{{ image | img_url: '600x' }}`~`{{ image | img_url: '800x' }}`~`{{ image | img_url: '1200x' }}`~`{{ image | img_url: '2000x' }}`~`{{-image.width-}}px`~`{{-image.height-}}px{{ image | product_img_url: '5000x' }}{% if forloop.last == false %}^{% endif %}
+    {{ image.id }}`~`{{ image.alt }}`~`{{ image | img_url: '100x', format: 'webp' }}`~`{{ image | img_url: '200x', format: 'webp' }}`~`{{ image | img_url: '400x', format: 'webp' }}`~`{{ image | img_url: '600x', format: 'webp' }}`~`{{ image | img_url: '800x', format: 'webp' }}`~`{{ image | img_url: '1200x', format: 'webp' }}`~`{{ image | img_url: '2000x', format: 'webp' }}`~`{{-image.width-}}px`~`{{-image.height-}}px{{ image | product_img_url: '5000x' }}{% if forloop.last == false %}^{% endif %}
   {% endfor %}
 {% endcapture %}
 {% assign image_list = list | split: '^' %}

@@ -22,10 +22,7 @@
         f=false,w=window,d=document,v=d.querySelector('#vwoCode'),cK='_vwo_'+account_id+'_settings',cc={};try{var c=JSON.parse(localStorage.getItem('_vwo_'+account_id+'_config'));cc=c&&typeof c==='object'?c:{}}catch(e){}var stT=cc.stT==='session'?w.sessionStorage:w.localStorage;code={use_existing_jquery:function(){return typeof use_existing_jquery!=='undefined'?use_existing_jquery:undefined},library_tolerance:function(){return typeof library_tolerance!=='undefined'?library_tolerance:undefined},settings_tolerance:function(){return cc.sT||settings_tolerance},hide_element_style:function(){return'{'+(cc.hES||hide_element_style)+'}'},hide_element:function(){return typeof cc.hE==='string'?cc.hE:hide_element},getVersion:function(){return version},finish:function(){if(!f){f=true;var e=d.getElementById('_vis_opt_path_hides');if(e)e.parentNode.removeChild(e)}},finished:function(){return f},load:function(e){var t=this.getSettings(),n=d.createElement('script'),i=this;if(t){n.textContent=t;d.getElementsByTagName('head')[0].appendChild(n);if(!w.VWO||VWO.caE){stT.removeItem(cK);i.load(e)}}else{n.fetchPriority='high';n.src=e;n.type='text/javascript';n.onerror=function(){_vwo_code.finish()};d.getElementsByTagName('head')[0].appendChild(n)}},getSettings:function(){try{var e=stT.getItem(cK);if(!e){return}e=JSON.parse(e);if(Date.now()>e.e){stT.removeItem(cK);return}return e.s}catch(e){return}},init:function(){if(d.URL.indexOf('__vwo_disable__')>-1)return;var e=this.settings_tolerance();w._vwo_settings_timer=setTimeout(function(){_vwo_code.finish();stT.removeItem(cK)},e);var t=d.currentScript,n=d.createElement('style'),i=this.hide_element(),r=t&&!t.async&&i?i+this.hide_element_style():'',c=d.getElementsByTagName('head')[0];n.setAttribute('id','_vis_opt_path_hides');v&&n.setAttribute('nonce',v.nonce);n.setAttribute('type','text/css');if(n.styleSheet)n.styleSheet.cssText=r;else n.appendChild(d.createTextNode(r));c.appendChild(n);this.load('https://dev.visualwebsiteoptimizer.com/j.php?a='+account_id+'&u='+encodeURIComponent(d.URL)+'&vn='+version)}};w._vwo_code=code;code.init();})();
     </script>
 
-     <link rel="stylesheet" data-href="{{ 'styles.css' | asset_url }}">
-      <link rel="stylesheet" data-href="{{ 'fancybox.css' | asset_url }}">
-      <link rel="stylesheet" data-href="{{ 'custom.css' | asset_url }}">
-    <link rel="stylesheet" data-href="{{ 'new-custom.css' | asset_url }}">
+     {%- comment -%} CSS files consolidated below to avoid duplication {%- endcomment -%}
       
       {% if template contains "index" %}
     	{% render "index-css" %}
@@ -69,12 +66,13 @@
     <link rel="dns-prefetch" href="https://v.shopify.com">
     <link rel="dns-prefetch" href="https://cdn.shopifycloud.com">
     <link rel="dns-prefetch" href="https://monorail-edge.shopifysvc.com">      
+    {%- comment -%} ── PERFORMANCE: Combined CSS loading (avoid duplication) ──── {%- endcomment -%}
     <link rel="stylesheet" data-href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.css">
     <link rel="stylesheet" data-href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css">
     <link rel="stylesheet" data-href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
-      <link rel="stylesheet" data-href="{{ 'styles.css' | asset_url }}">
-      <link rel="stylesheet" data-href="{{ 'fancybox.css' | asset_url }}">
-      <link rel="stylesheet" data-href="{{ 'custom.css' | asset_url }}">
+    <link rel="stylesheet" data-href="{{ 'styles.css' | asset_url }}">
+    <link rel="stylesheet" data-href="{{ 'fancybox.css' | asset_url }}">
+    <link rel="stylesheet" data-href="{{ 'custom.css' | asset_url }}">
     <link rel="stylesheet" data-href="{{ 'new-custom.css' | asset_url }}">
     
     <script type="lazyload2">
@@ -108,8 +106,8 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script> -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script type="lazyload2" data-src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
-    <script src="{{ 'custom.js' | asset_url }}" async></script>
-    <script src="{{ 'VastaShop.js' | asset_url }}" async></script>
+    <script type="lazyload2" data-src="{{ 'custom.js' | asset_url }}"></script>
+    <script type="lazyload2" data-src="{{ 'VastaShop.js' | asset_url }}"></script>
     <script>
         window.PXUTheme = window.PXUTheme || {};
         window.PXUTheme.version = '9.0.0';
@@ -244,16 +242,16 @@
 {%- comment -%} ── PERFORMANCE: LCP image preload for product pages ───── {%- endcomment -%}
 {%- if template.name == 'product' and product.featured_image -%}
   {%- assign lcp_w = 1600 -%}
-  {%- assign lcp_url = product.featured_image | image_url: width: lcp_w -%}
+  {%- assign lcp_url = product.featured_image | image_url: width: lcp_w, format: 'webp' -%}
   <link
     rel="preload"
     as="image"
     href="{{ lcp_url }}"
     imagesrcset="
-      {{ product.featured_image | image_url: width: 640 }} 640w,
-      {{ product.featured_image | image_url: width: 960 }} 960w,
-      {{ product.featured_image | image_url: width: 1280 }} 1280w,
-      {{ product.featured_image | image_url: width: 1600 }} 1600w"
+      {{ product.featured_image | image_url: width: 640, format: 'webp' }} 640w,
+      {{ product.featured_image | image_url: width: 960, format: 'webp' }} 960w,
+      {{ product.featured_image | image_url: width: 1280, format: 'webp' }} 1280w,
+      {{ product.featured_image | image_url: width: 1600, format: 'webp' }} 1600w"
     imagesizes="(max-width: 800px) 100vw, 800px"
     fetchpriority="high">
 {%- endif -%}
@@ -388,6 +386,22 @@ If your theme’s main CSS file is named differently, replace 'theme.css' with '
     window.addEventListener('mousemove', load3p, { once: true });
     window.addEventListener('click', load3p, { once: true });
   })();
+</script>
+
+{%- comment -%} ── PERFORMANCE: Service Worker Registration ────────── {%- endcomment -%}
+<script>
+  // Register service worker for caching
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('{{ "service-worker.js" | asset_url }}')
+        .then(function(registration) {
+          console.log('ServiceWorker registration successful');
+        })
+        .catch(function(err) {
+          console.log('ServiceWorker registration failed: ', err);
+        });
+    });
+  }
 </script>
 
 {%- comment -%} ── PERFORMANCE: Enhanced lazy loading for sections ────── {%- endcomment -%}
@@ -650,7 +664,7 @@ If your theme’s main CSS file is named differently, replace 'theme.css' with '
             console.error('Error fetching JSON data:', error);
         });
     </script>
-    <script src="{{ 'custom-new.js' | asset_url }}" defer></script>
+    <script type="lazyload2" data-src="{{ 'custom-new.js' | asset_url }}"></script>
     <!--Gem_Page_Footer_Script-->
   {%- liquid
     assign gpTemplateSuffix = template.suffix

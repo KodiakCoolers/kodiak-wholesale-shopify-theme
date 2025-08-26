@@ -304,15 +304,61 @@ All changes are incremental and can be reverted by:
 - **TTI**: ~3.5s → ~2-3s
 - **TBT**: ~400ms → ~150-300ms
 
-## 🔧 Implementation Priority
+## 🔧 UPDATED Implementation Priority (Based on Comprehensive Analysis)
 
-1. **URGENT** - Fix linter errors (parser blocking scripts) ✅
-2. **HIGH** - CSS/JS minification and bundling
-3. **HIGH** - Image optimization and WebP conversion
-4. **HIGH** - Remove unused apps and third-party scripts
-5. **MEDIUM** - Advanced lazy loading implementation
-6. **MEDIUM** - HTML minification and Liquid optimization
-7. **LOW** - Monitoring and maintenance setup
+### **IMMEDIATE (Next 24-48 Hours) - MASSIVE IMPACT**
+
+#### 1. **CSS Bundling** ✨ HUGE REQUEST REDUCTION (6+ requests → 1)
+```liquid
+<!-- Current: Multiple CSS files -->
+<link rel="stylesheet" href="{{ 'styles.css' | asset_url }}">
+<link rel="stylesheet" href="{{ 'fancybox.css' | asset_url }}">  
+<link rel="stylesheet" href="{{ 'custom.css' | asset_url }}">
+<link rel="stylesheet" href="{{ 'new-custom.css' | asset_url }}">
+<link rel="stylesheet" href="bootstrap.min.css">
+<link rel="stylesheet" href="slick.css">
+
+<!-- Target: Single combined file -->
+<link rel="stylesheet" href="{{ 'bundle.min.css' | asset_url }}">
+```
+
+#### 2. **JavaScript Minification** ✨ 50-70% SIZE REDUCTION
+```liquid
+<!-- Current: Multiple large JS files -->
+<script src="{{ 'vendors.js' | asset_url }}" defer></script>      <!-- ~200KB -->
+<script src="{{ 'sections.js' | asset_url }}" defer></script>     <!-- ~150KB -->
+<script src="{{ 'utilities.js' | asset_url }}" defer></script>    <!-- ~100KB -->
+<script src="{{ 'app.js' | asset_url }}" defer></script>          <!-- ~120KB -->
+
+<!-- Target: Minified bundle -->
+<script src="{{ 'bundle.min.js' | asset_url }}" defer></script>   <!-- ~200KB total -->
+```
+
+#### 3. **WebP Image Conversion** ✨ 40-60% IMAGE WEIGHT REDUCTION
+```liquid
+<!-- Current: Traditional formats -->
+{{ product.featured_image | img_url: '800x' }}
+
+<!-- Target: WebP with fallback -->
+{{ product.featured_image | img_url: '800x', format: 'webp' }}
+```
+
+#### 4. **Third-Party App Audit** ✨ 100-200 REQUEST REDUCTION
+- Review Shopify Admin > Apps for unused extensions
+- Remove apps not actively used for conversions
+- Target: Reduce from 481 requests to <300 requests
+
+### **SHORT TERM (Next Week) - HIGH IMPACT**
+5. **Service Worker Implementation** - Cache static assets ✨ REPEAT VISIT SPEED
+6. **Code Splitting** - Dynamic imports for non-critical JS ✨ TTI IMPROVEMENT
+7. **Intersection Observer Enhancement** - More aggressive lazy loading ✨ INITIAL LOAD SPEED
+8. **Font Subsetting** - Reduce font file sizes ✨ RENDER SPEED
+
+### **MEDIUM TERM (Next 2 Weeks) - OPTIMIZATION**  
+9. **HTML Minification** - Remove whitespace from Liquid output
+10. **Advanced Image Optimization** - Responsive images with srcset
+11. **Critical Path Optimization** - Further CSS/JS splitting
+12. **Performance Monitoring** - Real User Monitoring setup
 
 ## 🎉 Summary
 

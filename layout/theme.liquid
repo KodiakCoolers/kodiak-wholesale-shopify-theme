@@ -241,6 +241,45 @@
         </script>
          -->
       <script>(function(w,d,t,r,u){var f,n,i;w[u]=w[u]||[],f=function(){var o={ti:"56375893", enableAutoSpaTracking: true};o.q=w[u],w[u]=new UET(o),w[u].push("pageLoad")},n=d.createElement(t),n.src=r,n.async=1,n.onload=n.onreadystatechange=function(){var s=this.readyState;s&&s!=="loaded"&&s!=="complete"||(f(),n.onload=n.onreadystatechange=null)},i=d.getElementsByTagName(t)[0],i.parentNode.insertBefore(n,i)})(window,document,"script","//bat.bing.com/bat.js","uetq");</script>
+
+{%- comment -%} ── PERFORMANCE: preconnects ───────────────────────────── {%- endcomment -%}
+<link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+{%- comment -%} ── PERFORMANCE: LCP image preload for product pages ───── {%- endcomment -%}
+{%- if template.name == 'product' and product.featured_image -%}
+  {%- assign lcp_w = 1600 -%}
+  {%- assign lcp_url = product.featured_image | image_url: width: lcp_w -%}
+  <link
+    rel="preload"
+    as="image"
+    href="{{ lcp_url }}"
+    imagesrcset="
+      {{ product.featured_image | image_url: width: 640 }} 640w,
+      {{ product.featured_image | image_url: width: 960 }} 960w,
+      {{ product.featured_image | image_url: width: 1280 }} 1280w,
+      {{ product.featured_image | image_url: width: 1600 }} 1600w"
+    imagesizes="(max-width: 800px) 100vw, 800px"
+    fetchpriority="high">
+{%- endif -%}
+
+{%- comment -%} ── PERFORMANCE: critical CSS inline (keep ~8–12KB) ────── {%- endcomment -%}
+{%- render 'critical-css' -%}
+
+{%- comment -%} ── PERFORMANCE: defer main stylesheet ────────────────── {%- endcomment -%}
+{%- comment -%}
+If your theme’s main CSS file is named differently, replace 'theme.css' with 'base.css' or whatever exists in /assets.
+{%- endcomment -%}
+<link rel="preload" as="style" href="{{ 'theme.css' | asset_url }}">
+<link rel="stylesheet" href="{{ 'theme.css' | asset_url }}" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="{{ 'theme.css' | asset_url }}"></noscript>
+
+{%- comment -%} ── PERFORMANCE: fonts (swap) ──────────────────────────── {%- endcomment -%}
+{%- comment -%} If you self-host fonts, add the @font-face here or import a small fonts.css {%- endcomment -%}
+{%- render 'fonts-swap' -%}
+
+
 </head>
     {% if template contains "index" %}
         {% assign feature_image = true %}

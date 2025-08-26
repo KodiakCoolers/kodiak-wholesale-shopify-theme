@@ -108,10 +108,10 @@
     <!-- <script src="{{ 'jquery.min.js' | asset_url }}" defer></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script> -->
     {%- comment -%} ── PERFORMANCE: Critical scripts only - defer all others ── {%- endcomment -%}
-    <script type="lazyload2" data-src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script type="lazyload2" data-src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
-    <script type="lazyload2" data-src="{{ 'custom.js' | asset_url }}"></script>
-    <script type="lazyload2" data-src="{{ 'VastaShop.js' | asset_url }}"></script>
+    <script type="lazyload3" data-src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js" data-priority="0"></script>
+    <script type="lazyload3" data-src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js" data-priority="5"></script>
+    <script type="lazyload3" data-src="{{ 'custom.js' | asset_url }}" data-priority="6"></script>
+    <script type="lazyload3" data-src="{{ 'VastaShop.js' | asset_url }}" data-priority="7"></script>
     {%- comment -%} ── PERFORMANCE: Critical inline JavaScript only ── {%- endcomment -%}
     <script>
         // Essential globals only - no heavy operations
@@ -157,12 +157,12 @@
     <script>
     {% render 'js-variables' %}
     </script>
-    {%- comment -%} ── PERFORMANCE: Defer all non-critical JavaScript ── {%- endcomment -%}
-    <script type="lazyload2" data-src="{{ 'vendors.js' | asset_url }}"></script>
-    <script type="lazyload2" data-src="{{ 'sections.js' | asset_url }}"></script>
-    <script type="lazyload2" data-src="{{ 'utilities.js' | asset_url }}"></script>
-    <script type="lazyload2" data-src="{{ 'app.js' | asset_url }}"></script>
-	<script type="lazyload2" data-src="{{ 'custom-file.js' | asset_url }}"></script>
+    {%- comment -%} ── PERFORMANCE: Ultra-aggressive JS deferral ── {%- endcomment -%}
+    <script type="lazyload3" data-src="{{ 'vendors.js' | asset_url }}" data-priority="1"></script>
+    <script type="lazyload3" data-src="{{ 'sections.js' | asset_url }}" data-priority="2"></script>
+    <script type="lazyload3" data-src="{{ 'utilities.js' | asset_url }}" data-priority="3"></script>
+    <script type="lazyload3" data-src="{{ 'app.js' | asset_url }}" data-priority="4"></script>
+	<script type="lazyload3" data-src="{{ 'custom-file.js' | asset_url }}" data-priority="8"></script>
     {% if settings.disqus_enabled %}
         {% if template contains "blog" or template contains "article" or template contains "index" %}
             <script id="dsq-count-scr" src="//{{ settings.disqus_shortname }}.disqus.com/count.js" async></script>
@@ -258,22 +258,16 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-{%- comment -%} ── PERFORMANCE: LCP image preload for product pages ───── {%- endcomment -%}
+{%- comment -%} ── PERFORMANCE: Aggressive LCP optimization ───── {%- endcomment -%}
 {%- if template.name == 'product' and product.featured_image -%}
-  {%- assign lcp_w = 1600 -%}
-  {%- comment -%} Use original format for LCP preload to ensure compatibility {%- endcomment -%}
-  {%- assign lcp_url = product.featured_image | image_url: width: lcp_w -%}
-  <link
-    rel="preload"
-    as="image"
-    href="{{ lcp_url }}"
-    imagesrcset="
-      {{ product.featured_image | image_url: width: 640 }} 640w,
-      {{ product.featured_image | image_url: width: 960 }} 960w,
-      {{ product.featured_image | image_url: width: 1280 }} 1280w,
-      {{ product.featured_image | image_url: width: 1600 }} 1600w"
-    imagesizes="(max-width: 800px) 100vw, 800px"
-    fetchpriority="high">
+  {%- comment -%} Preload multiple sizes for instant LCP {%- endcomment -%}
+  <link rel="preload" as="image" href="{{ product.featured_image | image_url: width: 800 }}" fetchpriority="high">
+  <link rel="preload" as="image" href="{{ product.featured_image | image_url: width: 400 }}" media="(max-width: 768px)" fetchpriority="high">
+  
+  {%- comment -%} Preload hero section background if exists {%- endcomment -%}
+  {%- if sections.hero.settings.background_image -%}
+    <link rel="preload" as="image" href="{{ sections.hero.settings.background_image | image_url: width: 1920 }}" fetchpriority="high">
+  {%- endif -%}
 {%- endif -%}
 
 {%- comment -%} ── PERFORMANCE: critical CSS inline (keep ~8–12KB) ────── {%- endcomment -%}
@@ -363,89 +357,122 @@
 
 {%- comment -%} ── PERFORMANCE: Delay third-party scripts ────────────────── {%- endcomment -%}
 <script>
-  // Enhanced script loading system for optimal TTI
-  (function optimizedScriptLoader() {
-    let scriptsLoaded = false;
+  // Ultra-optimized script loading system to eliminate main-thread blocking
+  (function ultraOptimizedLoader() {
+    let phase1Complete = false;
+    let phase2Complete = false;
+    let userInteracted = false;
     
-    const loadScripts = () => {
-      if (scriptsLoaded) return;
-      scriptsLoaded = true;
+    // Phase 1: Load only critical scripts immediately after interaction
+    const loadPhase1 = () => {
+      if (phase1Complete) return;
+      phase1Complete = true;
       
-      // Load essential scripts first
-      const essentialScripts = document.querySelectorAll('script[type="lazyload2"]');
-      let loadedCount = 0;
-      
-      const loadNextScript = () => {
-        if (loadedCount >= essentialScripts.length) {
-          // All essential scripts loaded, now load third parties
-          loadThirdPartyScripts();
-          return;
-        }
-        
-        const scriptEl = essentialScripts[loadedCount];
-        const newScript = document.createElement('script');
-        
-        // Copy attributes
-        Array.from(scriptEl.attributes).forEach(attr => {
-          if (attr.name === 'type') return;
-          if (attr.name === 'data-src') {
-            newScript.src = attr.value;
-          } else {
-            newScript.setAttribute(attr.name, attr.value);
-          }
-        });
-        
-        // Copy inline content if exists
-        if (scriptEl.innerHTML.trim()) {
-          newScript.innerHTML = scriptEl.innerHTML;
-        }
-        
-        newScript.onload = newScript.onerror = () => {
-          loadedCount++;
-          // Small delay between scripts to avoid blocking
-          setTimeout(loadNextScript, 50);
-        };
-        
-        document.head.appendChild(newScript);
-        scriptEl.remove();
-      };
-      
-      // Start loading scripts
-      if (essentialScripts.length > 0) {
-        loadNextScript();
-      } else {
-        loadThirdPartyScripts();
-      }
-    };
-    
-    const loadThirdPartyScripts = () => {
-      // Load chat widgets and other third parties
-      if (typeof loadChatWidget !== 'undefined') {
-        setTimeout(loadChatWidget, 100);
-      }
-    };
-    
-    // Load scripts after user interaction or after delay
-    const events = ['scroll', 'touchstart', 'mousemove', 'click'];
-    const removeListeners = () => {
-      events.forEach(event => {
-        window.removeEventListener(event, loadScripts);
+      const criticalScripts = document.querySelectorAll('script[type="lazyload2"]');
+      loadScriptsWithYielding(criticalScripts, () => {
+        // Phase 1 complete, start phase 2 after a delay
+        setTimeout(loadPhase2, 500);
       });
     };
     
-    events.forEach(event => {
-      window.addEventListener(event, () => {
-        loadScripts();
-        removeListeners();
-      }, { once: true });
+    // Phase 2: Load remaining scripts with priorities
+    const loadPhase2 = () => {
+      if (phase2Complete) return;
+      phase2Complete = true;
+      
+      const priorityScripts = Array.from(document.querySelectorAll('script[type="lazyload3"]'))
+        .sort((a, b) => {
+          const aPriority = parseInt(a.getAttribute('data-priority') || '999');
+          const bPriority = parseInt(b.getAttribute('data-priority') || '999');
+          return aPriority - bPriority;
+        });
+      
+      loadScriptsWithYielding(priorityScripts, loadThirdPartyScripts);
+    };
+    
+    // Load scripts with yielding to prevent main-thread blocking
+    const loadScriptsWithYielding = (scripts, onComplete) => {
+      let index = 0;
+      
+      const loadNextBatch = () => {
+        const startTime = performance.now();
+        
+        // Load scripts for max 16ms to maintain 60fps
+        while (index < scripts.length && (performance.now() - startTime) < 16) {
+          const scriptEl = scripts[index];
+          const newScript = document.createElement('script');
+          
+          // Copy attributes
+          Array.from(scriptEl.attributes).forEach(attr => {
+            if (attr.name === 'type' || attr.name.startsWith('data-')) return;
+            if (attr.name === 'data-src') {
+              newScript.src = attr.value;
+            } else {
+              newScript.setAttribute(attr.name, attr.value);
+            }
+          });
+          
+          // Copy inline content if exists
+          if (scriptEl.innerHTML.trim()) {
+            newScript.innerHTML = scriptEl.innerHTML;
+          }
+          
+          // Use async to prevent blocking
+          newScript.async = true;
+          
+          document.head.appendChild(newScript);
+          scriptEl.remove();
+          index++;
+        }
+        
+        if (index < scripts.length) {
+          // Yield to main thread, then continue
+          if ('scheduler' in window && 'postTask' in window.scheduler) {
+            window.scheduler.postTask(loadNextBatch, { priority: 'background' });
+          } else {
+            setTimeout(loadNextBatch, 0);
+          }
+        } else if (onComplete) {
+          onComplete();
+        }
+      };
+      
+      loadNextBatch();
+    };
+    
+    const loadThirdPartyScripts = () => {
+      // Load chat widgets and other third parties with low priority
+      if (typeof loadChatWidget !== 'undefined') {
+        setTimeout(loadChatWidget, 1000);
+      }
+    };
+    
+    // Track user interaction
+    const onUserInteraction = () => {
+      if (userInteracted) return;
+      userInteracted = true;
+      
+      // Remove all interaction listeners
+      ['scroll', 'touchstart', 'mousemove', 'click', 'keydown'].forEach(event => {
+        window.removeEventListener(event, onUserInteraction);
+      });
+      
+      // Start loading with a small delay to let the interaction complete
+      setTimeout(loadPhase1, 100);
+    };
+    
+    // Set up interaction listeners
+    ['scroll', 'touchstart', 'mousemove', 'click', 'keydown'].forEach(event => {
+      window.addEventListener(event, onUserInteraction, { passive: true, once: true });
     });
     
-    // Fallback: load after 3 seconds if no interaction
+    // Fallback: start loading after 5 seconds if no interaction
     window.addEventListener('load', () => {
       setTimeout(() => {
-        loadScripts();
-        removeListeners();
-      }, 3000);
+        if (!userInteracted) {
+          onUserInteraction();
+        }
+      }, 5000);
     });
   })();
 </script>
@@ -603,8 +630,11 @@
       </script>
     {% else %}
      {% unless template.suffix == "new" %}
-       <script>
+       <script type="lazyload3" data-priority="11">
+         // Product gallery handler - deferred for better performance
          function handleFlickityOnScroll() {
+            if (!$('.product_gallery').length) return;
+            
             var $slider = $('.product_gallery').flickity({});
             
             $slider.on('select.flickity', function(event, index) {
@@ -612,15 +642,7 @@
             var imageSrc = $(currentSlide).find('.product-gallery__image').attr('data-imglink');
             if($('.swatch_options .swatch').length>1){
               if ($('.multi_select option[data-image="'+imageSrc+'"]').length > 1) {
-                  
-                  //var isLastSlide = index === $slider.data('flickity').slides.length - 1;
-                  // if (isLastSlide) {
-                  //   var selected_option= $('.style_swatch_design  input:not(:checked)').val();
-                  //   $('.style_swatch_design  input:not(:checked)').prop('checked',true);
-                  // }
-                  // else{
                     var selected_option= $('.style_swatch_design  input:checked').val();
-                  //}
                   var a = $('.multi_select option[data-image="'+imageSrc+'"][data-option2="'+selected_option+'"]').attr('data-option1');
                   var b = $('.multi_select option[data-image="'+imageSrc+'"][data-option2="'+selected_option+'"]').attr('data-option2');
               }
@@ -650,18 +672,11 @@
               }
             } 
           });
-
-          // $('.flickity-prev-next-button').on('click', function() {
-          //     var flkty = $slider.data('flickity');
-          //     var index = flkty.selectedIndex;
-          //     var isLastSlide = index === flkty.slides.length - 1;
-          //     if (isLastSlide) {
-          //       $(".style_swatch_design input:not(:checked)").click();
-          //       var nextOption = $(".style_swatch_design input:checked").val();
-          //       selected_option = nextOption;
-          //     }
-          //   });
-
+          }
+          
+          // Initialize when DOM is ready and scripts are loaded
+          if (typeof $ !== 'undefined' && $.fn.flickity) {
+            handleFlickityOnScroll();
           }
        </script>
        {% endunless %}
@@ -690,46 +705,50 @@
        {% endif %}
     {% endif %}
 
-    <script> 
-        fetch('{{ 'example_color_swatch.json' | asset_url }}') 
-        .then(response => response.json())
-        .then(jsonData => {
-           var data1= jsonData;
-          //console.log(data1);
-          $('.swatch_options .color_swatch_design label').each(function(){
-          var col = $(this).attr('data-value');
-          if (data1) {
-             $.each(data1.Employees.Employee, function(index, employee) {
-             if (employee.name == col ) {
-                //console.log(employee.name);
-                $('.swatch_options .color_swatch_design label[data-value="'+employee.name+'"]').attr('style', 'background-color: #' + employee.hex);
-             }
-             else{
-               //console.log("not found")
-             }
-            });
-           }
-          });
-    
-          $('.swatch_options .style_swatch_design label').each(function(){
-              var col1 = $(this).attr('data-value');
-              if (data1) {
-                  $.each(data1.Employees.Employee, function(indexs, employees) {
-                  if (employees.name == col1 ) {
-                    $('.swatch_options .style_swatch_design label[data-value="'+employees.name+'"]').attr('style', 'background-image: url(' + employees.url+')');
-                  }
-                  else{
-                   //console.log("not found")
-                  }
-                });
+    {%- comment -%} Defer heavy color swatch script {%- endcomment -%}
+    <script type="lazyload3" data-priority="10">
+        // Color swatch initialization - deferred for better performance
+        function initColorSwatches() {
+          fetch('{{ 'example_color_swatch.json' | asset_url }}') 
+          .then(response => response.json())
+          .then(jsonData => {
+             var data1= jsonData;
+            $('.swatch_options .color_swatch_design label').each(function(){
+            var col = $(this).attr('data-value');
+            if (data1) {
+               $.each(data1.Employees.Employee, function(index, employee) {
+               if (employee.name == col ) {
+                  $('.swatch_options .color_swatch_design label[data-value="'+employee.name+'"]').attr('style', 'background-color: #' + employee.hex);
                }
+              });
+             }
             });
-        })
-        .catch(error => {
-            console.error('Error fetching JSON data:', error);
-        });
+      
+            $('.swatch_options .style_swatch_design label').each(function(){
+                var col1 = $(this).attr('data-value');
+                if (data1) {
+                    $.each(data1.Employees.Employee, function(indexs, employees) {
+                    if (employees.name == col1 ) {
+                      $('.swatch_options .style_swatch_design label[data-value="'+employees.name+'"]').attr('style', 'background-image: url(' + employees.url+')');
+                    }
+                  });
+                 }
+              });
+          })
+          .catch(error => {
+              console.error('Error fetching JSON data:', error);
+          });
+        }
+        
+        // Only run if swatches exist on page
+        if (document.querySelector('.swatch_options')) {
+          initColorSwatches();
+        }
     </script>
-    <script type="lazyload2" data-src="{{ 'custom-new.js' | asset_url }}"></script>
+    {%- comment -%} Only load custom-new.js on pages that need it {%- endcomment -%}
+    {% if template contains 'product' or template contains 'cart' or template contains 'collection' %}
+      <script type="lazyload3" data-src="{{ 'custom-new.js' | asset_url }}" data-priority="9"></script>
+    {% endif %}
     <!--Gem_Page_Footer_Script-->
   {%- liquid
     assign gpTemplateSuffix = template.suffix
@@ -1036,14 +1055,20 @@
 
       });
 </script> 
-  <script>
-$(document).ready(function(){
-setTimeout(function(){
-  $('.options_dropdown_select .style_swatch_design .logo-placement-option label.selected_label-1').click();
-  $('.options_dropdown_select .style_swatch_design .production_time_option label.selected_label-1').click();
-},500)
-})
-</script>
+      <script type="lazyload3" data-priority="12">
+      // Defer option selection to reduce initial blocking
+      function initOptionSelections() {
+        if ($('.options_dropdown_select .style_swatch_design .logo-placement-option label.selected_label-1').length) {
+          $('.options_dropdown_select .style_swatch_design .logo-placement-option label.selected_label-1').click();
+        }
+        if ($('.options_dropdown_select .style_swatch_design .production_time_option label.selected_label-1').length) {
+          $('.options_dropdown_select .style_swatch_design .production_time_option label.selected_label-1').click();
+        }
+      }
+      
+      // Run after a delay to avoid blocking
+      setTimeout(initOptionSelections, 500);
+    </script>
 </body>
     	{% if product.vendor != 'Kodiak Coolers' and product.vendor != "Richardson" %}
     		{% render 'quote' %}
@@ -1081,21 +1106,26 @@ setTimeout(function(){
           }
         }  
         
+        // Optimize timer to reduce main-thread blocking
         var x = setInterval(function() {
-          var now = new Date().getTime();
-          var distance = countDownDate - now;
-          var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-          var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-          var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-          var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-          $('.timer_left .days').text(days);
-          $('.timer_left .hours').text(hours); 
-          $('.timer_left .minutes').text(minutes);  
-          $('.timer_left .seconds').text(seconds);
-          if (distance < 0) {
-            clearInterval(x);
-            $('.timer_left').hide(); 
+          // Use requestAnimationFrame to yield to main thread
+          requestAnimationFrame(function() {
+            var now = new Date().getTime();
+            var distance = countDownDate - now;
+            if (distance < 0) {
+              clearInterval(x);
+              $('.timer_left').hide(); 
+              return;
             }
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            $('.timer_left .days').text(days);
+            $('.timer_left .hours').text(hours); 
+            $('.timer_left .minutes').text(minutes);  
+            $('.timer_left .seconds').text(seconds);
+          });
         }, 1000);
  
         function goCheckout(){

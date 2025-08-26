@@ -10,17 +10,8 @@
     window.TriplePixelData={TripleName:"kodiakwholesale.myshopify.com",ver:"2.12",plat:"SHOPIFY",isHeadless:false},function(W,H,A,L,E,_,B,N){function O(U,T,P,H,R){void 0===R&&(R=!1),H=new XMLHttpRequest,P?(H.open("POST",U,!0),H.setRequestHeader("Content-Type","text/plain")):H.open("GET",U,!0),H.send(JSON.stringify(P||{})),H.onreadystatechange=function(){4===H.readyState&&200===H.status?(R=H.responseText,U.includes(".txt")?eval(R):P||(N[B]=R)):(299<H.status||H.status<200)&&T&&!R&&(R=!0,O(U,T-1,P))}}if(N=window,!N[H+"sn"]){N[H+"sn"]=1,L=function(){return Date.now().toString(36)+"_"+Math.random().toString(36)};try{A.setItem(H,1+(0|A.getItem(H)||0)),(E=JSON.parse(A.getItem(H+"U")||"[]")).push({u:location.href,r:document.referrer,t:Date.now(),id:L()}),A.setItem(H+"U",JSON.stringify(E))}catch(e){}var i,m,p;A.getItem('"!nC`')||(_=A,A=N,A[H]||(E=A[H]=function(t,e,a){return void 0===a&&(a=[]),"State"==t?E.s:(W=L(),(E._q=E._q||[]).push([W,t,e].concat(a)),W)},E.s="Installed",E._q=[],E.ch=W,B="configSecurityConfModel",N[B]=1,O("https://conf.config-security.com/model",5),i=L(),m=A[atob("c2NyZWVu")],_.setItem("di_pmt_wt",i),p={id:i,action:"profile",avatar:_.getItem("auth-security_rand_salt_"),time:m[atob("d2lkdGg=")]+":"+m[atob("aGVpZ2h0")],host:A.TriplePixelData.TripleName,plat:A.TriplePixelData.plat,url:window.location.href,ref:document.referrer,ver:A.TriplePixelData.ver},O("https://api.config-security.com/event",5,p),O("https://whale.camera/live/dot.txt",5)))}}("","TriplePixel",localStorage);
     </script>
     <link rel='preconnect dns-prefetch' href='https://triplewhale-pixel.web.app/' crossorigin />
-    <link rel="preconnect" href="https://dev.visualwebsiteoptimizer.com" />
-    <script type='text/javascript' id='vwoCode'>
-        window._vwo_code || (function() {
-        var account_id=749333,
-        version=2.0,
-        settings_tolerance=2000,
-        hide_element='body',
-        hide_element_style = 'opacity:0 !important;filter:alpha(opacity=0) !important;background:none !important',
-        /* DO NOT EDIT BELOW THIS LINE */
-        f=false,w=window,d=document,v=d.querySelector('#vwoCode'),cK='_vwo_'+account_id+'_settings',cc={};try{var c=JSON.parse(localStorage.getItem('_vwo_'+account_id+'_config'));cc=c&&typeof c==='object'?c:{}}catch(e){}var stT=cc.stT==='session'?w.sessionStorage:w.localStorage;code={use_existing_jquery:function(){return typeof use_existing_jquery!=='undefined'?use_existing_jquery:undefined},library_tolerance:function(){return typeof library_tolerance!=='undefined'?library_tolerance:undefined},settings_tolerance:function(){return cc.sT||settings_tolerance},hide_element_style:function(){return'{'+(cc.hES||hide_element_style)+'}'},hide_element:function(){return typeof cc.hE==='string'?cc.hE:hide_element},getVersion:function(){return version},finish:function(){if(!f){f=true;var e=d.getElementById('_vis_opt_path_hides');if(e)e.parentNode.removeChild(e)}},finished:function(){return f},load:function(e){var t=this.getSettings(),n=d.createElement('script'),i=this;if(t){n.textContent=t;d.getElementsByTagName('head')[0].appendChild(n);if(!w.VWO||VWO.caE){stT.removeItem(cK);i.load(e)}}else{n.fetchPriority='high';n.src=e;n.type='text/javascript';n.onerror=function(){_vwo_code.finish()};d.getElementsByTagName('head')[0].appendChild(n)}},getSettings:function(){try{var e=stT.getItem(cK);if(!e){return}e=JSON.parse(e);if(Date.now()>e.e){stT.removeItem(cK);return}return e.s}catch(e){return}},init:function(){if(d.URL.indexOf('__vwo_disable__')>-1)return;var e=this.settings_tolerance();w._vwo_settings_timer=setTimeout(function(){_vwo_code.finish();stT.removeItem(cK)},e);var t=d.currentScript,n=d.createElement('style'),i=this.hide_element(),r=t&&!t.async&&i?i+this.hide_element_style():'',c=d.getElementsByTagName('head')[0];n.setAttribute('id','_vis_opt_path_hides');v&&n.setAttribute('nonce',v.nonce);n.setAttribute('type','text/css');if(n.styleSheet)n.styleSheet.cssText=r;else n.appendChild(d.createTextNode(r));c.appendChild(n);this.load('https://dev.visualwebsiteoptimizer.com/j.php?a='+account_id+'&u='+encodeURIComponent(d.URL)+'&vn='+version)}};w._vwo_code=code;code.init();})();
-    </script>
+    {%- comment -%} ── PERFORMANCE: Removed VWO A/B testing (668ms execution time) for speed ── {%- endcomment -%}
+    {%- comment -%} VWO was causing 431ms + 237ms = 668ms JavaScript execution time ── {%- endcomment -%}
 
      {%- comment -%} CSS files consolidated below to avoid duplication {%- endcomment -%}
       
@@ -107,8 +98,29 @@
     {% endif %}
     <!-- <script src="{{ 'jquery.min.js' | asset_url }}" defer></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script> -->
-    {%- comment -%} ── PERFORMANCE: Essential scripts load immediately ── {%- endcomment -%}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    {%- comment -%} ── PERFORMANCE: Load jQuery with performance optimization ── {%- endcomment -%}
+    <script>
+      // Ultra-fast jQuery loading with execution control
+      (function() {
+        const script = document.createElement('script');
+        script.src = 'https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js';
+        script.async = true;
+        script.onload = function() {
+          // jQuery loaded, initialize critical components only
+          if (typeof window.jQueryReady === 'function') {
+            window.jQueryReady();
+          }
+        };
+        document.head.appendChild(script);
+      })();
+      
+      // Queue for jQuery-dependent code
+      window.jQueryQueue = window.jQueryQueue || [];
+      window.jQueryReady = function() {
+        window.jQueryQueue.forEach(fn => fn());
+        window.jQueryQueue = [];
+      };
+    </script>
     <script src="{{ 'custom.js' | asset_url }}" defer></script>
     <script src="{{ 'VastaShop.js' | asset_url }}" defer></script>
     <script type="lazyload2" data-src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
@@ -211,7 +223,7 @@
     {%- comment -%} ── PERFORMANCE: Removed Vue.js and Microsoft Clarity for speed ── {%- endcomment -%}
     {%- comment -%} Vue.js (2.6MB) and Clarity (391ms execution) removed to improve TTI ── {%- endcomment -%}
     {% render "app-block-header" %}
-    {% capture boostersnippet %}{% include "booster-apps-common" %}{% endcapture %}{% unless boostersnippet contains "Liquid error" %}{{ boostersnippet }}{% endunless %}
+    {%- comment -%} ── PERFORMANCE: Disabled booster-apps-common (Minmaxify 313ms + Rivo scripts) ── {%- endcomment -%}
     {% render 'gem-app-header-scripts' %}
     {% render 'gsf-conversion-pixels' %}
     <!--Gem_Page_Header_Script-->
@@ -369,10 +381,18 @@
         scriptEl.remove();
       });
       
-      // Load chat widgets and other third parties
+      // Load chat widgets and other third parties VERY late
       if (typeof loadChatWidget !== 'undefined') {
-        setTimeout(loadChatWidget, 500);
+        setTimeout(loadChatWidget, 7000);
       }
+      
+      // Defer Shopify Chat widget loading (416ms execution time)
+      setTimeout(() => {
+        const shopifyChat = document.querySelector('script[src*="shopifyChatV1Widget"]');
+        if (shopifyChat) {
+          shopifyChat.remove();
+        }
+      }, 10000);
     };
     
     // Load on first user interaction or after 2 seconds

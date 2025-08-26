@@ -115,6 +115,8 @@
       data-src="{{ image | img_url: '2000x' }}"
       alt="{{ alt | escape }}"
       style="{{ inline_style }}"
+      width="{{ image.width }}"
+      height="{{ image.height }}"
     >
   </div>
 {% else %}
@@ -173,7 +175,7 @@
       >
     </picture>
 {% if tags contains 'show_uploaded_image' %}
-    <div class="appended-image-collection" style="width:{{ width }};left:{{ left }};top: {{top }};transform:{{ transform }};"><div class="append-image-coll"><img src="" class="appended-image" ></div></div>
+    <div class="appended-image-collection" style="width:{{ width }};left:{{ left }};top: {{top }};transform:{{ transform }};"><div class="append-image-coll"><img src="" class="appended-image" width="100" height="100"></div></div>
 {% endif %}
   </div>
 {% endif %}
@@ -188,5 +190,7 @@
     data-src="{{ image | img_url: '2000x' }}"
     alt="{{ alt | escape }}"
     style="{{ inline_style }}"
+    width="{{ image.width }}"
+    height="{{ image.height }}"
   >
 </noscript>

@@ -106,8 +106,8 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script> -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script type="lazyload2" data-src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
-    <script type="lazyload2" data-src="{{ 'custom.js' | asset_url }}"></script>
-    <script type="lazyload2" data-src="{{ 'VastaShop.js' | asset_url }}"></script>
+    <script src="{{ 'custom.js' | asset_url }}" async></script>
+    <script src="{{ 'VastaShop.js' | asset_url }}" async></script>
     <script>
         window.PXUTheme = window.PXUTheme || {};
         window.PXUTheme.version = '9.0.0';
@@ -242,16 +242,17 @@
 {%- comment -%} ── PERFORMANCE: LCP image preload for product pages ───── {%- endcomment -%}
 {%- if template.name == 'product' and product.featured_image -%}
   {%- assign lcp_w = 1600 -%}
-  {%- assign lcp_url = product.featured_image | image_url: width: lcp_w, format: 'webp' -%}
+  {%- comment -%} Use original format for LCP preload to ensure compatibility {%- endcomment -%}
+  {%- assign lcp_url = product.featured_image | image_url: width: lcp_w -%}
   <link
     rel="preload"
     as="image"
     href="{{ lcp_url }}"
     imagesrcset="
-      {{ product.featured_image | image_url: width: 640, format: 'webp' }} 640w,
-      {{ product.featured_image | image_url: width: 960, format: 'webp' }} 960w,
-      {{ product.featured_image | image_url: width: 1280, format: 'webp' }} 1280w,
-      {{ product.featured_image | image_url: width: 1600, format: 'webp' }} 1600w"
+      {{ product.featured_image | image_url: width: 640 }} 640w,
+      {{ product.featured_image | image_url: width: 960 }} 960w,
+      {{ product.featured_image | image_url: width: 1280 }} 1280w,
+      {{ product.featured_image | image_url: width: 1600 }} 1600w"
     imagesizes="(max-width: 800px) 100vw, 800px"
     fetchpriority="high">
 {%- endif -%}
@@ -388,18 +389,21 @@ If your theme’s main CSS file is named differently, replace 'theme.css' with '
   })();
 </script>
 
-{%- comment -%} ── PERFORMANCE: Service Worker Registration ────────── {%- endcomment -%}
+{%- comment -%} ── PERFORMANCE: Service Worker Registration (Conservative) ────────── {%- endcomment -%}
 <script>
-  // Register service worker for caching
-  if ('serviceWorker' in navigator) {
+  // Register service worker for caching (only after page is fully loaded)
+  if ('serviceWorker' in navigator && !window.location.href.includes('shopifypreview')) {
     window.addEventListener('load', function() {
-      navigator.serviceWorker.register('{{ "service-worker.js" | asset_url }}')
-        .then(function(registration) {
-          console.log('ServiceWorker registration successful');
-        })
-        .catch(function(err) {
-          console.log('ServiceWorker registration failed: ', err);
-        });
+      // Delay service worker registration to avoid blocking
+      setTimeout(function() {
+        navigator.serviceWorker.register('{{ "service-worker.js" | asset_url }}')
+          .then(function(registration) {
+            console.log('ServiceWorker registration successful');
+          })
+          .catch(function(err) {
+            console.log('ServiceWorker registration failed: ', err);
+          });
+      }, 2000);
     });
   }
 </script>

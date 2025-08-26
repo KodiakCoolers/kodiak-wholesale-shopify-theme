@@ -262,27 +262,42 @@
                     alt="{{ image_alt }}"
                     class="
                       product-gallery__image
-                      lazyload
+                      {% if forloop.first %}eager{% else %}lazyload{% endif %}
                       {{ settings.image_loading_style }}
                     "
                     data-image-id="{{ product.media[forloop.index0].id }}"
                     data-index="{{ forloop.index0 }}"
                     data-sizes="{% if gallery_click_to_zoom %}100vw{% else %}auto{% endif %}"
                     data-aspectratio="{{ media.width }}/{{ media.height }}"
-                    data-src="{{ media | img_url: '1200x' }}"
+                    {% if forloop.first %}
+                      src="{{ media | img_url: '1200x' }}"
+                      srcset="
+                        {{ image_200x }} 200w,
+                        {{ image_400x }} 400w,
+                        {{ image_600x }} 600w,
+                        {{ image_800x }} 800w,
+                        {{ image_1200x }} 1200w,
+                        {{ image_2000x }} 2000w
+                      "
+                      fetchpriority="high"
+                      loading="eager"
+                    {% else %}
+                      data-src="{{ media | img_url: '1200x' }}"
+                      data-srcset="
+                        {{ image_200x }} 200w,
+                        {{ image_400x }} 400w,
+                        {{ image_600x }} 600w,
+                        {{ image_800x }} 800w,
+                        {{ image_1200x }} 1200w,
+                        {{ image_2000x }} 2000w
+                      "
+                      loading="lazy"
+                      srcset="data:image/svg+xml;utf8,<svg%20xmlns='http://www.w3.org/2000/svg'%20width='{{ media.width }}'%20height='{{ media.height }}'></svg>"
+                    {% endif %}
                     data-imglink="{{ media | img_url: '600x' }}"
-                    data-srcset="
-                      {{ image_200x }} 200w,
-                      {{ image_400x }} 400w,
-                      {{ image_600x }} 600w,
-                      {{ image_800x }} 800w,
-                      {{ image_1200x }} 1200w,
-                      {{ image_2000x }} 2000w
-                    "
                     height="{{ media.height }}"
                     width="{{ media.width }}"
-                    loading="lazy"
-                    srcset="data:image/svg+xml;utf8,<svg%20xmlns='http://www.w3.org/2000/svg'%20width='{{ media.width }}'%20height='{{ media.height }}'></svg>"
+                    decoding="async"
                   >
                 {% else %}
                   <img src="{{ image | img_url: 'master' }}">

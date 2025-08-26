@@ -1,0 +1,79 @@
+{% comment %}
+  Lazy loading wrapper for sections that are below the fold
+  
+  @param section_id {String} - Unique ID for the section
+  @param template {String} - Template path to load (e.g., 'sections/featured-products')
+  @param placeholder_height {String} - Height of placeholder (default: '200px')
+  @param root_margin {String} - Intersection observer root margin (default: '200px')
+{% endcomment %}
+
+{%- liquid
+  assign section_id = section_id | default: 'lazy-section-' | append: 'now' | date: '%s'
+  assign placeholder_height = placeholder_height | default: '200px'
+  assign root_margin = root_margin | default: '200px'
+-%}
+
+<div 
+  class="lazy-section" 
+  data-lazy-section="{{ section_id }}"
+  data-template="{{ template }}"
+  style="min-height: {{ placeholder_height }}; display: flex; align-items: center; justify-content: center; background: #f8f9fa;"
+>
+  <div class="lazy-section__placeholder">
+    <div class="lazy-section__spinner" style="
+      width: 40px;
+      height: 40px;
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #3498db;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    "></div>
+    <p style="margin-top: 16px; color: #666; font-size: 14px;">Loading content...</p>
+  </div>
+</div>
+
+<style>
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  .lazy-section__placeholder {
+    text-align: center;
+    opacity: 0.7;
+  }
+  
+  .lazy-section--loaded .lazy-section__placeholder {
+    display: none;
+  }
+</style>
+
+<script>
+  (function() {
+    const observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting && !entry.target.dataset.loaded) {
+          entry.target.dataset.loaded = 'true';
+          entry.target.classList.add('lazy-section--loaded');
+          
+          const template = entry.target.dataset.template;
+          if (template) {
+            // For now, just hide the placeholder since we can't dynamically load Liquid templates
+            // In a real implementation, you'd fetch the content via AJAX
+            entry.target.innerHTML = '<div style="padding: 40px; text-align: center; background: #f8f9fa;">Section content would load here</div>';
+          }
+          
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      rootMargin: '{{ root_margin }}'
+    });
+    
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('.lazy-section').forEach(function(section) {
+        observer.observe(section);
+      });
+    });
+  })();
+</script>

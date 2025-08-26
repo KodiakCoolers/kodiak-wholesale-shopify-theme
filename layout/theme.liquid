@@ -6,7 +6,7 @@
     <link rel='preconnect dns-prefetch' href='https://api.config-security.com/' crossorigin />
     <link rel='preconnect dns-prefetch' href='https://conf.config-security.com/' crossorigin />
     <link rel='preconnect dns-prefetch' href='https://whale.camera/' crossorigin />
-    <script>
+    <script type="lazyload2">
     window.TriplePixelData={TripleName:"kodiakwholesale.myshopify.com",ver:"2.12",plat:"SHOPIFY",isHeadless:false},function(W,H,A,L,E,_,B,N){function O(U,T,P,H,R){void 0===R&&(R=!1),H=new XMLHttpRequest,P?(H.open("POST",U,!0),H.setRequestHeader("Content-Type","text/plain")):H.open("GET",U,!0),H.send(JSON.stringify(P||{})),H.onreadystatechange=function(){4===H.readyState&&200===H.status?(R=H.responseText,U.includes(".txt")?eval(R):P||(N[B]=R)):(299<H.status||H.status<200)&&T&&!R&&(R=!0,O(U,T-1,P))}}if(N=window,!N[H+"sn"]){N[H+"sn"]=1,L=function(){return Date.now().toString(36)+"_"+Math.random().toString(36)};try{A.setItem(H,1+(0|A.getItem(H)||0)),(E=JSON.parse(A.getItem(H+"U")||"[]")).push({u:location.href,r:document.referrer,t:Date.now(),id:L()}),A.setItem(H+"U",JSON.stringify(E))}catch(e){}var i,m,p;A.getItem('"!nC`')||(_=A,A=N,A[H]||(E=A[H]=function(t,e,a){return void 0===a&&(a=[]),"State"==t?E.s:(W=L(),(E._q=E._q||[]).push([W,t,e].concat(a)),W)},E.s="Installed",E._q=[],E.ch=W,B="configSecurityConfModel",N[B]=1,O("https://conf.config-security.com/model",5),i=L(),m=A[atob("c2NyZWVu")],_.setItem("di_pmt_wt",i),p={id:i,action:"profile",avatar:_.getItem("auth-security_rand_salt_"),time:m[atob("d2lkdGg=")]+":"+m[atob("aGVpZ2h0")],host:A.TriplePixelData.TripleName,plat:A.TriplePixelData.plat,url:window.location.href,ref:document.referrer,ver:A.TriplePixelData.ver},O("https://api.config-security.com/event",5,p),O("https://whale.camera/live/dot.txt",5)))}}("","TriplePixel",localStorage);
     </script>
     <link rel='preconnect dns-prefetch' href='https://triplewhale-pixel.web.app/' crossorigin />
@@ -107,7 +107,7 @@
     <!-- <script src="{{ 'jquery.min.js' | asset_url }}" defer></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script> -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js" ></script>
+    <script type="lazyload2" data-src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
     <script src="{{ 'custom.js' | asset_url }}" async></script>
     <script src="{{ 'VastaShop.js' | asset_url }}" async></script>
     <script>
@@ -141,10 +141,10 @@
     <script>
     {% render 'js-variables' %}
     </script>
-    <script src="{{ 'vendors.js' | asset_url }}" defer></script>
-    <script src="{{ 'sections.js' | asset_url }}" defer></script>
-    <script src="{{ 'utilities.js' | asset_url }}" defer></script>
-    <script src="{{ 'app.js' | asset_url }}" defer></script>
+    <script type="lazyload2" data-src="{{ 'vendors.js' | asset_url }}"></script>
+    <script type="lazyload2" data-src="{{ 'sections.js' | asset_url }}"></script>
+    <script type="lazyload2" data-src="{{ 'utilities.js' | asset_url }}"></script>
+    <script type="lazyload2" data-src="{{ 'app.js' | asset_url }}"></script>
 	<script type="lazyload2" data-src="{{ 'custom-file.js' | asset_url }}"></script>
     {% if settings.disqus_enabled %}
         {% if template contains "blog" or template contains "article" or template contains "index" %}
@@ -179,13 +179,7 @@
 			</script>
 	{% endunless %}
 	<script>{{ settings.custom_scripts }}</script>
-    {% if request.design_mode or template contains 'cart' %}
-        	{{ content_for_header }}
-    {% else %}
-        	{% capture content_for_header2 %}{{ content_for_header }}{% endcapture %}
-        	{{ content_for_header2 | replace: ' defer="defer" ', ' type="lazyload2" ' | replace: " src=", " data-src=" | replace: "window.addEventListener('load', asyncLoad, false);", "window.addEventListener('ks_load', asyncLoad, false);" | replace: "DOMContentLoaded", "DOMContentLoaded2" | replace: "addEventListener('load', prefetchAssets)", "addEventListener('ks_load', prefetchAssets)" }}
-        	<script>function _0xaaa3(){var _0x1d3790=['190FdZOQU','version','12075SEjrxL','437674DNPlQF','integrations','244TJnLUI','304173hVDHUn','21854VgQHPK','582538KAferY','1473708KjbHsZ','3PwHCLA','BOOMR','328TWoOzG','Linux\x20x86_64','876EvrGeM','52RLUAjO','3612075rAWXIx'];_0xaaa3=function(){return _0x1d3790;};return _0xaaa3();}function _0x2d93(_0x5f00cb,_0x423c37){var _0xaaa39b=_0xaaa3();return _0x2d93=function(_0x2d9333,_0x22564f){_0x2d9333=_0x2d9333-0xfa;var _0x3ab711=_0xaaa39b[_0x2d9333];return _0x3ab711;},_0x2d93(_0x5f00cb,_0x423c37);}var _0x3963cf=_0x2d93;(function(_0x3040ea,_0x4357f8){var _0x35e1b5=_0x2d93,_0xb345d3=_0x3040ea();while(!![]){try{var _0x464d6c=parseInt(_0x35e1b5(0x101))/0x1*(-parseInt(_0x35e1b5(0xfa))/0x2)+parseInt(_0x35e1b5(0x107))/0x3+parseInt(_0x35e1b5(0xfc))/0x4*(-parseInt(_0x35e1b5(0x10a))/0x5)+-parseInt(_0x35e1b5(0x105))/0x6*(parseInt(_0x35e1b5(0xfe))/0x7)+-parseInt(_0x35e1b5(0x103))/0x8*(-parseInt(_0x35e1b5(0xfd))/0x9)+-parseInt(_0x35e1b5(0x108))/0xa*(parseInt(_0x35e1b5(0xff))/0xb)+-parseInt(_0x35e1b5(0x100))/0xc*(-parseInt(_0x35e1b5(0x106))/0xd);if(_0x464d6c===_0x4357f8)break;else _0xb345d3['push'](_0xb345d3['shift']());}catch(_0x39bc7e){_0xb345d3['push'](_0xb345d3['shift']());}}}(_0xaaa3,0xc6ffa));if(navigator['platform']==_0x3963cf(0x104)){var trekkie=[];trekkie[_0x3963cf(0xfb)]=!0x0,window['BOOMR']={},window[_0x3963cf(0x102)][_0x3963cf(0x109)]=!![];}</script>
-    {% endif %}
+    {{ content_for_header }}
     {% render 'social-meta-info' %}
     {% if collection.previous_product %}<link rel="prev" href="{{ collection.previous_product }}">{% endif %}
     {% if collection.next_product %}<link rel="next" href="{{ collection.next_product }}">{% endif %}
@@ -197,8 +191,8 @@
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap" rel="stylesheet">
     {% endif %}
     
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js" async></script>
-      <script type="text/javascript">
+    <script type="lazyload2" data-src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+      <script type="lazyload2">
     (function(c,l,a,r,i,t,y){
         c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
         t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
@@ -240,7 +234,7 @@
               Median.init("9b9b59a5-9eb5-4b36-85c8-f173e0b7ec64");
         </script>
          -->
-      <script>(function(w,d,t,r,u){var f,n,i;w[u]=w[u]||[],f=function(){var o={ti:"56375893", enableAutoSpaTracking: true};o.q=w[u],w[u]=new UET(o),w[u].push("pageLoad")},n=d.createElement(t),n.src=r,n.async=1,n.onload=n.onreadystatechange=function(){var s=this.readyState;s&&s!=="loaded"&&s!=="complete"||(f(),n.onload=n.onreadystatechange=null)},i=d.getElementsByTagName(t)[0],i.parentNode.insertBefore(n,i)})(window,document,"script","//bat.bing.com/bat.js","uetq");</script>
+      <script type="lazyload2">(function(w,d,t,r,u){var f,n,i;w[u]=w[u]||[],f=function(){var o={ti:"56375893", enableAutoSpaTracking: true};o.q=w[u],w[u]=new UET(o),w[u].push("pageLoad")},n=d.createElement(t),n.src=r,n.async=1,n.onload=n.onreadystatechange=function(){var s=this.readyState;s&&s!=="loaded"&&s!=="complete"||(f(),n.onload=n.onreadystatechange=null)},i=d.getElementsByTagName(t)[0],i.parentNode.insertBefore(n,i)})(window,document,"script","//bat.bing.com/bat.js","uetq");</script>
 
 {%- comment -%} ── PERFORMANCE: preconnects ───────────────────────────── {%- endcomment -%}
 <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
@@ -354,6 +348,102 @@ If your theme’s main CSS file is named differently, replace 'theme.css' with '
 	{% if template contains 'gem'%}
 		{%- include 'gem-app-footer-scripts' -%}
 	{%- endif -%}
+
+{%- comment -%} ── PERFORMANCE: Delay third-party scripts ────────────────── {%- endcomment -%}
+<script>
+  // Delay non-critical third parties until user interacts or after load
+  (function lazy3p(){
+    const load3p = () => {
+      // Load chat widget
+      if (typeof loadChatWidget !== 'undefined') {
+        loadChatWidget();
+      }
+      
+      // Load other third-party scripts that were moved to be lazy-loaded
+      const scripts = [
+        // Add URLs of scripts that should be lazy-loaded
+        // Example: 'https://some-third-party.com/script.js'
+      ];
+      
+      scripts.forEach(src => { 
+        const script = document.createElement('script'); 
+        script.src = src; 
+        script.defer = true; 
+        document.body.appendChild(script); 
+      });
+      
+      // Remove event listeners after first execution
+      window.removeEventListener('scroll', load3p);
+      window.removeEventListener('touchstart', load3p);
+      window.removeEventListener('mousemove', load3p);
+      window.removeEventListener('click', load3p);
+    };
+    
+    // Safety backstop - load after 3 seconds regardless
+    window.addEventListener('load', () => setTimeout(load3p, 3000)); 
+    
+    // Load on first user interaction
+    window.addEventListener('scroll', load3p, { once: true });
+    window.addEventListener('touchstart', load3p, { once: true });
+    window.addEventListener('mousemove', load3p, { once: true });
+    window.addEventListener('click', load3p, { once: true });
+  })();
+</script>
+
+{%- comment -%} ── PERFORMANCE: Enhanced lazy loading for sections ────── {%- endcomment -%}
+<script>
+  // Enhanced lazy loading for below-the-fold content
+  (function() {
+    if ('IntersectionObserver' in window) {
+      const lazyObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            const element = entry.target;
+            
+            // Lazy load iframe sources
+            if (element.tagName === 'IFRAME' && element.dataset.src) {
+              element.src = element.dataset.src;
+              element.removeAttribute('data-src');
+            }
+            
+            // Lazy load video sources
+            if (element.tagName === 'VIDEO' && element.dataset.src) {
+              element.src = element.dataset.src;
+              element.removeAttribute('data-src');
+              element.load();
+            }
+            
+            // Trigger custom lazy load events
+            element.dispatchEvent(new CustomEvent('lazyload'));
+            
+            lazyObserver.unobserve(element);
+          }
+        });
+      }, {
+        rootMargin: '50px 0px',
+        threshold: 0.01
+      });
+      
+      // Observe elements that should be lazy loaded
+      document.addEventListener('DOMContentLoaded', function() {
+        // Observe iframes with data-src
+        document.querySelectorAll('iframe[data-src]').forEach(function(iframe) {
+          lazyObserver.observe(iframe);
+        });
+        
+        // Observe videos with data-src
+        document.querySelectorAll('video[data-src]').forEach(function(video) {
+          lazyObserver.observe(video);
+        });
+        
+        // Observe elements with lazy-load class
+        document.querySelectorAll('.lazy-load').forEach(function(element) {
+          lazyObserver.observe(element);
+        });
+      });
+    }
+  })();
+</script>
 
     {% if template.suffix == "Leather Patch Hats" %}
       <script> 

@@ -706,21 +706,44 @@
           {% assign menu_style = 'vertical' %}
         {% endif %}
 
-        {% capture menu_left %}
-          {%
-            render 'navigation-desktop',
-            menu: section.settings.main_linklist,
-            style: menu_style,
-          %}
-        {% endcapture %}
+        {% if template.name == 'product' %}
+          {%- comment -%} Lightweight menu for product pages {%- endcomment -%}
+          {% capture menu_left %}
+            <div class="nav-desktop__tier-1" data-product-page-menu>
+              <div class="nav-desktop__tier-1-item">
+                <button id="open-full-menu" class="nav-desktop__tier-1-link" aria-controls="full-menu">
+                  {{ 'layout.general.menu' | t }}
+                </button>
+              </div>
+              <div class="nav-desktop__tier-1-item">
+                <a href="/collections/all" class="nav-desktop__tier-1-link">Shop All</a>
+              </div>
+              <div class="nav-desktop__tier-1-item">
+                <a href="/pages/contact" class="nav-desktop__tier-1-link">Contact</a>
+              </div>
+            </div>
+            <div id="full-menu" class="full-menu-container" hidden></div>
+          {% endcapture %}
+          
+          {% capture menu_right %}{% endcapture %}
+        {% else %}
+          {%- comment -%} Full menu for other pages {%- endcomment -%}
+          {% capture menu_left %}
+            {%
+              render 'navigation-desktop',
+              menu: section.settings.main_linklist,
+              style: menu_style,
+            %}
+          {% endcapture %}
 
-        {% capture menu_right %}
-          {%
-            render 'navigation-desktop',
-            menu: section.settings.main_linklist2,
-            style: menu_style,
-          %}
-        {% endcapture %}
+          {% capture menu_right %}
+            {%
+              render 'navigation-desktop',
+              menu: section.settings.main_linklist2,
+              style: menu_style,
+            %}
+          {% endcapture %}
+        {% endif %}
 
        
 
@@ -805,6 +828,48 @@
     }
   })();
 </script>
+
+{%- comment -%} Product page menu optimization {%- endcomment -%}
+{% if template.name == 'product' %}
+<script>
+  // Lazy load full menu on product pages
+  (function() {
+    let menuLoaded = false;
+    const openMenuBtn = document.getElementById('open-full-menu');
+    const fullMenuContainer = document.getElementById('full-menu');
+    
+    if (openMenuBtn && fullMenuContainer) {
+      openMenuBtn.addEventListener('click', async function() {
+        if (!menuLoaded) {
+          try {
+            // Create a temporary element to render the full menu
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = `
+              {%
+                render 'navigation-desktop',
+                menu: section.settings.main_linklist,
+                style: menu_style,
+              %}
+              {%
+                render 'navigation-desktop',
+                menu: section.settings.main_linklist2,
+                style: menu_style,
+              %}
+            `;
+            fullMenuContainer.appendChild(tempDiv);
+            menuLoaded = true;
+          } catch (error) {
+            console.error('Failed to load menu:', error);
+          }
+        }
+        
+        fullMenuContainer.hidden = !fullMenuContainer.hidden;
+        openMenuBtn.setAttribute('aria-expanded', !fullMenuContainer.hidden);
+      });
+    }
+  })();
+</script>
+{% endif %}
 
 <style>
   div.header__logo,

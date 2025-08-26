@@ -117,13 +117,22 @@
       // Queue for jQuery-dependent code
       window.jQueryQueue = window.jQueryQueue || [];
       window.jQueryReady = function() {
+        // Initialize carousel functions immediately when jQuery loads
+        if (typeof handleFlickityOnScroll === 'function') {
+          handleFlickityOnScroll();
+        }
+        if (typeof handleFlickityOnScroll_hattemplate === 'function') {
+          handleFlickityOnScroll_hattemplate();
+        }
+        
+        // Process any other queued functions
         window.jQueryQueue.forEach(fn => fn());
         window.jQueryQueue = [];
       };
     </script>
     <script src="{{ 'custom.js' | asset_url }}" defer></script>
     <script src="{{ 'VastaShop.js' | asset_url }}" defer></script>
-    <script type="lazyload2" data-src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js" defer></script>
     {%- comment -%} ── PERFORMANCE: Critical inline JavaScript only ── {%- endcomment -%}
     <script>
         // Essential globals only - no heavy operations
@@ -483,8 +492,19 @@
     {% if template.suffix == "Leather Patch Hats" %}
       <script> 
         function handleFlickityOnScroll_hattemplate() {
-           var $slider = $('.product_gallery').flickity({
-        });
+          // Ensure jQuery and Flickity are loaded before initializing
+          if (typeof $ === 'undefined' || typeof $.fn.flickity === 'undefined') {
+            window.jQueryQueue = window.jQueryQueue || [];
+            window.jQueryQueue.push(handleFlickityOnScroll_hattemplate);
+            return;
+          }
+          
+          var $slider = $('.product_gallery').flickity({
+            cellAlign: 'left',
+            contain: true,
+            imagesLoaded: true,
+            lazyLoad: 2
+          });
         $slider.on('select.flickity', function(event, index) {
           var currentSlide = $slider.data('flickity').selectedElement;
           var imageSrc = $(currentSlide).find('.product-gallery__image').attr('data-imglink');
@@ -562,7 +582,19 @@
        <script>
          // Product gallery handler - load immediately for functionality
          function handleFlickityOnScroll() {
-            var $slider = $('.product_gallery').flickity({});
+            // Ensure jQuery and Flickity are loaded before initializing
+            if (typeof $ === 'undefined' || typeof $.fn.flickity === 'undefined') {
+              window.jQueryQueue = window.jQueryQueue || [];
+              window.jQueryQueue.push(handleFlickityOnScroll);
+              return;
+            }
+            
+            var $slider = $('.product_gallery').flickity({
+              cellAlign: 'left',
+              contain: true,
+              imagesLoaded: true,
+              lazyLoad: 2
+            });
             
             $slider.on('select.flickity', function(event, index) {
             var currentSlide = $slider.data('flickity').selectedElement;

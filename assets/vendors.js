@@ -25,15 +25,17 @@ var objectFitImages=function(){"use strict";function e(e,t,n){var i=function(e,t
  * ======================================================================== */
 
 // Optimize Flickity with performance-focused defaults
-if (window.Flickity) {
-    window.Flickity.defaults = Object.assign(window.Flickity.defaults || {}, {
-        lazyLoad: 2,
-        imagesLoaded: true,
-        percentPosition: true,
-        resize: true,
-        setGallerySize: true
-    });
-}
+(function() {
+    if (window.Flickity) {
+        window.Flickity.defaults = Object.assign(window.Flickity.defaults || {}, {
+            lazyLoad: 2,
+            imagesLoaded: true,
+            percentPosition: true,
+            resize: true,
+            setGallerySize: true
+        });
+    }
+})();
 
 // Modern scroll animations replacing Waypoints
 (function() {
@@ -70,4 +72,7 @@ if (window.Flickity) {
     }
 })();
 
-console.info('🚀 Optimized Vendors.js - 50% smaller, modern APIs');
+// Performance info
+if (window.console && window.console.info) {
+    console.info('🚀 Optimized Vendors.js - 50% smaller, modern APIs');
+}

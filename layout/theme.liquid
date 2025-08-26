@@ -100,13 +100,12 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script> -->
     {%- comment -%} ── PERFORMANCE: Load jQuery with performance optimization ── {%- endcomment -%}
     <script>
-      // Ultra-fast jQuery loading with execution control
+      // Load jQuery immediately for functionality
       (function() {
         const script = document.createElement('script');
         script.src = 'https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js';
-        script.async = true;
         script.onload = function() {
-          // jQuery loaded, initialize critical components only
+          // jQuery loaded, initialize critical components
           if (typeof window.jQueryReady === 'function') {
             window.jQueryReady();
           }
@@ -170,8 +169,8 @@
         }, 500);
       });
     </script>
-    <script src="{{ 'custom.js' | asset_url }}" defer></script>
-    <script src="{{ 'VastaShop.js' | asset_url }}" defer></script>
+    <script src="{{ 'custom.js' | asset_url }}"></script>
+    <script src="{{ 'VastaShop.js' | asset_url }}"></script>
     <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js" defer></script>
     <script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js" defer></script>
     {%- comment -%} ── PERFORMANCE: Critical inline JavaScript only ── {%- endcomment -%}
@@ -220,11 +219,11 @@
     {% render 'js-variables' %}
     </script>
     {%- comment -%} ── PERFORMANCE: Core scripts with conservative deferral ── {%- endcomment -%}
-    <script src="{{ 'vendors.js' | asset_url }}" defer></script>
-    <script src="{{ 'sections.js' | asset_url }}" defer></script>
-    <script src="{{ 'utilities.js' | asset_url }}" defer></script>
-    <script src="{{ 'app.js' | asset_url }}" defer></script>
-	<script src="{{ 'custom-file.js' | asset_url }}" defer></script>
+    <script src="{{ 'vendors.js' | asset_url }}"></script>
+    <script src="{{ 'sections.js' | asset_url }}"></script>
+    <script src="{{ 'utilities.js' | asset_url }}"></script>
+    <script src="{{ 'app.js' | asset_url }}"></script>
+	<script src="{{ 'custom-file.js' | asset_url }}"></script>
     {% if settings.disqus_enabled %}
         {% if template contains "blog" or template contains "article" or template contains "index" %}
             <script id="dsq-count-scr" src="//{{ settings.disqus_shortname }}.disqus.com/count.js" async></script>
@@ -750,7 +749,7 @@
         });
     </script>
     {%- comment -%} Load custom-new.js normally {%- endcomment -%}
-    <script src="{{ 'custom-new.js' | asset_url }}" defer></script>
+    <script src="{{ 'custom-new.js' | asset_url }}"></script>
     <!--Gem_Page_Footer_Script-->
   {%- liquid
     assign gpTemplateSuffix = template.suffix

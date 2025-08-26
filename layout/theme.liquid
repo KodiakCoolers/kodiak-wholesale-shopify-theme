@@ -117,18 +117,57 @@
       // Queue for jQuery-dependent code
       window.jQueryQueue = window.jQueryQueue || [];
       window.jQueryReady = function() {
-        // Initialize carousel functions immediately when jQuery loads
-        if (typeof handleFlickityOnScroll === 'function') {
-          handleFlickityOnScroll();
-        }
-        if (typeof handleFlickityOnScroll_hattemplate === 'function') {
-          handleFlickityOnScroll_hattemplate();
-        }
-        
-        // Process any other queued functions
-        window.jQueryQueue.forEach(fn => fn());
-        window.jQueryQueue = [];
+        // Wait a bit for all scripts to load, then initialize carousel
+        setTimeout(function() {
+          // Initialize carousel functions immediately when jQuery loads
+          if (typeof handleFlickityOnScroll === 'function') {
+            handleFlickityOnScroll();
+          }
+          if (typeof handleFlickityOnScroll_hattemplate === 'function') {
+            handleFlickityOnScroll_hattemplate();
+          }
+          
+          // Fallback carousel initialization
+          if (typeof $ !== 'undefined' && typeof $.fn.flickity !== 'undefined') {
+            $('.product_gallery').each(function() {
+              if (!$(this).data('flickity')) {
+                $(this).flickity({
+                  cellAlign: 'left',
+                  contain: true,
+                  imagesLoaded: true,
+                  lazyLoad: 2,
+                  wrapAround: false,
+                  pageDots: false
+                });
+              }
+            });
+          }
+          
+          // Process any other queued functions
+          window.jQueryQueue.forEach(fn => fn());
+          window.jQueryQueue = [];
+        }, 100);
       };
+      
+      // Also try to initialize carousel on DOM ready as backup
+      document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(function() {
+          if (typeof $ !== 'undefined' && typeof $.fn.flickity !== 'undefined') {
+            $('.product_gallery').each(function() {
+              if (!$(this).data('flickity')) {
+                $(this).flickity({
+                  cellAlign: 'left',
+                  contain: true,
+                  imagesLoaded: true,
+                  lazyLoad: 2,
+                  wrapAround: false,
+                  pageDots: false
+                });
+              }
+            });
+          }
+        }, 500);
+      });
     </script>
     <script src="{{ 'custom.js' | asset_url }}" defer></script>
     <script src="{{ 'VastaShop.js' | asset_url }}" defer></script>

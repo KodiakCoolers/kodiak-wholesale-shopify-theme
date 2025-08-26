@@ -107,11 +107,11 @@
     {% endif %}
     <!-- <script src="{{ 'jquery.min.js' | asset_url }}" defer></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script> -->
-    {%- comment -%} ── PERFORMANCE: Critical scripts only - defer all others ── {%- endcomment -%}
-    <script type="lazyload3" data-src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js" data-priority="0"></script>
-    <script type="lazyload3" data-src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js" data-priority="5"></script>
-    <script type="lazyload3" data-src="{{ 'custom.js' | asset_url }}" data-priority="6"></script>
-    <script type="lazyload3" data-src="{{ 'VastaShop.js' | asset_url }}" data-priority="7"></script>
+    {%- comment -%} ── PERFORMANCE: Essential scripts load immediately ── {%- endcomment -%}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="{{ 'custom.js' | asset_url }}" defer></script>
+    <script src="{{ 'VastaShop.js' | asset_url }}" defer></script>
+    <script type="lazyload2" data-src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
     {%- comment -%} ── PERFORMANCE: Critical inline JavaScript only ── {%- endcomment -%}
     <script>
         // Essential globals only - no heavy operations
@@ -157,12 +157,12 @@
     <script>
     {% render 'js-variables' %}
     </script>
-    {%- comment -%} ── PERFORMANCE: Ultra-aggressive JS deferral ── {%- endcomment -%}
-    <script type="lazyload3" data-src="{{ 'vendors.js' | asset_url }}" data-priority="1"></script>
-    <script type="lazyload3" data-src="{{ 'sections.js' | asset_url }}" data-priority="2"></script>
-    <script type="lazyload3" data-src="{{ 'utilities.js' | asset_url }}" data-priority="3"></script>
-    <script type="lazyload3" data-src="{{ 'app.js' | asset_url }}" data-priority="4"></script>
-	<script type="lazyload3" data-src="{{ 'custom-file.js' | asset_url }}" data-priority="8"></script>
+    {%- comment -%} ── PERFORMANCE: Core scripts with conservative deferral ── {%- endcomment -%}
+    <script src="{{ 'vendors.js' | asset_url }}" defer></script>
+    <script src="{{ 'sections.js' | asset_url }}" defer></script>
+    <script src="{{ 'utilities.js' | asset_url }}" defer></script>
+    <script src="{{ 'app.js' | asset_url }}" defer></script>
+	<script src="{{ 'custom-file.js' | asset_url }}" defer></script>
     {% if settings.disqus_enabled %}
         {% if template contains "blog" or template contains "article" or template contains "index" %}
             <script id="dsq-count-scr" src="//{{ settings.disqus_shortname }}.disqus.com/count.js" async></script>
@@ -200,7 +200,7 @@
     {% render 'social-meta-info' %}
     {% if collection.previous_product %}<link rel="prev" href="{{ collection.previous_product }}">{% endif %}
     {% if collection.next_product %}<link rel="next" href="{{ collection.next_product }}">{% endif %}
-    {{ shop.metafields.loox["global_html_head"] }}
+    {%- comment -%} ── PERFORMANCE: Removed Loox reviews (135ms execution) for speed ── {%- endcomment -%}
     {% assign json_url = 'example_color_swatch.json' | asset_url %}
     {% if template.suffix=="new_article_template" %}
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -208,14 +208,8 @@
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap" rel="stylesheet">
     {% endif %}
     
-    <script type="lazyload2" data-src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
-      <script type="lazyload2">
-    (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "agipsaaagp");
-</script>
+    {%- comment -%} ── PERFORMANCE: Removed Vue.js and Microsoft Clarity for speed ── {%- endcomment -%}
+    {%- comment -%} Vue.js (2.6MB) and Clarity (391ms execution) removed to improve TTI ── {%- endcomment -%}
     {% render "app-block-header" %}
     {% capture boostersnippet %}{% include "booster-apps-common" %}{% endcapture %}{% unless boostersnippet contains "Liquid error" %}{{ boostersnippet }}{% endunless %}
     {% render 'gem-app-header-scripts' %}
@@ -350,129 +344,44 @@
 		{% render 'cart-shipping-scripts' %}
 	{% endif %}
     {% include 'vasta-scripts' %}
-	{{ shop.metafields.loox["global_html_body"] }}
+	{%- comment -%} ── PERFORMANCE: Removed Loox reviews body scripts for speed ── {%- endcomment -%}
 	{% if template contains 'gem'%}
 		{%- include 'gem-app-footer-scripts' -%}
 	{%- endif -%}
 
 {%- comment -%} ── PERFORMANCE: Delay third-party scripts ────────────────── {%- endcomment -%}
 <script>
-  // Ultra-optimized script loading system to eliminate main-thread blocking
-  (function ultraOptimizedLoader() {
-    let phase1Complete = false;
-    let phase2Complete = false;
-    let userInteracted = false;
+  // Conservative script loading - only delay non-critical third-party scripts
+  (function conservativeLoader() {
+    let scriptsLoaded = false;
     
-    // Phase 1: Load only critical scripts immediately after interaction
-    const loadPhase1 = () => {
-      if (phase1Complete) return;
-      phase1Complete = true;
+    const loadDelayedScripts = () => {
+      if (scriptsLoaded) return;
+      scriptsLoaded = true;
       
-      const criticalScripts = document.querySelectorAll('script[type="lazyload2"]');
-      loadScriptsWithYielding(criticalScripts, () => {
-        // Phase 1 complete, start phase 2 after a delay
-        setTimeout(loadPhase2, 500);
+      // Load remaining lazyload2 scripts
+      const delayedScripts = document.querySelectorAll('script[type="lazyload2"]');
+      delayedScripts.forEach(scriptEl => {
+        const newScript = document.createElement('script');
+        newScript.src = scriptEl.getAttribute('data-src');
+        newScript.async = true;
+        document.head.appendChild(newScript);
+        scriptEl.remove();
       });
-    };
-    
-    // Phase 2: Load remaining scripts with priorities
-    const loadPhase2 = () => {
-      if (phase2Complete) return;
-      phase2Complete = true;
       
-      const priorityScripts = Array.from(document.querySelectorAll('script[type="lazyload3"]'))
-        .sort((a, b) => {
-          const aPriority = parseInt(a.getAttribute('data-priority') || '999');
-          const bPriority = parseInt(b.getAttribute('data-priority') || '999');
-          return aPriority - bPriority;
-        });
-      
-      loadScriptsWithYielding(priorityScripts, loadThirdPartyScripts);
-    };
-    
-    // Load scripts with yielding to prevent main-thread blocking
-    const loadScriptsWithYielding = (scripts, onComplete) => {
-      let index = 0;
-      
-      const loadNextBatch = () => {
-        const startTime = performance.now();
-        
-        // Load scripts for max 16ms to maintain 60fps
-        while (index < scripts.length && (performance.now() - startTime) < 16) {
-          const scriptEl = scripts[index];
-          const newScript = document.createElement('script');
-          
-          // Copy attributes
-          Array.from(scriptEl.attributes).forEach(attr => {
-            if (attr.name === 'type' || attr.name.startsWith('data-')) return;
-            if (attr.name === 'data-src') {
-              newScript.src = attr.value;
-            } else {
-              newScript.setAttribute(attr.name, attr.value);
-            }
-          });
-          
-          // Copy inline content if exists
-          if (scriptEl.innerHTML.trim()) {
-            newScript.innerHTML = scriptEl.innerHTML;
-          }
-          
-          // Use async to prevent blocking
-          newScript.async = true;
-          
-          document.head.appendChild(newScript);
-          scriptEl.remove();
-          index++;
-        }
-        
-        if (index < scripts.length) {
-          // Yield to main thread, then continue
-          if ('scheduler' in window && 'postTask' in window.scheduler) {
-            window.scheduler.postTask(loadNextBatch, { priority: 'background' });
-          } else {
-            setTimeout(loadNextBatch, 0);
-          }
-        } else if (onComplete) {
-          onComplete();
-        }
-      };
-      
-      loadNextBatch();
-    };
-    
-    const loadThirdPartyScripts = () => {
-      // Load chat widgets and other third parties with low priority
+      // Load chat widgets and other third parties
       if (typeof loadChatWidget !== 'undefined') {
-        setTimeout(loadChatWidget, 1000);
+        setTimeout(loadChatWidget, 500);
       }
     };
     
-    // Track user interaction
-    const onUserInteraction = () => {
-      if (userInteracted) return;
-      userInteracted = true;
-      
-      // Remove all interaction listeners
-      ['scroll', 'touchstart', 'mousemove', 'click', 'keydown'].forEach(event => {
-        window.removeEventListener(event, onUserInteraction);
-      });
-      
-      // Start loading with a small delay to let the interaction complete
-      setTimeout(loadPhase1, 100);
-    };
-    
-    // Set up interaction listeners
-    ['scroll', 'touchstart', 'mousemove', 'click', 'keydown'].forEach(event => {
-      window.addEventListener(event, onUserInteraction, { passive: true, once: true });
+    // Load on first user interaction or after 2 seconds
+    ['scroll', 'touchstart', 'mousemove', 'click'].forEach(event => {
+      window.addEventListener(event, loadDelayedScripts, { once: true });
     });
     
-    // Fallback: start loading after 5 seconds if no interaction
     window.addEventListener('load', () => {
-      setTimeout(() => {
-        if (!userInteracted) {
-          onUserInteraction();
-        }
-      }, 5000);
+      setTimeout(loadDelayedScripts, 2000);
     });
   })();
 </script>
@@ -630,11 +539,9 @@
       </script>
     {% else %}
      {% unless template.suffix == "new" %}
-       <script type="lazyload3" data-priority="11">
-         // Product gallery handler - deferred for better performance
+       <script>
+         // Product gallery handler - load immediately for functionality
          function handleFlickityOnScroll() {
-            if (!$('.product_gallery').length) return;
-            
             var $slider = $('.product_gallery').flickity({});
             
             $slider.on('select.flickity', function(event, index) {
@@ -674,10 +581,12 @@
           });
           }
           
-          // Initialize when DOM is ready and scripts are loaded
-          if (typeof $ !== 'undefined' && $.fn.flickity) {
-            handleFlickityOnScroll();
-          }
+          // Initialize when DOM is ready
+          $(document).ready(function() {
+            setTimeout(function(){
+              handleFlickityOnScroll();
+            }, 1000);
+          });
        </script>
        {% endunless %}
        {% if template.suffix == "new" %}
@@ -705,10 +614,9 @@
        {% endif %}
     {% endif %}
 
-    {%- comment -%} Defer heavy color swatch script {%- endcomment -%}
-    <script type="lazyload3" data-priority="10">
-        // Color swatch initialization - deferred for better performance
-        function initColorSwatches() {
+    <script> 
+        // Color swatch initialization - load immediately for functionality
+        $(document).ready(function() {
           fetch('{{ 'example_color_swatch.json' | asset_url }}') 
           .then(response => response.json())
           .then(jsonData => {
@@ -738,17 +646,10 @@
           .catch(error => {
               console.error('Error fetching JSON data:', error);
           });
-        }
-        
-        // Only run if swatches exist on page
-        if (document.querySelector('.swatch_options')) {
-          initColorSwatches();
-        }
+        });
     </script>
-    {%- comment -%} Only load custom-new.js on pages that need it {%- endcomment -%}
-    {% if template contains 'product' or template contains 'cart' or template contains 'collection' %}
-      <script type="lazyload3" data-src="{{ 'custom-new.js' | asset_url }}" data-priority="9"></script>
-    {% endif %}
+    {%- comment -%} Load custom-new.js normally {%- endcomment -%}
+    <script src="{{ 'custom-new.js' | asset_url }}" defer></script>
     <!--Gem_Page_Footer_Script-->
   {%- liquid
     assign gpTemplateSuffix = template.suffix
@@ -1055,19 +956,14 @@
 
       });
 </script> 
-      <script type="lazyload3" data-priority="12">
-      // Defer option selection to reduce initial blocking
-      function initOptionSelections() {
-        if ($('.options_dropdown_select .style_swatch_design .logo-placement-option label.selected_label-1').length) {
+    <script>
+      // Option selection - load immediately for functionality
+      $(document).ready(function(){
+        setTimeout(function(){
           $('.options_dropdown_select .style_swatch_design .logo-placement-option label.selected_label-1').click();
-        }
-        if ($('.options_dropdown_select .style_swatch_design .production_time_option label.selected_label-1').length) {
           $('.options_dropdown_select .style_swatch_design .production_time_option label.selected_label-1').click();
-        }
-      }
-      
-      // Run after a delay to avoid blocking
-      setTimeout(initOptionSelections, 500);
+        },500);
+      });
     </script>
 </body>
     	{% if product.vendor != 'Kodiak Coolers' and product.vendor != "Richardson" %}

@@ -112,7 +112,11 @@
       {% if additional_classes %}
         class="lozad {{ additional_classes }}"
       {% endif %}
-      data-src="{{ image | img_url: '2000x' }}"
+      data-src="{{ image | img_url: '1200x', format: 'webp' }}"
+      data-srcset="{{ image | img_url: '400x', format: 'webp' }} 400w,
+                   {{ image | img_url: '800x', format: 'webp' }} 800w,
+                   {{ image | img_url: '1200x', format: 'webp' }} 1200w"
+      sizes="(max-width: 768px) 400px, (max-width: 1024px) 800px, 1200px"
       alt="{{ alt | escape }}"
       style="{{ inline_style }}"
       width="{{ image.width }}"
@@ -162,7 +166,11 @@
         {% if low_quality_image %}
           src="{{ low_quality_image }}"
         {% endif %}
-        data-src="{{ image | img_url: '1600x' }}"
+        data-src="{{ image | img_url: '1200x', format: 'webp' }}"
+        data-srcset="{{ image | img_url: '400x', format: 'webp' }} 400w,
+                     {{ image | img_url: '800x', format: 'webp' }} 800w,
+                     {{ image | img_url: '1200x', format: 'webp' }} 1200w"
+        sizes="(max-width: 768px) 400px, (max-width: 1024px) 800px, 1200px"
         data-sizes="auto"
         data-aspectratio="{{ image.width }}/{{ image.height }}"
         data-srcset="{{ srcset }}"
@@ -187,7 +195,11 @@
       lozad noscript
       {{ additional_classes }}
     "
-    data-src="{{ image | img_url: '2000x' }}"
+    data-src="{{ image | img_url: '1200x', format: 'webp' }}"
+    data-srcset="{{ image | img_url: '400x', format: 'webp' }} 400w,
+                 {{ image | img_url: '800x', format: 'webp' }} 800w,
+                 {{ image | img_url: '1200x', format: 'webp' }} 1200w"
+    sizes="(max-width: 768px) 400px, (max-width: 1024px) 800px, 1200px"
     alt="{{ alt | escape }}"
     style="{{ inline_style }}"
     width="{{ image.width }}"

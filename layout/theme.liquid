@@ -40,7 +40,7 @@
     {% if current_tags %}{% assign meta_tags = current_tags | join: ', ' %}{% endif %}
     <title>
     {% if template contains "index" %}{{ page_title }}{% else %}{{ page_title }}{% if current_tags %} {{ 'general.meta.tagged_html' | t: tags: meta_tags }}{% endif %}{% if current_page != 1 %} {{ 'general.meta.page' | t: page_number: current_page }}{% endif %}{% unless page_title contains shop.name %} - {{ shop.name }}{% endunless %}{% endif %}
-    </title><div id="aria-screenreader" style="position:absolute; font-size:1200px; max-width:99vw; max-height:99vh; pointer-events:none; z-index: 99999; color:transparent; overflow:hidden;">skip to content</div>
+    </title><div id="aria-screenreader" class="sr-only">skip to content</div>
       
     {% if page_description %}
         <meta name="description" content="{% if template contains 'search' %} {{ page_title }} - {{ shop.name }} {% else %}{{ page_description | escape }}{% if current_tags %} {{ 'general.meta.tagged_html' | t: tags: meta_tags | escape }}.{% endif %}{% if current_page != 1 %} {{ 'general.meta.page' | t: page_number: current_page }}.{% endif %}{% endif %}">
@@ -148,18 +148,40 @@
         }, 100);
       };
       
-      // Also try to initialize carousel on DOM ready as backup
+      // Initialize carousel when visible to reduce TBT
       document.addEventListener('DOMContentLoaded', function() {
-        // Multiple attempts to initialize carousel
-        let attempts = 0;
-        const maxAttempts = 10;
-        
-        function tryInitCarousel() {
-          attempts++;
-          
-          if (typeof Flickity !== 'undefined') {
-            var galleries = document.querySelectorAll('.product_gallery');
-            galleries.forEach(function(gallery) {
+        if (!('IntersectionObserver' in window)) return;
+        const galleries = document.querySelectorAll('.product_gallery');
+        if (!galleries.length) return;
+        const observer = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (!entry.isIntersecting) return;
+            const gallery = entry.target;
+            observer.unobserve(gallery);
+            if (typeof Flickity === 'undefined') {
+              // Retry a few times until Flickity arrives
+              let tries = 0;
+              const waitForFlickity = function() {
+                tries++;
+                if (typeof Flickity !== 'undefined') {
+                  try {
+                    if (!gallery.flickityInstance) {
+                      gallery.flickityInstance = new Flickity(gallery, {
+                        cellAlign: 'left',
+                        contain: true,
+                        imagesLoaded: true,
+                        lazyLoad: 2,
+                        wrapAround: false,
+                        pageDots: false
+                      });
+                    }
+                  } catch (e) {}
+                } else if (tries < 10) {
+                  setTimeout(waitForFlickity, 200);
+                }
+              };
+              waitForFlickity();
+            } else {
               if (!gallery.flickityInstance) {
                 try {
                   gallery.flickityInstance = new Flickity(gallery, {
@@ -170,19 +192,12 @@
                     wrapAround: false,
                     pageDots: false
                   });
-                  console.log('Flickity initialized successfully');
-                } catch (error) {
-                  console.warn('Flickity initialization failed:', error);
-                }
+                } catch (e) {}
               }
-            });
-          } else if (attempts < maxAttempts) {
-            // Try again in 500ms
-            setTimeout(tryInitCarousel, 500);
-          }
-        }
-        
-        setTimeout(tryInitCarousel, 500);
+            }
+          });
+        }, { rootMargin: '0px 0px -20% 0px', threshold: 0.05 });
+        galleries.forEach(function(g){ observer.observe(g); });
       });
     </script>
     <script>
@@ -287,8 +302,10 @@
         });
       });
     </script>
+    {% if template.name == 'product' %}
     <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js" defer></script>
     <script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js" defer></script>
+    {% endif %}
     {%- comment -%} ── PERFORMANCE: Critical inline JavaScript only ── {%- endcomment -%}
     <script>
         // Essential globals only - no heavy operations
@@ -460,6 +477,20 @@
 
 {%- comment -%} ── PERFORMANCE: critical CSS inline (keep ~8–12KB) ────── {%- endcomment -%}
 {%- render 'critical-css' -%}
+<style>
+  /* Visually hidden utility to eliminate CLS from oversized a11y div */
+  .sr-only {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+  }
+</style>
 
 {%- comment -%} ── PERFORMANCE: Main stylesheet already loaded above ── {%- endcomment -%}
 

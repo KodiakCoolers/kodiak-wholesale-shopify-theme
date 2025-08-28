@@ -2,6 +2,86 @@
 
 This document summarizes all the performance optimizations implemented for the Kodiak Wholesale Shopify theme based on the GTmetrix report showing ~481 requests and ~10.2 MB on mobile.
 
+## 🔎 Latest GTmetrix Action Plan (Product Page)
+
+Reports reviewed: `tBsMBbTT`, `CYuBpI2u`
+
+- **Total payload (LCP context)**: 8.39 MB (target: < 2.0 MB)
+- **JavaScript execution (TBT driver)**: 1.8 s total CPU (target: < 150 ms TBT)
+- **Long main-thread tasks**: 20
+- **CLS sources**: large offscreen a11y element; late fonts; late third-party CSS/JS
+
+### Top offenders observed
+- Images 160–200 KB each loading early (multiple hero/gallery candidates)
+- Shopify preview bar vendor JS: 184 KB (preview only)
+- Third-party scripts causing CPU: jQuery (349 ms), Shopify modules, Flickity (151 ms), Minmaxify limits, Klaviyo, Dealeasy, Rivo
+- CLS from `#aria-screenreader` (1200px font-size box), late font swaps, portable wallets CSS
+
+---
+
+## 🎯 Priority roadmap (plan → implement → test → launch)
+
+### P0 — Reduce LCP payload and block time (highest impact)
+1) Images (hero/product gallery)
+   - Enforce responsive sizing for all product/gallery images via `srcset`/`sizes` tuned to real viewport breakpoints.
+   - Convert where possible to AVIF/WebP; cap initial LCP image to the rendered size (no 2k variants by default).
+   - Only first selected image eager with `fetchpriority="high"`; thumbnails and non-selected variants strictly lazy.
+   - Verify `width`/`height` present to avoid layout shifts.
+
+2) Preview bar and preview-only assets
+   - Ensure preview-bar vendor JS (184 KB) is not present on production; guard with `{% if request.design_mode %}`.
+
+3) Third-party JS CPU/TBT
+   - Defer/disable: Minmaxify limits, Dealeasy, Rivo tracking on initial view; load behind a facade on first interaction or after idle.
+   - Klaviyo: keep tiny beacon, defer heavy UI bundles until user intent; consolidate duplicate vendor chunks.
+   - Flickity: load only on product templates and only when the gallery is within viewport; delay init to idle.
+
+4) Core JS
+   - Re-scope `vendors.js`: keep theme-critical libs; split optional libs to a secondary chunk loaded conditionally.
+   - Minify `custom-new.js` and split non-critical features behind idle/visibility.
+   - Replace immediate DOM scans/loops with chunked work (`requestIdleCallback`/`scheduler.postTask`).
+
+### P1 — Fix CLS and long tasks
+5) CLS fixes
+   - Replace current `#aria-screenreader` styling with a proper visually-hidden utility (no layout footprint).
+   - Add `font-display: swap` (already) and preload only the exact Nunito weights in use; subset if possible.
+   - Ensure dynamic blocks (announcements/badges) reserve space with fixed heights/aspect ratios.
+
+6) Long tasks hygiene
+   - Break up initialization blocks >50 ms; gate optional widgets behind user intent; remove `InstantClick` if gains are marginal.
+   - Confirm jQuery-plugins initialize only when their target exists and is visible.
+
+### P2 — Network and loading order
+7) Resource hints
+   - `preconnect`/`dns-prefetch`: Shopify CDN, Google Ajax, Klaviyo, unpkg (Flickity), only where still used.
+   - Audit duplicate loads of app/vendor bundles; remove preview-only assets from live theme.
+
+8) Caching
+   - Verify service worker/static caching strategy for repeat visits; ensure it does not delay first paint.
+
+---
+
+## ✅ Execution checklist (what we will do next)
+
+- [ ] Guard preview bar assets with `{% if request.design_mode %}` so they never ship on live.
+- [ ] Product media: tighten `srcset`/`sizes` and cap widths; add AVIF where safe; confirm only first image is eager.
+- [ ] Delay Flickity load/init until gallery visibility; ensure not loaded sitewide.
+- [ ] Introduce a lightweight `sr-only` CSS utility and apply to `#aria-screenreader` to eliminate CLS.
+- [ ] Facade loaders for Dealeasy, Rivo, Klaviyo UI bundles; keep beacons minimal; shift heavy JS to idle/interaction.
+- [ ] Rework `vendors.js` into core + optional chunk; remove unused libs; minify.
+- [ ] Minify/split `custom-new.js`; move optional features behind idle/visibility.
+- [ ] Remove/disable `InstantClick` if it contributes >150 ms long task without measurable nav gains.
+- [ ] Add/verify preconnect hints: Shopify CDN, Google Ajax, Klaviyo, unpkg.
+- [ ] Re-run GTmetrix (mobile + desktop) and iterate on any remaining long tasks >150 ms.
+
+### Success criteria for this pass
+- LCP payload (initial) ≤ 2.0 MB
+- TBT < 300 ms on desktop, trending toward < 150 ms
+- CLS < 0.02 from a11y and fonts
+- No more than 1 carousel-related long task > 100 ms
+
+---
+
 ## 📊 Performance Results Analysis
 
 ### Before Optimization (Baseline)

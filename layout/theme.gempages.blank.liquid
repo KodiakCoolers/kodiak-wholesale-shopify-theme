@@ -52,7 +52,7 @@
     {% if current_tags %}{% assign meta_tags = current_tags | join: ', ' %}{% endif %}
     <title>
     {% if template contains "index" %}{{ page_title }}{% else %}{{ page_title }}{% if current_tags %} {{ 'general.meta.tagged_html' | t: tags: meta_tags }}{% endif %}{% if current_page != 1 %} {{ 'general.meta.page' | t: page_number: current_page }}{% endif %}{% unless page_title contains shop.name %} - {{ shop.name }}{% endunless %}{% endif %}
-    </title><div id="aria-screenreader" style="position:absolute; font-size:1200px; max-width:99vw; max-height:99vh; pointer-events:none; z-index: 99999; color:transparent; overflow:hidden;">skip to content</div>
+    </title><div id="aria-screenreader" class="sr-only">skip to content</div>
       
     {% if page_description %}
         <meta name="description" content="{% if template contains 'search' %} {{ page_title }} - {{ shop.name }} {% else %}{{ page_description | escape }}{% if current_tags %} {{ 'general.meta.tagged_html' | t: tags: meta_tags | escape }}.{% endif %}{% if current_page != 1 %} {{ 'general.meta.page' | t: page_number: current_page }}.{% endif %}{% endif %}">

@@ -150,27 +150,143 @@
       
       // Also try to initialize carousel on DOM ready as backup
       document.addEventListener('DOMContentLoaded', function() {
-        setTimeout(function() {
+        // Multiple attempts to initialize carousel
+        let attempts = 0;
+        const maxAttempts = 10;
+        
+        function tryInitCarousel() {
+          attempts++;
+          
           if (typeof Flickity !== 'undefined') {
             var galleries = document.querySelectorAll('.product_gallery');
             galleries.forEach(function(gallery) {
               if (!gallery.flickityInstance) {
-                gallery.flickityInstance = new Flickity(gallery, {
-                  cellAlign: 'left',
-                  contain: true,
-                  imagesLoaded: true,
-                  lazyLoad: 2,
-                  wrapAround: false,
-                  pageDots: false
+                try {
+                  gallery.flickityInstance = new Flickity(gallery, {
+                    cellAlign: 'left',
+                    contain: true,
+                    imagesLoaded: true,
+                    lazyLoad: 2,
+                    wrapAround: false,
+                    pageDots: false
+                  });
+                  console.log('Flickity initialized successfully');
+                } catch (error) {
+                  console.warn('Flickity initialization failed:', error);
+                }
+              }
+            });
+          } else if (attempts < maxAttempts) {
+            // Try again in 500ms
+            setTimeout(tryInitCarousel, 500);
+          }
+        }
+        
+        setTimeout(tryInitCarousel, 500);
+      });
+    </script>
+    <script>
+      // Load critical scripts after jQuery
+      window.jQueryQueue = window.jQueryQueue || [];
+      
+      function loadCriticalScripts() {
+        const criticalScripts = [
+          '{{ "custom.js" | asset_url }}',
+          '{{ "VastaShop.js" | asset_url }}'
+        ];
+        
+        criticalScripts.forEach(function(src) {
+          const script = document.createElement('script');
+          script.src = src;
+          document.head.appendChild(script);
+        });
+      }
+      
+      window.jQueryQueue.push(loadCriticalScripts);
+      
+      // Backup add-to-cart functionality
+      window.jQueryQueue.push(function() {
+        // Simple add to cart handler as backup
+        $(document).on('click', '.add_to_cart', function(e) {
+          const form = $(this).closest('form[action*="/cart/add"]');
+          if (form.length) {
+            const formData = form.serialize();
+            
+            $.ajax({
+              url: '/cart/add.js',
+              type: 'POST',
+              data: formData,
+              dataType: 'json',
+              success: function(response) {
+                console.log('Added to cart:', response);
+                // Refresh cart display
+                $.getJSON('/cart.js', function(cart) {
+                  $('.cart_count').text(cart.item_count);
+                  // Show cart drawer if available
+                  $('.cart-container').addClass('active_link');
+                  setTimeout(function() {
+                    $('.cart-container').removeClass('active_link');
+                  }, 3000);
                 });
+              },
+              error: function(xhr, status, error) {
+                console.error('Add to cart failed:', error);
+                alert('Error adding item to cart. Please try again.');
               }
             });
           }
-        }, 500);
+        });
+        
+        // Simple cart button handler
+        $(document).on('click', '.mini_cart, .cart-icon', function(e) {
+          e.preventDefault();
+          $('.cart-container').toggleClass('active_link');
+        });
+        
+        // Simple mega menu functionality
+        $(document).on('mouseenter', '.nav ul li:has(.dropdown)', function() {
+          $(this).addClass('show-dropdown');
+        }).on('mouseleave', '.nav ul li:has(.dropdown)', function() {
+          $(this).removeClass('show-dropdown');
+        });
+        
+        // Mobile menu toggle
+        $(document).on('click', '[data-mobile-menu-trigger]', function(e) {
+          e.preventDefault();
+          $(this).closest('[data-mobile-menu]').toggleClass('active');
+        });
+        
+        // Variant image switching functionality
+        $(document).on('change', 'select[name="id"], input[name^="option-"]', function() {
+          const form = $(this).closest('form[action*="/cart/add"]');
+          const select = form.find('select[name="id"]');
+          const selectedOption = select.find('option:selected');
+          const imageUrl = selectedOption.attr('data-image');
+          
+          if (imageUrl && imageUrl !== '') {
+            // Update main product image
+            const mainImage = $('.product-gallery__image').first();
+            if (mainImage.length) {
+              mainImage.attr('src', imageUrl);
+            }
+            
+            // Update any Flickity carousel if present
+            if (typeof Flickity !== 'undefined') {
+              const gallery = document.querySelector('.product_gallery');
+              if (gallery && gallery.flickityInstance) {
+                // Find the slide with matching image and select it
+                const slides = gallery.querySelectorAll('.product-gallery__image');
+                slides.forEach(function(slide, index) {
+                  if (slide.getAttribute('data-imglink') === imageUrl) {
+                    gallery.flickityInstance.select(index);
+                  }
+                });
+              }
+            }
+          }
+        });
       });
     </script>
-    <script src="{{ 'custom.js' | asset_url }}"></script>
-    <script src="{{ 'VastaShop.js' | asset_url }}"></script>
     <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js" defer></script>
     <script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js" defer></script>
     {%- comment -%} ── PERFORMANCE: Critical inline JavaScript only ── {%- endcomment -%}
@@ -218,12 +334,29 @@
     <script>
     {% render 'js-variables' %}
     </script>
-    {%- comment -%} ── PERFORMANCE: Core scripts with conservative deferral ── {%- endcomment -%}
-    <script src="{{ 'vendors.js' | asset_url }}"></script>
-    <script src="{{ 'sections.js' | asset_url }}"></script>
-    <script src="{{ 'utilities.js' | asset_url }}"></script>
-    <script src="{{ 'app.js' | asset_url }}"></script>
-	<script src="{{ 'custom-file.js' | asset_url }}"></script>
+    {%- comment -%} ── PERFORMANCE: Core scripts loaded after jQuery ── {%- endcomment -%}
+    <script>
+      // Ensure scripts load after jQuery is ready
+      window.jQueryQueue = window.jQueryQueue || [];
+      
+      function loadCoreScripts() {
+        const scripts = [
+          '{{ "vendors.js" | asset_url }}',
+          '{{ "sections.js" | asset_url }}',
+          '{{ "utilities.js" | asset_url }}',
+          '{{ "app.js" | asset_url }}',
+          '{{ "custom-file.js" | asset_url }}'
+        ];
+        
+        scripts.forEach(function(src) {
+          const script = document.createElement('script');
+          script.src = src;
+          document.head.appendChild(script);
+        });
+      }
+      
+      window.jQueryQueue.push(loadCoreScripts);
+    </script>
     {% if settings.disqus_enabled %}
         {% if template contains "blog" or template contains "article" or template contains "index" %}
             <script id="dsq-count-scr" src="//{{ settings.disqus_shortname }}.disqus.com/count.js" async></script>
@@ -748,8 +881,24 @@
           });
         });
     </script>
-    {%- comment -%} Load custom-new.js normally {%- endcomment -%}
-    <script src="{{ 'custom-new.js' | asset_url }}"></script>
+    {%- comment -%} Load custom-new.js after jQuery {%- endcomment -%}
+    <script>
+      // Load additional custom scripts after jQuery
+      if (typeof $ !== 'undefined') {
+        // jQuery is already loaded
+        const script = document.createElement('script');
+        script.src = '{{ "custom-new.js" | asset_url }}';
+        document.head.appendChild(script);
+      } else {
+        // Queue for when jQuery loads
+        window.jQueryQueue = window.jQueryQueue || [];
+        window.jQueryQueue.push(function() {
+          const script = document.createElement('script');
+          script.src = '{{ "custom-new.js" | asset_url }}';
+          document.head.appendChild(script);
+        });
+      }
+    </script>
     <!--Gem_Page_Footer_Script-->
   {%- liquid
     assign gpTemplateSuffix = template.suffix

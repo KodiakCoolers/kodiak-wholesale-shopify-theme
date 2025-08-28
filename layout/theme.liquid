@@ -99,107 +99,7 @@
     <!-- <script src="{{ 'jquery.min.js' | asset_url }}" defer></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script> -->
     {%- comment -%} ── PERFORMANCE: Load jQuery with performance optimization ── {%- endcomment -%}
-    <script>
-      // Load jQuery immediately for functionality
-      (function() {
-        const script = document.createElement('script');
-        script.src = 'https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js';
-        script.onload = function() {
-          // jQuery loaded, initialize critical components
-          if (typeof window.jQueryReady === 'function') {
-            window.jQueryReady();
-          }
-        };
-        document.head.appendChild(script);
-      })();
-      
-      // Queue for jQuery-dependent code
-      window.jQueryQueue = window.jQueryQueue || [];
-      window.jQueryReady = function() {
-        // Wait a bit for all scripts to load, then initialize carousel
-        setTimeout(function() {
-          // Initialize carousel functions immediately when jQuery loads
-          if (typeof handleFlickityOnScroll === 'function') {
-            handleFlickityOnScroll();
-          }
-          if (typeof handleFlickityOnScroll_hattemplate === 'function') {
-            handleFlickityOnScroll_hattemplate();
-          }
-          
-          // Fallback carousel initialization
-          if (typeof $ !== 'undefined' && typeof $.fn.flickity !== 'undefined') {
-            $('.product_gallery').each(function() {
-              if (!$(this).data('flickity')) {
-                $(this).flickity({
-                  cellAlign: 'left',
-                  contain: true,
-                  imagesLoaded: true,
-                  lazyLoad: 2,
-                  wrapAround: false,
-                  pageDots: false
-                });
-              }
-            });
-          }
-          
-          // Process any other queued functions
-          window.jQueryQueue.forEach(fn => fn());
-          window.jQueryQueue = [];
-        }, 100);
-      };
-      
-      // Initialize carousel when visible to reduce TBT
-      document.addEventListener('DOMContentLoaded', function() {
-        if (!('IntersectionObserver' in window)) return;
-        const galleries = document.querySelectorAll('.product_gallery');
-        if (!galleries.length) return;
-        const observer = new IntersectionObserver(function(entries) {
-          entries.forEach(function(entry) {
-            if (!entry.isIntersecting) return;
-            const gallery = entry.target;
-            observer.unobserve(gallery);
-            if (typeof Flickity === 'undefined') {
-              // Retry a few times until Flickity arrives
-              let tries = 0;
-              const waitForFlickity = function() {
-                tries++;
-                if (typeof Flickity !== 'undefined') {
-                  try {
-                    if (!gallery.flickityInstance) {
-                      gallery.flickityInstance = new Flickity(gallery, {
-                        cellAlign: 'left',
-                        contain: true,
-                        imagesLoaded: true,
-                        lazyLoad: 2,
-                        wrapAround: false,
-                        pageDots: false
-                      });
-                    }
-                  } catch (e) {}
-                } else if (tries < 10) {
-                  setTimeout(waitForFlickity, 200);
-                }
-              };
-              waitForFlickity();
-            } else {
-              if (!gallery.flickityInstance) {
-                try {
-                  gallery.flickityInstance = new Flickity(gallery, {
-                    cellAlign: 'left',
-                    contain: true,
-                    imagesLoaded: true,
-                    lazyLoad: 2,
-                    wrapAround: false,
-                    pageDots: false
-                  });
-                } catch (e) {}
-              }
-            }
-          });
-        }, { rootMargin: '0px 0px -20% 0px', threshold: 0.05 });
-        galleries.forEach(function(g){ observer.observe(g); });
-      });
-    </script>
+    <script src="{{ 'jquery-bootstrap.js' | asset_url }}"></script>
     <script>
       // Load critical scripts after jQuery
       window.jQueryQueue = window.jQueryQueue || [];
@@ -207,7 +107,8 @@
       function loadCriticalScripts() {
         const criticalScripts = [
           '{{ "custom.js" | asset_url }}',
-          '{{ "VastaShop.js" | asset_url }}'
+          '{{ "VastaShop.js" | asset_url }}',
+          '{{ "product-variant-swatch.js" | asset_url }}'
         ];
         
         criticalScripts.forEach(function(src) {
@@ -300,11 +201,79 @@
             }
           }
         });
+
+        // Ensure swatch clicks update the actual variant select and image
+        function selectVariantFromSwatches() {
+          try {
+            var color = $('.swatch_options .color_swatch_design input:checked').val() || $('.swatch_options .color_swatch_design label[aria-checked="true"]').attr('data-value') || $('.swatch_options .color_swatch_design .selected_label-1').attr('data-value');
+            var style = $('.swatch_options .style_swatch_design input:checked').val() || $('.swatch_options .style_swatch_design label[aria-checked="true"]').attr('data-value') || $('.swatch_options .style_swatch_design .selected_label-1').attr('data-value');
+
+            var $variantSelect = $('select[name="id"]');
+            var $opt = $();
+
+            if ($('.multi_select option').length) {
+              if (color && style) {
+                $opt = $('.multi_select option[data-option1="'+color+'"][data-option2="'+style+'"]').first();
+              }
+              if (!$opt.length && color) {
+                $opt = $('.multi_select option[data-option1="'+color+'"]').first();
+              }
+              if (!$opt.length && style) {
+                $opt = $('.multi_select option[data-option2="'+style+'"]').first();
+              }
+              if (!$opt.length) {
+                $opt = $('.multi_select option').first();
+              }
+              if ($opt.length) {
+                $('.multi_select').val($opt.val()).trigger('change');
+                if ($variantSelect.length) $variantSelect.val($opt.val()).trigger('change');
+              }
+            } else if ($('.single_select option').length) {
+              var singleVal = color || style;
+              if (singleVal) {
+                $opt = $('.single_select option[data-option1="'+singleVal+'"]').first();
+              }
+              if (!$opt.length) $opt = $('.single_select option').first();
+              if ($opt.length) {
+                $('.single_select').val($opt.val()).trigger('change');
+                if ($variantSelect.length) $variantSelect.val($opt.val()).trigger('change');
+              }
+            }
+
+            // If option carries image, update gallery
+            var imageUrl = $opt && $opt.attr('data-image');
+            if (imageUrl && imageUrl !== '') {
+              var mainImage = $('.product-gallery__image').first();
+              if (mainImage.length) {
+                mainImage.attr('src', imageUrl);
+              }
+              if (typeof Flickity !== 'undefined') {
+                var gallery = document.querySelector('.product_gallery');
+                if (gallery && gallery.flickityInstance) {
+                  var slides = gallery.querySelectorAll('.product-gallery__image');
+                  slides.forEach(function(slide, index) {
+                    if (slide.getAttribute('data-imglink') === imageUrl) {
+                      gallery.flickityInstance.select(index);
+                    }
+                  });
+                }
+              }
+            }
+          } catch (e) {
+            // no-op
+          }
+        }
+
+        // Bind swatch click/change to variant selection
+        $(document).on('click change', '.swatch_options .color_swatch_design input, .swatch_options .style_swatch_design input, .swatch_options .color_swatch_design label, .swatch_options .style_swatch_design label', function() {
+          setTimeout(selectVariantFromSwatches, 0);
+        });
       });
     </script>
     {% if template.name == 'product' %}
     <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js" defer></script>
     <script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js" defer></script>
+    <script src="{{ 'carousel-init.js' | asset_url }}" defer></script>
     {% endif %}
     {%- comment -%} ── PERFORMANCE: Critical inline JavaScript only ── {%- endcomment -%}
     <script>

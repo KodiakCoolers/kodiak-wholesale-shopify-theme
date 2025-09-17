@@ -1,0 +1,110 @@
+{%- comment -%}
+Renders the Apparel Bundle UI as a BLOCK inside product-template.
+Passes product & block contexts from the parent section.
+{%- endcomment -%}
+
+{%- assign empty_array = '' | split: '' -%}
+{%- assign fc_variants = block.settings.addon_front_colors.variants  | default: empty_array -%}
+{%- assign bc_variants = block.settings.addon_back_colors.variants   | default: empty_array -%}
+{%- assign r_variants  = block.settings.addon_rush.variants          | default: empty_array -%}
+{%- assign t_variants  = block.settings.addon_tumblers.variants      | default: empty_array -%}
+
+<script>
+window.BUNDLE_ADDONS = {
+  frontColors: {
+    productId: {{ block.settings.addon_front_colors.id | default: 'null' }},
+    variants: {
+      "24":  {{ fc_variants | where: "title", "24"  | first | json }},
+      "48":  {{ fc_variants | where: "title", "48"  | first | json }},
+      "100": {{ fc_variants | where: "title", "100" | first | json }}
+    }
+  },
+  backColors: {
+    productId: {{ block.settings.addon_back_colors.id | default: 'null' }},
+    variants: {
+      "24":  {{ bc_variants | where: "title", "24"  | first | json }},
+      "48":  {{ bc_variants | where: "title", "48"  | first | json }},
+      "100": {{ bc_variants | where: "title", "100" | first | json }}
+    }
+  },
+  rush: {
+    productId: {{ block.settings.addon_rush.id | default: 'null' }},
+    variants: {
+      "24":  {{ r_variants | where: "title", "24"  | first | json }},
+      "48":  {{ r_variants | where: "title", "48"  | first | json }},
+      "100": {{ r_variants | where: "title", "100" | first | json }}
+    }
+  },
+  tumblers: {
+    productId: {{ block.settings.addon_tumblers.id | default: 'null' }},
+    variants: {
+      "24":  {{ t_variants | where: "title", "24"  | first | json }},
+      "48":  {{ t_variants | where: "title", "48"  | first | json }},
+      "100": {{ t_variants | where: "title", "100" | first | json }}
+    }
+  }
+};
+</script>
+
+{{ 'apparel-bundle.js' | asset_url | script_tag }}
+{%- comment -%}
+If you prefer defer:
+<script src="{{ 'apparel-bundle.js' | asset_url }}" defer></script>
+{%- endcomment -%}
+
+{%- form 'product', product, id: 'bundle-product-form', action: '/cart/add' -%}
+  <input type="hidden" id="bundleVariantId" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+  <input type="hidden" id="bundlePack" name="properties[_bundle_pack]" value="">
+
+  {% comment %}
+    PACK CARDS (add your 24/48/100 UI here if you have it as markup)
+  {% endcomment %}
+
+  <div class="sizes-grid">
+    {%- assign sizes = "YS, YM, YL, S, M, L, XL, 2XL, 3XL" | split: ", " -%}
+    <div class="sizes-row">
+      {%- for s in sizes -%}
+        <label class="size-cell">
+          <span>{{ s }}</span>
+          <input class="js-size-input" data-size="{{ s }}" type="number" min="0" step="1" value="0" inputmode="numeric">
+        </label>
+      {%- endfor -%}
+    </div>
+    <div class="sizes-summary">
+      Allocated: <strong class="js-size-total">0</strong> / <strong class="js-tier-total">0</strong>
+    </div>
+  </div>
+
+  <div class="bundle-options">
+    <label>Front print colors
+      <select id="frontColors">
+        <option value="1">1 color (included)</option>
+        <option value="2">2 colors</option>
+        <option value="3">3 colors</option>
+        <option value="4">4 colors</option>
+        <option value="5">5 colors</option>
+      </select>
+    </label>
+
+    <label>Back print colors
+      <select id="backColors">
+        <option value="0">No back print</option>
+        <option value="1">1 color</option>
+        <option value="2">2 colors</option>
+        <option value="3">3 colors</option>
+        <option value="4">4 colors</option>
+        <option value="5">5 colors</option>
+      </select>
+    </label>
+
+    <label class="option-checkbox">
+      <input type="checkbox" id="rush"> Add Rush / Priority Processing
+    </label>
+
+    <label class="option-checkbox">
+      <input type="checkbox" id="bundleTumblers"> Add matching tumbler bundle
+    </label>
+  </div>
+
+  <button type="submit" class="btn btn--primary">Add Bundle to Cart</button>
+{%- endform -%}

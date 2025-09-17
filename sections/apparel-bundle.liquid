@@ -1,0 +1,116 @@
+{%- comment -%} Data for JS {%- endcomment -%}
+<script>
+window.BUNDLE_ADDONS = {
+  frontColors:{ productId: {{ block.settings.addon_front_colors.id | default: 'null' }},
+    variants:{
+      "24": {{ block.settings.addon_front_colors.variants | where: "title", "24" | first | default: nil | json }},
+      "48": {{ block.settings.addon_front_colors.variants | where: "title", "48" | first | default: nil | json }},
+      "100": {{ block.settings.addon_front_colors.variants | where: "title", "100" | first | default: nil | json }}
+    }},
+  backColors:{ productId: {{ block.settings.addon_back_colors.id | default: 'null' }},
+    variants:{
+      "24": {{ block.settings.addon_back_colors.variants | where: "title", "24" | first | default: nil | json }},
+      "48": {{ block.settings.addon_back_colors.variants | where: "title", "48" | first | default: nil | json }},
+      "100": {{ block.settings.addon_back_colors.variants | where: "title", "100" | first | default: nil | json }}
+    }},
+  rush:{ productId: {{ block.settings.addon_rush.id | default: 'null' }},
+    variants:{
+      "24": {{ block.settings.addon_rush.variants | where: "title", "24" | first | default: nil | json }},
+      "48": {{ block.settings.addon_rush.variants | where: "title", "48" | first | default: nil | json }},
+      "100": {{ block.settings.addon_rush.variants | where: "title", "100" | first | default: nil | json }}
+    }},
+  tumblers:{ productId: {{ block.settings.addon_tumblers.id | default: 'null' }},
+    variants:{
+      "24": {{ block.settings.addon_tumblers.variants | where: "title", "24" | first | default: nil | json }},
+      "48": {{ block.settings.addon_tumblers.variants | where: "title", "48" | first | default: nil | json }},
+      "100": {{ block.settings.addon_tumblers.variants | where: "title", "100" | first | default: nil | json }}
+    }}
+};
+</script>
+
+<script src="{{ 'apparel-bundle.js' | asset_url }}" defer></script>
+
+<div class="apparel-bundle" {{ block.shopify_attributes }}>
+  <h3 class="apparel-bundle__title">Apparel Bundle</h3>
+
+  <div class="sizes-grid">
+    {%- assign sizes = "YS, YM, YL, S, M, L, XL, 2XL, 3XL" | split: ", " -%}
+    <div class="sizes-row">
+      {%- for s in sizes -%}
+        <label class="size-cell">
+          <span>{{ s }}</span>
+          <input class="js-size-input" data-size="{{ s }}" type="number" min="0" step="1" value="0" inputmode="numeric">
+        </label>
+      {%- endfor -%}
+    </div>
+    <div class="sizes-summary">
+      Allocated: <strong class="js-size-total">0</strong> / <strong class="js-tier-total">0</strong>
+    </div>
+  </div>
+
+  <div class="bundle-options">
+    <label>Front print colors
+      <select id="frontColors">
+        <option value="1">1 color (included)</option>
+        <option value="2">2 colors</option>
+        <option value="3">3 colors</option>
+        <option value="4">4 colors</option>
+        <option value="5">5 colors</option>
+      </select>
+    </label>
+
+    <label>Back print colors
+      <select id="backColors">
+        <option value="0">No back print</option>
+        <option value="1">1 color</option>
+        <option value="2">2 colors</option>
+        <option value="3">3 colors</option>
+        <option value="4">4 colors</option>
+        <option value="5">5 colors</option>
+      </select>
+    </label>
+
+    <label class="option-checkbox">
+      <input type="checkbox" id="rush"> Add Rush / Priority Processing
+    </label>
+
+    <label class="option-checkbox">
+      <input type="checkbox" id="bundleTumblers"> Add matching tumbler bundle
+    </label>
+  </div>
+
+  <button type="button" class="btn btn--primary" id="bundleAddToCart">Add Bundle to Cart</button>
+</div>
+
+{%- for block in section.blocks -%}
+  {%- case block.type -%}
+    {%- when 'quote_configurator' -%}
+      {% render 'quote-configurator-block', block: block, product: product %}
+  {%- endcase -%}
+{%- endfor -%}
+
+
+{% schema %}
+{
+  "name": "Apparel Bundle",
+  "blocks": [
+    {
+      "type": "quote_configurator",
+      "name": "Quote Configurator",
+      "settings": []
+    }
+  ],
+  "settings": [
+    { "type": "text",   "id": "best_deal",       "label": "Best deal pack (24/48/100)", "default": "100" },
+
+    { "type": "number", "id": "unit_price_24",   "label": "Unit price 24 (optional)",   "default": 0 },
+    { "type": "number", "id": "unit_price_48",   "label": "Unit price 48 (optional)",   "default": 0 },
+    { "type": "number", "id": "unit_price_100",  "label": "Unit price 100 (optional)",  "default": 0 },
+
+    { "type": "product","id": "addon_front_colors", "label": "Addon - Front colors" },
+    { "type": "product","id": "addon_back_colors",  "label": "Addon - Back colors"  },
+    { "type": "product","id": "addon_rush",         "label": "Addon - Rush"         },
+    { "type": "product","id": "addon_tumblers",     "label": "Addon - Tumblers"     }
+  ]
+}
+{% endschema %}

@@ -112,17 +112,12 @@ function chooseTypeOfPrint(type) {
 function chooseColorsFront(value) {
   maxFront = parseInt(value);
   
-  // Show/hide front location section
+  // Always show front location section since we default to 1 front color
   const frontLocationSection = document.getElementById('front-location-section');
-  const frontUploadSection = document.getElementById('front-upload-section');
+  const frontUploadBox = document.getElementById('front-upload-box');
   
-  if (maxFront > 0) {
-    if (frontLocationSection) frontLocationSection.style.display = 'block';
-    if (frontUploadSection) frontUploadSection.style.display = 'block';
-  } else {
-    if (frontLocationSection) frontLocationSection.style.display = 'none';
-    if (frontUploadSection) frontUploadSection.style.display = 'none';
-  }
+  if (frontLocationSection) frontLocationSection.style.display = 'block';
+  if (frontUploadBox) frontUploadBox.style.display = 'block';
   
   validateStep1();
 }
@@ -130,16 +125,19 @@ function chooseColorsFront(value) {
 function chooseColorsBack(value) {
   maxBack = parseInt(value);
   
-  // Show/hide back location section and upload section
+  // Show/hide back elements based on selection
   const backLocationSection = document.getElementById('back-location-section');
-  const backUploadSection = document.getElementById('back-upload-section');
+  const backUploadBox = document.getElementById('back-upload-box');
+  const backColorSelect = document.getElementById('colorBack');
   
   if (maxBack > 0) {
     if (backLocationSection) backLocationSection.style.display = 'block';
-    if (backUploadSection) backUploadSection.style.display = 'block';
+    if (backUploadBox) backUploadBox.style.display = 'block';
+    if (backColorSelect) backColorSelect.style.display = 'block';
   } else {
     if (backLocationSection) backLocationSection.style.display = 'none';
-    if (backUploadSection) backUploadSection.style.display = 'none';
+    if (backUploadBox) backUploadBox.style.display = 'none';
+    if (backColorSelect) backColorSelect.style.display = 'none';
   }
   
   validateStep1();
@@ -202,8 +200,8 @@ function validateStep2() {
   }
 }
 
-// Handle file uploads for front and back designs
-function handleFileUpload(inputId, previewId) {
+// Initialize file upload for the new structure
+function initializeFileUpload(inputId, previewId) {
   const input = document.getElementById(inputId);
   const preview = document.getElementById(previewId);
   
@@ -224,7 +222,7 @@ function handleFileUpload(inputId, previewId) {
       }
       
       const fileName = document.createElement('span');
-      fileName.textContent = file.name.length > 20 ? file.name.substring(0, 20) + '...' : file.name;
+      fileName.textContent = file.name.length > 30 ? file.name.substring(0, 30) + '...' : file.name;
       fileItem.appendChild(fileName);
       
       const removeBtn = document.createElement('span');
@@ -246,6 +244,34 @@ function handleFileUpload(inputId, previewId) {
   });
 }
 
+// Initialize size buttons
+function initializeSizeButtons() {
+  const sizeButtons = document.querySelectorAll('.size-btn');
+  sizeButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      // Toggle active state
+      this.classList.toggle('active');
+    });
+  });
+}
+
+// Initialize add to cart button
+function initializeAddToCart() {
+  const addToCartBtn = document.querySelector('.add-to-cart-btn');
+  if (addToCartBtn) {
+    addToCartBtn.addEventListener('click', function() {
+      // Collect form data and add to cart
+      console.log('Add to cart clicked');
+      // TODO: Implement add to cart functionality
+    });
+  }
+}
+
+// Legacy function for compatibility
+function handleFileUpload(inputId, previewId) {
+  return initializeFileUpload(inputId, previewId);
+}
+
 // Initialize when DOM is ready
 $(document).ready(function() {
   // Initialize step 2 button click handler
@@ -263,9 +289,15 @@ $(document).ready(function() {
   chooseColorsFront(1); // This will show front location and upload sections
   chooseColorsBack(0);  // This will hide back sections
   
-  // Initialize file upload handlers
-  handleFileUpload('frontDesignUpload', 'front-file-preview');
-  handleFileUpload('backDesignUpload', 'back-file-preview');
+  // Initialize file upload handlers for new structure
+  initializeFileUpload('frontDesignUpload', 'front-file-preview');
+  initializeFileUpload('backDesignUpload', 'back-file-preview');
+  
+  // Initialize size buttons
+  initializeSizeButtons();
+  
+  // Initialize add to cart button
+  initializeAddToCart();
   
   // Set up color swatches if they exist
   const swatches = $('.gf_swatches-selector[data-name="Color"] .gf_swatch');

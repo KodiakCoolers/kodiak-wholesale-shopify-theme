@@ -42,422 +42,134 @@ This is an inline version without modal functionality
 
 <div class="quote-configurator-block" {{ block.shopify_attributes }}>
   <div class="quote-configurator-content">
-    <ul
-      class="nav nav-pills justify-content-center mb-3"
-      id="pills-tab"
-      role="tablist"
-    >
-      <li class="nav-item" role="presentation">
-        <button
-          class="nav-link active"
-          id="pills-design-tab"
-          data-bs-toggle="pill"
-          data-bs-target="#pills-design"
-          type="button"
-          role="tab"
-          aria-controls="pills-design"
-          aria-selected="true"
-        >
-          <span class="d-md-none">1 - Design</span>
-          <span class="d-none d-md-block">1 - Design & Ink Colors</span>
-        </button>
-      </li>
-      <li class="nav-item" role="presentation">
-        <button
-          class="nav-link"
-          id="pills-qty-tab"
-          data-bs-toggle="pill"
-          data-bs-target="#pills-qty"
-          type="button"
-          role="tab"
-          aria-controls="pills-qty"
-          aria-selected="false"
-          disabled
-        >
-          <span class="d-md-none">2 - Products</span>
-          <span class="d-none d-md-block">2 - Choose Qty & Colors</span>
-        </button>
-      </li>
-      <li class="nav-item" role="presentation">
-        <button
-          class="nav-link"
-          id="pills-review-tab"
-          data-bs-toggle="pill"
-          data-bs-target="#pills-review"
-          type="button"
-          role="tab"
-          aria-controls="pills-review"
-          aria-selected="false"
-          disabled
-        >
-          <span class="d-md-none">3 - Price</span>
-          <span class="d-none d-md-block">3 - Review Pricing</span>
-        </button>
-      </li>
-    </ul>
-    <div class="tab-content" id="pills-tabContent">
-      <div
-        class="tab-pane fade show active"
-        id="pills-design"
-        role="tabpanel"
-        aria-labelledby="pills-design-tab"
-      >
-        <h2 class="title-text">
-          Upload Your Design & Choose Print Options
-        </h2>
-        <p class="text-muted text-small">
-          Upload your design if available now (or skip) & choose the
-          number of colors and choose the number of ink colors for each
-          side
-        </p>                
-        <div class="step-content">
+    <h2 class="section-title">ENTER CUSTOM PRINT DETAILS</h2>
+    
+    <div class="print-details-section">
           <!-- Type of print is always screen printing, so hide this section -->
           <input type="hidden" name="type" value="screen" />
-          <div class="choose-colors" id="choose-colors">
-            <p><strong>How many colors are in your design?</strong></p>
-            <p id="subtxt" class="text-muted text-small">
-              Colors count in screen-printing because each color requires a unique screen. Save money by reducing ink colors with one or two colors per side.
-            </p>
-             <div class="invalid-feedback" style="margin-bottom: 14px;margin-top: -10px;">Atleast one color required.</div>
-            <div class="row">
-              <div class="col-6">
-                        <select
-                          name="colorFront"
-                          id="colorFront"
-                          onchange="chooseColorsFront(this.value)"
-                        >
-                          <option value="0">No Design - Front</option>
-                          <option value="1" selected>1 color front</option>
-                          <option value="2">2 colors front</option>
-                          <option value="3">3 colors front</option>
-                          <option value="4">4 colors front</option>
-                          <option value="5">5 colors front</option>
-                          <option value="6">6 colors front</option>
-                          <option value="7">7 colors front</option>
-                          <option value="8">8 colors front</option>
-                        </select>
-              </div>
-              <div class="col-6">
-                <select
-                  name="colorBack"
-                  id="colorBack"
-                  onchange="chooseColorsBack(this.value)"
-                >
-                  <option value="0">No Design - Back</option>
-                  <option value="1">1 color back</option>
-                  <option value="2">2 colors back</option>
-                  <option value="3">3 colors back</option>
-                  <option value="4">4 colors back</option>
-                  <option value="5">5 colors back</option>
-                  <option value="6">6 colors back</option>
-                  <option value="7">7 colors back</option>
-                  <option value="8">8 colors back</option>
-                </select>
-              </div>
-            </div>
-            {% comment %}
-            <div class="row mt-3">
-              <div class="col-6">
-                <select
-                  name="sleeveLeft"
-                  id="sleeveLeft"
-                  onchange="chooseSleeveLeft(this.value)"
-                >
-                  <option value="0">No Design - Sleeve Left</option>
-                  <option value="1">1 sleeve printing left</option>
-                  <option value="2">2 sleeve printings left</option>
-                  <option value="3">3 sleeve printings left</option>
-                  <option value="4">4 sleeve printings left</option>
-                  <option value="5">5 sleeve printings left</option>
-                  <option value="6">6 sleeve printings left</option>
-                  <option value="7">7 sleeve printings left</option>
-                  <option value="8">8 sleeve printings left</option>
-                </select>
-              </div>
-              <div class="col-6">
-                <select
-                  name="sleeveRight"
-                  id="sleeveRight"
-                  onchange="chooseSleeveRight(this.value)"
-                >
-                  <option value="0">No Design - Sleeve Right</option>
-                  <option value="1">1 sleeve printing right</option>
-                  <option value="2">2 sleeve printings right</option>
-                  <option value="3">3 sleeve printings right</option>
-                  <option value="4">4 sleeve printings right</option>
-                  <option value="5">5 sleeve printings right</option>
-                  <option value="6">6 sleeve printings right</option>
-                  <option value="7">7 sleeve printings right</option>
-                  <option value="8">8 sleeve printings right</option>
-                </select>
-              </div>
-            </div>
-            {% endcomment %}
-            
-            <!-- Front Design Location -->
-            <div class="design-location-section" id="front-location-section" style="display: none;">
-              <p><strong>Where do you want your front design to go?</strong></p>
-              <div class="location-options">
-                <label>
-                  <input type="radio" name="frontLocation" value="full-front" checked>
-                  Full Front (Large and Centered)
-                </label>
-                <label>
-                  <input type="radio" name="frontLocation" value="left-chest">
-                  Left Chest (Smaller)
-                </label>
-                <label>
-                  <input type="radio" name="frontLocation" value="other">
-                  Other (please specify below)
-                </label>
-              </div>
-            </div>
-            
-            <!-- Back Design Location -->
-            <div class="design-location-section" id="back-location-section" style="display: none;">
-              <p><strong>Where do you want your back design to go?</strong></p>
-              <div class="location-options">
-                <label>
-                  <input type="radio" name="backLocation" value="full-back" checked>
-                  Full Back (large and centered)
-                </label>
-                <label>
-                  <input type="radio" name="backLocation" value="other">
-                  Other (please specify below)
-                </label>
-              </div>
-            </div>
-            
-            <!-- File Upload Sections -->
-            <div class="file-upload-sections">
-              <p class="upload-note"><strong>Upload your best design files. Max file size 10MB.</strong><br>
-              Vector files preferred. We'll create proofs for your review before it prints.</p>
-              
-              <!-- Front Design Upload -->
-              <div class="compact-upload-section" id="front-upload-section" style="display: none;">
-                <h4>Upload Front Design</h4>
-                <div class="compact-file-upload">
-                  <input type="file" id="frontDesignUpload" accept="image/*,.ai,.eps,.pdf,.psd" multiple>
-                  <label for="frontDesignUpload" class="upload-label">
-                    <span class="upload-button">Choose file</span>
-                    <span class="upload-text">or drop file to upload</span>
-                  </label>
-                  <div class="file-preview" id="front-file-preview"></div>
-                </div>
-              </div>
-              
-              <!-- Back Design Upload -->
-              <div class="compact-upload-section" id="back-upload-section" style="display: none;">
-                <h4>Upload Back Design</h4>
-                <div class="compact-file-upload">
-                  <input type="file" id="backDesignUpload" accept="image/*,.ai,.eps,.pdf,.psd" multiple>
-                  <label for="backDesignUpload" class="upload-label">
-                    <span class="upload-button">Choose file</span>
-                    <span class="upload-text">or drop file to upload</span>
-                  </label>
-                  <div class="file-preview" id="back-file-preview"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="choose-colors d-none" id="choose-embroidery-colors">
-            <p><strong>How many colors are in your design?</strong></p>
-            <p id="subtxt" class="text-muted text-small">
-              Colors count in screen-printing because each color requires a unique screen. Save money by reducing ink colors with one or two colors per side.
-            </p>
-             <div class="invalid-feedback" style="margin-bottom: 14px;margin-top: -10px;">Atleast one color required.</div>
-            <div class="row">
-              <div class="col-6">
-                <select
-                  name="colorchestFront"
-                  id="colorchestFront"
-                >
-                  <option value="1">1 color chest front</option>
-                  <option value="2">2 colors chest front</option>
-                  <option value="3">3 colors chest front</option>
-                  <option value="4">4 colors chest front</option>
-                  <option value="5">5 colors chest front</option>
-                  <option value="6">6 colors chest front</option>
-                  <option value="7">7 colors chest front</option>
-                  <option value="8">8 colors chest front</option>
-                </select>
-              </div>
-              <div class="col-6">
-                <select
-                  name="thread_count"
-                  id="thread_count"
-                >
-                  <option value="4000">Low Detail Design</option>
-                  <option value="13001">High Detail Design</option>
-                </select>
-              </div>
-            </div>
-          </div>
+      <!-- Ink Colors Section -->
+      <div class="ink-colors-section">
+        <h3 class="section-heading">Select the number of ink colors in your design.</h3>
+        <div class="color-selectors">
+          <select name="colorFront" id="colorFront" onchange="chooseColorsFront(this.value)">
+            <option value="1" selected>1 Front Print Color</option>
+            <option value="2">2 Front Print Colors</option>
+            <option value="3">3 Front Print Colors</option>
+            <option value="4">4 Front Print Colors</option>
+            <option value="5">5 Front Print Colors</option>
+          </select>
           
-          <div class="choose-print_locations d-none">
-            <p data-open-accessibility-text-original="15px" style="font-size: 15px;"><strong>Which Print Locations would you like?</strong></p>
-            <div class="row">
-             <label for="locations1">
-                <input type="radio" name="locations" id="locations1" checked="checked" value="1"  data-function="Full-Front">
-                 Full Front Design - ONE OR OTHER
-             </label>
-             <label for="locations2">
-                <input type="radio" name="locations" id="locations2" value="1"  data-function="Chest-Pocket"> 
-                Chest Pocket - ONE OR OTHER 
-             </label>   
-              <hr>
-                 <label for="locations_box1">
-                  <input type="checkbox" name="locations1" value="1" id="locations_box1"  data-function="Full-Back">
-                  Full Back Design
-               </label>
-            </div>
-          </div>
-          
-          <button
-            id="step2-btn"
-            class="btn-next"
-          >
-            Choose Qty & Colors
-            <span class="material-symbols-outlined">
-              arrow_forward
-            </span>
-          </button>
+          <select name="colorBack" id="colorBack" onchange="chooseColorsBack(this.value)">
+            <option value="0" selected>No Back Design</option>
+            <option value="1">1 Back Print Color</option>
+            <option value="2">2 Back Print Colors</option>
+            <option value="3">3 Back Print Colors</option>
+            <option value="4">4 Back Print Colors</option>
+            <option value="5">5 Back Print Colors</option>
+          </select>
         </div>
       </div>
-      <div
-        class="tab-pane fade"
-        id="pills-qty"
-        role="tabpanel"
-        aria-labelledby="pills-qty-tab"
-      >
-        <h2 class="title-text">
-          <span
-            class="material-symbols-outlined"
-            onclick="bootstrap.Tab.getOrCreateInstance('#pills-design-tab').show()"
-          >
-            arrow_back
-          </span>
-          Choose Quantity & Sizes
-        </h2>
-        <p class="text-muted text-small">
-          Enter quantities to calculate the price. Save money by
-          increasing quantity and reducing ink colors on your design.
-        </p>
-        <hr />
-        <div class="color-picker">
-          <p class="selected-color">Select Product Colors:</p>
 
-          <div class="colors-list">
-            {% if product.options.size > 0 %}
-                {% for q_option in product.options_by_name['Color'].values %}
-                  {% assign color_position = product.options_by_name['Color'].position | prepend:"option" %}
-                  {% assign p_variants = product.variants | where:color_position, q_option %}
-                  {% assign v_img = p_variants.first.featured_image | default: product.featured_image %}
-                  <span
-                    p_variants="{{ p_variants.first.id }}"
-                    id="color{{ forloop.index }}"
-                    class="color-item "
-                    data-color="{{ q_option }}"
-                    style="background-color: {{ q_option }};background-image:url('{{ v_img | image_url: width: 150 }}');"
-                    onclick="addColorItem('{{ product.title }}', '{{ q_option }}', '{{ v_img | image_url: width: 150 }}', this)"
-                  ></span>
-                {% endfor %}
-            {% endif %}
+      <!-- Upload Section -->
+      <div class="upload-section">
+        <h3 class="section-heading">Upload your best design files. Max file size 10MB.</h3>
+        <p class="upload-subtitle">Vector files preferred. We'll create proofs for your review before it prints.</p>
+        
+        <!-- Front Design Upload -->
+        <div class="upload-box" id="front-upload-box">
+          <h4 class="upload-title">Upload Front Design</h4>
+          <div class="file-drop-zone" id="front-drop-zone">
+            <input type="file" id="frontDesignUpload" accept="image/*,.ai,.eps,.pdf,.psd" multiple style="display: none;">
+            <div class="upload-content" onclick="document.getElementById('frontDesignUpload').click();">
+              <button type="button" class="upload-btn">Choose file</button>
+              <span class="upload-text">or drop file to upload</span>
+            </div>
+            <div class="file-preview" id="front-file-preview"></div>
           </div>
         </div>
-        <div class="products-list" id="products-list"></div>
-
-        <button
-          id="step3-btn"
-          class="btn-next"
-          onclick="bootstrap.Tab.getOrCreateInstance('#pills-review-tab').show()"
-          disabled
-        >
-          Calculate Pricing
-          <span class="material-symbols-outlined"> arrow_forward </span>
-        </button>
-        <div id="step3-error-text" class="text-muted text-center mt-1">
-          Select at least <span id="minimalqty">12</span> item of each product
+        
+        <!-- Back Design Upload -->
+        <div class="upload-box" id="back-upload-box" style="display: none;">
+          <h4 class="upload-title">Upload Back Design</h4>
+          <div class="file-drop-zone" id="back-drop-zone">
+            <input type="file" id="backDesignUpload" accept="image/*,.ai,.eps,.pdf,.psd" multiple style="display: none;">
+            <div class="upload-content" onclick="document.getElementById('backDesignUpload').click();">
+              <button type="button" class="upload-btn">Choose file</button>
+              <span class="upload-text">or drop file to upload</span>
+            </div>
+            <div class="file-preview" id="back-file-preview"></div>
+          </div>
         </div>
       </div>
-      <div
-        class="tab-pane fade"
-        id="pills-review"
-        role="tabpanel"
-        aria-labelledby="pills-review-tab"
-      >
-        <h2 class="title-text">
-          <span
-            class="material-symbols-outlined"
-            onclick="bootstrap.Tab.getOrCreateInstance('#pills-qty-tab').show()"
-          >
-            arrow_back
-          </span>
-          Your Products & Pricing
-        </h2>
-        <p class="text-muted text-small">
-          Your order includes a professional design review, a
-          satisfaction guarantee, and guaranteed on-time delivery.
-        </p>
-        <hr />
-        <div class="delivery">
-          <img src="https://cdn.shopify.com/s/files/1/0082/8237/4203/files/truck.png?v=1670411233" alt="" width="20" height="20" />
-          &nbsp;
-          <strong>Free</strong> delivery as soon as
-          <span id="free-delivery"></span> or
-          <strong>Rush</strong> Delivery on
-          <span id="rush-delivery"></span>
-        </div>
-        <div class="products-list" id="products-list-review"></div>
 
-        <div class="summary">
-          <div class="row">
-            <div class="col-6">
-              <strong>
-                Your Total (<span id="total-items">0</span>
-                Items)
-              </strong>
-            </div>
-            <div class="col-6 text-end">
-              <strong>$<span id="total-price">0</span></strong>
-            </div>
+      <!-- Location Selectors -->
+      <div class="location-selectors">
+        <!-- Front Design Location -->
+        <div class="location-section" id="front-location-section">
+          <h3 class="section-heading">Where do you want your front design to go?</h3>
+          <div class="radio-options">
+            <label class="radio-option">
+              <input type="radio" name="frontLocation" value="full-front" checked>
+              <span class="radio-label">Full Front (Large and Centered)</span>
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="frontLocation" value="left-chest">
+              <span class="radio-label">Left Chest (Smaller)</span>
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="frontLocation" value="other">
+              <span class="radio-label">Other (please specify below)</span>
+            </label>
           </div>
         </div>
-
-        <div class="affirm text-end">
-          <img src="https://ucarecdn.com/1ac9f4dd-d5ae-4341-9037-1920dd9c1478/-/format/auto/-/preview/3000x3000/-/quality/lighter/Afterpay_Badge_BlackonMint.png" alt="Afterpay Badge" width="80" height="20" />
-          Order Now Pay Later in Installments
-        </div>
-
-        <div class="buy-more">
-          <strong>Buy More Save More!</strong>
-          <div class="row">
-            <div class="col-6">
-              Buy <strong>1 More</strong> items and save $0.19 each
-            </div>
-            <div class="col-6 text-end">
-              <strong>$26.87</strong> each
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-6">
-              Buy <strong>2 More</strong> items and save $0.50 each
-            </div>
-            <div class="col-6 text-end">
-              <strong>$26.56</strong> each
-            </div>
+        
+        <!-- Back Design Location -->
+        <div class="location-section" id="back-location-section" style="display: none;">
+          <h3 class="section-heading">Where do you want your back design to go?</h3>
+          <div class="radio-options">
+            <label class="radio-option">
+              <input type="radio" name="backLocation" value="full-back" checked>
+              <span class="radio-label">Full Back (large and centered)</span>
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="backLocation" value="other">
+              <span class="radio-label">Other (please specify below)</span>
+            </label>
           </div>
         </div>
-
-        <button class="btn-next quote-add-to-cart">
-          <div class="spinner-border" role="status">
-            <span class="sr-only">Loading...</span>
-          </div>
-          <span>Add to Cart</span>
-          <span class="material-symbols-outlined"> arrow_forward </span>
-        </button>
       </div>
+
+      <!-- Sizes Section -->
+      <div class="sizes-section">
+        <h3 class="section-heading">ENTER YOUR SIZES</h3>
+        <p class="sizes-subtitle">Minimum order quantity is 36 for all shirt colors & sizes, combined.</p>
+        
+        <div class="size-buttons">
+          <button type="button" class="size-btn" data-size="S">S</button>
+          <button type="button" class="size-btn" data-size="M">M</button>
+          <button type="button" class="size-btn" data-size="L">L</button>
+          <button type="button" class="size-btn" data-size="XL">XL</button>
+          <button type="button" class="size-btn" data-size="2XL">2XL</button>
+          <button type="button" class="size-btn" data-size="3XL">3XL</button>
+        </div>
+        
+        <div class="split-order">
+          <label class="checkbox-option">
+            <input type="checkbox" id="splitOrder">
+            <span class="checkbox-label">Split my order into multiple shirt colors!</span>
+          </label>
+          <p class="split-note">Note: design AND ink colors must be the same on all shirts.</p>
+        </div>
+      </div>
+
+      <!-- Order Notes -->
+      <div class="notes-section">
+        <h3 class="section-heading">Order Notes</h3>
+        <textarea class="order-notes" placeholder="Add any special instructions or notes here..."></textarea>
+      </div>
+
+      <!-- Add to Cart Button -->
+      <button type="button" class="add-to-cart-btn">Add to Cart</button>
     </div>
   </div>
 </div>

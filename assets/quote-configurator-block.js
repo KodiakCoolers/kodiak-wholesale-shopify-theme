@@ -337,21 +337,16 @@ function recalculateTotalQty() {
 }
 
 // Initialize when DOM is ready
-$(document).ready(function() {
-  // Initialize step 2 button click handler
-  $("#step2-btn").click(function() {
-    const pillsQtyTab = bootstrap.Tab.getOrCreateInstance('#pills-qty-tab');
-    if (pillsQtyTab) {
-      pillsQtyTab.show();
-    }
-  });
-  
+// Initialize without relying on jQuery
+document.addEventListener('DOMContentLoaded', function() {
   // Initialize the configurator
   chooseTypeOfPrint("screen"); // Default to screen printing
   
-  // Initialize with default values (1 front color, 0 back colors)
-  chooseColorsFront(1); // This will show front location and upload sections
-  chooseColorsBack(0);  // This will hide back sections
+  // Initialize with the current select values
+  const initialFront = parseInt(document.getElementById('colorFront')?.value || '0');
+  const initialBack = parseInt(document.getElementById('colorBack')?.value || '0');
+  chooseColorsFront(initialFront);
+  chooseColorsBack(initialBack);
   
   // Initialize file upload handlers for new structure
   initializeFileUpload('frontDesignUpload', 'front-file-preview');
@@ -362,10 +357,25 @@ $(document).ready(function() {
   
   // Initialize add to cart button
   initializeAddToCart();
+  
+  // Initial minimum status
+  recalculateTotalQty();
 
   // Recalculate on color changes too (in case business rules tie into min qty later)
-  document.getElementById('colorFront')?.addEventListener('change', recalculateTotalQty);
-  document.getElementById('colorBack')?.addEventListener('change', recalculateTotalQty);
+  const colorFrontEl = document.getElementById('colorFront');
+  const colorBackEl = document.getElementById('colorBack');
+  if (colorFrontEl) {
+    colorFrontEl.addEventListener('change', function(e){
+      chooseColorsFront(e.target.value);
+      recalculateTotalQty();
+    });
+  }
+  if (colorBackEl) {
+    colorBackEl.addEventListener('change', function(e){
+      chooseColorsBack(e.target.value);
+      recalculateTotalQty();
+    });
+  }
   
   // Set up color swatches if they exist
   const swatches = $('.gf_swatches-selector[data-name="Color"] .gf_swatch');
@@ -397,13 +407,7 @@ $(document).ready(function() {
     }, 2000);
   });
   
-  // Set delivery dates (placeholder logic)
-  const today = new Date();
-  const freeDeliveryDate = new Date(today.getTime() + (7 * 24 * 60 * 60 * 1000));
-  const rushDeliveryDate = new Date(today.getTime() + (3 * 24 * 60 * 60 * 1000));
-  
-  $("#free-delivery").text(freeDeliveryDate.toLocaleDateString());
-  $("#rush-delivery").text(rushDeliveryDate.toLocaleDateString());
+  // (Optional) Delivery dates removed in simplified flow
 });
 
 // Additional utility functions can be added here as needed

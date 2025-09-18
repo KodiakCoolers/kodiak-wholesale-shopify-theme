@@ -923,6 +923,8 @@
 
             {% when 'upload' %}
               {% render 'uploads' %}
+            {% when 'quote_configurator' %}
+              {% render 'quote-configurator-block', block: block, product: product %}
           {% endcase %}
         </div>
       {% endfor %}

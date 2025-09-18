@@ -421,10 +421,12 @@ function recalculateTotalQty() {
 // Initialize when DOM is ready
 // Initialize (no jQuery required)
 (function initConfigurator(){
+  if (window.__KODIAK_QC_INIT === true) return; // prevent double init if script is loaded twice
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initConfigurator);
     return;
   }
+  window.__KODIAK_QC_INIT = true;
   // Initialize the configurator
   chooseTypeOfPrint("screen"); // Default to screen printing
   
@@ -477,36 +479,6 @@ function recalculateTotalQty() {
       recalculateTotalQty();
     });
   }
-  
-  // Set up color swatches if they exist
-  const swatches = $('.gf_swatches-selector[data-name="Color"] .gf_swatch');
-  swatches.each(function() {
-    const color = $(this).text();
-    const style = $(this).attr('style');
-    $(`.color-item[data-color="${color}"]`).attr('style', style);
-  });
-  
-  // Handle add to cart functionality
-  $('.quote-add-to-cart').click(function(e) {
-    e.preventDefault();
-    
-    // Show loading spinner
-    $(this).find('.spinner-border').show();
-    $(this).find('span:not(.spinner-border)').hide();
-    
-    // Collect form data and add to cart
-    // This would need to be customized based on your specific cart implementation
-    console.log("Adding quote to cart...");
-    
-    // Simulate API call
-    setTimeout(() => {
-      $(this).find('.spinner-border').hide();
-      $(this).find('span:not(.spinner-border)').show();
-      
-      // You would implement actual cart addition logic here
-      alert("Quote added to cart successfully!");
-    }, 2000);
-  });
   
   // (Optional) Delivery dates removed in simplified flow
 })();

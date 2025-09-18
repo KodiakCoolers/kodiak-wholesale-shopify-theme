@@ -403,12 +403,16 @@ function initializeAddToCart() {
       const backFiles = await getUploadedFiles('backDesignUpload');
 
       const totalQuantity = parseInt(document.getElementById('totalQuantity')?.value || '36');
+      const timeline = document.querySelector('input[name="productionTimeline"]:checked')?.value || 'standard';
+      const totalPrice = calculatePricing();
 
       const properties = {
         'Front Print': frontColors > 0 ? `${frontColors} Front Print Color${frontColors > 1 ? 's' : ''}` : 'No Front Design',
         'Back Print': backColors > 0 ? `${backColors} Back Print Color${backColors > 1 ? 's' : ''}` : 'No Back Design',
         'Size': sizeBreakdown.join(', ') || 'Sizes not specified',
         'Total Quantity': `${totalQuantity} pieces`,
+        'Production Timeline': timeline === 'rush' ? 'Rush (2-4 Business Days) +$4.00/unit' : 'Standard (7-10 Business Days)',
+        'Total Price': `$${totalPrice.toFixed(2)}`,
         'Order Notes': notes || 'None'
       };
 
@@ -476,6 +480,83 @@ async function getUploadedFiles(inputId) {
   return files;
 }
 
+// Pricing calculation
+function calculatePricing() {
+  const totalQty = getCurrentTotalQty();
+  const minimumQty = getMinimumQty();
+  const frontColors = parseInt(document.getElementById('colorFront')?.value || '0');
+  const backColors = parseInt(document.getElementById('colorBack')?.value || '0');
+  const isRush = document.querySelector('input[name="productionTimeline"]:checked')?.value === 'rush';
+
+  // Base price calculation (assuming $15.69 per unit for 36 pieces = $564.86)
+  const basePerUnit = 15.69;
+  const baseTotal = totalQty * basePerUnit;
+
+  // Front color pricing (1 color included, extras cost $1.25 per unit)
+  let frontColorCost = 0;
+  if (frontColors > 1) {
+    frontColorCost = (frontColors - 1) * 1.25 * totalQty;
+  }
+
+  // Back color pricing (all colors cost $1.25 per unit)
+  let backColorCost = 0;
+  if (backColors > 0) {
+    backColorCost = backColors * 1.25 * totalQty;
+  }
+
+  // Rush processing cost
+  let rushCost = 0;
+  if (isRush) {
+    rushCost = 4.00 * totalQty;
+  }
+
+  const totalPrice = baseTotal + frontColorCost + backColorCost + rushCost;
+
+  // Update pricing display
+  updatePricingDisplay(totalQty, baseTotal, frontColors, frontColorCost, backColors, backColorCost, isRush, rushCost, totalPrice);
+
+  return totalPrice;
+}
+
+function updatePricingDisplay(qty, baseTotal, frontColors, frontColorCost, backColors, backColorCost, isRush, rushCost, totalPrice) {
+  // Update base price
+  document.getElementById('base-qty').textContent = qty;
+  document.getElementById('base-price').textContent = `$${baseTotal.toFixed(2)}`;
+
+  // Front color cost
+  const frontCostEl = document.getElementById('front-color-cost');
+  const frontPriceEl = document.getElementById('front-color-price');
+  if (frontColors > 1) {
+    frontCostEl.style.display = 'flex';
+    frontPriceEl.textContent = `$${frontColorCost.toFixed(2)} (${frontColors - 1} extra colors × $1.25 × ${qty})`;
+  } else {
+    frontCostEl.style.display = 'none';
+  }
+
+  // Back color cost
+  const backCostEl = document.getElementById('back-color-cost');
+  const backPriceEl = document.getElementById('back-color-price');
+  if (backColors > 0) {
+    backCostEl.style.display = 'flex';
+    backPriceEl.textContent = `$${backColorCost.toFixed(2)} (${backColors} colors × $1.25 × ${qty})`;
+  } else {
+    backCostEl.style.display = 'none';
+  }
+
+  // Rush cost
+  const rushCostEl = document.getElementById('rush-cost');
+  const rushPriceEl = document.getElementById('rush-price');
+  if (isRush) {
+    rushCostEl.style.display = 'flex';
+    rushPriceEl.textContent = `$${rushCost.toFixed(2)} ($4.00 × ${qty})`;
+  } else {
+    rushCostEl.style.display = 'none';
+  }
+
+  // Total price
+  document.getElementById('total-price').innerHTML = `<strong>$${totalPrice.toFixed(2)}</strong>`;
+}
+
 // Add to cart status management
 function updateAddToCartStatus(sizeTotal, totalQty) {
   const btn = document.querySelector('.add-to-cart-btn');
@@ -537,6 +618,9 @@ function updateAddToCartStatus(sizeTotal, totalQty) {
     statusEl.innerHTML = 'Complete the following:<br>• ' + issues.join('<br>• ');
     statusEl.className = 'add-to-cart-status error';
   }
+
+  // Update pricing whenever status is updated
+  calculatePricing();
 }
 
 function fileToDataUrl(file) {
@@ -673,7 +757,7 @@ function recalculateTotalQty() {
 
   // Update status when location selections change
   document.addEventListener('change', function(e) {
-    if (e.target.name === 'frontLocation' || e.target.name === 'backLocation') {
+    if (e.target.name === 'frontLocation' || e.target.name === 'backLocation' || e.target.name === 'productionTimeline') {
       updateAddToCartStatus(getCurrentSizeTotal(), getCurrentTotalQty());
     }
   });

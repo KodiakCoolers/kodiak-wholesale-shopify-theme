@@ -192,10 +192,52 @@ This is an inline version without modal functionality
         </div> {% endcomment %}
       </div>
 
+      <!-- Production Timeline -->
+      <div class="timeline-section">
+        <h3 class="section-heading">Production Timeline</h3>
+        <div class="timeline-options">
+          <label class="timeline-option">
+            <input type="radio" name="productionTimeline" value="standard" checked>
+            <span class="timeline-label">Standard (7-10 Business Days) - Included</span>
+          </label>
+          <label class="timeline-option">
+            <input type="radio" name="productionTimeline" value="rush">
+            <span class="timeline-label">Rush (2-4 Business Days) - Extra $4.00 per unit</span>
+          </label>
+        </div>
+      </div>
+
       <!-- Order Notes -->
       <div class="notes-section">
         <h3 class="section-heading">Order Notes</h3>
         <textarea class="order-notes" placeholder="Add any special instructions or notes here..."></textarea>
+      </div>
+
+      <!-- Pricing Summary -->
+      <div class="pricing-summary" id="pricing-summary">
+        <h3 class="section-heading">Pricing Breakdown</h3>
+        <div class="pricing-details" id="pricing-details">
+          <div class="pricing-line">
+            <span>Base price (<span id="base-qty">{{ minimum_qty }}</span> pieces):</span>
+            <span id="base-price">$564.86</span>
+          </div>
+          <div class="pricing-line" id="front-color-cost" style="display: none;">
+            <span>Front print colors:</span>
+            <span id="front-color-price">$0.00</span>
+          </div>
+          <div class="pricing-line" id="back-color-cost" style="display: none;">
+            <span>Back print colors:</span>
+            <span id="back-color-price">$0.00</span>
+          </div>
+          <div class="pricing-line" id="rush-cost" style="display: none;">
+            <span>Rush processing:</span>
+            <span id="rush-price">$0.00</span>
+          </div>
+          <div class="pricing-line total-line">
+            <span><strong>Total:</strong></span>
+            <span id="total-price"><strong>$564.86</strong></span>
+          </div>
+        </div>
       </div>
 
       <!-- Add to Cart Button -->

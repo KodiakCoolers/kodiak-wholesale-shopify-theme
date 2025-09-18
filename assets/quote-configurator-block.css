@@ -306,6 +306,35 @@
   color: #e53e3e;
 }
 
+/* Error messages */
+.quote-configurator-block .quantity-error {
+  color: #e53e3e;
+  font-size: 14px;
+  margin-top: 4px;
+  display: none;
+}
+
+.quote-configurator-block .add-to-cart-status {
+  margin-bottom: 12px;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.quote-configurator-block .add-to-cart-status.error {
+  background-color: #fed7d7;
+  border: 1px solid #feb2b2;
+  color: #c53030;
+}
+
+.quote-configurator-block .add-to-cart-status.success {
+  background-color: #c6f6d5;
+  border: 1px solid #9ae6b4;
+  color: #2f855a;
+  font-weight: 500;
+}
+
 /* Color selector */
 .quote-configurator-block .color-selector-section { margin-bottom: 12px; }
 .quote-configurator-block .color-swatches { display: flex; flex-wrap: wrap; gap: 8px; }

@@ -255,16 +255,24 @@ function initializeSizeInputs() {
   if (quantityInput) {
     quantityInput.addEventListener('input', function() {
       currentTotalQty = parseInt(this.value || '0');
-      const minimumQty = getMinimumQty();
-      
-      // Enforce minimum
-      if (currentTotalQty < minimumQty) {
-        this.value = minimumQty;
-        currentTotalQty = minimumQty;
-      }
-      
       updateQuantityUI();
       updateSizeTotal();
+    });
+
+    // Validate on blur (when user clicks away)
+    quantityInput.addEventListener('blur', function() {
+      const minimumQty = getMinimumQty();
+      const val = parseInt(this.value || '0');
+      
+      if (val < minimumQty) {
+        this.value = minimumQty;
+        currentTotalQty = minimumQty;
+        updateQuantityUI();
+        updateSizeTotal();
+        showQuantityError(`Minimum quantity is ${minimumQty} pieces.`);
+      } else {
+        hideQuantityError();
+      }
     });
   }
 
@@ -316,10 +324,25 @@ function initializeSizeInputs() {
       }
     }
 
-    const btn = document.querySelector('.add-to-cart-btn');
-    const minimumQty = getMinimumQty();
-    if (btn) {
-      btn.disabled = total !== currentTotalQty || currentTotalQty < minimumQty;
+    updateAddToCartStatus(total, currentTotalQty);
+  }
+
+  function showQuantityError(message) {
+    let errorEl = document.getElementById('quantity-error');
+    if (!errorEl) {
+      errorEl = document.createElement('div');
+      errorEl.id = 'quantity-error';
+      errorEl.className = 'quantity-error';
+      quantityInput.parentNode.appendChild(errorEl);
+    }
+    errorEl.textContent = message;
+    errorEl.style.display = 'block';
+  }
+
+  function hideQuantityError() {
+    const errorEl = document.getElementById('quantity-error');
+    if (errorEl) {
+      errorEl.style.display = 'none';
     }
   }
 
@@ -397,16 +420,16 @@ function initializeAddToCart() {
         properties['Where do you want your back design to go?'] = backLoc.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase());
       }
 
-      // Add file uploads as properties
+      // Add file uploads as properties (names only to avoid cart size limits)
       if (frontFiles.length > 0) {
         frontFiles.forEach((file, idx) => {
-          properties[`Upload Front Design ${idx + 1}`] = file.url;
+          properties[`Upload Front Design ${idx + 1}`] = `${file.name} (${(file.size / 1024).toFixed(1)}KB)`;
         });
       }
 
       if (backFiles.length > 0) {
         backFiles.forEach((file, idx) => {
-          properties[`Upload Back Design ${idx + 1}`] = file.url;
+          properties[`Upload Back Design ${idx + 1}`] = `${file.name} (${(file.size / 1024).toFixed(1)}KB)`;
         });
       }
 
@@ -439,7 +462,7 @@ function initializeAddToCart() {
   }
 }
 
-// Helper function to get uploaded files as data URLs
+// Helper function to get uploaded files (just names to avoid cart size limits)
 async function getUploadedFiles(inputId) {
   const input = document.getElementById(inputId);
   if (!input || !input.files.length) return [];
@@ -447,14 +470,73 @@ async function getUploadedFiles(inputId) {
   const files = [];
   for (let i = 0; i < input.files.length; i++) {
     const file = input.files[i];
-    try {
-      const dataUrl = await fileToDataUrl(file);
-      files.push({ name: file.name, url: dataUrl });
-    } catch (e) {
-      console.warn('Failed to read file:', file.name, e);
-    }
+    // Just store file name to avoid "Cart is too large" error from data URLs
+    files.push({ name: file.name, size: file.size });
   }
   return files;
+}
+
+// Add to cart status management
+function updateAddToCartStatus(sizeTotal, totalQty) {
+  const btn = document.querySelector('.add-to-cart-btn');
+  const minimumQty = getMinimumQty();
+  
+  let statusMessage = '';
+  let isValid = true;
+  const issues = [];
+
+  // Check minimum quantity
+  if (totalQty < minimumQty) {
+    issues.push(`Minimum quantity is ${minimumQty} pieces`);
+    isValid = false;
+  }
+
+  // Check size breakdown
+  if (sizeTotal !== totalQty) {
+    issues.push(`Size breakdown must equal ${totalQty} pieces (currently ${sizeTotal})`);
+    isValid = false;
+  }
+
+  // Check front print colors and location
+  const frontColors = parseInt(document.getElementById('colorFront')?.value || '0');
+  if (frontColors > 0) {
+    const frontLoc = document.querySelector('input[name="frontLocation"]:checked');
+    if (!frontLoc) {
+      issues.push('Select front design location');
+      isValid = false;
+    }
+  }
+
+  // Check back print colors and location
+  const backColors = parseInt(document.getElementById('colorBack')?.value || '0');
+  if (backColors > 0) {
+    const backLoc = document.querySelector('input[name="backLocation"]:checked');
+    if (!backLoc) {
+      issues.push('Select back design location');
+      isValid = false;
+    }
+  }
+
+  if (btn) {
+    btn.disabled = !isValid;
+  }
+
+  // Update status message
+  let statusEl = document.getElementById('add-to-cart-status');
+  if (!statusEl) {
+    statusEl = document.createElement('div');
+    statusEl.id = 'add-to-cart-status';
+    statusEl.className = 'add-to-cart-status';
+    btn.parentNode.insertBefore(statusEl, btn);
+  }
+
+  if (isValid) {
+    statusEl.textContent = 'Ready to add to cart!';
+    statusEl.className = 'add-to-cart-status success';
+  } else {
+    statusEl.innerHTML = 'Complete the following:<br>• ' + issues.join('<br>• ');
+    statusEl.className = 'add-to-cart-status error';
+  }
 }
 
 function fileToDataUrl(file) {
@@ -573,20 +655,42 @@ function recalculateTotalQty() {
     });
   });
 
-  // Recalculate on color changes too (in case business rules tie into min qty later)
+  // Update status when color/location selections change
   const colorFrontEl = document.getElementById('colorFront');
   const colorBackEl = document.getElementById('colorBack');
   if (colorFrontEl) {
     colorFrontEl.addEventListener('change', function(e){
       chooseColorsFront(e.target.value);
-      recalculateTotalQty();
+      updateAddToCartStatus(getCurrentSizeTotal(), getCurrentTotalQty());
     });
   }
   if (colorBackEl) {
     colorBackEl.addEventListener('change', function(e){
       chooseColorsBack(e.target.value);
-      recalculateTotalQty();
+      updateAddToCartStatus(getCurrentSizeTotal(), getCurrentTotalQty());
     });
+  }
+
+  // Update status when location selections change
+  document.addEventListener('change', function(e) {
+    if (e.target.name === 'frontLocation' || e.target.name === 'backLocation') {
+      updateAddToCartStatus(getCurrentSizeTotal(), getCurrentTotalQty());
+    }
+  });
+
+  // Helper functions for status updates
+  function getCurrentSizeTotal() {
+    let total = 0;
+    document.querySelectorAll('.size-input-group input[type="number"]').forEach(inp => {
+      const val = parseInt(inp.value || '0');
+      if (!isNaN(val)) total += val;
+    });
+    return total;
+  }
+
+  function getCurrentTotalQty() {
+    const qtyInput = document.getElementById('totalQuantity');
+    return qtyInput ? parseInt(qtyInput.value || '0') : getMinimumQty();
   }
   
   // (Optional) Delivery dates removed in simplified flow

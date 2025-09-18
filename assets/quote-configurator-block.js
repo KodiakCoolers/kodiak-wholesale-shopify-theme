@@ -111,11 +111,40 @@ function chooseTypeOfPrint(type) {
 // Choose colors functions
 function chooseColorsFront(value) {
   maxFront = parseInt(value);
+  
+  // Show/hide front location section
+  const frontLocationSection = document.getElementById('front-location-section');
+  const frontUploadSection = document.getElementById('front-upload-section');
+  
+  if (maxFront > 0) {
+    if (frontLocationSection) frontLocationSection.style.display = 'block';
+    if (frontUploadSection) frontUploadSection.style.display = 'block';
+  } else {
+    if (frontLocationSection) frontLocationSection.style.display = 'none';
+    if (frontUploadSection) frontUploadSection.style.display = 'none';
+  }
+  
   validateStep1();
 }
 
 function chooseColorsBack(value) {
   maxBack = parseInt(value);
+  
+  // Show/hide back location and color sections
+  const backLocationSection = document.getElementById('back-location-section');
+  const backColorsSection = document.getElementById('back-colors-section');
+  const backUploadSection = document.getElementById('back-upload-section');
+  
+  if (maxBack > 0) {
+    if (backLocationSection) backLocationSection.style.display = 'block';
+    if (backColorsSection) backColorsSection.style.display = 'block';
+    if (backUploadSection) backUploadSection.style.display = 'block';
+  } else {
+    if (backLocationSection) backLocationSection.style.display = 'none';
+    if (backColorsSection) backColorsSection.style.display = 'none';
+    if (backUploadSection) backUploadSection.style.display = 'none';
+  }
+  
   validateStep1();
 }
 
@@ -176,6 +205,50 @@ function validateStep2() {
   }
 }
 
+// Handle file uploads for front and back designs
+function handleFileUpload(inputId, previewId) {
+  const input = document.getElementById(inputId);
+  const preview = document.getElementById(previewId);
+  
+  if (!input || !preview) return;
+  
+  input.addEventListener('change', function(e) {
+    preview.innerHTML = '';
+    
+    for (let i = 0; i < e.target.files.length; i++) {
+      const file = e.target.files[i];
+      const fileItem = document.createElement('div');
+      fileItem.className = 'file-preview-item';
+      
+      if (file.type.startsWith('image/')) {
+        const img = document.createElement('img');
+        img.src = URL.createObjectURL(file);
+        fileItem.appendChild(img);
+      }
+      
+      const fileName = document.createElement('span');
+      fileName.textContent = file.name.length > 20 ? file.name.substring(0, 20) + '...' : file.name;
+      fileItem.appendChild(fileName);
+      
+      const removeBtn = document.createElement('span');
+      removeBtn.className = 'remove-file';
+      removeBtn.textContent = '×';
+      removeBtn.onclick = function() {
+        fileItem.remove();
+        // Reset the input
+        const dt = new DataTransfer();
+        const files = Array.from(input.files);
+        files.splice(i, 1);
+        files.forEach(f => dt.items.add(f));
+        input.files = dt.files;
+      };
+      fileItem.appendChild(removeBtn);
+      
+      preview.appendChild(fileItem);
+    }
+  });
+}
+
 // Initialize when DOM is ready
 $(document).ready(function() {
   // Initialize step 2 button click handler
@@ -188,6 +261,10 @@ $(document).ready(function() {
   
   // Initialize the configurator
   chooseTypeOfPrint("screen"); // Default to screen printing
+  
+  // Initialize file upload handlers
+  handleFileUpload('frontDesignUpload', 'front-file-preview');
+  handleFileUpload('backDesignUpload', 'back-file-preview');
   
   // Set up color swatches if they exist
   const swatches = $('.gf_swatches-selector[data-name="Color"] .gf_swatch');

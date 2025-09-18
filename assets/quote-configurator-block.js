@@ -419,8 +419,12 @@ function recalculateTotalQty() {
 }
 
 // Initialize when DOM is ready
-// Initialize without relying on jQuery
-document.addEventListener('DOMContentLoaded', function() {
+// Initialize (no jQuery required)
+(function initConfigurator(){
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initConfigurator);
+    return;
+  }
   // Initialize the configurator
   chooseTypeOfPrint("screen"); // Default to screen printing
   
@@ -505,7 +509,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   
   // (Optional) Delivery dates removed in simplified flow
-});
+})();
 
 // Additional utility functions can be added here as needed
 function updatePricing() {

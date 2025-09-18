@@ -726,6 +726,11 @@
   margin: 20px auto;
 }
 
+.quote-configurator-block .file-upload-sections .upload-note {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
 .quote-configurator-block .upload-note {
   font-size: 12px;
   margin: 12px 0;

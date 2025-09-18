@@ -111,76 +111,8 @@ This is an inline version without modal functionality
           side
         </p>                
         <div class="step-content">
-          <div class="choose-type">
-            <p>
-              <strong>
-                Type of print?
-                <span
-                  class="material-symbols-outlined"
-                  data-bs-toggle="tooltip"
-                  data-bs-placement="bottom"
-                  title="Tooltip on bottom"
-                >
-                  info
-                </span>
-              </strong>
-            </p>
-            <div class="invalid-type" style="margin-bottom: 14px;margin-top: -10px;color:red">Atleast one type required.</div>
-            {% if product.metafields.custom.screen_printing %}
-            <label for="type1">
-              <input
-                type="radio"
-                name="type"
-                id="type1"
-                value="screen"
-                {% unless product.metafields.custom.screen_printing %}disabled{% endunless %}
-                onchange="chooseTypeOfPrint('screen')"
-                checked
-              />
-              Screen Printing
-            </label>
-            {% endif %}
-            {% if product.metafields.custom.embroidery %}
-            <label for="type2" >
-              <input
-                type="radio"
-                name="type"
-                id="type2"
-                value="embroidery"
-                {% unless product.metafields.custom.embroidery %}disabled{% endunless %}
-                onchange="chooseTypeOfPrint('embroidery')"
-              />
-              Embroidery
-            </label>
-            {% endif %}
-            {% if product.metafields.custom.dtg %}
-            <label for="type3">
-              <input
-                type="radio"
-                name="type"
-                id="type3"
-                value="DTG"
-                {% unless product.metafields.custom.dtg %}disabled{% endunless %}
-                onchange="chooseTypeOfPrint('DTG')"
-              />
-              DTG (Direct to Garment)
-            </label>
-            {% endif %}
-            {% if product.metafields.custom.engraved %}
-            <label for="type4">
-              <input
-                type="radio"
-                name="type"
-                id="type4"
-                value="Engraved"
-                {% unless product.metafields.custom.engraved %}disabled{% endunless %}
-                onchange="chooseTypeOfPrint('Engraved')"
-              />
-              Engraved
-            </label>
-            {% endif %}
-          </div>
-          <p id="ads" class="choose-type text-muted text-small">Screen Printed is Best for Bulk Orders</p>
+          <!-- Type of print is always screen printing, so hide this section -->
+          <input type="hidden" name="type" value="screen" />
           <div class="choose-colors" id="choose-colors">
             <p><strong>How many colors are in your design?</strong></p>
             <p id="subtxt" class="text-muted text-small">
@@ -189,21 +121,21 @@ This is an inline version without modal functionality
              <div class="invalid-feedback" style="margin-bottom: 14px;margin-top: -10px;">Atleast one color required.</div>
             <div class="row">
               <div class="col-6">
-                <select
-                  name="colorFront"
-                  id="colorFront"
-                  onchange="chooseColorsFront(this.value)"
-                >
-                  <option value="0">No Design - Front</option>
-                  <option value="1">1 color front</option>
-                  <option value="2">2 colors front</option>
-                  <option value="3">3 colors front</option>
-                  <option value="4">4 colors front</option>
-                  <option value="5">5 colors front</option>
-                  <option value="6">6 colors front</option>
-                  <option value="7">7 colors front</option>
-                  <option value="8">8 colors front</option>
-                </select>
+                        <select
+                          name="colorFront"
+                          id="colorFront"
+                          onchange="chooseColorsFront(this.value)"
+                        >
+                          <option value="0">No Design - Front</option>
+                          <option value="1" selected>1 color front</option>
+                          <option value="2">2 colors front</option>
+                          <option value="3">3 colors front</option>
+                          <option value="4">4 colors front</option>
+                          <option value="5">5 colors front</option>
+                          <option value="6">6 colors front</option>
+                          <option value="7">7 colors front</option>
+                          <option value="8">8 colors front</option>
+                        </select>
               </div>
               <div class="col-6">
                 <select
@@ -287,11 +219,7 @@ This is an inline version without modal functionality
               <div class="location-options">
                 <label>
                   <input type="radio" name="backLocation" value="full-back" checked>
-                  Full Back (Large and Centered)
-                </label>
-                <label>
-                  <input type="radio" name="backLocation" value="upper-back">
-                  Upper Back (Smaller)
+                  Full Back (large and centered)
                 </label>
                 <label>
                   <input type="radio" name="backLocation" value="other">
@@ -302,28 +230,6 @@ This is an inline version without modal functionality
             
             <!-- File Upload Sections -->
             <div class="file-upload-sections">
-              <p><strong>Select the number of ink colors in your design.</strong></p>
-              <div class="row">
-                <div class="col-6">
-                  <select name="frontPrintColors" id="frontPrintColors">
-                    <option value="1">1 Front Print Color</option>
-                    <option value="2">2 Front Print Colors</option>
-                    <option value="3">3 Front Print Colors</option>
-                    <option value="4">4 Front Print Colors</option>
-                    <option value="5">5 Front Print Colors</option>
-                  </select>
-                </div>
-                <div class="col-6" id="back-colors-section" style="display: none;">
-                  <select name="backPrintColors" id="backPrintColors">
-                    <option value="1">1 Back Print Color</option>
-                    <option value="2">2 Back Print Colors</option>
-                    <option value="3">3 Back Print Colors</option>
-                    <option value="4">4 Back Print Colors</option>
-                    <option value="5">5 Back Print Colors</option>
-                  </select>
-                </div>
-              </div>
-              
               <p class="upload-note"><strong>Upload your best design files. Max file size 10MB.</strong><br>
               Vector files preferred. We'll create proofs for your review before it prints.</p>
               

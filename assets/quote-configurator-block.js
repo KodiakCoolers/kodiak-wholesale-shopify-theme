@@ -130,18 +130,15 @@ function chooseColorsFront(value) {
 function chooseColorsBack(value) {
   maxBack = parseInt(value);
   
-  // Show/hide back location and color sections
+  // Show/hide back location section and upload section
   const backLocationSection = document.getElementById('back-location-section');
-  const backColorsSection = document.getElementById('back-colors-section');
   const backUploadSection = document.getElementById('back-upload-section');
   
   if (maxBack > 0) {
     if (backLocationSection) backLocationSection.style.display = 'block';
-    if (backColorsSection) backColorsSection.style.display = 'block';
     if (backUploadSection) backUploadSection.style.display = 'block';
   } else {
     if (backLocationSection) backLocationSection.style.display = 'none';
-    if (backColorsSection) backColorsSection.style.display = 'none';
     if (backUploadSection) backUploadSection.style.display = 'none';
   }
   
@@ -261,6 +258,10 @@ $(document).ready(function() {
   
   // Initialize the configurator
   chooseTypeOfPrint("screen"); // Default to screen printing
+  
+  // Initialize with default values (1 front color, 0 back colors)
+  chooseColorsFront(1); // This will show front location and upload sections
+  chooseColorsBack(0);  // This will hide back sections
   
   // Initialize file upload handlers
   handleFileUpload('frontDesignUpload', 'front-file-preview');

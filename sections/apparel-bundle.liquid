@@ -1,36 +1,36 @@
 {%- comment -%} Data for JS {%- endcomment -%}
 <script>
 window.BUNDLE_ADDONS = {
-  frontColors:{ productId: {{ block.settings.addon_front_colors.id | default: 'null' }},
+  frontColors:{ productId: {{ section.settings.addon_front_colors.id | default: 'null' }},
     variants:{
-      "24": {{ block.settings.addon_front_colors.variants | where: "title", "24" | first | default: nil | json }},
-      "48": {{ block.settings.addon_front_colors.variants | where: "title", "48" | first | default: nil | json }},
-      "100": {{ block.settings.addon_front_colors.variants | where: "title", "100" | first | default: nil | json }}
+      "24": {{ section.settings.addon_front_colors.variants | where: "title", "24" | first | default: nil | json }},
+      "48": {{ section.settings.addon_front_colors.variants | where: "title", "48" | first | default: nil | json }},
+      "100": {{ section.settings.addon_front_colors.variants | where: "title", "100" | first | default: nil | json }}
     }},
-  backColors:{ productId: {{ block.settings.addon_back_colors.id | default: 'null' }},
+  backColors:{ productId: {{ section.settings.addon_back_colors.id | default: 'null' }},
     variants:{
-      "24": {{ block.settings.addon_back_colors.variants | where: "title", "24" | first | default: nil | json }},
-      "48": {{ block.settings.addon_back_colors.variants | where: "title", "48" | first | default: nil | json }},
-      "100": {{ block.settings.addon_back_colors.variants | where: "title", "100" | first | default: nil | json }}
+      "24": {{ section.settings.addon_back_colors.variants | where: "title", "24" | first | default: nil | json }},
+      "48": {{ section.settings.addon_back_colors.variants | where: "title", "48" | first | default: nil | json }},
+      "100": {{ section.settings.addon_back_colors.variants | where: "title", "100" | first | default: nil | json }}
     }},
-  rush:{ productId: {{ block.settings.addon_rush.id | default: 'null' }},
+  rush:{ productId: {{ section.settings.addon_rush.id | default: 'null' }},
     variants:{
-      "24": {{ block.settings.addon_rush.variants | where: "title", "24" | first | default: nil | json }},
-      "48": {{ block.settings.addon_rush.variants | where: "title", "48" | first | default: nil | json }},
-      "100": {{ block.settings.addon_rush.variants | where: "title", "100" | first | default: nil | json }}
+      "24": {{ section.settings.addon_rush.variants | where: "title", "24" | first | default: nil | json }},
+      "48": {{ section.settings.addon_rush.variants | where: "title", "48" | first | default: nil | json }},
+      "100": {{ section.settings.addon_rush.variants | where: "title", "100" | first | default: nil | json }}
     }},
-  tumblers:{ productId: {{ block.settings.addon_tumblers.id | default: 'null' }},
+  tumblers:{ productId: {{ section.settings.addon_tumblers.id | default: 'null' }},
     variants:{
-      "24": {{ block.settings.addon_tumblers.variants | where: "title", "24" | first | default: nil | json }},
-      "48": {{ block.settings.addon_tumblers.variants | where: "title", "48" | first | default: nil | json }},
-      "100": {{ block.settings.addon_tumblers.variants | where: "title", "100" | first | default: nil | json }}
+      "24": {{ section.settings.addon_tumblers.variants | where: "title", "24" | first | default: nil | json }},
+      "48": {{ section.settings.addon_tumblers.variants | where: "title", "48" | first | default: nil | json }},
+      "100": {{ section.settings.addon_tumblers.variants | where: "title", "100" | first | default: nil | json }}
     }}
 };
 </script>
 
 <script src="{{ 'apparel-bundle.js' | asset_url }}" defer></script>
 
-<div class="apparel-bundle" {{ block.shopify_attributes }}>
+<div class="apparel-bundle" {{ section.shopify_attributes }}>
   <h3 class="apparel-bundle__title">Apparel Bundle</h3>
 
   <div class="sizes-grid">

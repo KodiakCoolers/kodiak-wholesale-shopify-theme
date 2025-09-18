@@ -52,6 +52,7 @@ This is an inline version without modal functionality
         <h3 class="section-heading">Select the number of ink colors in your design.</h3>
         <div class="color-selectors">
           <select name="colorFront" id="colorFront" onchange="chooseColorsFront(this.value)">
+            <option value="0">No Front Design</option>
             <option value="1" selected>1 Front Print Color</option>
             <option value="2">2 Front Print Colors</option>
             <option value="3">3 Front Print Colors</option>
@@ -140,11 +141,13 @@ This is an inline version without modal functionality
       </div>
 
       <!-- Sizes Section -->
-      <div class="sizes-section">
+      <div class="sizes-section" id="sizes-section">
         <h3 class="section-heading">ENTER YOUR SIZES</h3>
-        <p class="sizes-subtitle">Minimum order quantity is 36 for all shirt colors & sizes, combined.</p>
+        {% assign minimum_qty = product.metafields.product.minimum | default: 36 %}
+        <input type="hidden" id="minimumQty" value="{{ minimum_qty }}">
+        <p class="sizes-subtitle">Minimum order quantity is {{ minimum_qty }} for all shirt colors & sizes, combined.</p>
         
-        <div class="size-buttons">
+        <div class="size-buttons" id="size-buttons">
           <button type="button" class="size-btn" data-size="S">S</button>
           <button type="button" class="size-btn" data-size="M">M</button>
           <button type="button" class="size-btn" data-size="L">L</button>
@@ -152,14 +155,16 @@ This is an inline version without modal functionality
           <button type="button" class="size-btn" data-size="2XL">2XL</button>
           <button type="button" class="size-btn" data-size="3XL">3XL</button>
         </div>
+        <div class="sizes-qty" id="sizes-qty"></div>
+        <div class="sizes-minimum" id="sizes-minimum-status"></div>
         
-        <div class="split-order">
+        {% comment %} <div class="split-order">
           <label class="checkbox-option">
             <input type="checkbox" id="splitOrder">
             <span class="checkbox-label">Split my order into multiple shirt colors!</span>
           </label>
           <p class="split-note">Note: design AND ink colors must be the same on all shirts.</p>
-        </div>
+        </div> {% endcomment %}
       </div>
 
       <!-- Order Notes -->

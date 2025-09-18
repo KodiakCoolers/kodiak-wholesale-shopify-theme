@@ -112,12 +112,16 @@ function chooseTypeOfPrint(type) {
 function chooseColorsFront(value) {
   maxFront = parseInt(value);
   
-  // Always show front location section since we default to 1 front color
   const frontLocationSection = document.getElementById('front-location-section');
   const frontUploadBox = document.getElementById('front-upload-box');
   
-  if (frontLocationSection) frontLocationSection.style.display = 'block';
-  if (frontUploadBox) frontUploadBox.style.display = 'block';
+  if (maxFront > 0) {
+    if (frontLocationSection) frontLocationSection.style.display = 'block';
+    if (frontUploadBox) frontUploadBox.style.display = 'block';
+  } else {
+    if (frontLocationSection) frontLocationSection.style.display = 'none';
+    if (frontUploadBox) frontUploadBox.style.display = 'none';
+  }
   
   validateStep1();
 }
@@ -125,19 +129,15 @@ function chooseColorsFront(value) {
 function chooseColorsBack(value) {
   maxBack = parseInt(value);
   
-  // Show/hide back elements based on selection
   const backLocationSection = document.getElementById('back-location-section');
   const backUploadBox = document.getElementById('back-upload-box');
-  const backColorSelect = document.getElementById('colorBack');
   
   if (maxBack > 0) {
     if (backLocationSection) backLocationSection.style.display = 'block';
     if (backUploadBox) backUploadBox.style.display = 'block';
-    if (backColorSelect) backColorSelect.style.display = 'block';
   } else {
     if (backLocationSection) backLocationSection.style.display = 'none';
     if (backUploadBox) backUploadBox.style.display = 'none';
-    if (backColorSelect) backColorSelect.style.display = 'none';
   }
   
   validateStep1();
@@ -247,10 +247,15 @@ function initializeFileUpload(inputId, previewId) {
 // Initialize size buttons
 function initializeSizeButtons() {
   const sizeButtons = document.querySelectorAll('.size-btn');
+  const sizesQtyContainer = document.getElementById('sizes-qty');
+  if (!sizesQtyContainer) return;
+
   sizeButtons.forEach(button => {
     button.addEventListener('click', function() {
-      // Toggle active state
-      this.classList.toggle('active');
+      const size = this.getAttribute('data-size');
+      const isActive = this.classList.toggle('active');
+      toggleSizeInput(size, isActive);
+      recalculateTotalQty();
     });
   });
 }
@@ -264,12 +269,71 @@ function initializeAddToCart() {
       console.log('Add to cart clicked');
       // TODO: Implement add to cart functionality
     });
+    // Start disabled until minimum is met
+    addToCartBtn.disabled = true;
   }
 }
 
 // Legacy function for compatibility
 function handleFileUpload(inputId, previewId) {
   return initializeFileUpload(inputId, previewId);
+}
+
+// ----- Sizes helpers -----
+function getMinimumQty() {
+  const el = document.getElementById('minimumQty');
+  const val = parseInt(el ? el.value : '36');
+  return isNaN(val) ? 36 : val;
+}
+
+function toggleSizeInput(size, enabled) {
+  const container = document.getElementById('sizes-qty');
+  if (!container) return;
+
+  const existing = container.querySelector(`.sizes-input[data-size="${size}"]`);
+
+  if (enabled) {
+    if (existing) return;
+    const wrapper = document.createElement('div');
+    wrapper.className = 'sizes-input';
+    wrapper.setAttribute('data-size', size);
+    wrapper.innerHTML = `
+      <label>${size}</label>
+      <input type="number" class="size-qty-input" min="0" step="1" value="0" inputmode="numeric" pattern="[0-9]*" />
+    `;
+    container.appendChild(wrapper);
+    const input = wrapper.querySelector('input');
+    input.addEventListener('input', recalculateTotalQty);
+  } else if (existing) {
+    existing.remove();
+  }
+}
+
+function recalculateTotalQty() {
+  const inputs = document.querySelectorAll('.size-qty-input');
+  let total = 0;
+  inputs.forEach(inp => {
+    const val = parseInt(inp.value || '0');
+    if (!isNaN(val)) total += val;
+  });
+
+  const minimum = getMinimumQty();
+  const status = document.getElementById('sizes-minimum-status');
+  const btn = document.querySelector('.add-to-cart-btn');
+
+  if (status) {
+    if (total >= minimum) {
+      status.textContent = `Total: ${total}. Minimum met.`;
+      status.classList.remove('error');
+    } else {
+      status.textContent = `Total: ${total}. Please add at least ${minimum - total} more.`;
+      status.classList.add('error');
+    }
+  }
+
+  if (btn) {
+    btn.disabled = total < minimum;
+  }
 }
 
 // Initialize when DOM is ready
@@ -298,6 +362,10 @@ $(document).ready(function() {
   
   // Initialize add to cart button
   initializeAddToCart();
+
+  // Recalculate on color changes too (in case business rules tie into min qty later)
+  document.getElementById('colorFront')?.addEventListener('change', recalculateTotalQty);
+  document.getElementById('colorBack')?.addEventListener('change', recalculateTotalQty);
   
   // Set up color swatches if they exist
   const swatches = $('.gf_swatches-selector[data-name="Color"] .gf_swatch');

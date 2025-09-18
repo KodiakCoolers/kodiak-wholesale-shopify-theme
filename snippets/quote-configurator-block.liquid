@@ -153,24 +153,36 @@ This is an inline version without modal functionality
         <input type="hidden" id="bundleColorSelect" value="{% if product.options_by_name['Color'] %}{{ product.options_by_name['Color'].values.first | escape }}{% else %}Default{% endif %}">
       </div>
 
-      <!-- Sizes Section -->
-      <div class="sizes-section" id="sizes-section">
-        <h3 class="section-heading">ENTER YOUR SIZES</h3>
+      <!-- Package Selection -->
+      <div class="package-section" id="package-section">
+        <h3 class="section-heading">Select Package Size</h3>
         {% assign minimum_qty = product.metafields.product.minimum | default: 36 %}
         <input type="hidden" id="minimumQty" value="{{ minimum_qty }}">
-        <p class="sizes-subtitle">Minimum order quantity is {{ minimum_qty }} for all shirt colors & sizes, combined.</p>
+        <p class="package-subtitle">Choose your package quantity:</p>
         
-        <div class="size-buttons" id="size-buttons">
-          <button type="button" class="size-btn" data-size="XS">XS</button>
-          <button type="button" class="size-btn" data-size="S">S</button>
-          <button type="button" class="size-btn" data-size="M">M</button>
-          <button type="button" class="size-btn" data-size="L">L</button>
-          <button type="button" class="size-btn" data-size="XL">XL</button>
-          <button type="button" class="size-btn" data-size="2XL">2XL</button>
-          <button type="button" class="size-btn" data-size="3XL">3XL</button>
+        <div class="package-options">
+          <label class="package-option">
+            <input type="radio" name="packageSize" value="{{ minimum_qty }}" data-price="564.86" checked>
+            <span class="package-label">({{ minimum_qty }} Pieces) {{ product.title }} Package - $564.86</span>
+          </label>
         </div>
-        <div class="sizes-qty" id="sizes-qty"></div>
-        <div class="sizes-minimum" id="sizes-minimum-status"></div>
+
+        <!-- Size breakdown input -->
+        <div class="size-breakdown" id="size-breakdown">
+          <h4>Size Breakdown (Total: {{ minimum_qty }} pieces)</h4>
+          <div class="size-inputs">
+            <div class="size-input-group">
+              <label>XS: <input type="number" name="size_xs" min="0" max="{{ minimum_qty }}" value="0"></label>
+              <label>S: <input type="number" name="size_s" min="0" max="{{ minimum_qty }}" value="12"></label>
+              <label>M: <input type="number" name="size_m" min="0" max="{{ minimum_qty }}" value="12"></label>
+              <label>L: <input type="number" name="size_l" min="0" max="{{ minimum_qty }}" value="12"></label>
+              <label>XL: <input type="number" name="size_xl" min="0" max="{{ minimum_qty }}" value="0"></label>
+              <label>2XL: <input type="number" name="size_2xl" min="0" max="{{ minimum_qty }}" value="0"></label>
+              <label>3XL: <input type="number" name="size_3xl" min="0" max="{{ minimum_qty }}" value="0"></label>
+            </div>
+            <div class="size-total" id="size-total">Total: 36 / {{ minimum_qty }}</div>
+          </div>
+        </div>
         
         {% comment %} <div class="split-order">
           <label class="checkbox-option">

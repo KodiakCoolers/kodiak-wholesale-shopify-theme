@@ -244,20 +244,42 @@ function initializeFileUpload(inputId, previewId) {
   });
 }
 
-// Initialize size buttons
-function initializeSizeButtons() {
-  const sizeButtons = document.querySelectorAll('.size-btn');
-  const sizesQtyContainer = document.getElementById('sizes-qty');
-  if (!sizesQtyContainer) return;
+// Initialize size inputs for package approach
+function initializeSizeInputs() {
+  const sizeInputs = document.querySelectorAll('.size-input-group input[type="number"]');
+  const totalEl = document.getElementById('size-total');
+  const minimumQty = getMinimumQty();
 
-  sizeButtons.forEach(button => {
-    button.addEventListener('click', function() {
-      const size = this.getAttribute('data-size');
-      const isActive = this.classList.toggle('active');
-      toggleSizeInput(size, isActive);
-      recalculateTotalQty();
+  sizeInputs.forEach(input => {
+    input.addEventListener('input', function() {
+      updateSizeTotal();
     });
   });
+
+  function updateSizeTotal() {
+    let total = 0;
+    sizeInputs.forEach(inp => {
+      const val = parseInt(inp.value || '0');
+      if (!isNaN(val)) total += val;
+    });
+
+    if (totalEl) {
+      totalEl.textContent = `Total: ${total} / ${minimumQty}`;
+      if (total !== minimumQty) {
+        totalEl.classList.add('error');
+      } else {
+        totalEl.classList.remove('error');
+      }
+    }
+
+    const btn = document.querySelector('.add-to-cart-btn');
+    if (btn) {
+      btn.disabled = total !== minimumQty;
+    }
+  }
+
+  // Initial calculation
+  updateSizeTotal();
 }
 
 // Initialize add to cart button
@@ -266,78 +288,92 @@ function initializeAddToCart() {
   if (addToCartBtn) {
     addToCartBtn.addEventListener('click', async function() {
       console.log('Add to cart clicked');
-      // Build line items from selected color and size quantities
+      
+      // Get the first available variant (package approach - single item)
       const productJsonEl = document.getElementById('product_json');
       if (!productJsonEl) return;
       const productData = JSON.parse(productJsonEl.textContent || '{}');
       const selectedColor = (document.getElementById('bundleColorSelect')?.value || '').toString();
       
-      // Helper: robust variant resolver by option names
-      const resolveVariant = (colorValue, sizeValue) => {
-        const options = (productData.options || []).map(o => (o || '').toString().toLowerCase());
-        const colorIdx = Math.max(0, options.indexOf('color'));
-        const sizeIdx = options.indexOf('size');
-        const desired = [];
-        desired[colorIdx] = (colorValue || '').toString().toLowerCase();
-        if (sizeIdx >= 0) desired[sizeIdx] = (sizeValue || '').toString().toLowerCase();
-        
-        return (productData.variants || []).find(v => {
-          const vopts = [(v.option1||''),(v.option2||''),(v.option3||'')].map(x => x.toString().toLowerCase());
-          const colorMatch = desired[colorIdx] ? vopts[colorIdx] === desired[colorIdx] : true;
-          const sizeMatch = sizeIdx >= 0 ? (vopts[sizeIdx] === desired[sizeIdx]) : true;
-          return colorMatch && sizeMatch;
-        });
-      };
-
-      // Map size string to option value order
-      const sizeInputs = document.querySelectorAll('.sizes-qty .sizes-input');
-      const lines = [];
-      const unavailable = [];
-      sizeInputs.forEach(w => {
-        const qty = parseInt(w.querySelector('input')?.value || '0');
-        const size = w.getAttribute('data-size');
-        if (!qty || qty <= 0) return;
-
-        const variant = resolveVariant(selectedColor, size);
-        if (!variant) {
-          unavailable.push(`${selectedColor} / ${size} (not found)`);
-          return;
-        }
-        if (variant.available === false) {
-          unavailable.push(`${selectedColor} / ${size} (unavailable)`);
-          return;
-        }
-        // Build line item properties
-        const frontColors = parseInt(document.getElementById('colorFront')?.value || '0');
-        const backColors = parseInt(document.getElementById('colorBack')?.value || '0');
-        const notes = (document.querySelector('.order-notes')?.value || '').toString();
-        const frontLoc = (document.querySelector('input[name="frontLocation"]:checked')?.value || '').toString();
-        const backLoc = (document.querySelector('input[name="backLocation"]:checked')?.value || '').toString();
-
-        lines.push({ 
-          id: Number(variant.id), 
-          quantity: qty,
-          properties: {
-            _front_colors: String(frontColors),
-            _back_colors: String(backColors),
-            _front_location: frontLoc,
-            _back_location: backLoc,
-            _notes: notes,
-            _selected_color: selectedColor,
-            _size: size
-          }
-        });
+      // Find first variant matching selected color
+      const variant = (productData.variants || []).find(v => {
+        const colorOpt = v.option1 || v.option2 || v.option3 || '';
+        return colorOpt.toLowerCase() === selectedColor.toLowerCase();
       });
 
-      if (unavailable.length) {
-        alert('Some selections are unavailable:\n' + unavailable.join('\n'));
+      if (!variant) {
+        alert(`No variant found for color: ${selectedColor}`);
+        return;
       }
-      if (lines.length === 0) return;
+
+      if (variant.available === false) {
+        alert(`Selected color ${selectedColor} is unavailable`);
+        return;
+      }
+
+      // Collect all form data as properties
+      const frontColors = parseInt(document.getElementById('colorFront')?.value || '0');
+      const backColors = parseInt(document.getElementById('colorBack')?.value || '0');
+      const notes = (document.querySelector('.order-notes')?.value || '').toString();
+      const frontLoc = (document.querySelector('input[name="frontLocation"]:checked')?.value || '').toString();
+      const backLoc = backColors > 0 ? (document.querySelector('input[name="backLocation"]:checked')?.value || '') : '';
+
+      // Collect size breakdown
+      const sizeInputs = document.querySelectorAll('.size-input-group input[type="number"]');
+      const sizeBreakdown = [];
+      sizeInputs.forEach(inp => {
+        const qty = parseInt(inp.value || '0');
+        const sizeName = inp.name.replace('size_', '').toUpperCase();
+        if (qty > 0) {
+          sizeBreakdown.push(`${qty} x ${sizeName}`);
+        }
+      });
+
+      // Get uploaded files as data URLs
+      const frontFiles = await getUploadedFiles('frontDesignUpload');
+      const backFiles = await getUploadedFiles('backDesignUpload');
+
+      const packageQty = parseInt(document.querySelector('input[name="packageSize"]:checked')?.value || '36');
+
+      const properties = {
+        'Front Print': frontColors > 0 ? `${frontColors} Front Print Color${frontColors > 1 ? 's' : ''}` : 'No Front Design',
+        'Back Print': backColors > 0 ? `${backColors} Back Print Color${backColors > 1 ? 's' : ''}` : 'No Back Design',
+        'Size': sizeBreakdown.join(', ') || 'Sizes not specified',
+        'Order Notes': notes || 'None'
+      };
+
+      if (frontColors > 0 && frontLoc) {
+        properties['Where do you want your front design to go?'] = frontLoc.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase());
+      }
+
+      if (backColors > 0 && backLoc) {
+        properties['Where do you want your back design to go?'] = backLoc.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase());
+      }
+
+      // Add file uploads as properties
+      if (frontFiles.length > 0) {
+        frontFiles.forEach((file, idx) => {
+          properties[`Upload Front Design ${idx + 1}`] = file.url;
+        });
+      }
+
+      if (backFiles.length > 0) {
+        backFiles.forEach((file, idx) => {
+          properties[`Upload Back Design ${idx + 1}`] = file.url;
+        });
+      }
+
       try {
         const res = await fetch('/cart/add.js', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ items: lines })
+          body: JSON.stringify({ 
+            items: [{
+              id: Number(variant.id), 
+              quantity: 1, // Single package
+              properties: properties
+            }]
+          })
         });
         if (!res.ok) {
           let detail = '';
@@ -354,6 +390,33 @@ function initializeAddToCart() {
     // Start disabled until minimum is met
     addToCartBtn.disabled = true;
   }
+}
+
+// Helper function to get uploaded files as data URLs
+async function getUploadedFiles(inputId) {
+  const input = document.getElementById(inputId);
+  if (!input || !input.files.length) return [];
+  
+  const files = [];
+  for (let i = 0; i < input.files.length; i++) {
+    const file = input.files[i];
+    try {
+      const dataUrl = await fileToDataUrl(file);
+      files.push({ name: file.name, url: dataUrl });
+    } catch (e) {
+      console.warn('Failed to read file:', file.name, e);
+    }
+  }
+  return files;
+}
+
+function fileToDataUrl(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
 }
 
 // Legacy function for compatibility
@@ -440,14 +503,13 @@ function recalculateTotalQty() {
   initializeFileUpload('frontDesignUpload', 'front-file-preview');
   initializeFileUpload('backDesignUpload', 'back-file-preview');
   
-  // Initialize size buttons
-  initializeSizeButtons();
+  // Initialize size inputs (new package approach)
+  initializeSizeInputs();
   
   // Initialize add to cart button
   initializeAddToCart();
   
-  // Initial minimum status
-  recalculateTotalQty();
+  // No longer needed - replaced by initializeSizeInputs
 
   // Color swatch selection
   const swatches = document.querySelectorAll('#bundleColorSwatches .swatch');

@@ -222,30 +222,72 @@
   color: #2d3748;
 }
 
-/* Sizes Section */
-.quote-configurator-block .sizes-section { margin-bottom: 16px; }
+/* Package Section */
+.quote-configurator-block .package-section { margin-bottom: 16px; }
 
-.quote-configurator-block .sizes-subtitle { color: #718096; font-size: 14px; margin-bottom: 8px; }
+.quote-configurator-block .package-subtitle { color: #718096; font-size: 14px; margin-bottom: 12px; }
 
-.quote-configurator-block .size-buttons { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+.quote-configurator-block .package-options { margin-bottom: 16px; }
 
-.quote-configurator-block .size-btn {
-  padding: 10px 16px;
+.quote-configurator-block .package-option {
+  display: flex;
+  align-items: center;
+  padding: 12px;
   border: 2px solid #e2e8f0;
-  background-color: #fff;
-  color: #2d3748;
-  font-weight: 600;
   border-radius: 6px;
   cursor: pointer;
-  transition: all 0.2s ease;
-  min-width: 60px;
+  background-color: #fff;
 }
 
-.quote-configurator-block .size-btn:hover,
-.quote-configurator-block .size-btn.active {
-  border-color: #3182ce;
-  background-color: #3182ce;
-  color: white;
+.quote-configurator-block .package-option input[type="radio"] {
+  margin-right: 12px;
+  accent-color: #3182ce;
+}
+
+.quote-configurator-block .package-label {
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.quote-configurator-block .size-breakdown h4 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #2d3748;
+}
+
+.quote-configurator-block .size-input-group {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.quote-configurator-block .size-input-group label {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.quote-configurator-block .size-input-group input {
+  width: 60px;
+  padding: 4px 8px;
+  margin-left: 8px;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.quote-configurator-block .size-total {
+  font-size: 14px;
+  font-weight: 600;
+  color: #4a5568;
+  text-align: right;
+}
+
+.quote-configurator-block .size-total.error {
+  color: #e53e3e;
 }
 
 /* Color selector */

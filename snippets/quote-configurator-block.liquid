@@ -153,30 +153,17 @@ This is an inline version without modal functionality
         <input type="hidden" id="bundleColorSelect" value="{% if product.options_by_name['Color'] %}{{ product.options_by_name['Color'].values.first | escape }}{% else %}Default{% endif %}">
       </div>
 
-      <!-- Package Selection -->
-      <div class="package-section" id="package-section">
-        <h3 class="section-heading">Select Package Size</h3>
+      <!-- Quantity Selection -->
+      <div class="quantity-section" id="quantity-section">
+        <h3 class="section-heading">Order Quantity</h3>
         {% assign minimum_qty = product.metafields.product.minimum | default: 36 %}
         <input type="hidden" id="minimumQty" value="{{ minimum_qty }}">
-        <p class="package-subtitle">Choose your package quantity:</p>
+        <p class="quantity-subtitle">Minimum order quantity is {{ minimum_qty }} pieces. Enter your total quantity:</p>
         
-        <div class="package-options">
-          <label class="package-option">
-            <input type="radio" name="packageSize" value="{{ minimum_qty }}" data-price="564.86" checked>
-            <span class="package-label">({{ minimum_qty }} Pieces) {{ product.title }} Package - $564.86</span>
-          </label>
-          {% assign qty_54 = minimum_qty | plus: 18 %}
-          {% assign price_54 = 564.86 | plus: 142.15 %}
-          <label class="package-option">
-            <input type="radio" name="packageSize" value="{{ qty_54 }}" data-price="{{ price_54 }}">
-            <span class="package-label">({{ qty_54 }} Pieces) {{ product.title }} Package - ${{ price_54 }}</span>
-          </label>
-          {% assign qty_72 = minimum_qty | times: 2 %}
-          {% assign price_72 = 564.86 | times: 2 %}
-          <label class="package-option">
-            <input type="radio" name="packageSize" value="{{ qty_72 }}" data-price="{{ price_72 }}">
-            <span class="package-label">({{ qty_72 }} Pieces) {{ product.title }} Package - ${{ price_72 }}</span>
-          </label>
+        <div class="quantity-input-wrapper">
+          <label for="totalQuantity" class="quantity-label">Total Quantity:</label>
+          <input type="number" id="totalQuantity" name="totalQuantity" min="{{ minimum_qty }}" value="{{ minimum_qty }}" step="1" class="quantity-input">
+          <span class="quantity-note">pieces</span>
         </div>
 
         <!-- Size breakdown input -->
@@ -184,13 +171,13 @@ This is an inline version without modal functionality
           <h4 id="size-breakdown-title">Size Breakdown (Total: {{ minimum_qty }} pieces)</h4>
           <div class="size-inputs">
             <div class="size-input-group" id="size-input-group">
-              <label>XS: <input type="number" name="size_xs" min="0" max="{{ minimum_qty }}" value="0"></label>
-              <label>S: <input type="number" name="size_s" min="0" max="{{ minimum_qty }}" value="12"></label>
-              <label>M: <input type="number" name="size_m" min="0" max="{{ minimum_qty }}" value="12"></label>
-              <label>L: <input type="number" name="size_l" min="0" max="{{ minimum_qty }}" value="12"></label>
-              <label>XL: <input type="number" name="size_xl" min="0" max="{{ minimum_qty }}" value="0"></label>
-              <label>2XL: <input type="number" name="size_2xl" min="0" max="{{ minimum_qty }}" value="0"></label>
-              <label>3XL: <input type="number" name="size_3xl" min="0" max="{{ minimum_qty }}" value="0"></label>
+              <label>XS: <input type="number" name="size_xs" min="0" value="0"></label>
+              <label>S: <input type="number" name="size_s" min="0" value="12"></label>
+              <label>M: <input type="number" name="size_m" min="0" value="12"></label>
+              <label>L: <input type="number" name="size_l" min="0" value="12"></label>
+              <label>XL: <input type="number" name="size_xl" min="0" value="0"></label>
+              <label>2XL: <input type="number" name="size_2xl" min="0" value="0"></label>
+              <label>3XL: <input type="number" name="size_3xl" min="0" value="0"></label>
             </div>
             <div class="size-total" id="size-total">Total: 36 / {{ minimum_qty }}</div>
           </div>

@@ -244,23 +244,29 @@ function initializeFileUpload(inputId, previewId) {
   });
 }
 
-// Initialize size inputs for package approach
+// Initialize quantity and size inputs
 function initializeSizeInputs() {
   const sizeInputs = document.querySelectorAll('.size-input-group input[type="number"]');
   const totalEl = document.getElementById('size-total');
-  const packageRadios = document.querySelectorAll('input[name="packageSize"]');
-  let currentPackageQty = getSelectedPackageQty();
+  const quantityInput = document.getElementById('totalQuantity');
+  let currentTotalQty = getCurrentTotalQty();
 
-  // Handle package size changes
-  packageRadios.forEach(radio => {
-    radio.addEventListener('change', function() {
-      if (this.checked) {
-        currentPackageQty = parseInt(this.value);
-        updatePackageUI();
-        updateSizeTotal();
+  // Handle total quantity changes
+  if (quantityInput) {
+    quantityInput.addEventListener('input', function() {
+      currentTotalQty = parseInt(this.value || '0');
+      const minimumQty = getMinimumQty();
+      
+      // Enforce minimum
+      if (currentTotalQty < minimumQty) {
+        this.value = minimumQty;
+        currentTotalQty = minimumQty;
       }
+      
+      updateQuantityUI();
+      updateSizeTotal();
     });
-  });
+  }
 
   sizeInputs.forEach(input => {
     input.addEventListener('input', function() {
@@ -268,27 +274,27 @@ function initializeSizeInputs() {
     });
   });
 
-  function getSelectedPackageQty() {
-    const selected = document.querySelector('input[name="packageSize"]:checked');
-    return selected ? parseInt(selected.value) : getMinimumQty();
+  function getCurrentTotalQty() {
+    const qtyInput = document.getElementById('totalQuantity');
+    return qtyInput ? parseInt(qtyInput.value || '0') : getMinimumQty();
   }
 
-  function updatePackageUI() {
+  function updateQuantityUI() {
     // Update title
     const titleEl = document.getElementById('size-breakdown-title');
     if (titleEl) {
-      titleEl.textContent = `Size Breakdown (Total: ${currentPackageQty} pieces)`;
+      titleEl.textContent = `Size Breakdown (Total: ${currentTotalQty} pieces)`;
     }
 
     // Update max values on inputs
     sizeInputs.forEach(inp => {
-      inp.setAttribute('max', currentPackageQty);
+      inp.setAttribute('max', currentTotalQty);
     });
 
     // Reset values if they exceed new max
     sizeInputs.forEach(inp => {
       const val = parseInt(inp.value || '0');
-      if (val > currentPackageQty) {
+      if (val > currentTotalQty) {
         inp.value = '0';
       }
     });
@@ -302,8 +308,8 @@ function initializeSizeInputs() {
     });
 
     if (totalEl) {
-      totalEl.textContent = `Total: ${total} / ${currentPackageQty}`;
-      if (total !== currentPackageQty) {
+      totalEl.textContent = `Total: ${total} / ${currentTotalQty}`;
+      if (total !== currentTotalQty) {
         totalEl.classList.add('error');
       } else {
         totalEl.classList.remove('error');
@@ -311,13 +317,14 @@ function initializeSizeInputs() {
     }
 
     const btn = document.querySelector('.add-to-cart-btn');
+    const minimumQty = getMinimumQty();
     if (btn) {
-      btn.disabled = total !== currentPackageQty;
+      btn.disabled = total !== currentTotalQty || currentTotalQty < minimumQty;
     }
   }
 
   // Initial setup
-  updatePackageUI();
+  updateQuantityUI();
   updateSizeTotal();
 }
 
@@ -372,15 +379,13 @@ function initializeAddToCart() {
       const frontFiles = await getUploadedFiles('frontDesignUpload');
       const backFiles = await getUploadedFiles('backDesignUpload');
 
-      const selectedPackage = document.querySelector('input[name="packageSize"]:checked');
-      const packageQty = parseInt(selectedPackage?.value || '36');
-      const packagePrice = selectedPackage?.getAttribute('data-price') || '564.86';
+      const totalQuantity = parseInt(document.getElementById('totalQuantity')?.value || '36');
 
       const properties = {
         'Front Print': frontColors > 0 ? `${frontColors} Front Print Color${frontColors > 1 ? 's' : ''}` : 'No Front Design',
         'Back Print': backColors > 0 ? `${backColors} Back Print Color${backColors > 1 ? 's' : ''}` : 'No Back Design',
         'Size': sizeBreakdown.join(', ') || 'Sizes not specified',
-        'Package Size': `${packageQty} pieces - $${packagePrice}`,
+        'Total Quantity': `${totalQuantity} pieces`,
         'Order Notes': notes || 'None'
       };
 

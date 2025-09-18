@@ -222,47 +222,47 @@
   color: #2d3748;
 }
 
-/* Package Section */
-.quote-configurator-block .package-section { margin-bottom: 16px; }
+/* Quantity Section */
+.quote-configurator-block .quantity-section { margin-bottom: 16px; }
 
-.quote-configurator-block .package-subtitle { color: #718096; font-size: 14px; margin-bottom: 12px; }
+.quote-configurator-block .quantity-subtitle { color: #718096; font-size: 14px; margin-bottom: 12px; }
 
-.quote-configurator-block .package-options { 
-  margin-bottom: 16px; 
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.quote-configurator-block .package-option {
+.quote-configurator-block .quantity-input-wrapper {
   display: flex;
   align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
   padding: 12px;
   border: 2px solid #e2e8f0;
   border-radius: 6px;
-  cursor: pointer;
   background-color: #fff;
-  transition: all 0.2s ease;
 }
 
-.quote-configurator-block .package-option:hover {
-  border-color: #3182ce;
-  background-color: #f7fafc;
-}
-
-.quote-configurator-block .package-option:has(input:checked) {
-  border-color: #3182ce;
-  background-color: #ebf8ff;
-}
-
-.quote-configurator-block .package-option input[type="radio"] {
-  margin-right: 12px;
-  accent-color: #3182ce;
-}
-
-.quote-configurator-block .package-label {
+.quote-configurator-block .quantity-label {
   font-weight: 500;
   font-size: 16px;
+  color: #2d3748;
+}
+
+.quote-configurator-block .quantity-input {
+  padding: 8px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 500;
+  width: 100px;
+  text-align: center;
+}
+
+.quote-configurator-block .quantity-input:focus {
+  outline: none;
+  border-color: #3182ce;
+  box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+}
+
+.quote-configurator-block .quantity-note {
+  color: #718096;
+  font-size: 14px;
 }
 
 .quote-configurator-block .size-breakdown h4 {

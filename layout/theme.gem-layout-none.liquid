@@ -1683,7 +1683,7 @@ window.TriplePixelData={TripleName:"kodiakwholesale.myshopify.com",ver:"2.12",pl
 {% if product.vendor != 'Kodiak Coolers' %}
 {% render 'quote' %}
 {% if template contains 'product' %}
-  {% include 'quote_popup' %}
+  {% if request.page_type != 'product' %}{% include 'quote_popup' %}{% endif %}
 {% endif %}
 {% endif %}  
 <script>

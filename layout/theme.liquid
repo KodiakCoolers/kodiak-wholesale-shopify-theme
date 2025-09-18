@@ -1218,7 +1218,7 @@
     	{% if product.vendor != 'Kodiak Coolers' and product.vendor != "Richardson" %}
     		{% render 'quote' %}
     		{% if template contains 'product' %}
-    			{% include 'quote_popup' %}
+            {% if request.page_type != 'product' %}{% include 'quote_popup' %}{% endif %}
     		{% endif %}
     	{% endif %}  
 	<script>

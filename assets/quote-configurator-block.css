@@ -248,6 +248,17 @@
   color: white;
 }
 
+/* Color selector */
+.quote-configurator-block .color-selector-section { margin-bottom: 12px; }
+.quote-configurator-block .color-selector-section select {
+  width: 100%;
+  max-width: 380px;
+  padding: 10px 12px;
+  border: 2px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
 .quote-configurator-block .split-order {
   border-top: 1px solid #e2e8f0;
   padding-top: 16px;

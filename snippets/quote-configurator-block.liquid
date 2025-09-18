@@ -140,6 +140,20 @@ This is an inline version without modal functionality
         </div>
       </div>
 
+      <!-- Color Selector (single color) -->
+      <div class="color-selector-section">
+        <h3 class="section-heading">Choose product color</h3>
+        <select id="bundleColorSelect">
+          {% if product.options_by_name['Color'] %}
+            {% for c in product.options_by_name['Color'].values %}
+              <option value="{{ c | escape }}" {% if forloop.first %}selected{% endif %}>{{ c }}</option>
+            {% endfor %}
+          {% else %}
+            <option value="Default" selected>Default</option>
+          {% endif %}
+        </select>
+      </div>
+
       <!-- Sizes Section -->
       <div class="sizes-section" id="sizes-section">
         <h3 class="section-heading">ENTER YOUR SIZES</h3>
@@ -148,6 +162,7 @@ This is an inline version without modal functionality
         <p class="sizes-subtitle">Minimum order quantity is {{ minimum_qty }} for all shirt colors & sizes, combined.</p>
         
         <div class="size-buttons" id="size-buttons">
+          <button type="button" class="size-btn" data-size="XS">XS</button>
           <button type="button" class="size-btn" data-size="S">S</button>
           <button type="button" class="size-btn" data-size="M">M</button>
           <button type="button" class="size-btn" data-size="L">L</button>

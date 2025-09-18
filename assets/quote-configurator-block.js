@@ -264,10 +264,48 @@ function initializeSizeButtons() {
 function initializeAddToCart() {
   const addToCartBtn = document.querySelector('.add-to-cart-btn');
   if (addToCartBtn) {
-    addToCartBtn.addEventListener('click', function() {
-      // Collect form data and add to cart
+    addToCartBtn.addEventListener('click', async function() {
       console.log('Add to cart clicked');
-      // TODO: Implement add to cart functionality
+      // Build line items from selected color and size quantities
+      const productJsonEl = document.getElementById('product_json');
+      if (!productJsonEl) return;
+      const productData = JSON.parse(productJsonEl.textContent || '{}');
+      const selectedColor = (document.getElementById('bundleColorSelect')?.value || '').toString();
+
+      // Map size string to option value order
+      const sizeInputs = document.querySelectorAll('.sizes-qty .sizes-input');
+      const lines = [];
+      sizeInputs.forEach(w => {
+        const qty = parseInt(w.querySelector('input')?.value || '0');
+        const size = w.getAttribute('data-size');
+        if (!qty || qty <= 0) return;
+
+        // Find matching variant by options (assumes option order: Color, Size or Size, Color)
+        const variant = (productData.variants || []).find(v => {
+          const opts = v.options || [];
+          const o1 = (opts[0] || '').toString().toLowerCase();
+          const o2 = (opts[1] || '').toString().toLowerCase();
+          return (o1 === selectedColor.toLowerCase() && o2 === size.toLowerCase()) ||
+                 (o2 === selectedColor.toLowerCase() && o1 === size.toLowerCase());
+        });
+        if (variant) {
+          lines.push({ id: variant.id, quantity: qty });
+        }
+      });
+
+      if (lines.length === 0) return;
+      try {
+        const res = await fetch('/cart/add.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ items: lines })
+        });
+        if (!res.ok) throw new Error('Add to cart failed');
+        window.location.href = '/cart';
+      } catch (e) {
+        console.error(e);
+        alert('Sorry, there was a problem adding to cart.');
+      }
     });
     // Start disabled until minimum is met
     addToCartBtn.disabled = true;

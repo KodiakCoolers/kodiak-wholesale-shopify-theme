@@ -7,722 +7,679 @@
  * made to this file may be overwritten.
  * ------------------------------------------------------------
  */
- {
-    "sections": {
-      "sidebar": {
-        "type": "product-sidebar",
-        "disabled": true,
-        "settings": {
-          "toggle": true
-        }
-      },
-      "product_new_bar": {
-        "type": "product_new_bar",
-        "blocks": {
-          "49ab07b6-a58b-426e-b474-eab5f2d94cdc": {
-            "type": "bartext",
-            "settings": {
-              "margintop": 10,
-              "marginbottom": 10,
-              "icon": "shopify://shop_images/fast_shipping.webp",
-              "content": "Fast Shipping by UPS",
-              "textcolor": "#575757",
-              "textsize": 16,
-              "fontweigth": "400"
-            }
-          },
-          "7f6c711a-a15e-4142-98e7-4e0416eeb795": {
-            "type": "bartext",
-            "settings": {
-              "margintop": 10,
-              "marginbottom": 10,
-              "icon": "shopify://shop_images/24_7_support.webp",
-              "content": "24/7 Customer Support",
-              "textcolor": "#575757",
-              "textsize": 16,
-              "fontweigth": "400"
-            }
-          },
-          "285b0903-b78f-4c1b-9321-919e15d15253": {
-            "type": "bartext",
-            "settings": {
-              "margintop": 10,
-              "marginbottom": 10,
-              "icon": "shopify://shop_images/guarantee.webp",
-              "content": "Digital Proof within 24 Hours",
-              "textcolor": "#575757",
-              "textsize": 16,
-              "fontweigth": "400"
-            }
-          },
-          "8f9f7d97-d75f-43ad-9b76-1da0b5fb7017": {
-            "type": "bartext",
-            "settings": {
-              "margintop": 10,
-              "marginbottom": 10,
-              "icon": "shopify://shop_images/safe_checkout.webp",
-              "content": "Safe & Secure Checkout",
-              "textcolor": "#575757",
-              "textsize": 16,
-              "fontweigth": "400"
-            }
-          }
-        },
-        "block_order": [
-          "49ab07b6-a58b-426e-b474-eab5f2d94cdc",
-          "7f6c711a-a15e-4142-98e7-4e0416eeb795",
-          "285b0903-b78f-4c1b-9321-919e15d15253",
-          "8f9f7d97-d75f-43ad-9b76-1da0b5fb7017"
-        ],
-        "settings": {
-          "colors": "#ededed",
-          "topbar": 0,
-          "bottombar": 0
-        }
-      },
-      "main": {
-        "type": "product-template",
-        "blocks": {
-          "custom_liquid_mM9khN": {
-            "type": "custom-liquid",
-            "disabled": true,
-            "settings": {
-              "custom_liquid": "<style>\n.stock-container {\n\nmargin-bottom: 10px;\n  }\n  #people-viewing {\n    position: relative;\n    padding-left: 30px; /* Add padding to make space for the glow */\n  }\n\n  #people-viewing::before {\n    content: '';\n    position: absolute;\n    left: 0;\n    top: 50%;\n    transform: translateY(-50%);\n    width: 12px;\n    height: 12px;\n    border-radius: 50%;\n    background-color: #f4af29;\n    box-shadow: 0 0 10px #f4af29, 0 0 20px #f4af29;\n    animation: glowing 3.5s infinite; /* Apply animation */\n  }\n\n  /* Keyframes for glowing animation */\n  @keyframes glowing {\n    0% {\n      box-shadow: 0 0 5px #f4af29, 0 0 10px #f4af29;\n    }\n    50% {\n      box-shadow: 0 0 20px #f4af29, 0 0 30px #f4af29;\n    }\n    100% {\n      box-shadow: 0 0 5px #f4af29, 0 0 10px #f4af29;\n    }\n  }\n /* Hide on mobile screens */\n  @media (max-width: 768px) {\n    #people-viewing {\n      display: none;\n    }\n  }\n</style>\n\n<div class=\"stock-container\">\n<div id=\"people-viewing\"> Almost out of stock\n</div>\n</div>"
-            }
-          },
-          "22c07c56-36ef-4fd7-9ba3-117ec52d0bfc": {
-            "type": "product-rating",
-            "settings": {
-              "margintop": 0,
-              "marginbottom": 10,
-              "rateicon": "shopify://shop_images/download_8.webp",
-              "ratingtxt": "<p><em>  - Rated 4.9 / 5.0</em><em><strong> </strong></em><em>by 1531+ Happy Business Owners</em></p>",
-              "ratetxtcolor": "#000000",
-              "ratetxtsize": 14,
-              "rateweight": "400",
-              "ratetxtcolormob": "#000000",
-              "ratetxtsizemob": 12,
-              "rateweightmob": "400"
-            }
-          },
-          "af87fcf0-43b1-41d3-8277-471bea8930ee": {
-            "type": "product-benefits",
-            "settings": {
-              "topbar": 0,
-              "bottombar": 0,
-              "benefitleftbar": 0,
-              "benefitrightbar": 0,
-              "mobtopbar": 0,
-              "mobbottombar": 0,
-              "mobbenefitleftbar": 30,
-              "mobbenefitrightbar": 0,
-              "benefits": "<p style=\"font-size: 16px;\">\n  <img width=\"20\" height=\"20\" src=\"https://cdn.shopify.com/s/files/1/0082/8237/4203/files/IMAGE_4d8678c6-31d2-49a5-a5a9-6d9545e752e3.png?v=1706074494\">\n  <span style=\"font-weight: 500; width: 100%;\">&nbsp; Premium Quality That Surprises First-Time Buyers</span>\n</p>\n\n<p style=\"font-size: 16px;\">\n  <img width=\"20\" height=\"20\" src=\"https://cdn.shopify.com/s/files/1/0082/8237/4203/files/IMAGE_4d8678c6-31d2-49a5-a5a9-6d9545e752e3.png?v=1706074494\">\n  <span style=\"font-weight: 500; width: 100%;\">&nbsp; Low Minimums + Flexible Color Options</span>\n</p>\n\n<p style=\"font-size: 16px;\">\n  <img width=\"20\" height=\"20\" src=\"https://cdn.shopify.com/s/files/1/0082/8237/4203/files/IMAGE_4d8678c6-31d2-49a5-a5a9-6d9545e752e3.png?v=1706074494\">\n  <span style=\"font-weight: 500; width: 100%;\">&nbsp; Business-Ready Pricing With No Setup Fees</span>\n</p>",
-              "textbottombar": 0
-            }
-          },
-          "apparel_bundle_tzpidG": {
-            "type": "apparel_bundle",
-            "blocks": {
-              "quote_configurator_block": {
-                "type": "quote_configurator",
-                "settings": {}
-              }
-            },
-            "block_order": [
-              "quote_configurator_block"
-            ],
-            "settings": {
-              "best_deal": "100",
-              "unit_price_24": 24,
-              "unit_price_48": 48,
-              "unit_price_100": 50,
-              "addon_front_colors": "",
-              "addon_back_colors": "",
-              "addon_rush": "",
-              "addon_tumblers": ""
-            }
-          },
-          "custom_liquid_xLaJMc": {
-            "type": "custom-liquid",
-            "settings": {
-              "custom_liquid": "<div class=\"shipping-badge-container\">\n  <div class=\"shipping-badge\">\n    <svg class=\"shipping-icon\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n      <path d=\"M12 2l7 4v6c0 5-3.5 9-7 10-3.5-1-7-5-7-10V6l7-4z\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n      <path d=\"M9 12l2 2 4-4\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n    </svg>\n    <span class=\"shipping-text\">Trusted by 1,500+ Happy Business Owners ⭐⭐⭐⭐⭐</span>\n    <div class=\"info-icon-container\">\n      <svg class=\"info-icon\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n        <circle cx=\"12\" cy=\"12\" r=\"10\" stroke=\"currentColor\" stroke-width=\"2\"/>\n        <path d=\"M12 16v-4\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"/>\n        <path d=\"M12 8h.01\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"/>\n      </svg>\n      <div class=\"tooltip\">\n        Join thousands of businesses who trust our tumblers to represent their brand. Verified reviews from 1,500+ business owners.\n      </div>\n    </div>\n  </div>\n</div>\n\n<style>\n  .shipping-badge-container {\n    margin: 2px 0px 10px 2px;\n    font-family: inherit;\n    width: 100%;\n    max-width: 100%;\n    overflow: hidden;\n  }\n  \n  .shipping-badge {\n    display: inline-flex;\n    align-items: center;\n    background: linear-gradient(135deg, #28a745, #20c997);\n    color: white;\n    padding: 6px 12px;\n    border-radius: 25px;\n    font-size: 13px;\n    font-weight: 600;\n    box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);\n    position: relative;\n    gap: 6px;\n    transition: all 0.3s ease;\n    max-width: 100%;\n    width: fit-content;\n  }\n  \n  .shipping-badge:hover {\n    transform: translateY(-1px);\n    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.4);\n  }\n  \n  .shipping-icon {\n    flex-shrink: 0;\n    width: 16px;\n    height: 16px;\n  }\n  \n  .shipping-text {\n    white-space: nowrap;\n    overflow: hidden;\n    text-overflow: ellipsis;\n    min-width: 0;\n  }\n  \n  .info-icon-container {\n    position: relative;\n    display: inline-flex;\n    align-items: center;\n    cursor: pointer;\n    flex-shrink: 0;\n  }\n  \n  .info-icon {\n    opacity: 0.8;\n    transition: opacity 0.2s ease;\n    flex-shrink: 0;\n    width: 16px;\n    height: 16px;\n  }\n  \n  .info-icon:hover {\n    opacity: 1;\n  }\n  \n  .tooltip {\n    position: absolute;\n    bottom: 100%;\n    left: 50%;\n    transform: translateX(-50%) translateY(-8px);\n    background: #333;\n    color: white;\n    padding: 12px 16px;\n    border-radius: 8px;\n    font-size: 13px;\n    font-weight: 400;\n    line-height: 1.4;\n    width: 280px;\n    max-width: 90vw;\n    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);\n    opacity: 0;\n    visibility: hidden;\n    transition: all 0.3s ease;\n    z-index: 1000;\n    text-align: left;\n  }\n  \n  .tooltip::after {\n    content: '';\n    position: absolute;\n    top: 100%;\n    left: 50%;\n    transform: translateX(-50%);\n    border: 6px solid transparent;\n    border-top-color: #333;\n  }\n  \n  .info-icon-container:hover .tooltip,\n  .info-icon-container:focus .tooltip {\n    opacity: 1;\n    visibility: visible;\n    transform: translateX(-50%) translateY(-12px);\n  }\n  \n  /* Tablet adjustments */\n  @media (max-width: 768px) {\n    .shipping-badge-container {\n      margin: 0px 0px 8px 3px;\n    }\n    \n    .shipping-badge {\n      font-size: 12px;\n      padding: 5px 10px;\n      gap: 5px;\n    }\n    \n    .shipping-icon,\n    .info-icon {\n      width: 14px;\n      height: 14px;\n    }\n    \n    .tooltip {\n      width: 250px;\n      font-size: 12px;\n      padding: 10px 12px;\n    }\n  }\n  \n  /* Mobile adjustments */\n  @media (max-width: 480px) {\n    .shipping-badge-container {\n      margin: 0px 0px 15px 3px;\n    }\n    \n    .shipping-badge {\n      font-size: 11px;\n      padding: 4px 8px;\n      gap: 4px;\n    }\n    \n    .shipping-icon,\n    .info-icon {\n      width: 12px;\n      height: 12px;\n    }\n    \n    .tooltip {\n      width: 220px;\n      left: 0;\n      transform: translateY(-8px);\n      font-size: 11px;\n      padding: 8px 10px;\n    }\n    \n    .tooltip::after {\n      left: 24px;\n      transform: none;\n    }\n    \n    .info-icon-container:hover .tooltip,\n    .info-icon-container:focus .tooltip {\n      transform: translateY(-12px);\n    }\n  }\n  \n  /* Extra small screens */\n  @media (max-width: 360px) {\n    .shipping-badge {\n      font-size: 10px;\n      padding: 3px 6px;\n      gap: 3px;\n    }\n    \n    .shipping-icon,\n    .info-icon {\n      width: 11px;\n      height: 11px;\n    }\n  }\n  \n  /* Very large text scenario - force single line */\n  @media (max-width: 320px) {\n    .shipping-text {\n      font-size: 9px;\n    }\n    \n    .shipping-badge {\n      padding: 2px 5px;\n      gap: 2px;\n    }\n    \n    .shipping-icon,\n    .info-icon {\n      width: 10px;\n      height: 10px;\n    }\n  }\n</style>"
-            }
-          },
-          "form": {
-            "type": "form",
-            "settings": {
-              "swatch_border_color": "#2cb425",
-              "border_stroke": 1,
-              "swatchwidth": 30,
-              "swatchheight": 30,
-              "styleswatchwidth": 85,
-              "styleswatchheight": 85,
-              "saveleftpadding": 1,
-              "savetoppadding": 1,
-              "savebottompadding": 1,
-              "saverightpadding": 1,
-              "swatchmarginleft": 0,
-              "swatchmargintop": 0,
-              "swatchmarginbottom": 4,
-              "swatchmarginright": 7,
-              "border_radius": 100,
-              "btnpadding": 0,
-              "show_swatch_heading": false,
-              "swatch_heading": "Choose Options",
-              "show_artwork": true,
-              "swatch_artwork_heading": "Upload Artwork",
-              "swatch_artwork_top_margin": 0,
-              "swatch_artwork_bottom_margin": 0,
-              "display_price_form": true,
-              "show_total_in_product": true,
-              "show_estimated_shipping_dates1": false,
-              "first_image1": "shopify://shop_images/shipping_standard.svg",
-              "first_heading1": "Standard",
-              "first_subheading1": "Estimated Delivery:",
-              "standard_min_date1": "3",
-              "standard_max_date1": "7 Business Days",
-              "second_image_21": "shopify://shop_images/rush-shipping.svg",
-              "second_heading_21": "Priority or Rush",
-              "second_subheading_21": "Estimated Delivery in 1-3 Business days",
-              "rush_min_date1": "1",
-              "rush_max_date1": "3",
-              "stock_heading": "Pairs well with",
-              "stock_subheading": "Pairs well with",
-              "shipping_heading_2": "Pairs well with",
-              "shipping_subheading_2": "Pairs well with",
-              "product_tooltip": "",
-              "product_tooltip_2": "",
-              "tootltip_heading": "Add Slider Lid's",
-              "tootltip_subheading": "Optional Add on (Adjust qty in cart)"
-            }
-          },
-          "product_description_bfxNtU": {
-            "type": "product-description",
-            "settings": {
-              "icon1": "shopify://shop_images/Frame.png",
-              "heading1": "Product description"
-            }
-          },
-          "product_specification_GHVnyG": {
-            "type": "product-specification",
-            "settings": {
-              "icon2": "shopify://shop_images/Frame.png",
-              "heading2": "Product SPECIFICATIONS"
-            }
-          },
-          "product_faq_EpLQqh": {
-            "type": "product-faq",
-            "settings": {
-              "icon": "shopify://shop_images/Frame.png",
-              "heading": "FREQUENTLY ASKED QUESTIONS"
-            }
-          },
-          "custom_liquid_w8MKBn": {
-            "type": "custom-liquid",
-            "disabled": true,
-            "settings": {
-              "custom_liquid": "<style>\n  .vsless-than-block {\n    background: #DFE4E7;\n    border-radius: 8px;\n    padding: 8px;\n    display: flex;\n    align-items: center;\n    margin: 24px 0 0 0;\n    gap: 20px;\n    font-size: 12px;\n    font-family: inherit;\n}\n  \n  .product-main_mbg-icon {\n    width: 50px;\n    min-width: 50px;\n    height: auto;\n}\n  \n  @media screen and (min-width: 950px) {\n    .product-main_mbg-icon {\n    width: 85px;\n    min-width: 85px;\n        height: auto;\n    }\n}\n</style>\n\n<div class=\"vsless-than-block\">\n<img src=\"//wuffes.com/cdn/shop/files/fpv7_guarantee_badge_rebrand.svg?v=1712320446&amp;width=288\" alt=\"\" srcset=\"//wuffes.com/cdn/shop/files/fpv7_guarantee_badge_rebrand.svg?v=1712320446&amp;width=63 63w, //wuffes.com/cdn/shop/files/fpv7_guarantee_badge_rebrand.svg?v=1712320446&amp;width=96 96w, //wuffes.com/cdn/shop/files/fpv7_guarantee_badge_rebrand.svg?v=1712320446&amp;width=126 126w, //wuffes.com/cdn/shop/files/fpv7_guarantee_badge_rebrand.svg?v=1712320446&amp;width=189 189w, //wuffes.com/cdn/shop/files/fpv7_guarantee_badge_rebrand.svg?v=1712320446&amp;width=192 192w, //wuffes.com/cdn/shop/files/fpv7_guarantee_badge_rebrand.svg?v=1712320446&amp;width=288 288w\" width=\"288\" height=\"288\" sizes=\"(min-width: 1200px) 96px, 63px\" class=\"product-main_mbg-icon\">\n        <p><strong>Less than 0.1%</strong> of customers claim our Money Back Guarantee.</p>\n      </div>"
-            }
-          }
-        },
-        "block_order": [
-          "custom_liquid_mM9khN",
-          "22c07c56-36ef-4fd7-9ba3-117ec52d0bfc",
-          "af87fcf0-43b1-41d3-8277-471bea8930ee",
-          "apparel_bundle_tzpidG",
-          "custom_liquid_xLaJMc",
-          "form",
-          "product_description_bfxNtU",
-          "product_specification_GHVnyG",
-          "product_faq_EpLQqh",
-          "custom_liquid_w8MKBn"
-        ],
-        "settings": {
-          "breadcrumb_top": 5,
-          "breadcrumb_bttm": 5,
-          "padding-top": 6,
-          "padding-bottom": 4,
-          "padding-top2": 4,
-          "padding-bottom2": 4,
-          "product_breadcrumb": true,
-          "media_position": "is-flex-row",
-          "patch_width": 85,
-          "patch_margin_left": "0",
-          "patch_margin_right": "0",
-          "patch_margin_top": "0",
-          "patch_margin_bottom": "0",
-          "set_product_height": true,
-          "product_height": 700,
-          "video_looping": false,
-          "product_thumbs": true,
-          "gallery_arrows": true,
-          "enable_product_lightbox": false,
-          "activate_zoom": false,
-          "slideshow_speed": 0,
-          "slideshow_animation": "slide",
-          "thumbnail_position": "bottom",
-          "enable_thumbnail_slider": true,
-          "paymntimg": "shopify://shop_images/USP_V2_293acf3a-5488-492a-bdf0-9d70bf6e21b2.svg",
-          "show_upload_artwork_section": true,
-          "below_media_logoicon_1": "shopify://shop_images/lightbulb.webp",
-          "below_media_text_1": "<p><strong>Digital Proof Sent 24 Hours After Ordering</strong></p>",
-          "logoicon_1": "shopify://shop_images/lightbulb.webp",
-          "logo_upload_text_1": "<p><strong>DESIGN TIPS -</strong> Toggle between options (Remove Background & Standard & Invert Design) To See Different Options.</p>",
-          "logoicon": "shopify://shop_images/lightbulb.webp",
-          "logo_upload_text": "<p><strong>Optional - Upload Logo After Checkout -</strong> If you don’t have access to your logo or are short on time, you can send your logo after placing your order to info@kodiak-coolers.com.</p>",
-          "logo_upload_text_hats": "",
-          "show_timer": true,
-          "show_timer_heading": "🔥 Special Sale Pricing Ending Soon..",
-          "show_floating_cart": true
-        }
-      },
-      "logo-bar": {
-        "type": "logo-bar",
-        "blocks": {
-          "template--14813979836452__a788af89-0b9e-4b3a-961f-0be4d76e0acc-168732511780e1c08b-0": {
-            "type": "logo_image",
-            "settings": {
-              "image": "shopify://shop_images/pngwing.com.webp",
-              "link": ""
-            }
-          },
-          "template--14813979836452__a788af89-0b9e-4b3a-961f-0be4d76e0acc-168732511780e1c08b-1": {
-            "type": "logo_image",
-            "settings": {
-              "image": "shopify://shop_images/download.webp",
-              "link": ""
-            }
-          },
-          "template--14813979836452__a788af89-0b9e-4b3a-961f-0be4d76e0acc-168732511780e1c08b-2": {
-            "type": "logo_image",
-            "settings": {
-              "image": "shopify://shop_images/download_1.webp",
-              "link": ""
-            }
-          },
-          "template--14813979836452__a788af89-0b9e-4b3a-961f-0be4d76e0acc-168732511780e1c08b-3": {
-            "type": "logo_image",
-            "settings": {
-              "image": "shopify://shop_images/download_2.webp",
-              "link": ""
-            }
-          }
-        },
-        "block_order": [
-          "template--14813979836452__a788af89-0b9e-4b3a-961f-0be4d76e0acc-168732511780e1c08b-0",
-          "template--14813979836452__a788af89-0b9e-4b3a-961f-0be4d76e0acc-168732511780e1c08b-1",
-          "template--14813979836452__a788af89-0b9e-4b3a-961f-0be4d76e0acc-168732511780e1c08b-2",
-          "template--14813979836452__a788af89-0b9e-4b3a-961f-0be4d76e0acc-168732511780e1c08b-3"
-        ],
-        "custom_css": [],
-        "settings": {
-          "title": "Customers We've Worked with...",
-          "subheading": "With over 10,000 satisfied customers nationwide, no job is too big or too small.",
-          "layout": "grid",
-          "css_class": "index-logo-list logo-section-new",
-          "custom_css": ""
-        }
-      },
-      "loox-product-reviews-app-section": {
-        "type": "apps",
-        "blocks": {
-          "loox-product-reviews": {
-            "type": "shopify://apps/loox-reviews/blocks/loox-dynamic-section/5c3b337f-fd14-4df5-b1d6-80ec13e6e28e",
-            "settings": {
-              "only_photos": false,
-              "aggregated": true,
-              "limit": 4,
-              "hide_thumbnails": false,
-              "maxwidth": 1080,
-              "is_sample": true
-            }
-          }
-        },
-        "block_order": [
-          "loox-product-reviews"
-        ],
-        "settings": {}
-      },
-      "final-start-my-order-section": {
-        "type": "final-start-my-order-section",
-        "blocks": {
-          "6ce45e12-3214-4dd0-bf0c-ccd7c07f586d": {
-            "type": "product-rating",
-            "settings": {
-              "margintop": 0,
-              "marginbottom": 10,
-              "rateicon": "shopify://shop_images/download_8.webp",
-              "ratingtxt": "<p> - <strong>Rated 4.9/5 </strong>by 1171+ Happy <strong>Business Owners</strong></p>",
-              "ratetxtcolor": "",
-              "ratetxtsize": 12,
-              "rateweight": "",
-              "ratetxtcolormob": "",
-              "ratetxtsizemob": 12,
-              "rateweightmob": ""
-            }
-          }
-        },
-        "block_order": [
-          "6ce45e12-3214-4dd0-bf0c-ccd7c07f586d"
-        ],
-        "settings": {
-          "link": "",
-          "button": "START MY ORDER NOW 👉🏻",
-          "payment": true,
-          "custom-class": "final-order-section-product"
-        }
-      },
-      "how-to-order-steps": {
-        "type": "image-text-row",
-        "blocks": {
-          "4f9d89ba-1925-475c-ad97-388394be37a3": {
-            "type": "content",
-            "settings": {
-              "image": "shopify://shop_images/ORDERING_-_Step_1_Choose_Products.svg",
-              "subhead": "Shop",
-              "content": "Upload your artwork, mix and match your products & colors, and place your order.",
-              "color-subhead": "#FFFFFF",
-              "subhead-font-size": "14px",
-              "color-content": "#FFFFFF",
-              "content-font-size": "12px"
-            }
-          },
-          "32a30d21-e953-4fd2-bbda-ae0986aa1ce6": {
-            "type": "content",
-            "settings": {
-              "image": "shopify://shop_images/ORDERING_-_Step_2_Digital_Proof.svg",
-              "subhead": "Approve",
-              "content": "Your digital proof will be sent within 24 hours. Approve your digital proof / mockup via email",
-              "color-subhead": "#FFFFFF",
-              "subhead-font-size": "14px",
-              "color-content": "#FFFFFF",
-              "content-font-size": "12px"
-            }
-          },
-          "8b9ea79f-b0a4-4f86-8135-c069bf2c6160": {
-            "type": "content",
-            "settings": {
-              "image": "shopify://shop_images/ship-whtAsset_1.svg",
-              "subhead": "Ship",
-              "content": "Once your proof is confirmed, we’ll push your order into production and ship it. Receive your shipment and enjoy your new customized products.",
-              "color-subhead": "#FFFFFF",
-              "subhead-font-size": "14px",
-              "color-content": "#FFFFFF",
-              "content-font-size": "12px"
-            }
-          }
-        },
-        "block_order": [
-          "4f9d89ba-1925-475c-ad97-388394be37a3",
-          "32a30d21-e953-4fd2-bbda-ae0986aa1ce6",
-          "8b9ea79f-b0a4-4f86-8135-c069bf2c6160"
-        ],
-        "custom_css": [
-          "p {font-size: 0.75em height; line-height: 1.5em;}"
-        ],
-        "settings": {
-          "heading": "Simple Ordering",
-          "heading-color": "#FFF",
-          "background-color": "#273242",
-          "font-size": "24px"
-        }
-      },
-      "ba96255e-267c-436a-8b7c-d213d8bfdaa6": {
-        "type": "image-text-products",
-        "settings": {
-          "disable_lazyload": false,
-          "top": 10,
-          "bottom": 70,
-          "top2": 10,
-          "bottom2": 10,
-          "direction": "left",
-          "image": "shopify://shop_images/Kodiak_Homepage_Image_1_1_1.jpg",
-          "para": "Premium Laser Engraved Design",
-          "heads": "<p>Your Business Logo  <strong>Laser Engraved   </strong>into each cup.</p>",
-          "image2": "shopify://shop_images/Icon.png",
-          "text": "<p>Our state-of-the-art laser engraving process allows for intricate designs and fine details, faithfully reproducing even the most complex logos. <br/><br/>The result is a high-quality, resistant engraving that won't fade or wear, ensuring your brand's visibility for years to come.</p>",
-          "link": "",
-          "button": "START MY ORDER NOW 👉🏻",
-          "payment": true,
-          "reviews": "<p>“These custom tumblers have been a hit at our shop! Our regulars keep asking about them. Definitely a great addition to our other items we already have!”</p>",
-          "image_user": "shopify://shop_images/IMAGE_12.png",
-          "name": "Caroline G.",
-          "name_fontsize_desktop": 18,
-          "name_fontsize_mobile": 14,
-          "right": "shopify://shop_images/IMAGE_13.png"
-        }
-      },
-      "81e1516f-ffd7-4202-bd07-92b780fb84bd": {
-        "type": "image-text-products",
-        "disabled": true,
-        "settings": {
-          "disable_lazyload": false,
-          "top": 10,
-          "bottom": 70,
-          "top2": 10,
-          "bottom2": 10,
-          "direction": "right",
-          "image": "shopify://shop_images/Customer_Image_4_SML_e94308e4-3891-41be-acfc-de97f375ede0.jpg",
-          "para": "LOW MINIMALS - FAST SHIPPING",
-          "heads": "<p><strong>Small Orders, Fast Delivery</strong> We've Got You Covered </p>",
-          "image2": "shopify://shop_images/Icon_2.png",
-          "text": "<p>Catering to all needs with low our tiered pricing and low to no minimum order quantities—regardless of your business size. Experience swift and secure shipping with UPS, ensuring your order reaches you safely and promptly. Our low minimum orders and quick shipping mean your new custom logo drinkware is just a few clicks away.</p>",
-          "link": "",
-          "button": "START MY ORDER NOW 👉🏻",
-          "payment": true,
-          "reviews": "<p>“Received my custom tumblers today and they look better than expected! My account rep was super responsive and made the process super easy. I'll be back for more.”</p>",
-          "image_user": "shopify://shop_images/IMAGE_12.png",
-          "name": "Morgan E.",
-          "name_fontsize_desktop": 18,
-          "name_fontsize_mobile": 14,
-          "right": "shopify://shop_images/IMAGE_13.png"
-        }
-      },
-      "24523345-ff44-4284-83ae-fb9ae4b7af83": {
-        "type": "image-text-products",
-        "disabled": true,
-        "settings": {
-          "disable_lazyload": false,
-          "top": 10,
-          "bottom": 70,
-          "top2": 10,
-          "bottom2": 10,
-          "direction": "left",
-          "image": "shopify://shop_images/Customer_Image_2_SML_1.jpg",
-          "para": "the perfect branding tool",
-          "heads": "<p><strong>Custom Tumblers:</strong> Your Walking Billboard.</p>",
-          "image2": "shopify://shop_images/Icon.png",
-          "text": "<p>A tumbler is more than just a drinkware item; it's a statement. Elevate your brand's visibility with your own custom engraved tumblers. Each engraving is meticulously crafted with your logo or design, transforming the tumbler into a portable billboard. It's about more than just keeping your drink at the ideal temperature; it's about making your business unforgettable, one sip at a time.</p>",
-          "link": "",
-          "button": "START MY ORDER NOW 👉🏻",
-          "payment": true,
-          "reviews": "<p>“We love these Custom Hats and so do our customers! Great product to sell at our distillery!”</p>",
-          "image_user": "shopify://shop_images/IMAGE_12.png",
-          "name": "Shelly N.",
-          "name_fontsize_desktop": 18,
-          "name_fontsize_mobile": 14,
-          "right": "shopify://shop_images/IMAGE_13.png"
-        }
-      },
-      "e4f333e4-d607-433c-ab9b-1bac3f8f8170": {
-        "type": "image-text-products",
-        "disabled": true,
-        "settings": {
-          "disable_lazyload": false,
-          "top": 10,
-          "bottom": 70,
-          "top2": 10,
-          "bottom2": 10,
-          "direction": "right",
-          "image": "shopify://shop_images/Kodiak_Customer_Image_3_-_Mockup_1_1_1.jpg",
-          "para": "RAPID DESIGN APPROVAL",
-          "heads": "<p><strong>Digital Proof</strong> within  <strong>24 Hours  </strong>of ordering. </p>",
-          "image2": "shopify://shop_images/Icon_1.png",
-          "text": "<p>Your design, your approval. We provide a digital proof within 24 hours, ensuring you're happy with the artwork before we start production. Need modifications or help with your artwork? No worries, our team will work until your mockup is perfect and if for any reason we cannot meet your needs we will refund you 100% no questions asked!</p>",
-          "link": "",
-          "button": "START MY ORDER NOW 👉🏻",
-          "payment": true,
-          "reviews": "<p>“I've been handing out these custom tumblers at events and people love them. They're unique and the quality is spot on. Time to restock soon”</p>",
-          "image_user": "shopify://shop_images/IMAGE_16.png",
-          "name": "Steve G.",
-          "name_fontsize_desktop": 18,
-          "name_fontsize_mobile": 14,
-          "right": "shopify://shop_images/IMAGE_13.png"
-        }
-      },
-      "54d78de7-93a0-406b-b6db-02b49d97062e": {
-        "type": "final-start-my-order-section",
-        "blocks": {
-          "5f025e31-319d-485e-a5ad-8308789b55cd": {
-            "type": "product-rating",
-            "settings": {
-              "margintop": 0,
-              "marginbottom": 10,
-              "rateicon": "shopify://shop_images/download_8.webp",
-              "ratingtxt": "<p> - <strong>Rated 4.9/5 </strong>by 1171+ Happy <strong>Business Owners</strong></p>",
-              "ratetxtcolor": "",
-              "ratetxtsize": 12,
-              "rateweight": "",
-              "ratetxtcolormob": "",
-              "ratetxtsizemob": 12,
-              "rateweightmob": ""
-            }
-          }
-        },
-        "block_order": [
-          "5f025e31-319d-485e-a5ad-8308789b55cd"
-        ],
-        "settings": {
-          "link": "",
-          "button": "START MY ORDER NOW 👉🏻",
-          "payment": true,
-          "custom-class": "final-order-section-product"
-        }
-      },
-      "c29ed51a-de21-4a6d-9df7-e2c759d3a03b": {
-        "type": "faq",
-        "blocks": {
-          "75dce8eb-837f-4209-bd89-4bb4d77ee8bf": {
-            "type": "content",
-            "settings": {
-              "title": "How much do {{ product.metafields.custom.seo_kw_1.value }} cost?",
-              "answer": "<p>The price of your {{ product.metafields.custom.seo_kw_2.value }} depends on a handful of things such as the style of mug you choose, how many cups you order, and number of sides you print or engrave. Kodiak is happy to offer bulk volume discount pricing on all orders.</p>"
-            }
-          },
-          "template--14885699878948__c29ed51a-de21-4a6d-9df7-e2c759d3a03b-content-1": {
-            "type": "content",
-            "settings": {
-              "title": "Is there a minimum order quantity for {{ product.metafields.custom.seo_kw_2.value }}?",
-              "answer": "<p>Yes, due to the customization process, we have a minimum order requirement of $250 on Bulk Pricing Orders. However, we offer single unit sample orders to test out our products as well as low minimal order options for those only looking to order a few units. </p>"
-            }
-          },
-          "template--14885699878948__c29ed51a-de21-4a6d-9df7-e2c759d3a03b-content-2": {
-            "type": "content",
-            "settings": {
-              "title": "Can I get my company logo printed on the products?",
-              "answer": "<p>Absolutely! We specialize in printing company logos on tumblers, making them perfect for promotional events, corporate gifts and employee gifts, or branded merchandise.</p>"
-            }
-          },
-          "template--14885699878948__c29ed51a-de21-4a6d-9df7-e2c759d3a03b-content-3": {
-            "type": "content",
-            "settings": {
-              "title": "Can I get a sample before placing a large order?",
-              "answer": "<p>Absolutely! We understand the importance of quality, so we offer sample products for you to review before committing to a larger order. This ensures you're satisfied with the final product. You can checkout all of our sample options in our <a href=\"/collections/custom-drinkware-samples\" title=\"/collections/custom-drinkware-samples\">samples collection here.</a></p>"
-            }
-          },
-          "template--14885699878948__c29ed51a-de21-4a6d-9df7-e2c759d3a03b-content-4": {
-            "type": "content",
-            "settings": {
-              "title": "Why Are {{ product.metafields.custom.seo_kw_1.value }} Popular Gifts & Giveaways?",
-              "answer": "<p>{{ product.metafields.custom.seo_kw_3.value }} have become increasingly sought-after as gifts and giveaways, and a <a href=\"https://www.asicentral.com/news/web-exclusive/april-2023/2023-asi-ad-impressions-study-powerful-stats-on-promo-s-top-products/\">recent study done in 2023 by Advertising Specialty Institution (ASI</a>) underscores their effectiveness. These personalized drinkware items can generate up to 3,162 impressions over their lifetime, ensuring that a business or event remains top-of-mind for long after receiving the drinkware. A significant 63% of consumers have indicated that they would retain and utilize a cup for at least a year, emphasizing its lasting appeal. Additionally, 30% of consumers are more inclined to engage with an advertiser that gifted them with logo drinkware. Given these compelling statistics, it's evident that customized drinkware, with their blend of functionality and simple business branding promotion, are a favorite choice for both personal gifts and bulk promotional giveaways.</p>"
-            }
-          },
-          "template--14885699878948__c29ed51a-de21-4a6d-9df7-e2c759d3a03b-content-5": {
-            "type": "content",
-            "settings": {
-              "title": "What are the Benefits of {{ product.metafields.custom.seo_kw_2.value }} for Business?",
-              "answer": "<p><strong>Brand Visibility:</strong> Custom cups can generate up to 3,162 impressions over their lifetime, ensuring consistent brand exposure.</p><p><strong>Customer Loyalty: </strong>30% of consumers are more likely to engage with a business that gifts them logoed drinkware.</p><p><strong>Cost-Effective Marketing:</strong> The cost per impression for a $10 insulated travel mug is just 1/3 of a cent, offering a high return on investment.</p><p><strong>Long-Term Use:</strong> 63% of consumers will keep and use a gift for at least a year, ensuring prolonged brand promotion.</p><p><strong>Eco-Friendly Promotion:</strong> Reusable tumblers reduce the need for disposable cups, showcasing a business's commitment to sustainability.</p><p><strong>Versatile Marketing Tool:</strong> Suitable for various events, from trade shows to corporate meetings.</p><p><strong>Personalized Touch:</strong> Customization allows businesses to connect with their audience on a personal level.</p><p><strong>Increased Brand Recall:</strong> Regular use of the mug ensures that consumers frequently remember and associate with the brand.</p><p><strong>Practicality:</strong> As functional items, they cater to a daily need, ensuring that they're used often.</p>"
-            }
-          },
-          "template--14885699878948__c29ed51a-de21-4a6d-9df7-e2c759d3a03b-content-6": {
-            "type": "content",
-            "disabled": true,
-            "settings": {
-              "title": "What is the Difference between a Customized Tumbler and a Travel Mug?",
-              "answer": "<p>While both <a href=\"/collections/custom-tumblers\" title=\"/collections/custom-tumblers\">customized tumblers </a>and travel mugs serve the purpose of holding beverages on the go, there are few small differences.  Custom tumblers typically do not have a handle built in and have a wider base and are designed to fit car cup holders, making them ideal for both cold and hot drinks. Travel mugs, on the other hand, often come with handles and are primarily designed for hot beverages. Both can be personalized, but custom tumblers offer a more surface area for branding and designs.</p>"
-            }
-          },
-          "fc58f1bf-f758-4a79-9cb3-d1cffd76183b": {
-            "type": "content",
-            "settings": {
-              "title": "What are the Most Popular Colors Businesses Buy?",
-              "answer": "<p>Businesses often gravitate towards neutral and versatile colors, such as black, white, silver, and navy blue. These colors provide a professional look and ensure that logos and branding stand out. However, with the growing trend of brand personalization, many businesses are also exploring vibrant colors like red, teal, and purple to make their brand more distinctive.</p>"
-            }
-          },
-          "e442e566-f702-41ac-9a4d-f4cf10e1016c": {
-            "type": "content",
-            "settings": {
-              "title": "What are Some Popular Use Cases for {{ product.metafields.custom.seo_kw_1.value }}?",
-              "answer": "<p>{{ product.metafields.custom.seo_kw_3.value }} are versatile and find use in various scenarios. They're popular as corporate gifts, promoting brand loyalty among employees. Businesses also use them as giveaways at trade shows or events, ensuring brand visibility. Additionally, they're favored as merchandise for cafes or stores, and even as personalized gifts for special occasions or celebrations, and finally they are becoming a popular item for school sports teams and make a great fundraising item!</p>"
-            }
-          },
-          "b1aa6199-0ee7-4445-8b5b-50dbe1a69fe8": {
-            "type": "content",
-            "disabled": true,
-            "settings": {
-              "title": "Who all Buys Customized Travel Mugs and Tumblers?",
-              "answer": "<p>Kodiak has a huge selection of to choose and customize on. Our offering includes personalized apparel for everyone from kids to adults and many specific women's styles, including long sleeve T-shirts, v-neck T-shirts, performance T-shirts, soft and fitted T-shirts, and more!</p>"
-            }
-          },
-          "2b8486c5-5a4d-4e18-ac4a-528b535b4169": {
-            "type": "content",
-            "disabled": true,
-            "settings": {
-              "title": "How Many Custom Tumblers Should I Buy?",
-              "answer": "<p>Whether you're just looking for one special tumbler or you're a big company needing a large quantity, we've got you covered. The number of custom tumblers you should purchase depends on the occasion and your budget. Most Importantly, we offer bulk volume pricing, meaning the more you order, the more savings you'll enjoy. Whatever your needs, we're here to provide the best value for your investment.</p>"
-            }
-          },
-          "b0959e15-9537-40dd-949d-2b00e74a21b1": {
-            "type": "content",
-            "settings": {
-              "title": "Can the drinkware be used for hot and cold beverages?",
-              "answer": "<p>Yes, our drinkware is made of double wall vacuum insulated stainless steel are designed to maintain the temperature of both hot and cold beverages, making them versatile for all drink types.</p>"
-            }
-          },
-          "906e8120-b666-4239-8a21-717ec860ca55": {
-            "type": "content",
-            "settings": {
-              "title": "Are these cups Dishwasher Safe?",
-              "answer": "<p>Yes! We are happy to announce now that all of our customized drinkware is now dishwasher safe! If you prefer to hand wash the mugs, that is totally fine as well.</p>"
-            }
-          },
-          "69cc5fd0-1137-470d-bf2d-4597751034ce": {
-            "type": "content",
-            "settings": {
-              "title": "How is my logo or design be added to the {{ product.metafields.custom.seo_kw_1.value }}",
-              "answer": "<p>Your order will have your logo or design printed either by laser engraving, or UV Full Color Printing depending on the product you order. Laser Engraved customization works by removing the powder coating finish on the tumblers to reveal your logo or design in stainless steel. This is by far our most popular option and provides a premium, and unique long lasting product. UV Printing works by printing your full color logo directly onto the mug.  </p>"
-            }
-          },
-          "aef6b740-5ead-4c08-aab1-77889dd02e77": {
-            "type": "content",
-            "settings": {
-              "title": "How long does it take to receive my order?",
-              "answer": "<p>With priority processing, we can ship your order in as little as 1-3 business days. Shipping times will depend on your location but we ship UPS Ground from Green Bay Location and most orders arrive within 2-3 business days of initial shipping date. Need it faster? We will do our best to meet any deadline!</p>"
-            }
-          },
-          "30decd4a-486d-4be9-8160-3b0ac11c7560": {
-            "type": "content",
-            "settings": {
-              "title": "Are the customizations permanent, or will they fade over time?",
-              "answer": "<p>Our advanced uv printing and laser engraving techniques ensure that your new {{ product.metafields.custom.seo_kw_3.value }} will last a lifetime and resistant to fading, even with daily use use.</p>"
-            }
-          },
-          "f98bc2d2-97d0-4c57-8d25-ed7f81897cc3": {
-            "type": "content",
-            "settings": {
-              "title": "What if I'm not satisfied with my order?",
-              "answer": "<p>Customer satisfaction & Long term relationships is our top priority. With our digital proofing system we ensure you are 100% satisfied with how your design or logo will look engraved on the drinkware before ever starting your order. If you confirm the digital proof and receive your order and are still not happy with the product, please contact our customer service team, and we'll work with you to address any concerns or provide a suitable solution.</p>"
-            }
-          }
-        },
-        "block_order": [
-          "75dce8eb-837f-4209-bd89-4bb4d77ee8bf",
-          "template--14885699878948__c29ed51a-de21-4a6d-9df7-e2c759d3a03b-content-1",
-          "template--14885699878948__c29ed51a-de21-4a6d-9df7-e2c759d3a03b-content-2",
-          "template--14885699878948__c29ed51a-de21-4a6d-9df7-e2c759d3a03b-content-3",
-          "template--14885699878948__c29ed51a-de21-4a6d-9df7-e2c759d3a03b-content-4",
-          "template--14885699878948__c29ed51a-de21-4a6d-9df7-e2c759d3a03b-content-5",
-          "template--14885699878948__c29ed51a-de21-4a6d-9df7-e2c759d3a03b-content-6",
-          "fc58f1bf-f758-4a79-9cb3-d1cffd76183b",
-          "e442e566-f702-41ac-9a4d-f4cf10e1016c",
-          "b1aa6199-0ee7-4445-8b5b-50dbe1a69fe8",
-          "2b8486c5-5a4d-4e18-ac4a-528b535b4169",
-          "b0959e15-9537-40dd-949d-2b00e74a21b1",
-          "906e8120-b666-4239-8a21-717ec860ca55",
-          "69cc5fd0-1137-470d-bf2d-4597751034ce",
-          "aef6b740-5ead-4c08-aab1-77889dd02e77",
-          "30decd4a-486d-4be9-8160-3b0ac11c7560",
-          "f98bc2d2-97d0-4c57-8d25-ed7f81897cc3"
-        ],
-        "settings": {
-          "title": "Custom Tumblers Frequently Asked Questions"
-        }
+{
+  "sections": {
+    "sidebar": {
+      "type": "product-sidebar",
+      "disabled": true,
+      "settings": {
+        "toggle": true
       }
     },
-    "order": [
-      "sidebar",
-      "product_new_bar",
-      "main",
-      "logo-bar",
-      "loox-product-reviews-app-section",
-      "final-start-my-order-section",
-      "how-to-order-steps",
-      "ba96255e-267c-436a-8b7c-d213d8bfdaa6",
-      "81e1516f-ffd7-4202-bd07-92b780fb84bd",
-      "24523345-ff44-4284-83ae-fb9ae4b7af83",
-      "e4f333e4-d607-433c-ab9b-1bac3f8f8170",
-      "54d78de7-93a0-406b-b6db-02b49d97062e",
-      "c29ed51a-de21-4a6d-9df7-e2c759d3a03b"
-    ]
-  }
-  
+    "c0ba12b4-49c6-4fdb-ae39-bf63ccbf1df8": {
+      "type": "product_new_bar",
+      "blocks": {
+        "49ab07b6-a58b-426e-b474-eab5f2d94cdc": {
+          "type": "bartext",
+          "settings": {
+            "margintop": 10,
+            "marginbottom": 10,
+            "icon": "shopify://shop_images/fast_shipping.webp",
+            "content": "Fast Shipping by UPS",
+            "textcolor": "#575757",
+            "textsize": 16,
+            "fontweigth": "400"
+          }
+        },
+        "7f6c711a-a15e-4142-98e7-4e0416eeb795": {
+          "type": "bartext",
+          "settings": {
+            "margintop": 10,
+            "marginbottom": 10,
+            "icon": "shopify://shop_images/24_7_support.webp",
+            "content": "24/7 Customer Support",
+            "textcolor": "#575757",
+            "textsize": 16,
+            "fontweigth": "400"
+          }
+        },
+        "285b0903-b78f-4c1b-9321-919e15d15253": {
+          "type": "bartext",
+          "settings": {
+            "margintop": 10,
+            "marginbottom": 10,
+            "icon": "shopify://shop_images/guarantee.webp",
+            "content": "Digital Proof within 24 Hours",
+            "textcolor": "#575757",
+            "textsize": 16,
+            "fontweigth": "400"
+          }
+        },
+        "8f9f7d97-d75f-43ad-9b76-1da0b5fb7017": {
+          "type": "bartext",
+          "settings": {
+            "margintop": 10,
+            "marginbottom": 10,
+            "icon": "shopify://shop_images/safe_checkout.webp",
+            "content": "Safe & Secure Checkout",
+            "textcolor": "#575757",
+            "textsize": 16,
+            "fontweigth": "400"
+          }
+        }
+      },
+      "block_order": [
+        "49ab07b6-a58b-426e-b474-eab5f2d94cdc",
+        "7f6c711a-a15e-4142-98e7-4e0416eeb795",
+        "285b0903-b78f-4c1b-9321-919e15d15253",
+        "8f9f7d97-d75f-43ad-9b76-1da0b5fb7017"
+      ],
+      "settings": {
+        "colors": "#ededed",
+        "topbar": 0,
+        "bottombar": 0
+      }
+    },
+    "main": {
+      "type": "product-template",
+      "blocks": {
+        "22c07c56-36ef-4fd7-9ba3-117ec52d0bfc": {
+          "type": "product-rating",
+          "settings": {
+            "margintop": 6,
+            "marginbottom": 10,
+            "rateicon": "shopify://shop_images/download_8.webp",
+            "ratingtxt": "<p><strong>- Rated 4.9/5</strong> by 1016+ Happy <strong>Business Owners</strong></p>",
+            "ratetxtcolor": "#696969",
+            "ratetxtsize": 12,
+            "rateweight": "400",
+            "ratetxtcolormob": "#696969",
+            "ratetxtsizemob": 12,
+            "rateweightmob": "400"
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {
+            "toppadding": 0,
+            "bottmpadding": 0,
+            "protitlecolor": "#000000",
+            "protitlesize": 20,
+            "protitleweight": "800",
+            "toppaddingmob": 0,
+            "bottmpaddingmob": 11,
+            "protitlecolormob": "#000000",
+            "protitlesizemob": 18,
+            "protitleweightmob": "800"
+          }
+        },
+        "price": {
+          "type": "price",
+          "settings": {
+            "display_savings": true,
+            "comparecolor": "#212529",
+            "comprefntsize": 14,
+            "regulrprice": "#dd3333",
+            "regulrpricesize": 24,
+            "regulrmrgnright": 5,
+            "savepricecolor": "#dd3333",
+            "savepricesize": 13,
+            "saveleftpadding": 0,
+            "savetoppadding": 0,
+            "savebottompadding": 0,
+            "saverightpadding": 0
+          }
+        },
+        "quote_configurator_BHwtFW": {
+          "type": "quote_configurator",
+          "settings": {}
+        },
+        "af87fcf0-43b1-41d3-8277-471bea8930ee": {
+          "type": "product-benefits",
+          "settings": {
+            "topbar": 1,
+            "bottombar": 0,
+            "benefitleftbar": 40,
+            "benefitrightbar": 0,
+            "mobtopbar": 0,
+            "mobbottombar": 15,
+            "mobbenefitleftbar": 30,
+            "mobbenefitrightbar": 0,
+            "benefits": "<p style=\"font-size: 13px;\">\n              <img width=\"15\" height=\"15\" src=\"https://cdn.shopify.com/s/files/1/0082/8237/4203/files/Green_Check_Circle.png?v=1691814964\">\n              <span style=\"font-size: 13px;\">&nbsp; Your Design</span><span style=\"font-size: 13px;\"> or Business Logo</span>\n              <span style=\"font-size: 13px; font-weight: 700; width: 100%;\">Laser Engraved<br></span></p>\n              <p style=\"font-size: 13px;\">\n              <img width=\"15\" height=\"15\" src=\"https://cdn.shopify.com/s/files/1/0082/8237/4203/files/Green_Check_Circle.png?v=1691814964\">\n              <span style=\"font-weight: 700;\">&nbsp; Dishwasher Safe!</span></p>\n              <p style=\"font-size: 13px;\">\n              <img width=\"15\" height=\"15\" src=\"https://cdn.shopify.com/s/files/1/0082/8237/4203/files/Green_Check_Circle.png?v=1691814964\">\n              <span>&nbsp; Digital Proof</span>&nbsp;within&nbsp;<span style=\"font-weight: 700; width: 100%;\">24 Hours</span>&nbsp;After Ordering</p>\n              <p style=\"font-size: 13px;\">\n              <img width=\"15\" height=\"15\" src=\"https://cdn.shopify.com/s/files/1/0082/8237/4203/files/Green_Check_Circle.png?v=1691814964\">\n              <span>&nbsp; No Setup Fees&nbsp;</span>or hidden costs!</p>\n              <p style=\"font-size: 13px;\"><span style=\"font-size: 13px; font-weight: 700; width: 100%;\">\n              <img width=\"15\" height=\"15\" src=\"https://cdn.shopify.com/s/files/1/0082/8237/4203/files/Green_Check_Circle.png?v=1691814964\">&nbsp; Free Slider Lid Upgrade on Tumblers! 🔥</span>\n              </p>",
+            "textbottombar": 0
+          }
+        },
+        "3f249ec9-3b67-49d5-8cee-cb65b1cb5f48": {
+          "type": "estimated_shipping",
+          "settings": {
+            "first_image": "shopify://shop_images/shipping_standard.svg",
+            "first_heading": "Standard Production:",
+            "first_subheading": "Estimated Ship Date between",
+            "standard_min_date": "5",
+            "standard_max_date": "11",
+            "second_image_2": "shopify://shop_images/rush-shipping.svg",
+            "second_heading_2": "Rush Service:",
+            "second_subheading_2": "Estimated Ship Date between",
+            "rush_min_date": "1",
+            "rush_max_date": "3"
+          }
+        },
+        "form": {
+          "type": "form",
+          "settings": {
+            "swatch_border_color": "#2cb425",
+            "border_stroke": 1,
+            "swatchwidth": 30,
+            "swatchheight": 30,
+            "styleswatchwidth": 40,
+            "styleswatchheight": 40,
+            "saveleftpadding": 0,
+            "savetoppadding": 0,
+            "savebottompadding": 0,
+            "saverightpadding": 0,
+            "swatchmarginleft": 0,
+            "swatchmargintop": 0,
+            "swatchmarginbottom": 4,
+            "swatchmarginright": 7,
+            "border_radius": 50,
+            "btnpadding": 0,
+            "show_swatch_heading": false,
+            "swatch_heading": "Choose Options",
+            "show_artwork": true,
+            "swatch_artwork_heading": "Upload Artwork",
+            "swatch_artwork_top_margin": 0,
+            "swatch_artwork_bottom_margin": 0,
+            "display_price_form": true,
+            "show_total_in_product": true,
+            "show_estimated_shipping_dates1": true,
+            "first_image1": "shopify://shop_images/shipping_standard.svg",
+            "first_heading1": "Standard Production:",
+            "first_subheading1": "estimated Delivery in",
+            "standard_min_date1": "1",
+            "standard_max_date1": "3",
+            "second_image_21": "shopify://shop_images/rush-shipping.svg",
+            "second_heading_21": "Rush Service:",
+            "second_subheading_21": "estimated Delivery in",
+            "rush_min_date1": "5",
+            "rush_max_date1": "10",
+            "stock_image": "shopify://shop_images/span.css-1c4ra1h_mask-group.png",
+            "stock_heading": "In stock",
+            "stock_subheading": "Ready to Ship",
+            "shipping_image_2": "shopify://shop_images/span.css-spahdd_mask-group_47f65987-a12d-4707-924a-69c76dd68830.png",
+            "shipping_heading_2": "Free Shipping",
+            "shipping_subheading_2": "On orders $1000+",
+            "product_tooltip": "",
+            "product_tooltip_2": "",
+            "tootltip_heading": "",
+            "tootltip_subheading": ""
+          }
+        },
+        "52565e55-343a-44ba-a84b-c1dd7e683435": {
+          "type": "shopify://apps/dealeasy/blocks/app-block/e47a8634-0496-480d-9e46-6f7fafd34b30",
+          "settings": {
+            "lb-product-handle": "",
+            "lb-product-id": ""
+          }
+        },
+        "description": {
+          "type": "description",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "22c07c56-36ef-4fd7-9ba3-117ec52d0bfc",
+        "title",
+        "price",
+        "quote_configurator_BHwtFW",
+        "af87fcf0-43b1-41d3-8277-471bea8930ee",
+        "3f249ec9-3b67-49d5-8cee-cb65b1cb5f48",
+        "form",
+        "52565e55-343a-44ba-a84b-c1dd7e683435",
+        "description"
+      ],
+      "settings": {
+        "breadcrumb_top": 5,
+        "breadcrumb_bttm": 5,
+        "padding-top": 10,
+        "padding-bottom": 10,
+        "padding-top2": 10,
+        "padding-bottom2": 10,
+        "product_breadcrumb": true,
+        "media_position": "is-flex-row",
+        "patch_width": 85,
+        "patch_margin_left": "0",
+        "patch_margin_right": "0",
+        "patch_margin_top": "0",
+        "patch_margin_bottom": "0",
+        "set_product_height": true,
+        "product_height": 600,
+        "video_looping": false,
+        "product_thumbs": true,
+        "gallery_arrows": true,
+        "enable_product_lightbox": false,
+        "activate_zoom": false,
+        "slideshow_speed": 0,
+        "slideshow_animation": "slide",
+        "thumbnail_position": "bottom",
+        "enable_thumbnail_slider": true,
+        "paymntimg": "shopify://shop_images/Screen_Shot_2022-10-25_at_1.23.09_PM.webp",
+        "show_upload_artwork_section": false,
+        "below_media_text_1": "",
+        "logo_upload_text_1": "",
+        "logoicon": "shopify://shop_images/lightbulb.webp",
+        "logo_upload_text": "<p><em><strong>DIGITAL PROOF IN 24 HOURS AFTER ORDERING -</strong></em><em> Our team will provide you with a digital proof to confirm before your Custom Engraved Drinkware order ever goes into production to ensure your 100% Satisfied.</em></p>",
+        "logo_upload_text_hats": "",
+        "show_timer": true,
+        "show_timer_heading": "🔥 Special Sale Pricing Ending Soon..",
+        "show_floating_cart": true
+      }
+    },
+    "59c15f08-ff87-48e1-9c77-7e549f25b044": {
+      "type": "image-text-row",
+      "blocks": {
+        "6aa9158e-17f5-42ee-8567-41501b6b8aaa": {
+          "type": "content",
+          "settings": {
+            "image": "shopify://shop_images/ORDERING_-_Step_1_Choose_Products.svg",
+            "subhead": "Shop",
+            "content": "Upload your artwork, mix and match your products & colors, and place your order.",
+            "color-subhead": "#FFFFFF",
+            "subhead-font-size": "14px",
+            "color-content": "#FFFFFF",
+            "content-font-size": "12px"
+          }
+        },
+        "7ca0bf3a-af02-4ace-b89b-146f084bbb51": {
+          "type": "content",
+          "settings": {
+            "image": "shopify://shop_images/ORDERING_-_Step_2_Digital_Proof.svg",
+            "subhead": "Approve",
+            "content": "Your digital proof will be sent within 24 hours. Approve your digital proof / mockup via email",
+            "color-subhead": "#FFFFFF",
+            "subhead-font-size": "14px",
+            "color-content": "#FFFFFF",
+            "content-font-size": "12px"
+          }
+        },
+        "cbb04750-5fd2-483f-8cb3-b91323fe54b4": {
+          "type": "content",
+          "settings": {
+            "image": "shopify://shop_images/ship-whtAsset_1.svg",
+            "subhead": "Ship",
+            "content": "Once your proof is confirmed, we’ll push your order into production and ship it. Receive your shipment and enjoy your new customized products.",
+            "color-subhead": "#FFFFFF",
+            "subhead-font-size": "14px",
+            "color-content": "#FFFFFF",
+            "content-font-size": "12px"
+          }
+        }
+      },
+      "block_order": [
+        "6aa9158e-17f5-42ee-8567-41501b6b8aaa",
+        "7ca0bf3a-af02-4ace-b89b-146f084bbb51",
+        "cbb04750-5fd2-483f-8cb3-b91323fe54b4"
+      ],
+      "settings": {
+        "heading": "Simple Ordering",
+        "heading-color": "#FFF",
+        "background-color": "#273242",
+        "font-size": "20px"
+      }
+    },
+    "4c65b8e1-ffe6-4c2c-ac25-8173160481af": {
+      "type": "image-text-products",
+      "settings": {
+        "disable_lazyload": false,
+        "top": 10,
+        "bottom": 70,
+        "top2": 10,
+        "bottom2": 10,
+        "direction": "left",
+        "image": "shopify://shop_images/Kodiak_Homepage_Image_1_1_1.jpg",
+        "para": "Premium Laser Engraved Design",
+        "heads": "<p>Your Business Logo <strong>Laser Engraved   </strong>into each cup.</p>",
+        "image2": "shopify://shop_images/Icon.png",
+        "text": "<p>Our state-of-the-art laser engraving process allows for intricate designs and fine details, faithfully reproducing even the most complex logos. <br/><br/>The result is a high-quality, resistant engraving that won't fade or wear, ensuring your brand's visibility for years to come.</p>",
+        "link": "",
+        "button": "START MY ORDER NOW 👉🏻",
+        "payment": true,
+        "reviews": "<p>“These custom tumblers have been a hit at our shop! Our regulars keep asking about them. Definitely a great addition to our other items we already have!”</p>",
+        "image_user": "shopify://shop_images/IMAGE_12.png",
+        "name": "Caroline G.",
+        "name_fontsize_desktop": 18,
+        "name_fontsize_mobile": 14,
+        "right": "shopify://shop_images/IMAGE_13.png"
+      }
+    },
+    "a26b074c-5e2c-4a25-af94-d1da4f3c09d2": {
+      "type": "description",
+      "disabled": true,
+      "custom_css": [
+        ".tab_content {margin-bottom: 0px; margin-top: 0px; padding-left: 50px; padding-right: 50px;}"
+      ],
+      "settings": {
+        "custom_id": "description",
+        "image": "shopify://shop_images/Custom_Logo_Tumblers_Laser_Engraved_from_Natural_State_-_Product_Mix.jpg",
+        "button_text": "Read More",
+        "button_url": "#",
+        "description_height": "170"
+      }
+    },
+    "a788af89-0b9e-4b3a-961f-0be4d76e0acc": {
+      "type": "logo-bar",
+      "blocks": {
+        "template--14813979836452__a788af89-0b9e-4b3a-961f-0be4d76e0acc-168732511780e1c08b-0": {
+          "type": "logo_image",
+          "settings": {
+            "image": "shopify://shop_images/pngwing.com.webp",
+            "link": ""
+          }
+        },
+        "template--14813979836452__a788af89-0b9e-4b3a-961f-0be4d76e0acc-168732511780e1c08b-1": {
+          "type": "logo_image",
+          "settings": {
+            "image": "shopify://shop_images/download.webp",
+            "link": ""
+          }
+        },
+        "template--14813979836452__a788af89-0b9e-4b3a-961f-0be4d76e0acc-168732511780e1c08b-2": {
+          "type": "logo_image",
+          "settings": {
+            "image": "shopify://shop_images/download_1.webp",
+            "link": ""
+          }
+        },
+        "template--14813979836452__a788af89-0b9e-4b3a-961f-0be4d76e0acc-168732511780e1c08b-3": {
+          "type": "logo_image",
+          "settings": {
+            "image": "shopify://shop_images/download_2.webp",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "template--14813979836452__a788af89-0b9e-4b3a-961f-0be4d76e0acc-168732511780e1c08b-0",
+        "template--14813979836452__a788af89-0b9e-4b3a-961f-0be4d76e0acc-168732511780e1c08b-1",
+        "template--14813979836452__a788af89-0b9e-4b3a-961f-0be4d76e0acc-168732511780e1c08b-2",
+        "template--14813979836452__a788af89-0b9e-4b3a-961f-0be4d76e0acc-168732511780e1c08b-3"
+      ],
+      "settings": {
+        "title": "Customers We've Worked with...",
+        "subheading": "With over 10,000 satisfied customers nationwide, no job is too big or too small.",
+        "layout": "grid",
+        "css_class": "index-logo-list logo-section-new",
+        "custom_css": ""
+      }
+    },
+    "loox-product-reviews-app-section": {
+      "type": "apps",
+      "blocks": {
+        "loox-product-reviews": {
+          "type": "shopify://apps/loox-reviews/blocks/loox-dynamic-section/5c3b337f-fd14-4df5-b1d6-80ec13e6e28e",
+          "settings": {
+            "only_photos": false,
+            "aggregated": true,
+            "limit": 6,
+            "hide_thumbnails": false,
+            "maxwidth": 1080,
+            "is_sample": true
+          }
+        }
+      },
+      "block_order": [
+        "loox-product-reviews"
+      ],
+      "settings": {}
+    },
+    "recommendations": {
+      "type": "product-recommendations",
+      "disabled": true,
+      "settings": {
+        "show_product_recommendations": true,
+        "wide_display": false,
+        "show_swatches": false,
+        "product_recommendations_style": "slider",
+        "product_recommendations_heading": "You may also like",
+        "products_per_row": 4,
+        "recommended_products_limit": 7
+      }
+    },
+    "f1c498d1-745f-4cce-a6f5-1d32d532ce8d": {
+      "type": "image-text-products",
+      "settings": {
+        "disable_lazyload": true,
+        "top": 10,
+        "bottom": 70,
+        "top2": 10,
+        "bottom2": 10,
+        "direction": "right",
+        "image": "shopify://shop_images/Customer_Image_4_SML_e94308e4-3891-41be-acfc-de97f375ede0.jpg",
+        "para": "LOW MINIMALS - FAST SHIPPING",
+        "heads": "<p><strong>Small Orders, Fast Delivery</strong> We've Got You Covered </p>",
+        "image2": "shopify://shop_images/Icon_2.png",
+        "text": "<p>Catering to all needs with low our tiered pricing and low to no minimum order quantities—regardless of your business size. Experience swift and secure shipping with UPS, ensuring your order reaches you safely and promptly. Our low minimum orders and quick shipping mean your new custom logo drinkware is just a few clicks away.</p>",
+        "link": "",
+        "button": "START MY ORDER NOW 👉🏻",
+        "payment": true,
+        "reviews": "<p>“Received my custom tumblers today and they look better than expected! My account rep was super responsive and made the process super easy. I'll be back for more.”</p>",
+        "image_user": "shopify://shop_images/IMAGE_12.png",
+        "name": "Morgan E.",
+        "name_fontsize_desktop": 18,
+        "name_fontsize_mobile": 14,
+        "right": "shopify://shop_images/IMAGE_13.png"
+      }
+    },
+    "765bcee1-6598-45bb-bbc0-b8f4e406d79a": {
+      "type": "image-text-products",
+      "settings": {
+        "disable_lazyload": true,
+        "top": 10,
+        "bottom": 70,
+        "top2": 10,
+        "bottom2": 10,
+        "direction": "left",
+        "image": "shopify://shop_images/Customer_Image_2_SML_1.jpg",
+        "para": "the perfect branding tool",
+        "heads": "<p><strong>Custom Tumblers:</strong> Your Walking Billboard.</p>",
+        "image2": "shopify://shop_images/Icon.png",
+        "text": "<p>A tumbler is more than just a drinkware item; it's a statement. Elevate your brand's visibility with your own custom engraved tumblers. Each engraving is meticulously crafted with your logo or design, transforming the tumbler into a portable billboard. It's about more than just keeping your drink at the ideal temperature; it's about making your business unforgettable, one sip at a time.</p>",
+        "link": "",
+        "button": "START MY ORDER NOW 👉🏻",
+        "payment": true,
+        "reviews": "<p>“We love these Custom Hats and so do our customers! Great product to sell at our distillery!”</p>",
+        "image_user": "shopify://shop_images/IMAGE_12.png",
+        "name": "Shelly N.",
+        "name_fontsize_desktop": 18,
+        "name_fontsize_mobile": 14,
+        "right": "shopify://shop_images/IMAGE_13.png"
+      }
+    },
+    "f620c34b-a5c3-4181-a2dc-11c16ce96ae5": {
+      "type": "image-text-products",
+      "settings": {
+        "disable_lazyload": true,
+        "top": 10,
+        "bottom": 70,
+        "top2": 10,
+        "bottom2": 10,
+        "direction": "right",
+        "image": "shopify://shop_images/Kodiak_Customer_Image_3_-_Mockup_1_1_1.jpg",
+        "para": "RAPID DESIGN APPROVAL",
+        "heads": "<p><strong>Digital Proof</strong> within <strong>24 Hours </strong>of ordering. </p>",
+        "image2": "shopify://shop_images/Icon_1.png",
+        "text": "<p>Your design, your approval. We provide a digital proof within 24 hours, ensuring you're happy with the artwork before we start production. Need modifications or help with your artwork? No worries, our team will work until your mockup is perfect and if for any reason we cannot meet your needs we will refund you 100% no questions asked!</p>",
+        "link": "",
+        "button": "START MY ORDER NOW 👉🏻",
+        "payment": true,
+        "reviews": "<p>“I've been handing out these custom tumblers at events and people love them. They're unique and the quality is spot on. Time to restock soon”</p>",
+        "image_user": "shopify://shop_images/IMAGE_16.png",
+        "name": "Steve G.",
+        "name_fontsize_desktop": 16,
+        "name_fontsize_mobile": 14,
+        "right": "shopify://shop_images/IMAGE_13.png"
+      }
+    },
+    "eb49f08b-472a-403f-8a01-7794b6cb58bd": {
+      "type": "final-start-my-order-section",
+      "blocks": {
+        "38fa5a0b-4976-4405-918c-1f09bb07f3ed": {
+          "type": "product-rating",
+          "settings": {
+            "margintop": 0,
+            "marginbottom": 10,
+            "rateicon": "shopify://shop_images/download_8.webp",
+            "ratingtxt": "<p> - <strong>Rated 4.9/5 </strong>by 1016+ Happy <strong>Business Owners</strong></p>",
+            "ratetxtcolor": "",
+            "ratetxtsize": 12,
+            "rateweight": "",
+            "ratetxtcolormob": "",
+            "ratetxtsizemob": 12,
+            "rateweightmob": ""
+          }
+        }
+      },
+      "block_order": [
+        "38fa5a0b-4976-4405-918c-1f09bb07f3ed"
+      ],
+      "settings": {
+        "link": "",
+        "button": "START MY ORDER NOW 👉🏻",
+        "payment": true,
+        "custom-class": "final-order-section-product"
+      }
+    },
+    "6077d6de-75e6-4c60-a389-f028ee298b7d": {
+      "type": "new-faq-section-style-3",
+      "blocks": {
+        "99ec1ccd-845f-42d2-8405-6f36dfc8e6e9": {
+          "type": "FAQ_block",
+          "settings": {
+            "text": "DRINKWARE SPECIFIC QUESTIONS",
+            "faq_question1": "CAN I USE THESE FOR HOT AND COLD DRINKS?",
+            "faq_answer1": "Yes. Keep in mind that using it for cold drinksimmediately after a hot drink may affect itscold holding ability, and vice versa. Do notuse straw lid with hot drinks.",
+            "faq_question2": "ARE THESE DISHWASHER SAFE?",
+            "faq_answer2": "Yes. We recommend lids on the top rack, and gaskets in the utensil's basket. Of course, you can always hand wash, but we know you're busy on the go.",
+            "faq_question3": "",
+            "faq_answer3": "",
+            "faq_question4": "",
+            "faq_answer4": ""
+          }
+        },
+        "7d6888df-065d-41f6-8a00-f43fc89f05d9": {
+          "type": "FAQ_block",
+          "settings": {
+            "text": "LOGO & PERSONALIZATION QUESTIONS",
+            "faq_question1": "CAN I PERSONALIZE EACH ITEM IN MY ORDER?",
+            "faq_answer1": "Yes! You can engrave names, jersey numbers, additional logos, artwork and more to the items in your order by adding backside engraving here for a small fee.You will work with your account rep to submit all the personalization information once you place your order.",
+            "faq_question2": "HOW CAN I SEE WHAT MY LOGO WILL LOOK LIKE?",
+            "faq_answer2": "Once you place your order and submit your artwork, our team will provide a digital mockup for you to confirm within 24-48 hours of how your design will look on your new custom Custom Drinkware with your business logo or design!",
+            "faq_question3": "WHAT TYPE OF FILES CAN I UPLOAD?",
+            "faq_answer3": "If available, please upload vector files such as: .ai, .eps, .svg, or vectorized pdfs. We can also accommodate other file types such as JPEG, PNG, etc. Our team will redraw the logo if it has a low resolution which may add to the time to complete your digital proof.",
+            "faq_question4": "CAN YOU HELP ME WITH MY DESIGN?",
+            "faq_answer4": "Our talented team of designers uses the artwork you provide to create a proof for your approval. Additional text can be added and colors can be modified in some files."
+          }
+        },
+        "4ecb1762-f590-4cdf-85fc-7a1283d88606": {
+          "type": "FAQ_block",
+          "settings": {
+            "text": "MINIMAL ORDERS & PAYMENT QUESTIONS",
+            "faq_question1": "DO YOU HAVE A MINIMAL ORDER FOR YOUR CUSTOM CUSTOM DRINKWARE?",
+            "faq_answer1": "Yes we do have a minimal order of $250 Minimal Per Total Order for this special sale pricing.",
+            "faq_question2": "DO YOU CHARGE A SETUP FEE?",
+            "faq_answer2": "No, we do not charge a setup fee for wholesale custom Custom Drinkware Engraved with your Logo or Design - Front Side Logo Included - HUGE LABOR DAY SALE Custom Drinkware orders! We are one of the only companies in the industry that does not charge a setup fee on any of our custom drinkware and custom apparel orders!",
+            "faq_question3": "CAN I ORDER MULTIPLE COLORS, STYLES, AND SIZES TOGETHER FOR CUSTOMIZED CUSTOM DRINKWARE?",
+            "faq_answer3": "Yes! You can combine any variation of product colors and product styles together to achieve the minimal order of $250.",
+            "faq_question4": "DO YOU OFFER A PAYMENT PLAN?",
+            "faq_answer4": "Yes! Pay for your purchase in 4-6 interest-free installments (due every two weeks). You’ll pay your first installment at the time of purchase, and the remainder over time."
+          }
+        },
+        "d4f21bd7-9d33-4f38-873d-45c19254d20b": {
+          "type": "FAQ_block",
+          "settings": {
+            "text": "SHIPPING & PRODUCTION QUESTIONS",
+            "faq_question1": "HOW MUCH DOES SHIPPING COST?",
+            "faq_answer1": "Shipping costs will vary but are roughly $1 per item.We Offer Standard Free Shipping for orders over $1000 on Wholesale Personalized Custom Drinkware Orders. If you need expedited shipping we can also accommodate this as well. ",
+            "faq_question2": "HOW LONG IS PRODUCTION TIME ON CUSTOMIZED CUSTOM DRINKWARE?",
+            "faq_answer2": "Standard production time for custom Custom Drinkware is 1-2 weeks. If you need your items faster, please add PRIORITY PROCESSING here.With Priority Processing, our team will ship your order out within 1-3 business days after approving your digital proof.",
+            "faq_question3": "WHAT HAPPENS AFTER MY CUSTOMIZED ORDER IS PLACED?",
+            "faq_answer3": "After you place your order we will send an onboarding email that you can reply with your custom logo or design file if you did not upload during the order process. You can also email your artwork to us at info@kodiak-coolers.com.From there, our team will provide a digital proof within 24-48 hours for you to confirm your custom logo on the Custom Custom Drinkware to ensure you are 100% satisfied with how the logo will look.Finally your items will go into production (1-2 weeks on average unless priority processing purchased or expedited request) and ship via UPS.You will receive your custom Custom Custom Drinkware order roughly 1-4 days after they ship depending on your location in the USA!",
+            "faq_question4": "",
+            "faq_answer4": ""
+          }
+        }
+      },
+      "block_order": [
+        "99ec1ccd-845f-42d2-8405-6f36dfc8e6e9",
+        "7d6888df-065d-41f6-8a00-f43fc89f05d9",
+        "4ecb1762-f590-4cdf-85fc-7a1283d88606",
+        "d4f21bd7-9d33-4f38-873d-45c19254d20b"
+      ],
+      "custom_css": [
+        "h3 {font-size: 38px; font-style: normal; font-weight: 900; line-height: 48px; text-transform: uppercase; text-align: center; margin: auto; padding-top: 20px; padding-bottom: 29px;}"
+      ],
+      "settings": {
+        "heading": "FAQ’s - Frequently Asked Questions"
+      }
+    },
+    "75f14225-ff78-43da-88a0-decef7fbf246": {
+      "type": "final-start-my-order-section",
+      "blocks": {
+        "9ce47425-d234-488a-a18c-a3ac7d9fe8de": {
+          "type": "product-rating",
+          "settings": {
+            "margintop": 0,
+            "marginbottom": 10,
+            "rateicon": "shopify://shop_images/download_8.webp",
+            "ratingtxt": "<p> - <strong>Rated 4.9/5 </strong>by 1016+ Happy <strong>Business Owners</strong></p>",
+            "ratetxtcolor": "",
+            "ratetxtsize": 12,
+            "rateweight": "",
+            "ratetxtcolormob": "",
+            "ratetxtsizemob": 12,
+            "rateweightmob": ""
+          }
+        }
+      },
+      "block_order": [
+        "9ce47425-d234-488a-a18c-a3ac7d9fe8de"
+      ],
+      "settings": {
+        "link": "",
+        "button": "START MY ORDER NOW 👉🏻",
+        "payment": true,
+        "custom-class": "final-order-section-product"
+      }
+    },
+    "1750951813d6a75200": {
+      "type": "apps",
+      "blocks": {
+        "aftersell_by_rokt_pdp_upsells_F7cQTU": {
+          "type": "shopify://apps/aftersell-by-rokt/blocks/pdp-upsells/509ec35d-0632-4dfc-a105-fa799cd9d149",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "aftersell_by_rokt_pdp_upsells_F7cQTU"
+      ],
+      "settings": {}
+    }
+  },
+  "order": [
+    "sidebar",
+    "c0ba12b4-49c6-4fdb-ae39-bf63ccbf1df8",
+    "main",
+    "59c15f08-ff87-48e1-9c77-7e549f25b044",
+    "4c65b8e1-ffe6-4c2c-ac25-8173160481af",
+    "a26b074c-5e2c-4a25-af94-d1da4f3c09d2",
+    "a788af89-0b9e-4b3a-961f-0be4d76e0acc",
+    "loox-product-reviews-app-section",
+    "recommendations",
+    "f1c498d1-745f-4cce-a6f5-1d32d532ce8d",
+    "765bcee1-6598-45bb-bbc0-b8f4e406d79a",
+    "f620c34b-a5c3-4181-a2dc-11c16ce96ae5",
+    "eb49f08b-472a-403f-8a01-7794b6cb58bd",
+    "6077d6de-75e6-4c60-a389-f028ee298b7d",
+    "75f14225-ff78-43da-88a0-decef7fbf246",
+    "1750951813d6a75200"
+  ]
+}

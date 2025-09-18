@@ -130,10 +130,6 @@
             "saverightpadding": 0
           }
         },
-        "quote_configurator_BHwtFW": {
-          "type": "quote_configurator",
-          "settings": {}
-        },
         "af87fcf0-43b1-41d3-8277-471bea8930ee": {
           "type": "product-benefits",
           "settings": {
@@ -149,8 +145,13 @@
             "textbottombar": 0
           }
         },
+        "quote_configurator_BHwtFW": {
+          "type": "quote_configurator",
+          "settings": {}
+        },
         "3f249ec9-3b67-49d5-8cee-cb65b1cb5f48": {
           "type": "estimated_shipping",
+          "disabled": true,
           "settings": {
             "first_image": "shopify://shop_images/shipping_standard.svg",
             "first_heading": "Standard Production:",
@@ -162,56 +163,6 @@
             "second_subheading_2": "Estimated Ship Date between",
             "rush_min_date": "1",
             "rush_max_date": "3"
-          }
-        },
-        "form": {
-          "type": "form",
-          "settings": {
-            "swatch_border_color": "#2cb425",
-            "border_stroke": 1,
-            "swatchwidth": 30,
-            "swatchheight": 30,
-            "styleswatchwidth": 40,
-            "styleswatchheight": 40,
-            "saveleftpadding": 0,
-            "savetoppadding": 0,
-            "savebottompadding": 0,
-            "saverightpadding": 0,
-            "swatchmarginleft": 0,
-            "swatchmargintop": 0,
-            "swatchmarginbottom": 4,
-            "swatchmarginright": 7,
-            "border_radius": 50,
-            "btnpadding": 0,
-            "show_swatch_heading": false,
-            "swatch_heading": "Choose Options",
-            "show_artwork": true,
-            "swatch_artwork_heading": "Upload Artwork",
-            "swatch_artwork_top_margin": 0,
-            "swatch_artwork_bottom_margin": 0,
-            "display_price_form": true,
-            "show_total_in_product": true,
-            "show_estimated_shipping_dates1": true,
-            "first_image1": "shopify://shop_images/shipping_standard.svg",
-            "first_heading1": "Standard Production:",
-            "first_subheading1": "estimated Delivery in",
-            "standard_min_date1": "1",
-            "standard_max_date1": "3",
-            "second_image_21": "shopify://shop_images/rush-shipping.svg",
-            "second_heading_21": "Rush Service:",
-            "second_subheading_21": "estimated Delivery in",
-            "rush_min_date1": "5",
-            "rush_max_date1": "10",
-            "stock_image": "shopify://shop_images/span.css-1c4ra1h_mask-group.png",
-            "stock_heading": "In stock",
-            "stock_subheading": "Ready to Ship",
-            "shipping_image_2": "shopify://shop_images/span.css-spahdd_mask-group_47f65987-a12d-4707-924a-69c76dd68830.png",
-            "shipping_heading_2": "Free Shipping",
-            "shipping_subheading_2": "On orders $1000+",
-            "product_tooltip": "",
-            "product_tooltip_2": "",
-            "tootltip_heading": "",
-            "tootltip_subheading": ""
           }
         },
         "52565e55-343a-44ba-a84b-c1dd7e683435": {
@@ -230,10 +181,9 @@
         "22c07c56-36ef-4fd7-9ba3-117ec52d0bfc",
         "title",
         "price",
-        "quote_configurator_BHwtFW",
         "af87fcf0-43b1-41d3-8277-471bea8930ee",
+        "quote_configurator_BHwtFW",
         "3f249ec9-3b67-49d5-8cee-cb65b1cb5f48",
-        "form",
         "52565e55-343a-44ba-a84b-c1dd7e683435",
         "description"
       ],

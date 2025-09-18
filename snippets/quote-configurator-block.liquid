@@ -140,18 +140,29 @@ This is an inline version without modal functionality
         </div>
       </div>
 
-      <!-- Color Selector (single color) -->
+      <!-- Color Selector (single color - swatches) -->
       <div class="color-selector-section">
         <h3 class="section-heading">Choose product color</h3>
-        <select id="bundleColorSelect">
+        <div id="bundleColorSwatches" class="color-swatches">
           {% if product.options_by_name['Color'] %}
-            {% for c in product.options_by_name['Color'].values %}
-              <option value="{{ c | escape }}" {% if forloop.first %}selected{% endif %}>{{ c }}</option>
+            {% assign color_values = product.options_by_name['Color'].values %}
+            {% assign color_position = product.options_by_name['Color'].position | prepend: 'option' %}
+            {% for value in color_values %}
+              {% assign shown = false %}
+              {% for v in product.variants %}
+                {% if v[color_position] == value and shown == false %}
+                  {% assign v_img = v.featured_image | default: product.featured_image %}
+                  <button type="button" class="swatch" data-color="{{ value | escape }}" style="background-image:url('{{ v_img | image_url: width: 64 }}');" aria-label="{{ value }}"></button>
+                  {% assign shown = true %}
+                {% endif %}
+              {% endfor %}
+              {% unless shown %}
+                <button type="button" class="swatch" data-color="{{ value | escape }}" style="background-color: {{ value | escape }};" aria-label="{{ value }}"></button>
+              {% endunless %}
             {% endfor %}
-          {% else %}
-            <option value="Default" selected>Default</option>
           {% endif %}
-        </select>
+        </div>
+        <input type="hidden" id="bundleColorSelect" value="{% if product.options_by_name['Color'] %}{{ product.options_by_name['Color'].values.first | escape }}{% else %}Default{% endif %}">
       </div>
 
       <!-- Sizes Section -->

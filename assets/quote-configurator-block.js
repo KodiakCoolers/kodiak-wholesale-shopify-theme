@@ -307,7 +307,26 @@ function initializeAddToCart() {
           unavailable.push(`${selectedColor} / ${size} (unavailable)`);
           return;
         }
-        lines.push({ id: Number(variant.id), quantity: qty });
+        // Build line item properties
+        const frontColors = parseInt(document.getElementById('colorFront')?.value || '0');
+        const backColors = parseInt(document.getElementById('colorBack')?.value || '0');
+        const notes = (document.querySelector('.order-notes')?.value || '').toString();
+        const frontLoc = (document.querySelector('input[name="frontLocation"]:checked')?.value || '').toString();
+        const backLoc = (document.querySelector('input[name="backLocation"]:checked')?.value || '').toString();
+
+        lines.push({ 
+          id: Number(variant.id), 
+          quantity: qty,
+          properties: {
+            _front_colors: String(frontColors),
+            _back_colors: String(backColors),
+            _front_location: frontLoc,
+            _back_location: backLoc,
+            _notes: notes,
+            _selected_color: selectedColor,
+            _size: size
+          }
+        });
       });
 
       if (unavailable.length) {
@@ -423,6 +442,21 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Initial minimum status
   recalculateTotalQty();
+
+  // Color swatch selection
+  const swatches = document.querySelectorAll('#bundleColorSwatches .swatch');
+  const hiddenColor = document.getElementById('bundleColorSelect');
+  if (swatches.length) {
+    // set first active
+    swatches[0].classList.add('active');
+  }
+  swatches.forEach(btn => {
+    btn.addEventListener('click', function() {
+      swatches.forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      if (hiddenColor) hiddenColor.value = this.getAttribute('data-color');
+    });
+  });
 
   // Recalculate on color changes too (in case business rules tie into min qty later)
   const colorFrontEl = document.getElementById('colorFront');

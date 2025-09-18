@@ -248,13 +248,51 @@ function initializeFileUpload(inputId, previewId) {
 function initializeSizeInputs() {
   const sizeInputs = document.querySelectorAll('.size-input-group input[type="number"]');
   const totalEl = document.getElementById('size-total');
-  const minimumQty = getMinimumQty();
+  const packageRadios = document.querySelectorAll('input[name="packageSize"]');
+  let currentPackageQty = getSelectedPackageQty();
+
+  // Handle package size changes
+  packageRadios.forEach(radio => {
+    radio.addEventListener('change', function() {
+      if (this.checked) {
+        currentPackageQty = parseInt(this.value);
+        updatePackageUI();
+        updateSizeTotal();
+      }
+    });
+  });
 
   sizeInputs.forEach(input => {
     input.addEventListener('input', function() {
       updateSizeTotal();
     });
   });
+
+  function getSelectedPackageQty() {
+    const selected = document.querySelector('input[name="packageSize"]:checked');
+    return selected ? parseInt(selected.value) : getMinimumQty();
+  }
+
+  function updatePackageUI() {
+    // Update title
+    const titleEl = document.getElementById('size-breakdown-title');
+    if (titleEl) {
+      titleEl.textContent = `Size Breakdown (Total: ${currentPackageQty} pieces)`;
+    }
+
+    // Update max values on inputs
+    sizeInputs.forEach(inp => {
+      inp.setAttribute('max', currentPackageQty);
+    });
+
+    // Reset values if they exceed new max
+    sizeInputs.forEach(inp => {
+      const val = parseInt(inp.value || '0');
+      if (val > currentPackageQty) {
+        inp.value = '0';
+      }
+    });
+  }
 
   function updateSizeTotal() {
     let total = 0;
@@ -264,8 +302,8 @@ function initializeSizeInputs() {
     });
 
     if (totalEl) {
-      totalEl.textContent = `Total: ${total} / ${minimumQty}`;
-      if (total !== minimumQty) {
+      totalEl.textContent = `Total: ${total} / ${currentPackageQty}`;
+      if (total !== currentPackageQty) {
         totalEl.classList.add('error');
       } else {
         totalEl.classList.remove('error');
@@ -274,11 +312,12 @@ function initializeSizeInputs() {
 
     const btn = document.querySelector('.add-to-cart-btn');
     if (btn) {
-      btn.disabled = total !== minimumQty;
+      btn.disabled = total !== currentPackageQty;
     }
   }
 
-  // Initial calculation
+  // Initial setup
+  updatePackageUI();
   updateSizeTotal();
 }
 
@@ -333,12 +372,15 @@ function initializeAddToCart() {
       const frontFiles = await getUploadedFiles('frontDesignUpload');
       const backFiles = await getUploadedFiles('backDesignUpload');
 
-      const packageQty = parseInt(document.querySelector('input[name="packageSize"]:checked')?.value || '36');
+      const selectedPackage = document.querySelector('input[name="packageSize"]:checked');
+      const packageQty = parseInt(selectedPackage?.value || '36');
+      const packagePrice = selectedPackage?.getAttribute('data-price') || '564.86';
 
       const properties = {
         'Front Print': frontColors > 0 ? `${frontColors} Front Print Color${frontColors > 1 ? 's' : ''}` : 'No Front Design',
         'Back Print': backColors > 0 ? `${backColors} Back Print Color${backColors > 1 ? 's' : ''}` : 'No Back Design',
         'Size': sizeBreakdown.join(', ') || 'Sizes not specified',
+        'Package Size': `${packageQty} pieces - $${packagePrice}`,
         'Order Notes': notes || 'None'
       };
 

@@ -227,7 +227,12 @@
 
 .quote-configurator-block .package-subtitle { color: #718096; font-size: 14px; margin-bottom: 12px; }
 
-.quote-configurator-block .package-options { margin-bottom: 16px; }
+.quote-configurator-block .package-options { 
+  margin-bottom: 16px; 
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
 
 .quote-configurator-block .package-option {
   display: flex;
@@ -237,6 +242,17 @@
   border-radius: 6px;
   cursor: pointer;
   background-color: #fff;
+  transition: all 0.2s ease;
+}
+
+.quote-configurator-block .package-option:hover {
+  border-color: #3182ce;
+  background-color: #f7fafc;
+}
+
+.quote-configurator-block .package-option:has(input:checked) {
+  border-color: #3182ce;
+  background-color: #ebf8ff;
 }
 
 .quote-configurator-block .package-option input[type="radio"] {

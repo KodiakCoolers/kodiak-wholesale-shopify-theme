@@ -271,28 +271,48 @@ function initializeAddToCart() {
       if (!productJsonEl) return;
       const productData = JSON.parse(productJsonEl.textContent || '{}');
       const selectedColor = (document.getElementById('bundleColorSelect')?.value || '').toString();
+      
+      // Helper: robust variant resolver by option names
+      const resolveVariant = (colorValue, sizeValue) => {
+        const options = (productData.options || []).map(o => (o || '').toString().toLowerCase());
+        const colorIdx = Math.max(0, options.indexOf('color'));
+        const sizeIdx = options.indexOf('size');
+        const desired = [];
+        desired[colorIdx] = (colorValue || '').toString().toLowerCase();
+        if (sizeIdx >= 0) desired[sizeIdx] = (sizeValue || '').toString().toLowerCase();
+        
+        return (productData.variants || []).find(v => {
+          const vopts = [(v.option1||''),(v.option2||''),(v.option3||'')].map(x => x.toString().toLowerCase());
+          const colorMatch = desired[colorIdx] ? vopts[colorIdx] === desired[colorIdx] : true;
+          const sizeMatch = sizeIdx >= 0 ? (vopts[sizeIdx] === desired[sizeIdx]) : true;
+          return colorMatch && sizeMatch;
+        });
+      };
 
       // Map size string to option value order
       const sizeInputs = document.querySelectorAll('.sizes-qty .sizes-input');
       const lines = [];
+      const unavailable = [];
       sizeInputs.forEach(w => {
         const qty = parseInt(w.querySelector('input')?.value || '0');
         const size = w.getAttribute('data-size');
         if (!qty || qty <= 0) return;
 
-        // Find matching variant by options (assumes option order: Color, Size or Size, Color)
-        const variant = (productData.variants || []).find(v => {
-          const opts = v.options || [];
-          const o1 = (opts[0] || '').toString().toLowerCase();
-          const o2 = (opts[1] || '').toString().toLowerCase();
-          return (o1 === selectedColor.toLowerCase() && o2 === size.toLowerCase()) ||
-                 (o2 === selectedColor.toLowerCase() && o1 === size.toLowerCase());
-        });
-        if (variant) {
-          lines.push({ id: variant.id, quantity: qty });
+        const variant = resolveVariant(selectedColor, size);
+        if (!variant) {
+          unavailable.push(`${selectedColor} / ${size} (not found)`);
+          return;
         }
+        if (variant.available === false) {
+          unavailable.push(`${selectedColor} / ${size} (unavailable)`);
+          return;
+        }
+        lines.push({ id: Number(variant.id), quantity: qty });
       });
 
+      if (unavailable.length) {
+        alert('Some selections are unavailable:\n' + unavailable.join('\n'));
+      }
       if (lines.length === 0) return;
       try {
         const res = await fetch('/cart/add.js', {
@@ -300,7 +320,12 @@ function initializeAddToCart() {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ items: lines })
         });
-        if (!res.ok) throw new Error('Add to cart failed');
+        if (!res.ok) {
+          let detail = '';
+          try { detail = await res.text(); } catch (_) {}
+          console.error('Add to cart failed', res.status, detail);
+          throw new Error('Add to cart failed');
+        }
         window.location.href = '/cart';
       } catch (e) {
         console.error(e);

@@ -257,6 +257,8 @@ function initializeSizeInputs() {
       currentTotalQty = parseInt(this.value || '0');
       updateQuantityUI();
       updateSizeTotal();
+      // Update pricing in real-time as user types
+      calculatePricing();
     });
 
     // Validate on blur (when user clicks away)
@@ -415,13 +417,23 @@ function initializeAddToCart() {
       const timeline = document.querySelector('input[name="productionTimeline"]:checked')?.value || 'standard';
       const totalPrice = calculatePricing();
 
+      // Calculate detailed pricing breakdown for properties
+      const basePerUnit = 15.69;
+      const baseTotal = totalQuantity * basePerUnit;
+      const frontColorCost = frontColors > 1 ? (frontColors - 1) * 1.25 * totalQuantity : 0;
+      const backColorCost = backColors > 0 ? backColors * 1.25 * totalQuantity : 0;
+      const rushCost = timeline === 'rush' ? 4.00 * totalQuantity : 0;
+      const calculatedTotal = baseTotal + frontColorCost + backColorCost + rushCost;
+
       const properties = {
         'Front Print': frontColors > 0 ? `${frontColors} Front Print Color${frontColors > 1 ? 's' : ''}` : 'No Front Design',
         'Back Print': backColors > 0 ? `${backColors} Back Print Color${backColors > 1 ? 's' : ''}` : 'No Back Design',
         'Size': sizeBreakdown.join(', ') || 'Sizes not specified',
         'Total Quantity': `${totalQuantity} pieces`,
         'Production Timeline': timeline === 'rush' ? 'Rush (2-4 Business Days) +$4.00/unit' : 'Standard (7-10 Business Days)',
-        'Total Price': `$${totalPrice.toFixed(2)}`,
+        'Base Price': `$${baseTotal.toFixed(2)} (${totalQuantity} × $${basePerUnit})`,
+        'Extra Costs': `$${(frontColorCost + backColorCost + rushCost).toFixed(2)}`,
+        'Calculated Total': `$${calculatedTotal.toFixed(2)}`,
         'Order Notes': notes || 'None'
       };
 
@@ -447,13 +459,14 @@ function initializeAddToCart() {
       }
 
       try {
+        // Add to cart with calculated quantity and custom pricing
         const res = await fetch('/cart/add.js', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ 
             items: [{
               id: Number(variant.id), 
-              quantity: 1, // Single package
+              quantity: totalQuantity, // Use the actual quantity selected
               properties: properties
             }]
           })

@@ -273,6 +273,8 @@ function initializeSizeInputs() {
       } else {
         hideQuantityError();
       }
+      // Update pricing when quantity changes
+      calculatePricing();
     });
   }
 
@@ -354,9 +356,16 @@ function initializeSizeInputs() {
 // Initialize add to cart button
 function initializeAddToCart() {
   const addToCartBtn = document.querySelector('.add-to-cart-btn');
+  console.log('Initializing add to cart button:', addToCartBtn);
+  
   if (addToCartBtn) {
     addToCartBtn.addEventListener('click', async function() {
       console.log('Add to cart clicked');
+      
+      if (this.disabled) {
+        console.log('Button is disabled, not proceeding');
+        return;
+      }
       
       // Get the first available variant (package approach - single item)
       const productJsonEl = document.getElementById('product_json');
@@ -480,6 +489,21 @@ async function getUploadedFiles(inputId) {
   return files;
 }
 
+// Global helper functions (moved outside of init scope)
+function getCurrentSizeTotal() {
+  let total = 0;
+  document.querySelectorAll('.size-input-group input[type="number"]').forEach(inp => {
+    const val = parseInt(inp.value || '0');
+    if (!isNaN(val)) total += val;
+  });
+  return total;
+}
+
+function getCurrentTotalQty() {
+  const qtyInput = document.getElementById('totalQuantity');
+  return qtyInput ? parseInt(qtyInput.value || '0') : getMinimumQty();
+}
+
 // Pricing calculation
 function calculatePricing() {
   const totalQty = getCurrentTotalQty();
@@ -599,6 +623,7 @@ function updateAddToCartStatus(sizeTotal, totalQty) {
   }
 
   if (btn) {
+    console.log('Setting button disabled state:', !isValid, 'Issues:', issues);
     btn.disabled = !isValid;
   }
 
@@ -620,7 +645,11 @@ function updateAddToCartStatus(sizeTotal, totalQty) {
   }
 
   // Update pricing whenever status is updated
-  calculatePricing();
+  try {
+    calculatePricing();
+  } catch (e) {
+    console.error('Error calculating pricing:', e);
+  }
 }
 
 function fileToDataUrl(file) {
@@ -703,6 +732,8 @@ function recalculateTotalQty() {
     return;
   }
   window.__KODIAK_QC_INIT = true;
+  console.log('Quote configurator initializing...');
+  
   // Initialize the configurator
   chooseTypeOfPrint("screen"); // Default to screen printing
   
@@ -722,7 +753,10 @@ function recalculateTotalQty() {
   // Initialize add to cart button
   initializeAddToCart();
   
-  // No longer needed - replaced by initializeSizeInputs
+  // Initial pricing calculation
+  setTimeout(() => {
+    updateAddToCartStatus(getCurrentSizeTotal(), getCurrentTotalQty());
+  }, 100);
 
   // Color swatch selection
   const swatches = document.querySelectorAll('#bundleColorSwatches .swatch');
@@ -755,27 +789,28 @@ function recalculateTotalQty() {
     });
   }
 
-  // Update status when location selections change
+  // Update status when location/timeline selections change
   document.addEventListener('change', function(e) {
     if (e.target.name === 'frontLocation' || e.target.name === 'backLocation' || e.target.name === 'productionTimeline') {
       updateAddToCartStatus(getCurrentSizeTotal(), getCurrentTotalQty());
     }
   });
 
-  // Helper functions for status updates
-  function getCurrentSizeTotal() {
-    let total = 0;
-    document.querySelectorAll('.size-input-group input[type="number"]').forEach(inp => {
-      const val = parseInt(inp.value || '0');
-      if (!isNaN(val)) total += val;
+  // Add specific timeline listeners for immediate pricing updates
+  const timelineRadios = document.querySelectorAll('input[name="productionTimeline"]');
+  timelineRadios.forEach(radio => {
+    radio.addEventListener('change', function() {
+      console.log('Timeline changed to:', this.value);
+      calculatePricing(); // Update pricing immediately
+      updateAddToCartStatus(getCurrentSizeTotal(), getCurrentTotalQty());
     });
-    return total;
-  }
+  });
 
-  function getCurrentTotalQty() {
-    const qtyInput = document.getElementById('totalQuantity');
-    return qtyInput ? parseInt(qtyInput.value || '0') : getMinimumQty();
-  }
+  // Make functions available globally for debugging
+  window.getCurrentSizeTotal = getCurrentSizeTotal;
+  window.getCurrentTotalQty = getCurrentTotalQty;
+  window.calculatePricing = calculatePricing;
+  window.updateAddToCartStatus = updateAddToCartStatus;
   
   // (Optional) Delivery dates removed in simplified flow
 })();

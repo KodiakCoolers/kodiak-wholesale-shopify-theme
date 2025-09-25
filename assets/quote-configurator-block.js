@@ -427,15 +427,28 @@ function initializeAddToCart() {
       const calculatedTotal = baseTotal + frontColorCost + backColorCost + rushCost;
 
       const properties = {
-        'Front Print': frontColors > 0 ? `${frontColors} Front Print Color${frontColors > 1 ? 's' : ''}` : 'No Front Design',
-        'Back Print': backColors > 0 ? `${backColors} Back Print Color${backColors > 1 ? 's' : ''}` : 'No Back Design',
+        'Front Print': frontColors > 0 ? 
+          (frontColorCost > 0 ? 
+            `${frontColors} Front Print Color${frontColors > 1 ? 's' : ''} (+ $${frontColorCost.toFixed(2)})` : 
+            `${frontColors} Front Print Color${frontColors > 1 ? 's' : ''} (included)`) : 
+          'No Front Design',
+        'Back Print': backColors > 0 ? 
+          `${backColors} Back Print Color${backColors > 1 ? 's' : ''} (+ $${backColorCost.toFixed(2)})` : 
+          'No Back Design',
         'Size': sizeBreakdown.join(', ') || 'Sizes not specified',
         'Total Quantity': `${totalQuantity} pieces`,
-        'Production Timeline': timeline === 'rush' ? 'Rush (2-4 Business Days) +$4.00/unit' : 'Standard (7-10 Business Days)',
-        'Base Price': `$${baseTotal.toFixed(2)} (${totalQuantity} × $${basePerUnit})`,
-        'Extra Costs': `$${(frontColorCost + backColorCost + rushCost).toFixed(2)}`,
-        'Calculated Total': `$${calculatedTotal.toFixed(2)}`,
-        'Order Notes': notes || 'None'
+        'Production Timeline': timeline === 'rush' ? 
+          `Rush (2-4 Business Days) (+ $${rushCost.toFixed(2)})` : 
+          'Standard (7-10 Business Days) (included)',
+        'Order Notes': notes || 'None',
+        // Add BSS-style pricing to override cart total
+        '__bss_po_addons': Math.round((calculatedTotal - (basePerUnit * totalQuantity)) * 100), // Extra costs in cents
+        '_bssPrice': JSON.stringify({ extra: Math.round((calculatedTotal - (basePerUnit * totalQuantity)) * 100) }),
+        '_bssCustomAttributes': JSON.stringify({
+          'Total Calculated': `$${calculatedTotal.toFixed(2)}`,
+          'Base Price': `$${baseTotal.toFixed(2)}`,
+          'Extra Costs': `$${(frontColorCost + backColorCost + rushCost).toFixed(2)}`
+        })
       };
 
       if (frontColors > 0 && frontLoc) {
@@ -460,14 +473,14 @@ function initializeAddToCart() {
       }
 
       try {
-        // Add to cart as a single package with calculated total price
+        // Add to cart with the total quantity and BSS pricing override
         const res = await fetch('/cart/add.js', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ 
             items: [{
               id: Number(variant.id), 
-              quantity: 1, // Single package approach
+              quantity: totalQuantity, // Use actual quantity for proper BSS pricing
               properties: properties
             }]
           })

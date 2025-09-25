@@ -175,15 +175,24 @@ This is an inline version without modal functionality
           <div class="size-inputs">
             <div class="size-input-group" id="size-input-group">
               {% if product.metafields.custom.size %}
-                {% comment %} Simple array format like ["xs","s","m","l","xl","2xl","3xl"] {% endcomment %}
-                {% assign available_sizes = product.metafields.custom.size %}
+                {% comment %} Parse the metafield value - handle both comma-separated and JSON array formats {% endcomment %}
+                {% assign size_string = product.metafields.custom.size | strip %}
+                
+                {% comment %} Check if it's JSON array format and clean it up {% endcomment %}
+                {% if size_string contains '[' and size_string contains ']' %}
+                  {% assign size_string = size_string | remove: '[' | remove: ']' | remove: '"' %}
+                {% endif %}
+                
+                {% comment %} Split by comma to get individual sizes {% endcomment %}
+                {% assign available_sizes = size_string | split: ',' %}
                 
                 {% for size in available_sizes %}
+                  {% assign clean_size = size | strip %}
                   {% assign default_qty = 0 %}
                   {% if forloop.index <= 3 and forloop.index > 1 %}
                     {% assign default_qty = 12 %}
                   {% endif %}
-                  <label>{{ size | upcase }}: <input type="number" name="size_{{ size | downcase }}" min="0" value="{{ default_qty }}"></label>
+                  <label>{{ clean_size | upcase }}: <input type="number" name="size_{{ clean_size | downcase }}" min="0" value="{{ default_qty }}"></label>
                 {% endfor %}
               {% else %}
                 <!-- Fallback to standard sizes if metafield not set -->

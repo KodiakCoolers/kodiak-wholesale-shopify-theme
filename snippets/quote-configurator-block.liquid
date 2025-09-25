@@ -175,14 +175,8 @@ This is an inline version without modal functionality
           <div class="size-inputs">
             <div class="size-input-group" id="size-input-group">
               {% if product.metafields.custom.size %}
-                {% comment %} Parse the JSON metafield to get available sizes {% endcomment %}
-                {% assign size_data = product.metafields.custom.size %}
-                {% if size_data.properties.size.enum %}
-                  {% assign available_sizes = size_data.properties.size.enum %}
-                {% else %}
-                  {% comment %} If it's a simple array instead of schema format {% endcomment %}
-                  {% assign available_sizes = size_data %}
-                {% endif %}
+                {% comment %} Simple array format like ["xs","s","m","l","xl","2xl","3xl"] {% endcomment %}
+                {% assign available_sizes = product.metafields.custom.size %}
                 
                 {% for size in available_sizes %}
                   {% assign default_qty = 0 %}
@@ -200,6 +194,17 @@ This is an inline version without modal functionality
                 <label>XL: <input type="number" name="size_xl" min="0" value="0"></label>
                 <label>2XL: <input type="number" name="size_2xl" min="0" value="0"></label>
                 <label>3XL: <input type="number" name="size_3xl" min="0" value="0"></label>
+              {% endif %}
+              
+              {% comment %} Debug: Show what metafield contains {% endcomment %}
+              {% if product.metafields.custom.size %}
+                <div style="font-size: 12px; color: #666; margin-top: 8px;">
+                  Debug - Metafield value: {{ product.metafields.custom.size }}
+                </div>
+              {% else %}
+                <div style="font-size: 12px; color: #666; margin-top: 8px;">
+                  Debug - No custom.size metafield found, using fallback sizes
+                </div>
               {% endif %}
             </div>
             <div class="size-total" id="size-total">Total: 36 / {{ minimum_qty }}</div>

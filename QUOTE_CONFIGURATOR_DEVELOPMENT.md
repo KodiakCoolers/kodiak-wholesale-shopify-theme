@@ -49,9 +49,17 @@ Convert the existing `quote_popup.liquid` modal into an inline block for the `pr
 - [x] **FIXED**: VastaShop.js integration with correct `_requestPrice: '0'`
 - [x] **ENHANCED**: Back file array cleared when back colors deselected
 
-### Phase 7: Current Status ✅
-- **Cart Integration**: Uses quantity=1 with calculated price displayed correctly
-- **Pricing**: Shows $755.64 total in cart (not $17.24 variant price)
+### Phase 7: Draft Order Checkout ✅
+- [x] **Added**: Backend draft order flow to ensure checkout shows exact calculated price
+- [x] **Endpoint**: `https://kodiakapps.com/price-calc/backend/api/create-draft-order` (configurable via `window.KODIAK_DRAFT_ORDER_ENDPOINT`)
+- [x] **Fallback**: If API fails, gracefully reverts to cart/add.js with properties
+
+#### Why Draft Orders?
+Shopify checkout uses the variant price. To charge the calculated package price while keeping cart quantity at 1, we create a Draft Order with a custom-priced line item, then redirect to the invoice/checkout URL.
+
+### Phase 8: Current Status ✅
+- **Checkout Integration**: Draft order ensures checkout total equals calculated package price
+- **Pricing**: Shows the calculated total (e.g., $755.64) at checkout
 - **UI**: Complete pricing breakdown with per-unit cost and order details
 - **File Management**: Back uploads cleared when no back colors selected
 - **Functionality**: All features working as intended

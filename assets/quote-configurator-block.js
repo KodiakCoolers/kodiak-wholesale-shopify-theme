@@ -477,15 +477,46 @@ function initializeAddToCart() {
         });
       }
 
+      // Preferred path: Create a Draft Order via backend so checkout price matches calculated total
+      const DRAFT_ORDER_ENDPOINT = window.KODIAK_DRAFT_ORDER_ENDPOINT || 'https://kodiakapps.com/price-calc/backend/api/create-draft-order';
       try {
-        // Add to cart as single custom package (qty=1 prevents user from changing quantity)
+        const draftPayload = {
+          title: `${productData.title} - Custom Package`,
+          line_item: {
+            title: `${productData.title} - ${selectedColor} (Custom Package)`,
+            price: Number(calculatedTotal.toFixed(2)),
+            quantity: 1,
+            properties: properties,
+            variant_id: Number(variant.id),
+          },
+          note: 'Created from Quote Configurator',
+          tags: ['quote-configurator', 'custom-package']
+        };
+
+        const draftRes = await fetch(DRAFT_ORDER_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(draftPayload)
+        });
+
+        if (draftRes.ok) {
+          const draftData = await draftRes.json().catch(() => ({}));
+          if (draftData && (draftData.invoice_url || draftData.checkout_url)) {
+            window.location.href = draftData.invoice_url || draftData.checkout_url;
+            return;
+          }
+        } else {
+          console.warn('Draft order endpoint not available, falling back to cart/add.js');
+        }
+
+        // Fallback: add to cart (theme will still show variant price, but allows purchase if API is unavailable)
         const res = await fetch('/cart/add.js', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ 
             items: [{
               id: Number(variant.id), 
-              quantity: 1, // Always 1 - total price built into _perunit
+              quantity: 1,
               properties: properties
             }]
           })
@@ -499,7 +530,7 @@ function initializeAddToCart() {
         window.location.href = '/cart';
       } catch (e) {
         console.error(e);
-        alert('Sorry, there was a problem adding to cart.');
+        alert('Sorry, there was a problem. Please try again.');
       }
     });
     // Start disabled until minimum is met
@@ -644,7 +675,18 @@ function updatePricingDisplay(qty, baseTotal, frontColors, frontColorCost, backC
   document.getElementById('per-unit-price').innerHTML = `<strong>$${pricePerUnit.toFixed(2)}</strong>`;
 
   // Selected color and sizes
-  const selectedColor = document.querySelector('.color-swatch.active')?.getAttribute('data-color') || 'Color not selected';
+  const hiddenColorInput = document.getElementById('bundleColorSelect');
+  let selectedColor = hiddenColorInput && hiddenColorInput.value ? hiddenColorInput.value : '';
+  if (!selectedColor) {
+    const selectedColorNameEl = document.getElementById('selected-color-name');
+    if (selectedColorNameEl && selectedColorNameEl.textContent.trim()) {
+      selectedColor = selectedColorNameEl.textContent.trim();
+    }
+  }
+  if (!selectedColor) {
+    const activeSwatch = document.querySelector('.color-swatch.active');
+    selectedColor = activeSwatch?.getAttribute('data-color') || 'Color not selected';
+  }
   const sizeInputs = document.querySelectorAll('.size-input-group input[type="number"]');
   const sizeBreakdown = [];
   

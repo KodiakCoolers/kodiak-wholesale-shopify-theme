@@ -175,7 +175,15 @@ This is an inline version without modal functionality
           <div class="size-inputs">
             <div class="size-input-group" id="size-input-group">
               {% if product.metafields.custom.size %}
-                {% assign available_sizes = product.metafields.custom.size %}
+                {% comment %} Parse the JSON metafield to get available sizes {% endcomment %}
+                {% assign size_data = product.metafields.custom.size %}
+                {% if size_data.properties.size.enum %}
+                  {% assign available_sizes = size_data.properties.size.enum %}
+                {% else %}
+                  {% comment %} If it's a simple array instead of schema format {% endcomment %}
+                  {% assign available_sizes = size_data %}
+                {% endif %}
+                
                 {% for size in available_sizes %}
                   {% assign default_qty = 0 %}
                   {% if forloop.index <= 3 and forloop.index > 1 %}

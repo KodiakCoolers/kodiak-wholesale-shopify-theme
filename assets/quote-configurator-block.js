@@ -419,7 +419,7 @@ function initializeAddToCart() {
       const totalPrice = calculatePricing();
 
       // Calculate detailed pricing breakdown for properties
-      const basePerUnit = 15.69;
+      const basePerUnit = getSelectedVariantPrice();
       const baseTotal = totalQuantity * basePerUnit;
       const frontColorCost = frontColors > 1 ? (frontColors - 1) * 1.25 * totalQuantity : 0;
       const backColorCost = backColors > 0 ? backColors * 1.25 * totalQuantity : 0;
@@ -518,6 +518,36 @@ function getCurrentTotalQty() {
   return qtyInput ? parseInt(qtyInput.value || '0') : getMinimumQty();
 }
 
+// Get the base price per unit from the selected variant
+function getSelectedVariantPrice() {
+  const selectedColor = document.getElementById('bundleColorSelect')?.value || '';
+  const productJsonEl = document.getElementById('product_json');
+  
+  if (!productJsonEl || !selectedColor) {
+    console.warn('No product data or selected color found, using fallback price');
+    return 15.69; // Fallback price
+  }
+  
+  try {
+    const productData = JSON.parse(productJsonEl.textContent || '{}');
+    const variant = (productData.variants || []).find(v => {
+      const colorOpt = v.option1 || '';
+      return colorOpt.toLowerCase() === selectedColor.toLowerCase();
+    });
+    
+    if (variant && variant.price) {
+      // Convert price from cents to dollars (Shopify stores price in cents)
+      return parseFloat(variant.price) / 100;
+    }
+  } catch (e) {
+    console.error('Error parsing product data:', e);
+  }
+  
+  // Fallback to default price if variant not found
+  console.warn('Variant not found for color:', selectedColor, 'using fallback price');
+  return 15.69;
+}
+
 // Pricing calculation
 function calculatePricing() {
   const totalQty = getCurrentTotalQty();
@@ -526,8 +556,8 @@ function calculatePricing() {
   const backColors = parseInt(document.getElementById('colorBack')?.value || '0');
   const isRush = document.querySelector('input[name="productionTimeline"]:checked')?.value === 'rush';
 
-  // Base price calculation (assuming $15.69 per unit for 36 pieces = $564.86)
-  const basePerUnit = 15.69;
+  // Get base price from selected variant
+  const basePerUnit = getSelectedVariantPrice();
   const baseTotal = totalQty * basePerUnit;
 
   // Front color pricing (1 color included, extras cost $1.25 per unit)
@@ -791,6 +821,9 @@ function recalculateTotalQty() {
       if (colorNameEl) {
         colorNameEl.textContent = selectedColor;
       }
+      
+      // Update pricing when color changes (different colors might have different base prices)
+      calculatePricing();
     });
   });
 

@@ -375,9 +375,10 @@ function initializeAddToCart() {
       const productData = JSON.parse(productJsonEl.textContent || '{}');
       const selectedColor = (document.getElementById('bundleColorSelect')?.value || '').toString();
       
-      // Find first variant matching selected color
+      // Find variant matching selected color (no size matching needed now)
       const variant = (productData.variants || []).find(v => {
-        const colorOpt = v.option1 || v.option2 || v.option3 || '';
+        // With single color variants, just match the color option
+        const colorOpt = v.option1 || '';
         return colorOpt.toLowerCase() === selectedColor.toLowerCase();
       });
 
@@ -459,14 +460,14 @@ function initializeAddToCart() {
       }
 
       try {
-        // Add to cart with calculated quantity and custom pricing
+        // Add to cart as a single package with calculated total price
         const res = await fetch('/cart/add.js', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ 
             items: [{
               id: Number(variant.id), 
-              quantity: totalQuantity, // Use the actual quantity selected
+              quantity: 1, // Single package approach
               properties: properties
             }]
           })
@@ -782,7 +783,14 @@ function recalculateTotalQty() {
     btn.addEventListener('click', function() {
       swatches.forEach(b => b.classList.remove('active'));
       this.classList.add('active');
-      if (hiddenColor) hiddenColor.value = this.getAttribute('data-color');
+      const selectedColor = this.getAttribute('data-color');
+      if (hiddenColor) hiddenColor.value = selectedColor;
+      
+      // Update the selected color display
+      const colorNameEl = document.getElementById('selected-color-name');
+      if (colorNameEl) {
+        colorNameEl.textContent = selectedColor;
+      }
     });
   });
 

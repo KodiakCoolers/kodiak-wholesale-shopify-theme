@@ -406,7 +406,22 @@
 
 /* Color selector */
 .quote-configurator-block .color-selector-section { margin-bottom: 12px; }
-.quote-configurator-block .color-swatches { display: flex; flex-wrap: wrap; gap: 8px; }
+.quote-configurator-block .color-swatches { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+
+.quote-configurator-block .selected-color-display {
+  padding: 8px 12px;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
+.quote-configurator-block .selected-color-display #selected-color-name {
+  color: #3182ce;
+  font-weight: 600;
+}
+
 .quote-configurator-block .color-swatches .swatch {
   width: 28px;
   height: 28px;

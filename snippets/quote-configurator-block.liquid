@@ -150,6 +150,9 @@ This is an inline version without modal functionality
             {% endfor %}
           {% endif %}
         </div>
+        <div class="selected-color-display" id="selected-color-display">
+          <strong>Selected Color: <span id="selected-color-name">{% if product.options_by_name['Color'] %}{{ product.options_by_name['Color'].values.first }}{% else %}Default{% endif %}</span></strong>
+        </div>
         <input type="hidden" id="bundleColorSelect" value="{% if product.options_by_name['Color'] %}{{ product.options_by_name['Color'].values.first | escape }}{% else %}Default{% endif %}">
       </div>
 
@@ -171,13 +174,25 @@ This is an inline version without modal functionality
           <h4 id="size-breakdown-title">Size Breakdown (Total: {{ minimum_qty }} pieces)</h4>
           <div class="size-inputs">
             <div class="size-input-group" id="size-input-group">
-              <label>XS: <input type="number" name="size_xs" min="0" value="0"></label>
-              <label>S: <input type="number" name="size_s" min="0" value="12"></label>
-              <label>M: <input type="number" name="size_m" min="0" value="12"></label>
-              <label>L: <input type="number" name="size_l" min="0" value="12"></label>
-              <label>XL: <input type="number" name="size_xl" min="0" value="0"></label>
-              <label>2XL: <input type="number" name="size_2xl" min="0" value="0"></label>
-              <label>3XL: <input type="number" name="size_3xl" min="0" value="0"></label>
+              {% if product.metafields.custom.size %}
+                {% assign available_sizes = product.metafields.custom.size %}
+                {% for size in available_sizes %}
+                  {% assign default_qty = 0 %}
+                  {% if forloop.index <= 3 and forloop.index > 1 %}
+                    {% assign default_qty = 12 %}
+                  {% endif %}
+                  <label>{{ size | upcase }}: <input type="number" name="size_{{ size | downcase }}" min="0" value="{{ default_qty }}"></label>
+                {% endfor %}
+              {% else %}
+                <!-- Fallback to standard sizes if metafield not set -->
+                <label>XS: <input type="number" name="size_xs" min="0" value="0"></label>
+                <label>S: <input type="number" name="size_s" min="0" value="12"></label>
+                <label>M: <input type="number" name="size_m" min="0" value="12"></label>
+                <label>L: <input type="number" name="size_l" min="0" value="12"></label>
+                <label>XL: <input type="number" name="size_xl" min="0" value="0"></label>
+                <label>2XL: <input type="number" name="size_2xl" min="0" value="0"></label>
+                <label>3XL: <input type="number" name="size_3xl" min="0" value="0"></label>
+              {% endif %}
             </div>
             <div class="size-total" id="size-total">Total: 36 / {{ minimum_qty }}</div>
           </div>

@@ -427,6 +427,9 @@ function initializeAddToCart() {
       const calculatedTotal = baseTotal + frontColorCost + backColorCost + rushCost;
 
       const properties = {
+        'bundle': 'true', // Flag for existing cart system
+        '_perunit': (calculatedTotal / totalQuantity).toFixed(2), // Price per unit for cart system
+        '_requestPrice': (calculatedTotal / totalQuantity).toFixed(2), // Custom price for cart system
         'Front Print': frontColors > 0 ? 
           (frontColorCost > 0 ? 
             `${frontColors} Front Print Color${frontColors > 1 ? 's' : ''} (+ $${frontColorCost.toFixed(2)})` : 
@@ -441,14 +444,10 @@ function initializeAddToCart() {
           `Rush (2-4 Business Days) (+ $${rushCost.toFixed(2)})` : 
           'Standard (7-10 Business Days) (included)',
         'Order Notes': notes || 'None',
-        // Add BSS-style pricing to override cart total
-        '__bss_po_addons': Math.round((calculatedTotal - (basePerUnit * totalQuantity)) * 100), // Extra costs in cents
-        '_bssPrice': JSON.stringify({ extra: Math.round((calculatedTotal - (basePerUnit * totalQuantity)) * 100) }),
-        '_bssCustomAttributes': JSON.stringify({
-          'Total Calculated': `$${calculatedTotal.toFixed(2)}`,
-          'Base Price': `$${baseTotal.toFixed(2)}`,
-          'Extra Costs': `$${(frontColorCost + backColorCost + rushCost).toFixed(2)}`
-        })
+        'Custom Product Total': `$${calculatedTotal.toFixed(2)}`,
+        'Base Price': `$${baseTotal.toFixed(2)} (${totalQuantity} × $${basePerUnit})`,
+        'Extra Costs': `$${(frontColorCost + backColorCost + rushCost).toFixed(2)}`,
+        'Print Details': `Front: ${frontColors} colors, Back: ${backColors} colors${timeline === 'rush' ? ', Rush Processing' : ''}`
       };
 
       if (frontColors > 0 && frontLoc) {
@@ -473,14 +472,14 @@ function initializeAddToCart() {
       }
 
       try {
-        // Add to cart with the total quantity and BSS pricing override
+        // Add to cart using existing custom pricing system
         const res = await fetch('/cart/add.js', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ 
             items: [{
               id: Number(variant.id), 
-              quantity: totalQuantity, // Use actual quantity for proper BSS pricing
+              quantity: totalQuantity, // Use total quantity for existing cart system
               properties: properties
             }]
           })

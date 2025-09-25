@@ -125,3 +125,33 @@ calculatedTotal = baseTotal + frontColorCost + backColorCost + rushCost
 2. **Pricing Verification**: 3 colors × 36 units = (3-1) × $1.25 × 36 = $90 ✅
 3. **User Experience**: Cannot change quantity in cart (prevents pricing issues)
 4. **CSS Optimizations**: Reduced font sizes, tighter spacing, removed debug code
+
+## Shopify Constraints (Official)
+- Storefront/Cart APIs cannot change the actual charge price; line item properties are display-only.
+- Non-Plus stores cannot modify checkout pricing dynamically; options are:
+  - Create variants at the exact price
+  - Use discount codes
+  - Use Admin API Draft Orders with custom price
+- Shopify Plus stores can use Scripts to adjust prices at checkout.
+
+## Draft Order Payload (Frontend → Backend)
+We now send a payload your backend can pass directly to Shopify GraphQL `draftOrderCreate`:
+
+```json
+{
+  "draftOrderInput": {
+    "lineItems": [
+      {
+        "variantId": "gid://shopify/ProductVariant/<variantId>",
+        "quantity": 1,
+        "originalUnitPrice": "762.12",
+        "customAttributes": [ { "key": "bundle", "value": "true" }, ... ]
+      }
+    ],
+    "note": "Created from Quote Configurator",
+    "tags": ["quote-configurator", "custom-package"]
+  }
+}
+```
+
+The backend should then return `invoice_url` or `checkout_url` for redirection.

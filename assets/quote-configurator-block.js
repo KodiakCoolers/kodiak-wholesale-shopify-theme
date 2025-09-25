@@ -482,12 +482,26 @@ function initializeAddToCart() {
       try {
         const draftPayload = {
           title: `${productData.title} - Custom Package`,
+          // Legacy shape (if backend expects it)
           line_item: {
             title: `${productData.title} - ${selectedColor} (Custom Package)`,
             price: Number(calculatedTotal.toFixed(2)),
             quantity: 1,
             properties: properties,
             variant_id: Number(variant.id),
+          },
+          // GraphQL-ready shape (preferred)
+          draftOrderInput: {
+            lineItems: [
+              {
+                variantId: `gid://shopify/ProductVariant/${variant.id}`,
+                quantity: 1,
+                originalUnitPrice: Number(calculatedTotal.toFixed(2)).toString(),
+                customAttributes: Object.entries(properties).map(([key, value]) => ({ key, value: String(value) })),
+              },
+            ],
+            note: 'Created from Quote Configurator',
+            tags: ['quote-configurator', 'custom-package'],
           },
           note: 'Created from Quote Configurator',
           tags: ['quote-configurator', 'custom-package']

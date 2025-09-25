@@ -513,15 +513,27 @@ function initializeAddToCart() {
           body: JSON.stringify(draftPayload)
         });
 
-        if (draftRes.ok) {
-          const draftData = await draftRes.json().catch(() => ({}));
-          if (draftData && (draftData.invoice_url || draftData.checkout_url)) {
-            window.location.href = draftData.invoice_url || draftData.checkout_url;
-            return;
-          }
-        } else {
-          console.warn('Draft order endpoint not available, falling back to cart/add.js');
+        let draftBodyText = '';
+        try { draftBodyText = await draftRes.text(); } catch (_) {}
+        let draftData = {};
+        try { draftData = JSON.parse(draftBodyText || '{}'); } catch (_) {}
+
+        // Try to resolve a redirect URL from multiple possible response shapes
+        const redirectUrl =
+          draftData.invoice_url ||
+          draftData.invoiceUrl ||
+          draftData.checkout_url ||
+          draftData.checkoutUrl ||
+          (draftData.data && draftData.data.draftOrderCreate && draftData.data.draftOrderCreate.draftOrder && draftData.data.draftOrderCreate.draftOrder.invoiceUrl) ||
+          (draftData.draftOrder && draftData.draftOrder.invoiceUrl);
+
+        if (draftRes.ok && redirectUrl) {
+          window.location.href = redirectUrl;
+          return;
         }
+
+        console.warn('Draft order call did not return a redirect URL', { status: draftRes.status, draftBodyText, draftData });
+        console.warn('Falling back to cart/add.js');
 
         // Fallback: add to cart (theme will still show variant price, but allows purchase if API is unavailable)
         const res = await fetch('/cart/add.js', {

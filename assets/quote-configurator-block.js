@@ -428,8 +428,8 @@ function initializeAddToCart() {
 
       const properties = {
         'bundle': 'true', // Flag for existing cart system
-        '_perunit': (calculatedTotal / totalQuantity).toFixed(2), // Price per unit for cart system
-        '_requestPrice': (calculatedTotal / totalQuantity).toFixed(2), // Custom price for cart system
+        '_perunit': calculatedTotal.toFixed(2), // Total price as "per unit" since qty=1
+        '_requestPrice': calculatedTotal.toFixed(2), // Total price for cart system
         'Front Print': frontColors > 0 ? 
           (frontColorCost > 0 ? 
             `${frontColors} Front Print Color${frontColors > 1 ? 's' : ''} (+ $${frontColorCost.toFixed(2)})` : 
@@ -472,14 +472,14 @@ function initializeAddToCart() {
       }
 
       try {
-        // Add to cart using existing custom pricing system
+        // Add to cart as single custom package (qty=1 prevents user from changing quantity)
         const res = await fetch('/cart/add.js', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ 
             items: [{
               id: Number(variant.id), 
-              quantity: totalQuantity, // Use total quantity for existing cart system
+              quantity: 1, // Always 1 - total price built into _perunit
               properties: properties
             }]
           })

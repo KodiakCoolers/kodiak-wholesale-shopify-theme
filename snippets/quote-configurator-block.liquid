@@ -205,16 +205,6 @@ This is an inline version without modal functionality
                 <label>3XL: <input type="number" name="size_3xl" min="0" value="0"></label>
               {% endif %}
               
-              {% comment %} Debug: Show what metafield contains {% endcomment %}
-              {% if product.metafields.custom.size %}
-                <div style="font-size: 12px; color: #666; margin-top: 8px;">
-                  Debug - Metafield value: {{ product.metafields.custom.size }}
-                </div>
-              {% else %}
-                <div style="font-size: 12px; color: #666; margin-top: 8px;">
-                  Debug - No custom.size metafield found, using fallback sizes
-                </div>
-              {% endif %}
             </div>
             <div class="size-total" id="size-total">Total: 36 / {{ minimum_qty }}</div>
           </div>

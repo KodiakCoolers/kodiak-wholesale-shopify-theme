@@ -138,6 +138,12 @@ function chooseColorsBack(value) {
   } else {
     if (backLocationSection) backLocationSection.style.display = 'none';
     if (backUploadBox) backUploadBox.style.display = 'none';
+    // Clear back files when no back colors selected
+    backFiles = [];
+    const backInput = document.getElementById('back-upload');
+    if (backInput) backInput.value = '';
+    const backPreview = document.getElementById('back-upload-preview');
+    if (backPreview) backPreview.innerHTML = '';
   }
   
   validateStep1();
@@ -429,7 +435,7 @@ function initializeAddToCart() {
       const properties = {
         'bundle': 'true', // Flag for existing cart system
         '_perunit': calculatedTotal.toFixed(2), // Total price as "per unit" since qty=1
-        '_requestPrice': calculatedTotal.toFixed(2), // Total price for cart system
+        '_requestPrice': '0', // Set to 0 so VastaShop.js calculates: (perunit - 0) * 100 * qty
         'Front Print': frontColors > 0 ? 
           (frontColorCost > 0 ? 
             `${frontColors} Front Print Color${frontColors > 1 ? 's' : ''} (+ $${frontColorCost.toFixed(2)})` : 
@@ -465,7 +471,7 @@ function initializeAddToCart() {
         });
       }
 
-      if (backFiles.length > 0) {
+      if (backFiles.length > 0 && backColors > 0) {
         backFiles.forEach((file, idx) => {
           properties[`Upload Back Design ${idx + 1}`] = `${file.name} (${(file.size / 1024).toFixed(1)}KB)`;
         });
@@ -632,6 +638,26 @@ function updatePricingDisplay(qty, baseTotal, frontColors, frontColorCost, backC
   } else {
     rushCostEl.style.display = 'none';
   }
+
+  // Price per unit
+  const pricePerUnit = totalPrice / qty;
+  document.getElementById('per-unit-price').innerHTML = `<strong>$${pricePerUnit.toFixed(2)}</strong>`;
+
+  // Selected color and sizes
+  const selectedColor = document.querySelector('.color-swatch.active')?.getAttribute('data-color') || 'Color not selected';
+  const sizeInputs = document.querySelectorAll('.size-input-group input[type="number"]');
+  const sizeBreakdown = [];
+  
+  sizeInputs.forEach(input => {
+    const qty = parseInt(input.value || '0');
+    if (qty > 0) {
+      const sizeName = input.name.replace('size_', '').toUpperCase();
+      sizeBreakdown.push(`${qty}×${sizeName}`);
+    }
+  });
+  
+  const colorSizesText = `${selectedColor}${sizeBreakdown.length > 0 ? ' • ' + sizeBreakdown.join(', ') : ''}`;
+  document.getElementById('selected-color-sizes').textContent = colorSizesText;
 
   // Total price
   document.getElementById('total-price').innerHTML = `<strong>$${totalPrice.toFixed(2)}</strong>`;

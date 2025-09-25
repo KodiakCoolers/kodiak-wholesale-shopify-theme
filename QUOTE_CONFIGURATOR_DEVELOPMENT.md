@@ -37,10 +37,23 @@ Convert the existing `quote_popup.liquid` modal into an inline block for the `pr
 - [x] **FIXED**: CSS spacing tightened (reduced margins, smaller fonts)
 - [x] **VERIFIED**: Front/Back print pricing calculation is correct
 
-### Phase 5: Current Status ✅
-- **Cart Integration**: Uses quantity=1 with total price as `_perunit`
-- **Pricing**: Correctly calculates based on quantity (e.g., 3 colors × 36 units = $90)
-- **UI**: Compact, clean layout matching competitor design
+### Phase 5: UI Enhancements ✅
+- [x] **Added**: Price per unit display in pricing breakdown
+- [x] **Added**: Selected color and sizes display (italic, lighter color)
+- [x] **Added**: Visual separator line before per-unit pricing
+- [x] **Enhanced**: Pricing breakdown now shows complete order summary
+
+### Phase 6: Cart Integration Fixes ✅
+- [x] **FIXED**: Back design upload now clears when back colors = 0
+- [x] **FIXED**: Cart pricing now shows calculated total (not variant price)
+- [x] **FIXED**: VastaShop.js integration with correct `_requestPrice: '0'`
+- [x] **ENHANCED**: Back file array cleared when back colors deselected
+
+### Phase 7: Current Status ✅
+- **Cart Integration**: Uses quantity=1 with calculated price displayed correctly
+- **Pricing**: Shows $755.64 total in cart (not $17.24 variant price)
+- **UI**: Complete pricing breakdown with per-unit cost and order details
+- **File Management**: Back uploads cleared when no back colors selected
 - **Functionality**: All features working as intended
 
 ## What Has Worked ✅
@@ -55,6 +68,8 @@ Convert the existing `quote_popup.liquid` modal into an inline block for the `pr
 2. **Direct Price Override**: Shopify doesn't allow variant price modification
 3. **Multiple Quantity Variants**: Caused pricing confusion
 4. **jQuery Dependencies**: Caused conflicts, switched to vanilla JS
+5. **VastaShop.js Initial Setup**: Required `_requestPrice: '0'` not calculated total
+6. **Back File Management**: Needed explicit clearing when back colors = 0
 
 ## Current Architecture
 
@@ -80,13 +95,21 @@ calculatedTotal = baseTotal + frontColorCost + backColorCost + rushCost
 ```javascript
 {
   'bundle': 'true',
-  '_perunit': calculatedTotal,        // Total price (since qty=1)
-  '_requestPrice': calculatedTotal,   // Total price for VastaShop.js
-  'Front Print': '3 Front Print Colors (+ $90.00)',
+  '_perunit': '755.64',              // Total calculated price
+  '_requestPrice': '0',              // Set to 0 for VastaShop.js calculation
+  'Front Print': '4 Front Print Colors (+ $135.00)',
+  'Back Print': 'No Back Design',
   'Size': '12 x XS, 12 x S, 12 x M',
   'Total Quantity': '36 pieces',
+  'Custom Product Total': '$755.64',
   // ... other properties
 }
+```
+
+### VastaShop.js Calculation
+```javascript
+// VastaShop.js calculates: (perunit - requestPrice) * 100 * qty
+// Example: (755.64 - 0) * 100 * 1 = 75564 cents = $755.64 ✅
 ```
 
 ## Final Implementation Notes

@@ -154,6 +154,198 @@
   });
 </script>
 
+{% comment %} Custom blocks for school fundraiser {% endcomment %}
+{% assign has_school_indicator = false %}
+{% assign has_quick_filters = false %}
+{% assign school_indicator_block = nil %}
+{% assign quick_filters_block = nil %}
+
+{% for block in section.blocks %}
+  {% if block.type == 'school_indicator' %}
+    {% assign has_school_indicator = true %}
+    {% assign school_indicator_block = block %}
+  {% elsif block.type == 'quick_filters' %}
+    {% assign has_quick_filters = true %}
+    {% assign quick_filters_block = block %}
+  {% endif %}
+{% endfor %}
+
+{% if has_school_indicator or has_quick_filters %}
+<div class="school-fundraiser-wrapper">
+  {% if has_quick_filters %}
+    {% assign desired_tags = "Tumblers|Water Bottles|Can Coolers|Travel Mugs|Wine Cups|Coffee Mugs" | split: '|' %}
+    <div class="school-quick-filters" {{ quick_filters_block.shopify_attributes }}>
+      <a href="{{ collection.url }}" class="filter-pill {% unless current_tags.size > 0 %}active{% endunless %}">All Products</a>
+      {% for label in desired_tags %}
+        {% assign tag_handle = label | handleize %}
+        {% assign is_active = false %}
+        {% for current_tag in current_tags %}
+          {% assign current_tag_handle = current_tag | handleize %}
+          {% if current_tag == label or current_tag_handle == tag_handle %}
+            {% assign is_active = true %}
+          {% endif %}
+        {% endfor %}
+        <a href="{{ collection.url }}/{{ tag_handle }}" class="filter-pill {% if is_active %}active{% endif %}">{{ label }}</a>
+      {% endfor %}
+    </div>
+    <style>
+      .collection-school-fundraiser .school-quick-filters .filter-pill.active {
+        background: #36455b !important;
+        color: #fff !important;
+        border-color: #36455b !important;
+      }
+      .collection-school-fundraiser .school-quick-filters .filter-pill:hover {
+        background: #36455b !important;
+        color: #fff !important;
+        border-color: #36455b !important;
+      }
+    </style>
+  {% endif %}
+
+  {% if has_school_indicator %}
+    <div class="school-fundraiser-indicator" {{ school_indicator_block.shopify_attributes }}>
+      {% if collection.metafields.custom.school_logo %}
+      <div class="school-logo-compact">
+        <img src="{{ collection.metafields.custom.school_logo | image_url: width: 56 }}" alt="{{ collection.metafields.custom.school_name.value }}" width="56" height="56" loading="lazy" decoding="async">
+      </div>
+      {% endif %}
+      <div class="school-info-text">
+        <strong>{{ collection.metafields.custom.school_name.value }}{% if collection.metafields.custom.mascot.value %} {{ collection.metafields.custom.mascot.value }}{% endif %}</strong>
+        <span>A portion of proceeds supports the school</span>
+      </div>
+      {% if collection.metafields.custom.fundraiser_deadline.value %}
+      <div class="school-deadline-compact" data-deadline="{{ collection.metafields.custom.fundraiser_deadline.value }}">
+        ⏰ <span id="deadline-timer-{{ school_indicator_block.id }}"></span>
+      </div>
+      <script>
+      (function() {
+        var banner = document.querySelector('[data-deadline="{{ collection.metafields.custom.fundraiser_deadline.value }}"]');
+        if (!banner) return;
+        var deadlineStr = banner.dataset.deadline;
+        var timestamp = new Date(deadlineStr).getTime();
+        var el = document.getElementById('deadline-timer-{{ school_indicator_block.id }}');
+        function update() {
+          var now = new Date().getTime();
+          var dist = timestamp - now;
+          if (dist < 0) { el.innerHTML = 'Ended'; return; }
+          var d = Math.floor(dist / 86400000);
+          var h = Math.floor((dist % 86400000) / 3600000);
+          el.innerHTML = d + 'd ' + h + 'h left';
+        }
+        update();
+        setInterval(update, 60000);
+      })();
+      </script>
+      {% endif %}
+    </div>
+  {% endif %}
+</div>
+
+<style>
+/* Filter pill styles moved to custom.css - navy color #36455b for active/hover */
+
+.school-fundraiser-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: #f0fff4;
+  border-left: 4px solid #90c342;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+.school-logo-compact {
+  flex-shrink: 0;
+}
+
+.school-logo-compact img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  border-radius: 4px;
+  background: white;
+  padding: 2px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.school-info-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.school-info-text strong {
+  color: #2c5282;
+  font-size: 0.85rem;
+  line-height: 1.2;
+}
+
+.school-info-text span {
+  color: #718096;
+  font-size: 0.7rem;
+  font-style: italic;
+  line-height: 1.2;
+}
+
+.school-deadline-compact {
+  background: #fff5f5;
+  padding: 4px 8px;
+  border-radius: 4px;
+  color: #dd6b20;
+  font-weight: 600;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  margin-left: 6px;
+}
+
+@media (max-width: 768px) {
+  .school-fundraiser-wrapper {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+  }
+  
+  .school-quick-filters {
+    gap: 6px;
+    order: 2;
+  }
+  
+  .school-fundraiser-indicator {
+    order: 1;
+    justify-content: flex-start;
+  }
+  
+  .filter-pill {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+  }
+  
+  .school-logo-compact img {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .school-info-text strong {
+    font-size: 0.75rem;
+  }
+  
+  .school-info-text span {
+    font-size: 0.65rem;
+  }
+  
+  .school-deadline-compact {
+    font-size: 0.7rem;
+    padding: 3px 6px;
+    margin-left: 4px;
+  }
+}
+</style>
+{% endif %}
+
 {% render 'quick-filtering',section:section %}  
     
  {% if collection.metafields.custom.show_upload_logo_collection_page %}       
@@ -187,7 +379,7 @@
         </div>
        <div class="remove_upload_image_1" style="display:none;">
             <div class="imagePreview-name-1"><span class="imag-pre"></span><span class="remove-close fa fa-close close_upload01">X</span></div>
-            <div class="image_prev_upld"><img src="" style="width:150px;height:150px;margin-top: 10px;margin-bottom: 10px;border-radius: 50%;border: 2px dashed #fff;background: linear-gradient(#F7FAFF 0 0) padding-box,linear-gradient(to right,#ff0000,#ffa500,#ffff00,#008000,#0000ff,#4b0082,#ee82ee);"></div>
+            <div class="image_prev_upld"><img src="" width="150" height="150" alt="Uploaded preview" loading="lazy" decoding="async" style="width:150px;height:150px;margin-top: 10px;margin-bottom: 10px;border-radius: 50%;border: 2px dashed #fff;background: linear-gradient(#F7FAFF 0 0) padding-box,linear-gradient(to right,#ff0000,#ffa500,#ffff00,#008000,#0000ff,#4b0082,#ee82ee);"></div>
             <div class="remove_upload_1"><button class="remove_upload" >X Clear Design</button></div>
        </div>
         </div>
@@ -263,7 +455,7 @@
           <a href="{{ customcollection.url }}">
             <div class="collection_img">
               <div class="collection_name">{{ customcollection.title }}</div>
-              <div class="collection_images"><img src="{{ customcollection.image | img_url:'' }}"></div>
+              <div class="collection_images"><img src="{{ customcollection.image | image_url: width: 400 }}" width="400" height="400" alt="{{ customcollection.title | escape }}" loading="lazy" decoding="async"></div>
             </div>
           </a>
         {% endfor %}
@@ -289,7 +481,7 @@
           {% for tag in collection.all_tags %}
             {% if forloop.first %}
               <select name="tag_filter" id="tag_filter" class="tag_filter" data-default-collection="{% if collection.handle == 'all' %}{{ routes.all_products_collection_url }}{% else %}{{ collection.url }}{% endif %}">
-                <option {% unless current_tags %}selected="selected"{% endunless %} value="{% if collection.handle == "all" %}{{ routes.all_products_collection_url }}{% else %}{{ collection.url }}{% endif %}">{{ 'collections.general.all_collection_title' | t: title: collection.title }}</option>
+                <option {% unless current_tags %}selected="selected"{% endunless %} value="{% if collection.handle == 'all' %}{{ routes.all_products_collection_url }}{% else %}{{ collection.url }}{% endif %}">{{ 'collections.general.all_collection_title' | t: title: collection.title }}</option>
             {% endif %}
 
             {% unless tag contains 'meta-' %}
@@ -434,7 +626,7 @@
           <a href="{{ customcollection.url }}">
             <div class="collection_img">
               <div class="collection_name">{{ customcollection.title }}</div>
-              <div class="collection_images"><img src="{{ customcollection.image | img_url:'' }}"></div>
+              <div class="collection_images"><img src="{{ customcollection.image | image_url: width: 400 }}" width="400" height="400" alt="{{ customcollection.title | escape }}" loading="lazy" decoding="async"></div>
             </div>
           </a>
         {% endfor %}
@@ -858,6 +1050,33 @@
           "label": "Text",
           "default": "<p>Text area can be used for special announcements or general information.</p>"
         }
+      ]
+    },
+    {
+      "type": "school_indicator",
+      "name": "School Indicator",
+      "limit": 1,
+      "settings": []
+    },
+    {
+      "type": "quick_filters",
+      "name": "Quick Filters",
+      "limit": 1,
+      "settings": []
+    },
+    {
+      "type": "quick_filter_item",
+      "name": "Quick Filter Item",
+      "limit": 30,
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "20 oz Tumbler" },
+        { "type": "text", "id": "price", "label": "Price label", "default": "$24.95" },
+        { "type": "text", "id": "cost", "label": "Cost (for reference)" },
+        { "type": "text", "id": "tag", "label": "Tag to filter by", "default": "Tumbler" },
+        { "type": "url", "id": "image", "label": "Image URL (optional)" },
+        { "type": "text", "id": "img_width", "label": "Image width (e.g. 29%)" },
+        { "type": "text", "id": "img_left", "label": "Image left (e.g. 50.5%)" },
+        { "type": "text", "id": "img_top", "label": "Image top (e.g. 35%)" }
       ]
     },
     {

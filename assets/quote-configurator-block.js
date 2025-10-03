@@ -477,31 +477,48 @@ function initializeAddToCart() {
         });
       }
 
-      // Preferred path: Create a Draft Order via backend so checkout price matches calculated total
+      // Default behavior: add to cart so the shopper can continue shopping.
+      // At checkout, the existing cart "goCheckout()" logic will convert to a Draft Order.
+      const preferDraftOrder = window.KODIAK_FORCE_DRAFT_ORDER === true;
       const DRAFT_ORDER_ENDPOINT = window.KODIAK_DRAFT_ORDER_ENDPOINT || 'https://kodiakapps.com/price-calc/backend/api/create-draft-order';
       try {
+        if (!preferDraftOrder) {
+          const res = await fetch('/cart/add.js', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              items: [{ id: Number(variant.id), quantity: 1, properties }]
+            })
+          });
+          if (!res.ok) {
+            let detail = '';
+            try { detail = await res.text(); } catch (_) {}
+            console.error('Add to cart failed', res.status, detail);
+            throw new Error('Add to cart failed');
+          }
+          window.location.href = '/cart';
+          return;
+        }
+
+        // Optional path: immediately create a Draft Order (opt-in via window.KODIAK_FORCE_DRAFT_ORDER = true)
         const draftPayload = {
           title: `${productData.title} - Custom Package`,
-          // Legacy shape (if backend expects it)
           line_item: {
             title: `${productData.title} - ${selectedColor} (Custom Package)`,
             price: Number(calculatedTotal.toFixed(2)),
             quantity: 1,
             properties: properties,
-            variant_id: Number(variant.id),
+            variant_id: Number(variant.id)
           },
-          // GraphQL-ready shape (preferred)
           draftOrderInput: {
-            lineItems: [
-              {
-                variantId: `gid://shopify/ProductVariant/${variant.id}`,
-                quantity: 1,
-                originalUnitPrice: Number(calculatedTotal.toFixed(2)).toString(),
-                customAttributes: Object.entries(properties).map(([key, value]) => ({ key, value: String(value) })),
-              },
-            ],
+            lineItems: [{
+              variantId: `gid://shopify/ProductVariant/${variant.id}`,
+              quantity: 1,
+              originalUnitPrice: Number(calculatedTotal.toFixed(2)).toString(),
+              customAttributes: Object.entries(properties).map(([key, value]) => ({ key, value: String(value) }))
+            }],
             note: 'Created from Quote Configurator',
-            tags: ['quote-configurator', 'custom-package'],
+            tags: ['quote-configurator', 'custom-package']
           },
           note: 'Created from Quote Configurator',
           tags: ['quote-configurator', 'custom-package']
@@ -518,7 +535,6 @@ function initializeAddToCart() {
         let draftData = {};
         try { draftData = JSON.parse(draftBodyText || '{}'); } catch (_) {}
 
-        // Try to resolve a redirect URL from multiple possible response shapes
         const redirectUrl =
           draftData.invoice_url ||
           draftData.invoiceUrl ||
@@ -532,20 +548,12 @@ function initializeAddToCart() {
           return;
         }
 
+        // If Draft Order path fails, fall back to normal add-to-cart
         console.warn('Draft order call did not return a redirect URL', { status: draftRes.status, draftBodyText, draftData });
-        console.warn('Falling back to cart/add.js');
-
-        // Fallback: add to cart (theme will still show variant price, but allows purchase if API is unavailable)
         const res = await fetch('/cart/add.js', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ 
-            items: [{
-              id: Number(variant.id), 
-              quantity: 1,
-              properties: properties
-            }]
-          })
+          body: JSON.stringify({ items: [{ id: Number(variant.id), quantity: 1, properties }] })
         });
         if (!res.ok) {
           let detail = '';

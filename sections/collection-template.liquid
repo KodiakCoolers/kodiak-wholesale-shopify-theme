@@ -173,20 +173,20 @@
 {% if has_school_indicator or has_quick_filters %}
 <div class="school-fundraiser-wrapper">
   {% if has_quick_filters %}
-    {% assign desired_tags = "Tumblers,Water Bottles,Can Coolers,Travel Mugs,Wine Cups,Coffee Mugs" | split: ',' %}
     <div class="school-quick-filters" {{ quick_filters_block.shopify_attributes }}>
       <a href="{{ collection.url }}" class="filter-pill {% unless current_tags.size > 0 %}active{% endunless %}">All Products</a>
-      {% for label in desired_tags %}
-        {% assign label = label | strip %}
-        {% assign tag_handle = label | handleize %}
+      {% assign pills = 'Tumblers|Water Bottles|Can Coolers|Travel Mugs|Wine Cups|Coffee Mugs' | split: '|' %}
+      {% for pill in pills %}
+        {% assign pill = pill | strip %}
+        {% assign handle = pill | handleize %}
         {% assign is_active = false %}
         {% for current_tag in current_tags %}
           {% assign current_tag_handle = current_tag | handleize %}
-          {% if current_tag == label or current_tag_handle == tag_handle %}
+          {% if current_tag == pill or current_tag_handle == handle %}
             {% assign is_active = true %}
           {% endif %}
         {% endfor %}
-        <a href="{{ collection.url }}/{{ tag_handle }}" class="filter-pill {% if is_active %}active{% endif %}">{{ label }}</a>
+        <a href="{{ collection.url }}/{{ handle }}" class="filter-pill {% if is_active %}active{% endif %}">{{ pill | escape }}</a>
       {% endfor %}
     </div>
     <style>
